@@ -1,1 +1,1 @@
-# AI-Training-Plans
+# AI Training Plans
