@@ -1,7 +1,7 @@
 import math
 
 
-class timeConversion:
+class time_conversion:
     global METERS_PER_MILE
     METERS_PER_MILE = 1609
     global MIN_CONVERSION
@@ -41,17 +41,13 @@ class timeConversion:
 
     # Convert from distance and pace to total time
     def total_time_miles(pace: str, mile: int):
-        return timeConversion.total_time(pace, (mile*METERS_PER_MILE))
+        return time_conversion.total_time(pace, (mile*METERS_PER_MILE))
 
     def total_time(pace: str, distance: int):
-        sec = math.floor(((timeConversion.from_str(pace))
+        sec = math.floor(((time_conversion.from_str(pace))
                          * distance)/METERS_PER_MILE)
-        return timeConversion.to_str(sec)
+        return time_conversion.to_str(sec)
 
     # Alter the pace and return it as a string. Remember you can add negaive numbers
     def alter_pace(pace: str, increase: int):
-        return timeConversion.to_str(timeConversion.from_str(pace)+increase)
-
-
-converter = timeConversion
-print(converter.alter_pace("7:30", -32))
+        return time_conversion.to_str(time_conversion.from_str(pace)+increase)

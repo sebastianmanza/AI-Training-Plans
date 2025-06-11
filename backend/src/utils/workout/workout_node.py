@@ -1,10 +1,11 @@
 # Basic definition of a node for a tree
 class workout_node:
     global METERS_PER_MILE
-    METERS_PER_MILE = 1600  # This apporximation is used to calculate mileage
-    _slots_ = ("depth", "reps", "set", "pace", "unit")
+    METERS_PER_MILE = 1600  # This approximation is used to calculate mileage
+    _slots_ = ("workout_type", "depth", "reps", "set", "pace", "unit")
 
-    def __init__(self, reps: int, set: str, pace: int, unit: bool):
+    def __init__(self, workout_type: str, reps: int, set: str, pace: str, unit: bool):
+        self.workout_type = workout_type
         self.depth = 0
         self.reps = reps
         self.set = set
@@ -19,6 +20,7 @@ class workout_node:
             node.depth = self.depth+1
             self.children.append(node)
 
+    # A simple to string
     def __str__(self):
         toReturn = "   "*self.depth
         if (self.reps != None):
@@ -34,9 +36,14 @@ class workout_node:
             toReturn += str(child)
         return toReturn
 
+    # A way of calculating mileage based on the meters run in a workout
     def mileage(self):
-        return int(self.meterage())/METERS_PER_MILE
+        if not self.unit:
+            return int(self.meterage())/METERS_PER_MILE
+        else:
+            return self.set
 
+    # A way of calculating the meters run in a workout
     def meterage(self):
         multiplier = self.reps
         if (self.set != None):
@@ -48,13 +55,15 @@ class workout_node:
             return total
 
 
-test_workout = workout_node(4, None, None, False)
-times_two = workout_node(4, None, None, False)
-four_by_one = workout_node(4, 100, "7:30", False)  # 4x100 at 7:30
-four_by_two = workout_node(4, 100, "8:00", False)  # 4x200 at 8:00
+# Test code (feel free to mess around/delete)
+test_workout = workout_node(None, 4, None, None, False)
+times_two = workout_node(None, 4, None, None, False)
+four_by_one = workout_node(None, 1, 100, "7:30", False)  # 4x100 at 7:30
+four_by_two = workout_node(None, 4, 100, "8:00", False)  # 4x200 at 8:00
 test_workout.add(times_two)
 test_workout.add(times_two)
 times_two.add(four_by_one, four_by_two)
+#print(test_workout)
 
-mile_workout = workout_node(None, 2, "ET", True)
-print(test_workout.mileage())
+mile_workout = workout_node("ET", 1, 2, "ET", True)
+print(mile_workout.mileage())

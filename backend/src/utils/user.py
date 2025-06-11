@@ -1,7 +1,18 @@
 # import training
+import math
+from time_conversion import *
+
 
 class user:
     # __slots__ = ("age", "sex", "five_km_estimate", "when-to-run", "injury", "mileage", "wo_history", "goal_date")
+    global FIVEKDIST
+    FIVEKDIST = 5000
+
+    global CALCNUM
+    CALCNUM = 1.06
+
+    global DISTANCES
+    DISTANCES = [3000, 10000]
 
     def __init__(self, age, sex, running_ex, five_km_estimate, goal_date,):
         self.age = age
@@ -16,15 +27,28 @@ class user:
         self.times = {}
 
     def set_pace(self, distance: int, new_pace: str):
-        self.times.update({distance: new_pace})
+        self.times[distance] = new_pace
 
     def get_pace(self, distance: int):
         return self.times[distance]
 
+    def make_predictions(self):
+        for distance in DISTANCES:
+            self.set_pace(distance, self.predict_distance(distance))
+
+    def predict_distance(self, distance):
+        fivekpace = time_conversion.from_str(self.get_pace(FIVEKDIST))
+        return time_conversion.to_str(math.floor((fivekpace)*pow((distance/FIVEKDIST), CALCNUM)))
+
+    def get_times(self):
+        toReturn = ""
+        for k, v in self.times.items():
+            toReturn += f"{k}:{v}\n"
+        return toReturn
+
 
 alex = user(19, "male", "advanced", "17:45", "3/14/2026")
-alex.set_pace(800, "2:00")
-alex.set_pace(800, "2:15")
-alex.set_pace(200, "2:15")
+alex.set_pace(5000, "17:30")
+alex.make_predictions()
 print(len(alex.times))
-print(alex.get_pace(800))
+print(alex.get_times())
