@@ -1,4 +1,4 @@
-from utils.user_storage.user import user 
+from src.utils.user_storage.user import user
 import psycopg2
 
 class main:

@@ -1,7 +1,7 @@
 # import training
-from storage_stacks_and_queues import *
+from src.utils.user_storage.storage_stacks_and_queues import *
 import math
-from time_conversion import *
+from src.utils.time_conversion import *
 
 
 class user:
