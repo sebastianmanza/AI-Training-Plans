@@ -1,4 +1,5 @@
 # import training
+import storage_stacks_and_queues
 import math
 from time_conversion import *
 
@@ -15,16 +16,23 @@ class user:
     DISTANCES = [3000, 5000, 10000]
 
     def __init__(self, age, sex, running_ex, five_km_estimate, goal_date,):
+        storage = storage_stacks_and_queues.storage_stacks_and_queues
         self.age = age
         self.sex = sex
         self.five_km_estimate = five_km_estimate
         self.when_to_run = None
         self.injury = None
-        self.mileage = None
-        self.wo_history = None
         self.goal_date = goal_date
         self.running_ex = running_ex
         self.times = {}
+        self.month_history = storage.month_history
+        self.week_history = storage.week_history
+        self.day_history = storage.day_history
+        self.month_future = storage.month_future
+        self.week_future = storage.week_future
+        self.day_future = storage.day_future
+        
+        
 
     def set_pace(self, distance: int, new_pace: str):
         self.times[distance] = new_pace
