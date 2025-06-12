@@ -2,18 +2,18 @@ from collections import deque
 from queue import Queue
 
 class storage_stacks_and_queues:
-    __slots__ = ("month_stack", "week_stack", "day_stack", "month_queue", "week_queue", "day_queue")
+    __slots__ = ("month_history", "week_history", "day_history", "month_future", "week_future", "day_future")
 
     # This class is used to store stacks and queues for month, week, and day
     def __init__(self):
         # Initialize the storage class
-        self.month_stack = deque()
-        self.week_stack = deque()
-        self.day_stack = deque()
+        self.month_history = deque()
+        self.week_history = deque()
+        self.day_history = deque()
 
-        self.month_queue = Queue()
-        self.week_queue = Queue()
-        self.day_queue = Queue()
+        self.month_future = Queue()
+        self.week_future = Queue()
+        self.day_future = Queue()
 
 # Example usage
 # This code demonstrates how to use the storage class
