@@ -17,10 +17,10 @@ class storage_stacks_and_queues:
 
 # Example usage
 # This code demonstrates how to use the storage class
-storer = storage_stacks_and_queues
-m_s = storer.month_stack
+storer = storage_stacks_and_queues()
+m_s = storer.month_history
 m_s.append("hi")
-m_q = storer.month_queue
+m_q = storer.month_future
 m_q.put("hello")
-print(m_q.get())
-print(m_s.pop())
+#print(m_q.get())
+#print(m_s.pop())
