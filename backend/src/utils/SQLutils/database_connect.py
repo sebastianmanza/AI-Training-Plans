@@ -4,23 +4,13 @@ class database_connect:
     
     # takes in the host name (localhost for database owner). 
     # Establish connection with the SQL database and return an error message if connection fails.
-    def init_db(username):
+    def init_db(username, pwd):
         try:
-            # verify user an admin
-            if (username == "Sebastian"):
-                pw = "85581"
-            elif (username == "Connor"):
-                pw = "Control1500#"
-            elif (username == "Alex"):
-                pw = "93392"
-            elif (username == "Owen"):
-                pw = "73373"
-        
             # Establish connection
             conn = psycopg2.connect(database = "UserListAi",
                                     user = username,
                                     host = 'localhost',
-                                    password = pw,
+                                    password = pwd,
                                     port = "5432")
             return conn
         except psycopg2.Error as e:
