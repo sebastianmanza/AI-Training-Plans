@@ -3,7 +3,7 @@ import psycopg2
 
 class main:
     
-    """Prompts user for an input survey that asks important questions to fill in user information."""
+
     def prelim_survey():
         
         questions = [
@@ -28,8 +28,6 @@ class main:
             answers.append(response)
             
         new_user = user(answers[0], answers[1], answers[3], answers[4], answers[8])
-        
-        print("results " + new_user.age)
         
         try:
             # establish connection with user list database
