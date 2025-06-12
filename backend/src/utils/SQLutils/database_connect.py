@@ -18,9 +18,9 @@ class database_connect:
             return None
         
     # Takes in a user ID and retreives their information from the SQL database. 
-    def db_select(username, user_id):
+    def db_select(username, pwd, user_id):
         
-        conn = database_connect.init_db(username)
+        conn = database_connect.init_db(username, pwd)
         # open cursor to perform sql queries
         curr = conn.cursor()
         
