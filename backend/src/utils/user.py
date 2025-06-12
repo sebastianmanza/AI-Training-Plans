@@ -1,6 +1,6 @@
 # import training
 import math
-import storage_stacks_and_queues
+from storage_stacks_and_queues import *
 from time_conversion import *
 
 
@@ -15,7 +15,7 @@ class user:
     global DISTANCES
     DISTANCES = [3000, 5000, 10000]
 
-    def __init__(self, age, sex, running_ex, five_km_estimate, goal_date,):
+    def __init__(self, age, sex, running_ex, five_km_estimate, goal_date, mean_RPE, STD_RPE):
         storage = storage_stacks_and_queues
         self.age = age
         self.sex = sex
@@ -25,6 +25,8 @@ class user:
         self.goal_date = goal_date
         self.running_ex = running_ex
         self.times = {}
+        self.mean_RPE = mean_RPE
+        self.STD_RPE = STD_RPE
         self.month_history = storage.month_history
         self.week_history = storage.week_history
         self.day_history = storage.day_history
