@@ -1,4 +1,4 @@
-from utils.user import user
+from utils.user import user 
 import psycopg2
 
 class main:
