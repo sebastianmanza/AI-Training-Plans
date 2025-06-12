@@ -1,16 +1,68 @@
 import psycopg2
 
 class database_connect:
-    @staticmethod
-    def init_db():
+    
+    # takes in the host name (localhost for database owner). 
+    # Establish connection with the SQL database and return an error message if connection fails.
+    def init_db(username):
         try:
+            # verify user an admin
+            if (username == "Sebastian"):
+                pw = "85581"
+            elif (username == "Connor"):
+                pw = "Control1500#"
+            elif (username == "Alex"):
+                pw = "93392"
+            elif (username == "Owen"):
+                pw = "73373"
+        
             # Establish connection
             conn = psycopg2.connect(database = "UserListAi",
-                                    user = "postgres",
-                                    host = "localhost",
-                                    password = "Control1500#",
+                                    user = username,
+                                    host = 'localhost',
+                                    password = pw,
                                     port = "5432")
             return conn
         except psycopg2.Error as e:
             print(f"Database connection error: {e}")
             return None
+        
+    # Takes in a user ID and retreives their information from the SQL database. 
+    def db_select(username, user_id):
+        
+        conn = database_connect.init_db(username)
+        # open cursor to perform sql queries
+        curr = conn.cursor()
+        
+        # perpare the query 
+        database_query = (""" SELECT %s, dob, sex, runningex, fivekm, goaldate
+                                FROM public.userlistai; """)
+        # fill query with appropriate user ID
+        record_to_insert = (user_id)
+        
+        # execute query with filled parameters
+        curr.execute(database_query, record_to_insert)
+        # make changes in database persistent
+        conn.commit()
+        # close cursor
+        curr.close()
+            
+    
+    # takes in a user ID and updates given parameters
+    # def db_update(user_id, dob, sex, ):
+
+    
+        
+        
+
+        
+        
+        
+        
+        
+        
+            
+            
+        
+        
+        
