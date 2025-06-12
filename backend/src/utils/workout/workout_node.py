@@ -63,7 +63,7 @@ four_by_two = workout_node(None, 4, 100, "8:00", False)  # 4x200 at 8:00
 test_workout.add(times_two)
 test_workout.add(times_two)
 times_two.add(four_by_one, four_by_two)
-#print(test_workout)
+print(test_workout)
 
 mile_workout = workout_node("ET", 1, 2, "ET", True)
 print(mile_workout.mileage())
