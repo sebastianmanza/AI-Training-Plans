@@ -1,4 +1,5 @@
 from utils.user import user
+import psycopg2
 
 class main:
     
@@ -27,9 +28,34 @@ class main:
             answers.append(response)
             
         new_user = user(answers[0], answers[1], answers[3], answers[4], answers[8])
-
-        return new_user
         
-        #print("results " + new_user.age)
+        print("results " + new_user.age)
+        
+        try:
+            # establish connection with user list database
+            conn = psycopg2.connect(database = "UserList",
+                                    user = "postgres",
+                                    host = "localhost",
+                                    password = "Control1500#",
+                                    port = "5432")
+
+            # open cursor to perform sql queries
+            curr = conn.cursor()
+
+            database_query = (""" INSERT INTO public.userlistai(dob, sex, runningex, fivekm, goaldate) VALUES (%s,%s,%s,%s,%s); """)
+            record_to_insert = (answers[0], answers[1], answers[3], answers[4], answers[8])
+            curr.execute(database_query, record_to_insert)
+
+            # make changes in database persistent
+            conn.commit()
+
+            # close cursor
+            curr.close()
+        except psycopg2.Error as e:
+            print(f"Database connection error: {e}")
+            # return None
+
+        print("results " + new_user.age)
+
             
     prelim_survey()
