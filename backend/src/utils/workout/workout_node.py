@@ -7,8 +7,7 @@ class workout_node:
     METERS_PER_MILE = 1600  # This approximation is used to calculate mileage
     _slots_ = ("workout_type", "depth", "reps", "set", "pace", "unit")
 
-    def __init__(self, workout_type: str, reps: int, set: str, pace: str, unit: bool):
-        self.workout_type = workout_type
+    def __init__(self, reps: int, set: str, pace: str, unit: bool):
         self.depth = 0
         self.reps = reps
         self.set = set
@@ -81,19 +80,19 @@ class workout_node:
 
 
 # Test code (feel free to mess around/delete)
-test_workout = workout_node(None, 4, None, None, False)
-times_two = workout_node(None, 4, None, None, False)
-four_by_one = workout_node(None, 1, 100, "7:30", False)  # 4x100 at 7:30
-four_by_two = workout_node(None, 4, 100, "8:00", False)  # 4x200 at 8:00
+test_workout = workout_node(4, None, None, False)
+times_two = workout_node(4, None, None, False)
+four_by_one = workout_node(1, 100, "7:30", False)  # 4x100 at 7:30
+four_by_two = workout_node(4, 100, "8:00", False)  # 4x200 at 8:00
 test_workout.add(times_two)
 test_workout.add(times_two)
 test_workout.add(four_by_one)
 times_two.add(four_by_one, four_by_two)
 # print(test_workout)
 
-mile_workout = workout_node("ET", 1, 2, "ET", True)
+mile_workout = workout_node(1, 2, "ET", True)
 # print(test_workout)
 
 
-test_workout.alter_reps(10, "2")
+test_workout.alter_reps(0, "2")
 print(test_workout)
