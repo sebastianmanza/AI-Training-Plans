@@ -1,11 +1,13 @@
 from backend.src.utils.user_storage.user import user
 import psycopg2
+import datetime
+
 
 class main:
-    
+
     """This is the main class that will run the preliminary survey for the user and store it in the database."""
     def prelim_survey():
-        
+
         # Preliminary questions that will make up the users initial info.
         questions = [
             "Date of birth:",
@@ -19,30 +21,38 @@ class main:
             "How long ago was your most recent injury:",
             "What is the date of your most important race?:"
         ]
-        
+
         answers = []
-        
+
         "The following are a series of questions that will help us learn more about you."
-        
+
         for question in questions:
-            response = input(question + " ") 
+            response = input(question + " ")
             answers.append(response)
-            
-        new_user = user(answers[0], answers[1], answers[3], answers[4], answers[8])
-        
+        # The questions are: 0)dob (used for age), 1)sex, 2)running experience,
+        # 3)how many days to run, 4)days of the week, 5)day with most time, 6)5k fitness,
+        # 7)major injuries, 8)most recent injury, 9)goal date.
+
+        answers[0] = datetime.datetime.strptime(answers[0], "%Y-%m-%d").date()
+        years_old = datetime.date.today().year - answers[0].year  # Get age
+        new_user = user(years_old, answers[1],
+                        answers[2], answers[6], answers[9])
+
         try:
             # establish connection with user list database
-            conn = psycopg2.connect(database = "UserList",
-                                    user = "postgres",
-                                    host = "localhost",
-                                    password = "Control1500#",
-                                    port = "5432")
+            conn = psycopg2.connect(database="UserList",
+                                    user="postgres",
+                                    host="localhost",
+                                    password="Control1500#",
+                                    port="5432")
 
             # open cursor to perform sql queries
             curr = conn.cursor()
 
-            database_query = (""" INSERT INTO public.userlistai(dob, sex, runningex, fivekm, goaldate) VALUES (%s,%s,%s,%s,%s); """)
-            record_to_insert = (answers[0], answers[1], answers[3], answers[4], answers[8])
+            database_query = (
+                """ INSERT INTO public.userlistai(dob, sex, runningex, fivekm, goaldate) VALUES (%s,%s,%s,%s,%s); """)
+            record_to_insert = (
+                answers[0], answers[1], answers[3], answers[4], answers[8])
             curr.execute(database_query, record_to_insert)
 
             # make changes in database persistent
@@ -56,5 +66,4 @@ class main:
 
         # print("results " + new_user.age)
 
-            
     # prelim_survey()
