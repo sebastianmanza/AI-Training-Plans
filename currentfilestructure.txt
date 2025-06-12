@@ -1,0 +1,16 @@
+AI-Training-Plans
+├─ backend
+├─ frontend
+│  ├─ node_modules
+│  ├─ public
+│  │  └─ vite.svg
+│  ├─ src
+│  │  ├─ components
+│  │  │  ├─ Question.jsx
+│  │  │  └─ UserSurvey.jsx
+│  │  ├─ data
+│  │  │  └─ usersurveyquestions.js
+│  │  ├─ App.jsx
+│  │  └─ main.jsx
+│  └─ index.html
+└─ README.md
