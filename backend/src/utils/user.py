@@ -12,7 +12,7 @@ class user:
     CALCNUM = 1.06
 
     global DISTANCES
-    DISTANCES = [3000, 10000]
+    DISTANCES = [3000, 5000, 10000]
 
     def __init__(self, age, sex, running_ex, five_km_estimate, goal_date,):
         self.age = age
