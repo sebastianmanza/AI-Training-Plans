@@ -95,5 +95,5 @@ mile_workout = workout_node("ET", 1, 2, "ET", True)
 # print(test_workout)
 
 
-test_workout.alter_reps(12, "2")
+test_workout.alter_reps(10, "2")
 print(test_workout)
