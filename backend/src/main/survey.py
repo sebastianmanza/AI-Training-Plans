@@ -1,11 +1,12 @@
-from utils.user import user
+from src.utils.user_storage.user import user
 import psycopg2
 
 class main:
     
-
+    """This is the main class that will run the preliminary survey for the user and store it in the database."""
     def prelim_survey():
         
+        # Preliminary questions that will make up the users initial info.
         questions = [
             "Date of birth:",
             "Sex:",
@@ -53,7 +54,7 @@ class main:
             print(f"Database connection error: {e}")
             # return None
 
-        print("results " + new_user.age)
+        # print("results " + new_user.age)
 
             
-    prelim_survey()
+    # prelim_survey()
