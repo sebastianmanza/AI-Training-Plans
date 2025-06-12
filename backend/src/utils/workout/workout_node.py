@@ -1,4 +1,7 @@
 # Basic definition of a node for a tree
+import copy
+
+
 class workout_node:
     global METERS_PER_MILE
     METERS_PER_MILE = 1600  # This approximation is used to calculate mileage
@@ -17,8 +20,9 @@ class workout_node:
 
     def add(self, *nodes):
         for node in nodes:
-            node.depth = self.depth+1
-            self.children.append(node)
+            new_node = copy.copy(node)
+            new_node.depth = self.depth+1
+            self.children.append(new_node)
 
     def __str__(self):
         return self.str_helper(0)
@@ -91,8 +95,5 @@ mile_workout = workout_node("ET", 1, 2, "ET", True)
 # print(test_workout)
 
 
-test_workout.alter_reps(12, "0")
+test_workout.alter_reps(12, "2")
 print(test_workout)
-path = ("001"[1:])
-path = int(path[1:])
-print(test_workout.children[0].children[path])
