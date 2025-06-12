@@ -1,4 +1,4 @@
-import day_plan, month_plan, week_plan
+import backend.src.utils.user_storage.day_plan as day_plan, backend.src.utils.user_storage.month_plan as month_plan, backend.src.utils.user_storage.week_plan as week_plan
 
 class training:
     __slots__ = ("daily", "weekly", "monthly")

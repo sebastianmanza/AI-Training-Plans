@@ -15,7 +15,7 @@ class user:
     global DISTANCES
     DISTANCES = [3000, 5000, 10000]
 
-    def __init__(self, age, sex, running_ex, five_km_estimate, goal_date,):
+    def __init__(self, age, sex, running_ex, five_km_estimate, goal_date):
         storage = storage_stacks_and_queues.storage_stacks_and_queues
         self.age = age
         self.sex = sex
