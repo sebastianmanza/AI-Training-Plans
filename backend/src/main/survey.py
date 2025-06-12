@@ -1,8 +1,4 @@
-<<<<<<< Connor's-Branch
-from utils.user import user 
-=======
-from backend.src.utils.user_storage.user import user
->>>>>>> main
+from utils.user_storage.user import user 
 import psycopg2
 
 class main:

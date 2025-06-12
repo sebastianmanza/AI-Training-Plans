@@ -1,6 +1,6 @@
 import psycopg2
 from database_connect import init_db
-from utils.user import user
+from backend.src.utils.user_storage.user import user
 
 """Sends user information to the database."""
 def send_user_info(user_info, SQL_host, SQL_password):
