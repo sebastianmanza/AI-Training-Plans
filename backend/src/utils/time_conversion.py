@@ -51,6 +51,3 @@ class time_conversion:
     # Alter the pace and return it as a string. Remember you can add negaive numbers
     def alter_pace(pace: str, increase: int):
         return time_conversion.to_str(time_conversion.from_str(pace)+increase)
-
-
-print(time_conversion.alter_pace("7:30", -32))
