@@ -37,15 +37,14 @@ class workout_node:
 
     # A way of calculating mileage based on the meters run in a workout
     def mileage(self):
-        if not self.unit:
-            return int(self.meterage())/METERS_PER_MILE
-        else:
-            return self.set
+        return int(self.meterage())/METERS_PER_MILE
 
     # A way of calculating the meters run in a workout
     def meterage(self):
         multiplier = self.reps
         if (self.set != None):
+            if self.unit:
+                multiplier *= METERS_PER_MILE
             return multiplier * (int(self.set))
         else:
             total = 0
@@ -58,11 +57,12 @@ class workout_node:
 test_workout = workout_node(4, None, None, False)
 times_two = workout_node(4, None, None, False)
 four_by_one = workout_node(1, 100, "7:30", False)  # 4x100 at 7:30
-four_by_two = workout_node(4, 100, "8:00", False)  # 4x200 at 8:00
+four_by_two = workout_node(4, 1, "8:00", True)  # 4x200 at 8:00
 test_workout.add(times_two)
 test_workout.add(times_two)
 times_two.add(four_by_one, four_by_two)
 print(test_workout)
 
 mile_workout = workout_node(1, 2, "ET", True)
+print(mile_workout.mileage())
 print(test_workout.mileage())
