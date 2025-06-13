@@ -1,11 +1,12 @@
 import psycopg2
+from utils.SQLutils.config import DB_CREDENTIALS
 
     # takes in the host name (localhost for database owner). 
     # Establish connection with the SQL database and return an error message if connection fails.
 def init_db(username, pwd):
     try:
         if (username != "postgres"):
-            locate = '132.161.163.21'
+            locate = DB_CREDENTIALS["host"]
         else:
             locate = 'localhost'
         # Establish connection
