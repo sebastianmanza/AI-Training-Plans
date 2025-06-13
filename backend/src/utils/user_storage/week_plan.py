@@ -53,3 +53,11 @@ class week_plan:
         """
         self.percent_completion = self.completed_mileage / \
             self.total_mileage if self.total_mileage > 0 else 1
+
+    # Note that updating mileage also updates the percentage
+    def update_week(self):
+        """
+        Update the weekly mileage and RPE.
+        """
+        self.update_weekly_mileage()
+        self.update_weekly_real_rpe()

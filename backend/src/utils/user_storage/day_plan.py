@@ -44,7 +44,8 @@ class day_plan:
         self.percent_completion = self.completed_mileage / \
             self.total_mileage if self.total_mileage > 0 else 1
 
-    def run_updates(self, mileage: int, real_rpe: int):
+    # Note that updating mileage also updates the percentage
+    def update_day(self, mileage: int, real_rpe: int):
         """
         Update the daily mileage and RPE.
 
