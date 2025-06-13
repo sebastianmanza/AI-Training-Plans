@@ -22,20 +22,17 @@ def init_db(username, pwd):
 
         
 # Takes in a user ID and retreives their information from the SQL database. 
-def db_select(username, pwd, user_id):
+def db_select(username, pwd, user_id, query):
         
     conn = init_db(username, pwd)
     # open cursor to perform sql queries
     curr = conn.cursor()
         
-    # perpare the query 
-    database_query = (""" SELECT %s, dob, sex, runningex, fivekm, goaldate
-                        FROM public.userlistai; """)
     # fill query with appropriate user ID
     record_to_insert = (user_id)
         
     # execute query with filled parameters
-    curr.execute(database_query, record_to_insert)
+    curr.execute(query, record_to_insert)
     # make changes in database persistent
     conn.commit()
     # close cursor
