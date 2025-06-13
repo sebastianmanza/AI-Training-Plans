@@ -66,7 +66,8 @@ class main:
             "Was your average pace within the prescribed pace range:",
             "If not what was your average pace?:",
             "Was your rest in the prescribed range?:",
-            "If not what was your rest?:"
+            "If not what was your rest?:",
+            "Did you complete a lift today?:"
         ]
         
         answers = []
@@ -75,14 +76,16 @@ class main:
             answers.append(response)
 
         day = day_plan(
-            total_mileage=int(answers[2]) if answers[1].lower() == 'no' else None,
-            goal_stimuli=answers[0],
-            pace=int(answers[4]) if answers[3].lower() == 'no' else None,
-            lift=False,  # Assuming no lifting for running survey
-            expected_rpe=int(answers[0]),
             real_rpe=int(answers[0]),
-            completion_score=100  # Placeholder for completion score
-        )        
+            #None should be mileage from the expected plan
+            total_mileage=int(answers[2]) if answers[1].lower() == "no" else None,
+            #None should be the expected pace from the expected plan
+            pace=int(answers[4]) if answers[3].lower() == "no" else None,
+            #None should be the expected rest from the expected plan
+            rest=int(answers[6]) if answers[5].lower() == "no" else None,
+            lift=answers[7].lower() == "yes",
+        )
+     
         
         # Here you would typically store the answers in a database or process them further.
         print("Post-run survey completed. Thank you for your feedback!")        
