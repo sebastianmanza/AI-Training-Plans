@@ -54,6 +54,7 @@ def db_insert(username, pwd, query, user_id, dob, sex, runningex, fivekm, goalda
     conn.commit()
     # close cursor
     curr.close()
+    # close connection
 
     
         

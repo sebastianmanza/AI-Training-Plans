@@ -58,6 +58,8 @@ class main:
 
         # print("results " + new_user.age)
 
+            
+    # prelim_survey()
     def daily_post_run_survey():
         """This is the post run survey that will be used to gather data from the user after each run."""
         questions = [
