@@ -1,23 +1,23 @@
 
 ALPHA = 0.5  # Tuneable weighting parameter for delta RPE in difficulty calculation
+POW = 3  # Power for pace rating normalization in completion score calculation
+DIVISOR = 125  # Divisor for pace rating normalization in completion score calculation
 
 
-def completion_score(expected_reps, observed_reps, expected_pace, observed_pace):
+def completion_score(expected_reps, observed_reps, pace_rating):
     """
     Calculate the completion score based on expected and observed repetitions and pace.
 
     Args:
         expected_reps (int): Expected number of repetitions (either miles or reps).
         observed_reps (int): Observed number of repetitions (either miles or reps).
-        expected_pace (int): Expected pace in seconds per mile.
-        observed_pace (int): Observed pace in seconds per mile.
-
+        pace_rating (int): The users average pace compared to expected (-5 for slower, 0 for same, 5 for faster).
     Returns:
         float: The completion score as a percentage.
     """
 
     rep_score = float((observed_reps / expected_reps) - 1)
-    pace_score = float((observed_pace / expected_pace) - 1)
+    pace_score = pow(pace_rating, POW)/DIVISOR
 
     return rep_score + pace_score
 
@@ -52,24 +52,6 @@ def delta_difficulty(comp_score, delta_rpe):
     return comp_score - ALPHA * delta_rpe
 
 
-def percent_complete(num: float):
-    """
-    Calculate the percentage of completion based on score completion.
-
-    Args:
-        num (float): The score of completion.
-
-    Returns:
-        float: The percentage of completion.
-    """
-
-    if (num <= 0):
-        return num+1
-    else:
-        return abs(num-1)
-
-
-score = completion_score(5, 5, 360, 361)
+score = completion_score(5, 5, 6)
 print(score)
-print(percent_complete(score))
 print(delta_RPE(7, 6))

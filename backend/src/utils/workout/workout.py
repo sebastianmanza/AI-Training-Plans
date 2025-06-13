@@ -4,10 +4,11 @@ import workout_node
 
 
 class workout:
-    def __init__(self, workout: workout_node, aerobicVspeed: float, stressorVrecovery: float):
+    def __init__(self, workout: workout_node, aerobicVspeed: float, recoveryVstressor: float):
         self.workout = workout
-        self.aerobicVspeed = aerobicVspeed  # Aerobic speed in m/s
-        self.stressorVrecovery = stressorVrecovery
+        self.aerobicVspeed = aerobicVspeed  # Negative for aerobic, positive for speed
+        # Negative for recovery, positive for stressor.
+        self.recoveryVstressor = recoveryVstressor
 
     def __str__(self):
         toReturn = ""
@@ -15,10 +16,10 @@ class workout:
             toReturn += f"aerobic({self.aerobicVspeed})/"
         else:
             toReturn += f"speed({self.aerobicVspeed})/"
-        if (self.stressorVrecovery < 0):
-            toReturn += f"recovery({self.stressorVrecovery})"
+        if (self.recoveryVstressor < 0):
+            toReturn += f"recovery({self.recoveryVstressor})"
         else:
-            toReturn += f"stressor({self.stressorVrecovery})"
+            toReturn += f"stressor({self.recoveryVstressor})"
         return toReturn
 
     def get_aerobicVspeed(self):
@@ -28,17 +29,13 @@ class workout:
         self.aerobicVspeed = aerobicVspeed
 
     def get_stressorVrecovery(self):
-        return self.stressorVrecovery
+        return self.recoveryVstressor
 
-    def set_stressorVrecovery(self, stressorVrecovery):
-        self.stressorVrecovery = stressorVrecovery
+    def set_stressorVrecovery(self, recoveryVstressor):
+        self.recoveryVstressor = recoveryVstressor
 
     def get_workout(self):
         return self.workout
 
     def set_workout(self, workout):
         self.workout = workout
-
-
-new_workout = workout(None, -1, 1)
-print(new_workout)
