@@ -1,4 +1,5 @@
-from src.utils.user_storage.user import user
+from backend.src.utils.user_storage import user
+from backend.src.utils.user_storage import day_plan
 import psycopg2
 
 class main:
@@ -56,5 +57,33 @@ class main:
 
         # print("results " + new_user.age)
 
-            
+    def daily_post_run_survey():
+        """This is the post run survey that will be used to gather data from the user after each run."""
+        questions = [
+            "How would you rate this running using the RPE metric? (scale of 1-10):",
+            "Was your daily mileage within the prescribed range:",
+            "If not what was your daily mileage?:",
+            "Was your average pace within the prescribed pace range:",
+            "If not what was your average pace?:",
+            "Was your rest in the prescribed range?:",
+            "If not what was your rest?:"
+        ]
+        
+        answers = []
+        for question in questions:
+            response = input(question + " ")
+            answers.append(response)
+
+        day = day_plan(
+            total_mileage=int(answers[2]) if answers[1].lower() == 'no' else None,
+            goal_stimuli=answers[0],
+            pace=int(answers[4]) if answers[3].lower() == 'no' else None,
+            lift=False,  # Assuming no lifting for running survey
+            expected_rpe=int(answers[0]),
+            real_rpe=int(answers[0]),
+            completion_score=100  # Placeholder for completion score
+        )        
+        
+        # Here you would typically store the answers in a database or process them further.
+        print("Post-run survey completed. Thank you for your feedback!")        
     # prelim_survey()
