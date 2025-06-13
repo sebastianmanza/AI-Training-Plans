@@ -1,45 +1,65 @@
 import psycopg2
 
-class database_connect:
-    
     # takes in the host name (localhost for database owner). 
     # Establish connection with the SQL database and return an error message if connection fails.
-    def init_db(username, pwd):
-        try:
-            # Establish connection
-            conn = psycopg2.connect(database = "UserListAi",
-                                    user = username,
-                                    host = 'localhost',
-                                    password = pwd,
-                                    port = "5432")
-            return conn
-        except psycopg2.Error as e:
-            print(f"Database connection error: {e}")
-            return None
+def init_db(username, pwd):
+    try:
+        if (username != "postgres"):
+            locate = '132.161.163.21'
+        else:
+            locate = 'localhost'
+        # Establish connection
+        conn = psycopg2.connect(database = "UserList",
+                                user = username,
+                                host = locate,
+                                password = pwd,
+                                port = "5432")
+            
+        return conn
+    except psycopg2.Error as e:
+        print(f"Database connection error: {e}")
+        return None
+
+
         
-    # Takes in a user ID and retreives their information from the SQL database. 
-    def db_select(username, pwd, user_id):
+# Takes in a user ID and retreives their information from the SQL database. 
+def db_select(username, pwd, user_id, query):
         
-        conn = database_connect.init_db(username, pwd)
+    conn = init_db(username, pwd)
+    
+    # Check that the connection worked
+    if conn is None:
+        print("Failed to connect to the database.")
+        return None
+    
+    try:
         # open cursor to perform sql queries
         curr = conn.cursor()
         
-        # perpare the query 
-        database_query = (""" SELECT %s, dob, sex, runningex, fivekm, goaldate
-                                FROM public.userlistai; """)
         # fill query with appropriate user ID
-        record_to_insert = (user_id)
+        user_to_retrieve = (user_id)
         
         # execute query with filled parameters
-        curr.execute(database_query, record_to_insert)
-        # make changes in database persistent
-        conn.commit()
+        curr.execute(query, (user_to_retrieve,))
+        
+        # fetch all results from the query
+        result = curr.fetchall()
+        
         # close cursor
         curr.close()
-            
+
+        # close connection
+        conn.close()
+        
+        # return the result
+        return result
     
-    # takes in a user ID and updates given parameters
-    # def db_update(user_id, dob, sex, ):
+    except psycopg2.Error as e:
+        print(f"Error executing query: {e}")
+        if conn:
+            conn.close()
+        return None
+            
 
     
         
