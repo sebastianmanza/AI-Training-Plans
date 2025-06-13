@@ -1,7 +1,7 @@
 # import training
 import math
-from storage_stacks_and_queues import *
-from time_conversion import *
+from backend.src.utils.user_storage.storage_stacks_and_queues import *
+from backend.src.utils.time_conversion import *
 
 
 class user:

@@ -1,6 +1,7 @@
 import psycopg2
 from backend.src.utils.SQLutils.database_connect import db_select
 from backend.src.utils.user_storage.user import user
+from utils.SQLutils.config import DB_CREDENTIALS
 
 def retrieve_user_info(user_id: int, username, pwd) -> user:
     """
@@ -31,4 +32,4 @@ def retrieve_user_info(user_id: int, username, pwd) -> user:
 
 
 # Testing
-print(retrieve_user_info(1, 'sebastian', '85581')) 
+print(retrieve_user_info(1, DB_CREDENTIALS["username"], DB_CREDENTIALS["password"])) 
