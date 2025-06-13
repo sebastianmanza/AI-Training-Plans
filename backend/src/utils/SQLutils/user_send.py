@@ -19,4 +19,5 @@ def send_user_info(user_info, SQL_user, password):
     
 
     # Create a new user object
+
     user = user()
