@@ -6,10 +6,14 @@ class database_connect:
     # Establish connection with the SQL database and return an error message if connection fails.
     def init_db(username, pwd):
         try:
+            if (username != "postgres"):
+                locate = 'remote_host'
+            else:
+                locate = 'localhost'
             # Establish connection
             conn = psycopg2.connect(database = "UserListAi",
                                     user = username,
-                                    host = 'localhost',
+                                    host = locate,
                                     password = pwd,
                                     port = "5432")
             return conn
