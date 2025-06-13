@@ -1,5 +1,6 @@
 from backend.src.utils.user_storage import user
 from backend.src.utils.user_storage import day_plan
+from backend.src.utils.user_storage.month_plan import month_plan
 import psycopg2
 
 class main:
@@ -75,7 +76,7 @@ class main:
             response = input(question + " ")
             answers.append(response)
 
-        day = day_plan(
+        new_day = day_plan(
             real_rpe=int(answers[0]),
             #None should be mileage from the expected plan
             total_mileage=int(answers[2]) if answers[1].lower() == "no" else None,
@@ -88,5 +89,23 @@ class main:
      
         
         # Here you would typically store the answers in a database or process them further.
-        print("Post-run survey completed. Thank you for your feedback!")        
+        print("Post-run survey completed. Thank you for your feedback!")
+
+    def post_month_survey():
+        """This is the post month survey that will be used to gather data from the user after each month."""
+        questions = [
+            "How would you rate this months worth of effort using the RPE metric? (scale of 1-10):"
+        ]
+        
+        answers = []
+        for question in questions:
+            response = input(question + " ")
+            answers.append(response)
+        
+        new_month = month_plan(
+            real_rpe=int(answers[0]),
+        )
+
+        # Here you would typically store the answers in a database or process them further.
+        print("Post-month survey completed. Thank you for your feedback!")
     # prelim_survey()
