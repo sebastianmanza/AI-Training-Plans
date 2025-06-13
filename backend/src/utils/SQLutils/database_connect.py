@@ -5,15 +5,16 @@ import psycopg2
 def init_db(username, pwd):
     try:
         if (username != "postgres"):
-            locate = 'remote_host'
+            locate = '132.161.163.21'
         else:
             locate = 'localhost'
         # Establish connection
-        conn = psycopg2.connect(database = "UserListAi",
+        conn = psycopg2.connect(database = "UserList",
                                 user = username,
                                 host = locate,
                                 password = pwd,
                                 port = "5432")
+            
         return conn
     except psycopg2.Error as e:
         print(f"Database connection error: {e}")
@@ -25,22 +26,40 @@ def init_db(username, pwd):
 def db_select(username, pwd, user_id, query):
         
     conn = init_db(username, pwd)
-    # open cursor to perform sql queries
-    curr = conn.cursor()
-        
-    # fill query with appropriate user ID
-    record_to_insert = (user_id)
-        
-    # execute query with filled parameters
-    curr.execute(query, record_to_insert)
-    # make changes in database persistent
-    conn.commit()
-    # close cursor
-    curr.close()
-            
     
-    # takes in a user ID and updates given parameters
-    # def db_update(user_id, dob, sex, ):
+    # Check that the connection worked
+    if conn is None:
+        print("Failed to connect to the database.")
+        return None
+    
+    try:
+        # open cursor to perform sql queries
+        curr = conn.cursor()
+        
+        # fill query with appropriate user ID
+        user_to_retrieve = (user_id)
+        
+        # execute query with filled parameters
+        curr.execute(query, (user_to_retrieve,))
+        
+        # fetch all results from the query
+        result = curr.fetchall()
+        
+        # close cursor
+        curr.close()
+
+        # close connection
+        conn.close()
+        
+        # return the result
+        return result
+    
+    except psycopg2.Error as e:
+        print(f"Error executing query: {e}")
+        if conn:
+            conn.close()
+        return None
+            
 
     
         
