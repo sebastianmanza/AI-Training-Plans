@@ -1,5 +1,4 @@
 import backend.src.utils.user_storage.day_plan as day_plan
-import RPEutils
 
 
 class week_plan:
@@ -34,8 +33,6 @@ class week_plan:
         for day in self.days:
             total += day.real_rpe
         self.real_rpe = total / DAYS_IN_WEEK
-
-    # The following methods center around mileage
 
     def update_weekly_mileage(self):
         """
