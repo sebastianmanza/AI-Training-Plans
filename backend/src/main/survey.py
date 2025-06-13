@@ -1,5 +1,5 @@
-from backend.src.utils.user_storage import user
 from backend.src.utils.user_storage import day_plan
+from backend.src.utils.user_storage import user, week_plan
 from backend.src.utils.user_storage.month_plan import month_plan
 import psycopg2
 
@@ -90,6 +90,24 @@ class main:
         
         # Here you would typically store the answers in a database or process them further.
         print("Post-run survey completed. Thank you for your feedback!")
+
+    def post_week_survey():
+        """This is the post week survey that will be used to gather data from the user after each week."""
+        questions = [
+            "How would you rate this weeks worth of effort using the RPE metric? (scale of 1-10):"
+        ]
+        
+        answers = []
+        for question in questions:
+            response = input(question + " ")
+            answers.append(response)
+        
+        new_week = week_plan(
+            real_rpe=int(answers[0]),
+        )
+
+        # Here you would typically store the answers in a database or process them further.
+        print("Post-week survey completed. Thank you for your feedback!")
 
     def post_month_survey():
         """This is the post month survey that will be used to gather data from the user after each month."""
