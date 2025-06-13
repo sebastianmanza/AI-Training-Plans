@@ -1,7 +1,7 @@
 # import training
-import storage_stacks_and_queues
+from src.utils.user_storage.storage_stacks_and_queues import *
 import math
-from time_conversion import *
+from src.utils.time_conversion import *
 
 
 class user:
@@ -15,8 +15,8 @@ class user:
     global DISTANCES
     DISTANCES = [3000, 5000, 10000]
 
-    def __init__(self, age, sex, running_ex, five_km_estimate, goal_date):
-        storage = storage_stacks_and_queues.storage_stacks_and_queues
+    def __init__(self, age, sex, running_ex, five_km_estimate, goal_date, mean_RPE, STD_RPE):
+        storage = storage_stacks_and_queues
         self.age = age
         self.sex = sex
         self.five_km_estimate = five_km_estimate
@@ -25,6 +25,8 @@ class user:
         self.goal_date = goal_date
         self.running_ex = running_ex
         self.times = {}
+        self.mean_RPE = mean_RPE
+        self.STD_RPE = STD_RPE
         self.month_history = storage.month_history
         self.week_history = storage.week_history
         self.day_history = storage.day_history
@@ -55,8 +57,8 @@ class user:
         return toReturn
 
 
-alex = user(19, "male", "advanced", "17:45", "3/14/2026")
+alex = user(19, "male", "advanced", "17:45", "3/14/2026", "5", "7")
 alex.set_pace(5000, "17:30")
 alex.make_predictions()
 print(len(alex.times))
-print(alex.get_times())
+print(alex.month_history)

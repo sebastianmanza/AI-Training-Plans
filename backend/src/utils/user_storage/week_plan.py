@@ -1,4 +1,4 @@
-import day_plan 
+import backend.src.utils.user_storage.day_plan as day_plan 
 
 class week_plan:
     __slots__ = ("total_mileage", "goal_stimuli", "cycle", "expected_rpe", "real_rpe", "completion_score", "daily_id")
