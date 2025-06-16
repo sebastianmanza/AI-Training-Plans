@@ -5,7 +5,7 @@ class day_plan:
     __slots__ = ("total_mileage", "completed_mileage", "goal_stimuli",
                  "lift", "expected_rpe", "real_rpe", "percent_completion", "workout")
 
-    def __init__(self, total_mileage: int, goal_stimuli: str, lift: bool, expected_rpe, week_id: week_plan, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0):
+    def __init__(self, total_mileage: int, goal_stimuli: str, lift: bool, expected_rpe, week_id: week_plan, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, workouts: list = None):
 
         self.total_mileage = total_mileage
         self.completed_mileage = completed_mileage
@@ -16,7 +16,7 @@ class day_plan:
 
         self.expected_rpe = expected_rpe
         self.real_rpe = real_rpe
-        self.workouts = []
+        self.workouts = workouts
 
         self.week_id = week_id  # Reference to the week plan this day belongs to
 

@@ -9,7 +9,7 @@ class week_plan:
     global DAYS_IN_WEEK
     DAYS_IN_WEEK = 7
 
-    def __init__(self, total_mileage: int, goal_stimuli: str, cycle: str, expected_rpe, month_id: month_plan, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0):
+    def __init__(self, total_mileage: int, goal_stimuli: str, cycle: str, expected_rpe, month_id: month_plan, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, days: list = None):
         self.total_mileage = total_mileage
         self.completed_mileage = completed_mileage
         self.percent_completion = percent_completion
@@ -17,7 +17,7 @@ class week_plan:
         self.goal_stimuli = goal_stimuli
         self.cycle = cycle
 
-        self.days = []
+        self.days = days
         self.expected_rpe = expected_rpe
         self.real_rpe = real_rpe
 

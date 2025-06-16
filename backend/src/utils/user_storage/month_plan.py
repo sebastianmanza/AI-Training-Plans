@@ -5,18 +5,18 @@ class month_plan:
     __slots__ = ("total_mileage", "goal_stimuli", "cycle", "weeks",
                  "percent_completion", "completed_mileage", "expected_rpe", "real_rpe")
 
-    def __init__(self, total_mileage: int, goal_stimuli: str, cycle: str, expected_rpe: int,
-                 real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0):
+    def __init__(self, total_mileage: int, goal_stimuli: str, cycle: str, expected_rpe: int, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, weeks: list = None):
+
         self.total_mileage = total_mileage
-        self.completed_mileage = 0
-        self.percent_completion = 0
+        self.completed_mileage = completed_mileage
+        self.percent_completion = percent_completion
 
         self.goal_stimuli = goal_stimuli
         self.cycle = cycle
 
-        self.weeks = []
+        self.weeks = weeks
         self.expected_rpe = expected_rpe
-        self.real_rpe = 0
+        self.real_rpe = real_rpe
 
     # Once we have the weeks add them to the month
     def add_weeks(self, *weeks):
