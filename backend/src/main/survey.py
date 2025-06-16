@@ -3,12 +3,14 @@ from backend.src.utils.user_storage import user, week_plan
 from backend.src.utils.user_storage.month_plan import month_plan
 from backend.src.utils.SQLutils import user_send
 import psycopg2
+import datetime
+
 
 class main:
-    
+
     """This is the main class that will run the preliminary survey for the user and store it in the database."""
     def prelim_survey():
-        
+
         # Preliminary questions that will make up the users initial info.
         questions = [
             "Date of birth:",
@@ -22,24 +24,30 @@ class main:
             "How long ago was your most recent injury:",
             "What is the date of your most important race?:"
         ]
-        
+
         answers = []
-        
+
         "The following are a series of questions that will help us learn more about you."
-        
+
         for question in questions:
-            response = input(question + " ") 
+            response = input(question + " ")
             answers.append(response)
+<<<<<<< Connor's-Branch
             
         new_user = user(answers[0], answers[1], answers[3], answers[4], answers[8], 1, 1, 1)
         
+=======
+
+        new_user = user(answers[0], answers[1],
+                        answers[3], answers[4], answers[8])
+
+>>>>>>> main
         return new_user
     
     
     # testing 
     user_send.send_user_info(prelim_survey(), "postgres", "Control1500#")
 
-            
     def daily_post_run_survey():
         """This is the post run survey that will be used to gather data from the user after each run."""
         questions = [
@@ -52,7 +60,7 @@ class main:
             "If not what was your rest?:",
             "Did you complete a lift today?:"
         ]
-        
+
         answers = []
         for question in questions:
             response = input(question + " ")
@@ -60,16 +68,16 @@ class main:
 
         new_day = day_plan(
             real_rpe=int(answers[0]),
-            #None should be mileage from the expected plan
-            total_mileage=int(answers[2]) if answers[1].lower() == "no" else None,
-            #None should be the expected pace from the expected plan
+            # None should be mileage from the expected plan
+            total_mileage=int(
+                answers[2]) if answers[1].lower() == "no" else None,
+            # None should be the expected pace from the expected plan
             pace=int(answers[4]) if answers[3].lower() == "no" else None,
-            #None should be the expected rest from the expected plan
+            # None should be the expected rest from the expected plan
             rest=int(answers[6]) if answers[5].lower() == "no" else None,
             lift=answers[7].lower() == "yes",
         )
-     
-        
+
         # Here you would typically store the answers in a database or process them further.
         print("Post-run survey completed. Thank you for your feedback!")
 
@@ -78,12 +86,12 @@ class main:
         questions = [
             "How would you rate this weeks worth of effort using the RPE metric? (scale of 1-10):"
         ]
-        
+
         answers = []
         for question in questions:
             response = input(question + " ")
             answers.append(response)
-        
+
         new_week = week_plan(
             real_rpe=int(answers[0]),
         )
@@ -96,12 +104,12 @@ class main:
         questions = [
             "How would you rate this months worth of effort using the RPE metric? (scale of 1-10):"
         ]
-        
+
         answers = []
         for question in questions:
             response = input(question + " ")
             answers.append(response)
-        
+
         new_month = month_plan(
             real_rpe=int(answers[0]),
         )

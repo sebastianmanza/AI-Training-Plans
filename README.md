@@ -4,5 +4,5 @@ This project focuses on artificially generating training plans for the 5k/10k di
 ## To-do
 - [ ] Create pace calculator
     - [ ] Represent as KV pair stored in generated user info
-- [ ] Create data structure to store workouts
+- [x] Create data structure to store workouts
 - [ ] 

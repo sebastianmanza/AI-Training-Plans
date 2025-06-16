@@ -34,8 +34,6 @@ class user:
         self.month_future = storage.month_future
         self.week_future = storage.week_future
         self.day_future = storage.day_future
-        
-        
 
     def set_pace(self, distance: int, new_pace: str):
         self.times[distance] = new_pace
@@ -48,8 +46,8 @@ class user:
             self.set_pace(distance, self.predict_distance(distance))
 
     def predict_distance(self, distance):
-        fivekpace = time_conversion.from_str(self.get_pace(FIVEKDIST))
-        return time_conversion.to_str(math.floor((fivekpace)*pow((distance/FIVEKDIST), CALCNUM)))
+        fivekpace = from_str(self.get_pace(FIVEKDIST))
+        return to_str(math.floor((fivekpace)*pow((distance/FIVEKDIST), CALCNUM)))
 
     def get_times(self):
         toReturn = ""
