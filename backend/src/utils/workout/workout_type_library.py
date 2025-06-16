@@ -38,6 +38,32 @@ class workout_type_library:
             raise ValueError("No matching workout type found for the given coordinates.")
         
         return workout_type_library.workout_dictionary[final_pair]
+    
+    ## Returns the closest pair of coordinates for a given workout type.
+    def get_workout_type_coordinates(x, y):
+        distance = 100
+        final_pair = workout_type_library.create_pair(0, 0)
+        for pair in workout_type_library.workout_dictionary:
+            new_distance = sqrt((pair[0] - x) ** 2 + (pair[1] - y) ** 2)
+            if new_distance < distance:
+                distance = new_distance
+                final_pair = pair
+
+        if final_pair == (0, 0):
+            raise ValueError("No matching workout type found for the given coordinates.")
+        
+        return final_pair
+
+
+    def get_workout_difference(x, y):
+        workout_pair = workout_type_library.get_workout_type_coordinates(x, y)
+        stimulus_mod = x - workout_pair[0]
+        RPE_mod = y - workout_pair[1]
+        real_difference = workout_type_library.create_pair(stimulus_mod, RPE_mod)
+        return real_difference
+        
 # Example usage    
 print(workout_type_library.get_workout_type(7.3, 4))  #Hill Sprints
+print(workout_type_library.get_workout_type_coordinates(7.3, 4))  #ET (7, 3)
+print(workout_type_library.get_workout_difference(7.3, 4))  # (.3, 1)
 

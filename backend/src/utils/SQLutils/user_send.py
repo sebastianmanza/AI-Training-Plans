@@ -82,13 +82,17 @@ def send_month_cycle(new_user, username, password):
     curr.close()
     
 
+<<<<<<< HEAD
 # populate week cycle user infomation within SQL database
 def send_week_cycle(new_user, username, password):
+=======
+>>>>>>> f042c393bccfcd03816afe20dc16743bbd5f2f78
     
     conn = init_db(username, password)
     # open cursor to perform sql queries
     curr = conn.cursor()
     
+<<<<<<< HEAD
     while new_user.week_history:
         
         pres = new_user.week_history.pop()
@@ -190,3 +194,5 @@ pres = new_user.month_history.pop()
 
     
     
+=======
+>>>>>>> f042c393bccfcd03816afe20dc16743bbd5f2f78
