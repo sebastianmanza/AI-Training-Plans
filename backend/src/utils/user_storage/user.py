@@ -56,9 +56,3 @@ class user:
         return toReturn
 
 
-alex = user(19, "male", "advanced", "17:45", "3/14/2026", "5", "7")
-alex.set_pace(5000, "17:30")
-alex.make_predictions()
-print(len(alex.times))
-print(alex.get_times())
-print(alex.month_history)
