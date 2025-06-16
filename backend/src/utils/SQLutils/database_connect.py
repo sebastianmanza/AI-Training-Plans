@@ -23,7 +23,7 @@ def init_db(username, pwd):
 
         
 # Takes in a user ID and retreives their information from the SQL database. 
-def db_select(username, pwd, user_id, query):
+def db_select(username, pwd, user_id, query, return_cursor=False):
         
     conn = init_db(username, pwd)
     
@@ -50,6 +50,10 @@ def db_select(username, pwd, user_id, query):
 
         # close connection
         conn.close()
+        
+        if return_cursor:
+            # Return the cursor along with the result
+            return result, curr
         
         # return the result
         return result
