@@ -23,11 +23,5 @@ def send_user_info(new_user, SQL_user, password):
     
     
 
-<<<<<<< HEAD
     
     
-=======
-    # Create a new user object
-
-    user = user()
->>>>>>> 9f016e9e77f3080a85a8179aee0adf8342d69c4e
