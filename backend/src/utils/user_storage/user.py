@@ -63,6 +63,7 @@ class user:
         self.user_id = secrets.randbelow(100000000 - 10000000)
 
 
+<<<<<<< HEAD
 alex = user(19, "male", "advanced", "17:45", "3/14/2026", "5", "7")
 alex.set_pace(5000, "17:30")
 alex.make_predictions()
@@ -72,3 +73,5 @@ print(alex.get_times())
 print(alex.month_history)
 alex.generate_new_id()
 print(alex.get_user_id())
+=======
+>>>>>>> 26c71a192efcb28d2cc277e576c27f5860836027
