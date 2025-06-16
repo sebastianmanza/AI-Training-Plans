@@ -1,18 +1,24 @@
+import backend.src.utils.user_storage.week_plan as week_plan
+
+
 class day_plan:
     __slots__ = ("total_mileage", "completed_mileage", "goal_stimuli",
                  "lift", "expected_rpe", "real_rpe", "percent_completion", "workout")
 
-    def __init__(self, total_mileage: int, goal_stimuli: str, lift: bool, expected_rpe):
+    def __init__(self, total_mileage: int, goal_stimuli: str, lift: bool, expected_rpe, week_id: week_plan, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0):
+
         self.total_mileage = total_mileage
-        self.completed_mileage = 0
-        self.percent_completion = 0
+        self.completed_mileage = completed_mileage
+        self.percent_completion = percent_completion
 
         self.goal_stimuli = goal_stimuli
         self.lift = lift
 
         self.expected_rpe = expected_rpe
-        self.real_rpe = 0
+        self.real_rpe = real_rpe
         self.workouts = []
+
+        self.week_id = week_id  # Reference to the week plan this day belongs to
 
     def add_workouts(self, *workouts):
         for workout in workouts:
@@ -55,3 +61,4 @@ class day_plan:
         """
         self.update_daily_mileage(mileage)
         self.update__real_rpe(real_rpe)
+        self.week_id.update_week()
