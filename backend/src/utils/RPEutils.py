@@ -1,51 +1,57 @@
 
 ALPHA = 0.5  # Tuneable weighting parameter for delta RPE in difficulty calculation
+POW = 3  # Power for pace rating normalization in completion score calculation
+DIVISOR = 125  # Divisor for pace rating normalization in completion score calculation
 
-def completion_score(expected_reps, observed_reps, expected_pace, observed_pace):
+
+def completion_score(expected_reps, observed_reps, pace_rating):
     """
     Calculate the completion score based on expected and observed repetitions and pace.
-    
+
     Args:
         expected_reps (int): Expected number of repetitions (either miles or reps).
         observed_reps (int): Observed number of repetitions (either miles or reps).
-        expected_pace (int): Expected pace in seconds per mile.
-        observed_pace (int): Observed pace in seconds per mile.
-    
+        pace_rating (int): The users average pace compared to expected (-5 for slower, 0 for same, 5 for faster).
     Returns:
         float: The completion score as a percentage.
     """
-    
-    rep_score = (observed_reps / expected_reps) - 1
-    pace_score = (observed_pace / expected_pace) - 1
-    
+
+    rep_score = float((observed_reps / expected_reps) - 1)
+    pace_score = pow(pace_rating, POW)/DIVISOR
+
     return rep_score + pace_score
+
 
 def delta_RPE(expected_RPE, observed_RPE):
     """
     Calculate the delta RPE based on expected and observed RPE values.
-    
+
     Args:
         expected_RPE (int): Expected RPE value.
         observed_RPE (int): Observed RPE value.
-    
+
     Returns:
         float: The delta RPE as a percentage.
     """
-    
+
     return (observed_RPE - expected_RPE)
+
 
 def delta_difficulty(comp_score, delta_rpe):
     """
     Calculate the delta difficulty based on completion score and delta RPE.
-    
+
     Args:
         comp_score (float): Completion score.
         delta_rpe (float): Delta RPE value.
-    
+
     Returns:
         float: The delta difficulty as a percentage.
     """
-    
+
     return comp_score - ALPHA * delta_rpe
-print(completion_score(5, 4, 360, 300))
+
+
+score = completion_score(5, 5, 6)
+print(score)
 print(delta_RPE(7, 6))
