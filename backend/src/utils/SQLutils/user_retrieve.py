@@ -199,7 +199,6 @@ def populate_user_info(user_id) -> user:
 
     
     # Populate the days objects
-    # Populate the weeks objects
     for day_data_dict in day_data_dicts:
         if (day_data_dict.get('past_day')):
             new_user.day_history.append(day_plan(
