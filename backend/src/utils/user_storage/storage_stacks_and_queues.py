@@ -9,10 +9,11 @@ class storage_stacks_and_queues:
     # This class is used to store stacks and queues for month, week, and day
     def __init__(self):
         # Initialize the storage class
+        #stacks
         self.month_history = deque()
         self.week_history = deque()
         self.day_history = deque()
-
+        #queues
         self.month_future = Queue()
         self.week_future = Queue()
         self.day_future = Queue()

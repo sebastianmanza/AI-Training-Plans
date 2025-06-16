@@ -58,6 +58,9 @@ class user:
     
     def get_user_id(self):
         return self.user_id
+    
+    def generate_new_id(self):
+        self.user_id = secrets.randbelow(100000000 - 10000000)
 
 
 alex = user(19, "male", "advanced", "17:45", "3/14/2026", "5", "7")
@@ -67,4 +70,5 @@ print(alex.get_user_id())
 print(len(alex.times))
 print(alex.get_times())
 print(alex.month_history)
+alex.generate_new_id()
 print(alex.get_user_id())
