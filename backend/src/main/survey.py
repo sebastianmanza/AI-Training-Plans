@@ -32,16 +32,9 @@ class main:
         for question in questions:
             response = input(question + " ")
             answers.append(response)
-<<<<<<< Connor's-Branch
             
         new_user = user(answers[0], answers[1], answers[3], answers[4], answers[8], 1, 1, 1)
         
-=======
-
-        new_user = user(answers[0], answers[1],
-                        answers[3], answers[4], answers[8])
-
->>>>>>> main
         return new_user
     
     
