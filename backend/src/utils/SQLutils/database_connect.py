@@ -1,5 +1,5 @@
 import psycopg2
-from utils.SQLutils.config import DB_CREDENTIALS
+from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 
     # takes in the host name (localhost for database owner). 
     # Establish connection with the SQL database and return an error message if connection fails.
@@ -83,18 +83,18 @@ def db_insert(username, pwd, user_id, dob, sex, runningex, fivekm, goaldate, mea
     curr.close()
 
 # Takes in prelim survey datapoints and inserts them into the SQL database
-def db_insert(username, pwd, user_id, dob, sex, runningex, fivekm, goaldate, mean_rpe, std_rpe):
+def db_update(username, pwd, userid, dob, sex, runningex, fivekm, goaldate, mean_rpe, std_rpe):
         
     conn = init_db(username, pwd)
     # open cursor to perform sql queries
     curr = conn.cursor()
     
     # write query
-    query = """ INSERT INTO public.userlistai(
-        userid, dob, sex, runningex, fivekm, goaldate, mean_rpe, std_rpe)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s); """    
+    query = """ UPDATE public.userlistai
+        SET dob=%s, sex=%s, runningex=%s, fivekm=%s, goaldate=%s, mean_rpe=%s, std_rpe=%s
+        WHERE userid = %s; """    
     # fill query with appropriate user ID
-    record_to_insert = (user_id, dob, sex, runningex, fivekm, goaldate, mean_rpe, std_rpe)
+    record_to_insert = (userid, dob, sex, runningex, fivekm, goaldate, mean_rpe, std_rpe)
         
     # execute query with filled parameters
     curr.execute(query, record_to_insert)

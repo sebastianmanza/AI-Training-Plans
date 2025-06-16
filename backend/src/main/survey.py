@@ -1,6 +1,7 @@
 from backend.src.utils.user_storage import day_plan
 from backend.src.utils.user_storage import user, week_plan
 from backend.src.utils.user_storage.month_plan import month_plan
+from backend.src.utils.SQLutils import user_send
 import psycopg2
 import datetime
 
@@ -31,11 +32,21 @@ class main:
         for question in questions:
             response = input(question + " ")
             answers.append(response)
+<<<<<<< Connor's-Branch
+            
+        new_user = user(answers[0], answers[1], answers[3], answers[4], answers[8], 1, 1, 1)
+        
+=======
 
         new_user = user(answers[0], answers[1],
                         answers[3], answers[4], answers[8])
 
+>>>>>>> main
         return new_user
+    
+    
+    # testing 
+    user_send.send_user_info(prelim_survey(), "postgres", "Control1500#")
 
     def daily_post_run_survey():
         """This is the post run survey that will be used to gather data from the user after each run."""
