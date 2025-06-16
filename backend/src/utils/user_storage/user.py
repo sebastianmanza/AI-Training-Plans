@@ -1,5 +1,6 @@
 # import training
 import math
+import secrets
 from backend.src.utils.user_storage.storage_stacks_and_queues import *
 from backend.src.utils.time_conversion import *
 
@@ -15,9 +16,9 @@ class user:
     global DISTANCES
     DISTANCES = [3000, 5000, 10000]
 
-    def __init__(self, user_id, age, sex, running_ex, five_km_estimate, goal_date, mean_RPE, STD_RPE):
+    def __init__(self, age, sex, running_ex, five_km_estimate, goal_date, mean_RPE, STD_RPE):
         storage = storage_stacks_and_queues
-        self.user_id = user_id
+        self.user_id = secrets.randbelow(100000000 - 10000000)
         self.age = age
         self.sex = sex
         self.five_km_estimate = five_km_estimate
@@ -54,11 +55,16 @@ class user:
         for k, v in self.times.items():
             toReturn += f"{k}:{v}\n"
         return toReturn
+    
+    def get_user_id(self):
+        return self.user_id
 
 
 alex = user(19, "male", "advanced", "17:45", "3/14/2026", "5", "7")
 alex.set_pace(5000, "17:30")
 alex.make_predictions()
+print(alex.get_user_id())
 print(len(alex.times))
 print(alex.get_times())
 print(alex.month_history)
+print(alex.get_user_id())
