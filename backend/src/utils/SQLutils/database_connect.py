@@ -83,16 +83,16 @@ def db_insert(username, pwd, user_id, dob, sex, runningex, fivekm, goaldate, mea
     curr.close()
 
 # Takes in prelim survey datapoints and inserts them into the SQL database
-def db_insert(username, pwd, dob, sex, runningex, fivekm, goaldate, mean_rpe, std_rpe):
+def db_update(username, pwd, dob, sex, runningex, fivekm, goaldate, mean_rpe, std_rpe):
         
     conn = init_db(username, pwd)
     # open cursor to perform sql queries
     curr = conn.cursor()
     
     # write query
-    query = """ INSERT INTO public.userlistai(
-        dob, sex, runningex, fivekm, goaldate, mean_rpe, std_rpe)
-        VALUES (%s, %s, %s, %s, %s, %s, %s); """    
+    query = """ UPDATE public.userlistai
+        SET dob=%s, sex=%s, runningex=%s, fivekm=%s, goaldate=%s, mean_rpe=%s, std_rpe=%s
+        WHERE <condition>; """    
     # fill query with appropriate user ID
     record_to_insert = (dob, sex, runningex, fivekm, goaldate, mean_rpe, std_rpe)
         
