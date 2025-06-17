@@ -4,7 +4,7 @@ from backend.src.utils.workout.workout_type_library import *
 
 class day_plan:
     __slots__ = ("total_mileage", "completed_mileage", "goal_stimuli",
-                 "lift", "expected_rpe", "real_rpe", "percent_completion", "workouts")
+                 "lift", "expected_rpe", "real_rpe", "percent_completion", "workouts", "week_id")
 
     def __init__(self, workouts: list, total_mileage: int, lift: bool, expected_rpe, week_id: int = 0, 
                  real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0):
@@ -25,7 +25,7 @@ class day_plan:
                     x = trios[0]
                 if(trios[1] > y):
                     y = trios[1]
-                z = z + trios[z]
+                z = z + trios[2]
             self.goal_stimuli = workout_type_library.create_trio(x, y, z)
 
         self.lift = lift
@@ -79,4 +79,14 @@ class day_plan:
         #self.week_id.update_week()
 
 day = day_plan([(1, 3, 4), (4, 5, 6)], 10, False, 6, 1, 9, 10, 1)
-print(day.completed_mileage)
+print("stim 1")
+print(day.workouts[0])
+print("stim 2")
+print(day.workouts[1])
+print("goal stimuli")
+print(day.goal_stimuli)
+'''day_two = day_plan([(1, 3, 4)], 10, False, 6, 1, 9, 10, 1)
+print("stim 1")
+print(day_two.workouts[0])
+print("goal stimuli")
+print(day_two.goal_stimuli)'''
