@@ -7,8 +7,8 @@ class workout_type_library:
     def create_trio(x, y, z):
         return (x, y, z)
     
-    ## x range is 1 - 7 , y range is 1 -10
-    ## Dictionary that maps pairs of (x, y) coordinates to workout types.
+    ## x range is 1 - 7 , y range is 1 -10, z range is 1 - 10
+    ## Dictionary that maps trios of (x, y, z) coordinates to workout types.
     workout_dictionary = {
         create_trio(2.5, 4, 5.5): "ET",
         create_trio(2, 3, 4.5): "Recovery",
