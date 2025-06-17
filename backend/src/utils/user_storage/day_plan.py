@@ -77,7 +77,7 @@ class day_plan:
         self.update_daily_mileage(mileage)
         self.update__real_rpe(real_rpe)
         #self.week_id.update_week()
-
+#testing code
 '''day = day_plan([(1, 3, 4), (4, 5, 6)], 10, False, 6, 1, 9, 10, 1)
 print("stim 1")
 print(day.workouts[0])
