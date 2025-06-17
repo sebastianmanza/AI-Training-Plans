@@ -19,8 +19,8 @@ class user:
     global DISTANCES
     DISTANCES = [3000, 5000, 10000]
 
-    def __init__(self, age, sex, running_ex, five_km_estimate, goal_date, mean_RPE, STD_RPE):
-        storage = storage_stacks_and_queues
+    def __init__(self, age, sex, running_ex, five_km_estimate, goal_date, mean_RPE, STD_RPE,
+                 month_history, week_history, day_history, month_future, week_future, day_future):
         self.user_id = secrets.randbelow(100000000 - 10000000)
         self.age = age
         self.sex = sex
@@ -32,12 +32,12 @@ class user:
         self.times = {}
         self.mean_RPE = mean_RPE
         self.STD_RPE = STD_RPE
-        self.month_history = storage.month_history
-        self.week_history = storage.week_history
-        self.day_history = storage.day_history
-        self.month_future = storage.month_future
-        self.week_future = storage.week_future
-        self.day_future = storage.day_future
+        self.month_history = month_history
+        self.week_history = week_history
+        self.day_history = day_history
+        self.month_future = month_future
+        self.week_future = week_future
+        self.day_future = day_future
 
     def set_pace(self, distance: int, new_pace: str):
         self.times[distance] = new_pace
@@ -86,8 +86,13 @@ class user:
         
     def append_month(self, month):
         self.month_history.append(month)
+storage = storage_stacks_and_queues()
+alex = user(19, "male", "advanced", "17:45", "3/14/2026", "5", "7", storage.month_history, 
+            storage.week_history, storage.day_history, storage.month_future, storage.week_future, 
+            storage.day_future)
 
-alex = user(19, "male", "advanced", "17:45", "3/14/2026", "5", "7")
+
+'''print(type(alex.month_history))
 alex.set_pace(5000, "17:30")
 alex.make_predictions()
 print(alex.get_user_id())
@@ -95,7 +100,7 @@ print(len(alex.times))
 print(alex.get_times())
 print(alex.month_history)
 alex.generate_new_id()
-print(alex.get_user_id())
+print(alex.get_user_id())'''
 
 month = month_plan(100, "Endurance", "Base", 5, 6, 100, 100, None)
 
