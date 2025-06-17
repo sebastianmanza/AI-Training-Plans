@@ -1,19 +1,34 @@
 import backend.src.utils.user_storage.week_plan as week_plan
+from backend.src.utils.workout.workout_type_library import *
 
 
 class day_plan:
     __slots__ = ("total_mileage", "completed_mileage", "goal_stimuli",
-                 "lift", "expected_rpe", "real_rpe", "percent_completion", "workout")
+                 "lift", "expected_rpe", "real_rpe", "percent_completion", "workouts")
 
-    def __init__(self, total_mileage: int, goal_stimuli: str, lift: bool, expected_rpe, week_id: week_plan, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, workouts: list = None):
-
+    def __init__(self, workouts: list, total_mileage: int, lift: bool, expected_rpe, week_id: int = 0, 
+                 real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0):
+        
+        self.workouts = workouts
         self.total_mileage = total_mileage
         self.completed_mileage = completed_mileage
         self.percent_completion = percent_completion
 
-        self.goal_stimuli = goal_stimuli
-        self.lift = lift
+        if len(workouts) < 1:
+            self.goal_stimuli = workouts[0]
+        else:
+            x = 0
+            y = 0
+            z = 0
+            for trios in workouts:
+                if(trios[0]> x and trios[2] > 1):
+                    x = trios[0]
+                if(trios[1] > y):
+                    y = trios[1]
+                z = z + trios[z]
+            self.goal_stimuli = workout_type_library.create_trio(x, y, z)
 
+        self.lift = lift
         self.expected_rpe = expected_rpe
         self.real_rpe = real_rpe
         self.workouts = workouts
@@ -61,4 +76,7 @@ class day_plan:
         """
         self.update_daily_mileage(mileage)
         self.update__real_rpe(real_rpe)
-        self.week_id.update_week()
+        #self.week_id.update_week()
+
+day = day_plan([(1, 3, 4), (4, 5, 6)], 10, False, 6, 1, 9, 10, 1)
+print(day.completed_mileage)
