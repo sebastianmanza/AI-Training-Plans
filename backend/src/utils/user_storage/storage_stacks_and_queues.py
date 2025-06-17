@@ -1,5 +1,6 @@
 from collections import deque
 from queue import Queue
+from backend.src.utils.user_storage.month_plan import *
 
 
 class storage_stacks_and_queues:
@@ -24,17 +25,19 @@ class storage_stacks_and_queues:
 storer = storage_stacks_and_queues()
 #stacks info
 m_s = storer.month_history
-m_s.append("hi")
-m_s.append("there")
-m_s.append("how")
-m_s.append("are")
-m_s.append("you")
-i = 0
-while i < 4:
-    print(m_s.pop())
-    i += 1
+month = month_plan(100, "Endurance", "Base", 5)
+m_s.append(month)
+#m_s.append("hi")
+#m_s.append("there")
+#m_s.append("how")
+#m_s.append("are")
+#m_s.append("you")
+#i = 0
+#while i < 4:
+#    print(m_s.pop())
+#    i += 1
+print(m_s.pop().goal_stimuli)  # Output: Endurance
 #queues info
 m_q = storer.month_future
 m_q.put("hello")
 print(m_q.get())
-print(m_s.pop())

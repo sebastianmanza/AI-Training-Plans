@@ -3,6 +3,7 @@ from backend.src.utils.workout.workout_type_library import *
 class workout_storage:
     #all the workout types
     ## These lists will store different types of workouts.
+    ## lists of key value points that the key is the trio and the value is the workout
     et = []
     recovery = []
     kenyan = []
@@ -14,6 +15,7 @@ class workout_storage:
     hill_sprints = []
     flat_sprints = []
     time_trial = []
+    warmup_and_cooldown = []
 
 
     ## Initialize the workout storage with empty lists for threshold and interval workouts.
@@ -30,6 +32,7 @@ class workout_storage:
         self.hill_sprints = w_s.hill_sprints
         self.flat_sprints = w_s.flat_sprints
         self.time_trial = w_s.time_trial
+        self.warmup_and_cooldown = w_s.warmup_and_cooldown
 
 
     ## Add a workout to the appropriate list based on its type.
@@ -57,6 +60,8 @@ class workout_storage:
             self.flat_sprints.append(workout)
         elif workout_type == "Time Trial":
             self.time_trial.append(workout)
+        elif workout_type == "Warmup and Cooldown":
+            self.warmup_and_cooldown.append(workout)
         else:
             raise ValueError(f"Unknown workout type: {workout_type}")
 
@@ -94,3 +99,6 @@ class workout_storage:
     #get time trial workouts
     def get_time_trial_workouts(self):
         return self.time_trial
+    #get warmup and cooldown workouts
+    def get_warmup_and_cooldown(self):
+        return self.warmup_and_cooldown
