@@ -66,6 +66,6 @@ class workout_type_library:
         return real_difference
         
 # Example usage    
-print(workout_type_library.get_workout_type(2, 3, 6)) #Hill Sprints
+#print(workout_type_library.get_workout_type(2, 3, 6)) #Hill Sprints
 #print(workout_type_library.get_workout_type_coordinates(7.3, 4, 1))  #ET (7, 3, .5)
 #print(workout_type_library.get_workout_difference(7.3, 4, 1))  # (.3, 1, .5)

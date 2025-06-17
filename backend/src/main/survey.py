@@ -2,6 +2,7 @@ from backend.src.utils.user_storage import day_plan
 from backend.src.utils.user_storage import user, week_plan
 from backend.src.utils.user_storage.month_plan import month_plan
 from backend.src.utils.SQLutils import user_send
+from backend.src.utils.user_storage.storage_stacks_and_queues import *
 import psycopg2
 import datetime
 
@@ -32,8 +33,11 @@ class main:
         for question in questions:
             response = input(question + " ")
             answers.append(response)
-            
-        new_user = user(answers[0], answers[1], answers[3], answers[4], answers[8], 1, 1, 1)
+        
+        storage = storage_stacks_and_queues()
+        new_user = user(answers[0], answers[1], answers[3], answers[4], answers[8], 1, 1, 1, storage.month_history,
+                        storage.week_history, storage.day_history, storage.month_future, storage.week_future,
+                        storage.day_future)
         
         return new_user
     
