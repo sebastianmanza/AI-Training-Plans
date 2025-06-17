@@ -66,13 +66,13 @@ class user:
         
     # update training 
     def update_training(self):
-        self.day_future = training_database.daily
+        self.day_future = training_database.day
         self.week_future = training_database.week
         self.month_future = training_database.month
         
         
     def update_day(self):
-        self.day_future = training_database.daily
+        self.day_future = training_database.day
         
         
     def update_week(self):
@@ -81,7 +81,9 @@ class user:
         
     def update_month(self):
         self.month_future = training_database.month
-
+        
+    def append_month(self, month):
+        self.month_history.append(month)
 
 alex = user(19, "male", "advanced", "17:45", "3/14/2026", "5", "7")
 alex.set_pace(5000, "17:30")
@@ -92,3 +94,8 @@ print(alex.get_times())
 print(alex.month_history)
 alex.generate_new_id()
 print(alex.get_user_id())
+
+month = month_plan.month_plan(100, "Endurance", "Base", 5, 6, 100, 100, None)
+
+alex.append_month(alex, month)
+
