@@ -52,14 +52,26 @@ def txt_to_database(filename, database):
             total_mileage = int(filereader.readline().strip())
         
             # Read the second line for goal_stimuli
-            goal_stimuli = filereader.readline().strip()
+            stimuli = filereader.readline().strip().split(sep = ",")
+            
+            x1, y1, z1 = stimuli[0].split(sep = ":")
+            stim1trio = create_trio(x1, y1, z1)
+            workout = []
+            workout.append(stim1trio)
+            
+            if stimuli.length > 1:
+                x2, y2, z2 = stimuli[1].split(sep = ":")
+                stim2trio = create_trio(x2, y2, z2)
+                workout.append(stim2trio)
+                
         
             # Read the third line for expected_rpe
             expected_rpe = int(filereader.readline().strip())
         
+            
         day = day_plan(
             total_mileage=total_mileage,
-            goal_stimuli=goal_stimuli,
+            workouts=workout,
             expected_rpe=expected_rpe,
             week_id=week_ID
         )
@@ -69,8 +81,7 @@ def txt_to_database(filename, database):
         database.day.put(day)
         
         day_ID+=1
-        
-        ### DEPRECATED
+
         if day_ID % 7 == 0:
             week_ID += 1
 
@@ -89,6 +100,7 @@ def txt_to_database(filename, database):
         weekly_expected_RPE = 0
         
         for day in day_children:
+           
             weekly_total_mileage += day.total_mileage
             x, y, z = day.goal_stimuli
             weekly_stimuli += x
