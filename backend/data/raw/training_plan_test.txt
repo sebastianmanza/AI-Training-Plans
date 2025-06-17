@@ -1,0 +1,30 @@
+# Example file
+## LEAVE BLANK ##
+month_cycle
+
+month_cycle
+
+month_cycle
+
+## Add more months in format
+ENDOFMONTHS
+
+week_cycle
+
+week_cycle
+
+week_cycle
+
+## Add more weeks in format
+ENDOFWEEKS
+
+total_mileage_day
+goal_stimuli_day
+expected_rpe_day
+
+total_mileage_day
+goal_stimuli_day
+expected_rpe_day
+
+# repeat for number of days
+ENDOFDAYS
