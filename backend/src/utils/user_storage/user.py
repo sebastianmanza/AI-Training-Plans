@@ -4,6 +4,8 @@ import secrets
 from backend.src.utils.user_storage.storage_stacks_and_queues import *
 from backend.src.utils.time_conversion import *
 from backend.src.utils.user_storage.training_database import *
+from backend.src.utils.user_storage.month_plan import month_plan
+
 
 
 class user:
@@ -95,7 +97,7 @@ print(alex.month_history)
 alex.generate_new_id()
 print(alex.get_user_id())
 
-month = month_plan.month_plan(100, "Endurance", "Base", 5, 6, 100, 100, None)
+month = month_plan(100, "Endurance", "Base", 5, 6, 100, 100, None)
 
-alex.append_month(alex, month)
+alex.append_month(month)
 
