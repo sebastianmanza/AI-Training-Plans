@@ -4,9 +4,9 @@ from backend.src.utils.workout.workout_type_library import *
 
 class day_plan:
     __slots__ = ("total_mileage", "completed_mileage", "goal_stimuli",
-                 "lift", "expected_rpe", "real_rpe", "percent_completion", "workout")
+                 "lift", "expected_rpe", "real_rpe", "percent_completion", "workouts")
 
-    def __init__(self, workouts, total_mileage: int, lift: bool, expected_rpe, week_id: week_plan, 
+    def __init__(self, workouts: list, total_mileage: int, lift: bool, expected_rpe, week_id: int = 0, 
                  real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0):
         
         self.workouts = workouts
@@ -14,7 +14,7 @@ class day_plan:
         self.completed_mileage = completed_mileage
         self.percent_completion = percent_completion
 
-        if workouts.len() < 1:
+        if len(workouts) < 1:
             self.goal_stimuli = workouts[0]
         else:
             x = 0
@@ -77,3 +77,6 @@ class day_plan:
         self.update_daily_mileage(mileage)
         self.update__real_rpe(real_rpe)
         #self.week_id.update_week()
+
+day = day_plan([(1, 3, 4), (4, 5, 6)], 10, False, 6, 1, 9, 10, 1)
+print(day.completed_mileage)
