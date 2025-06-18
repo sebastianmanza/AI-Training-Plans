@@ -1,5 +1,9 @@
-from backend.src.utils.user_storage import day_plan, month_plan, week_plan
-from backend.src.utils.workout.workout_type_library import create_trio
+from backend.src.utils.user_storage.day_plan import day_plan
+from backend.src.utils.user_storage.month_plan import month_plan
+from backend.src.utils.user_storage.week_plan import week_plan
+from backend.src.utils.workout.workout_type_library import *
+from backend.src.utils.user_storage.training_database import training_database
+
 def txt_to_database(filename, database):
     filereader = open(filename)
     """Expect files in format: 
@@ -13,12 +17,13 @@ def txt_to_database(filename, database):
     
     # Populate a single object in the array
     while not filereader.readline().strip() == "ENDOFMONTHS":
+
         month_ID += 1
         cycle = filereader.readline().strip()
         month = month_plan(
             month_id=month_ID,
             cycle=cycle)
-        months[month_ID] = month
+        months.append(month)
         
     month_ID = 0
     week_ID = 0
@@ -31,14 +36,16 @@ def txt_to_database(filename, database):
         
         week = week_plan(
                 cycle = cycle,
-                month_ID = month_ID)
+                month_id = month_ID)
         
-        weeks[week_ID] = week
+        weeks.append(week)
     
         # Add weeks to be children of the month
         week_ID+=1
         if week_ID % 4 == 0:
-            months[month_ID].add_weeks(weeks[(week_ID - 4):week_ID])
+            for we in weeks[(week_ID - 4):week_ID]:
+                print(month_ID)
+                months[month_ID].weeks.append(we)
             month_ID += 1
             
     
@@ -55,13 +62,13 @@ def txt_to_database(filename, database):
             stimuli = filereader.readline().strip().split(sep = ",")
             
             x1, y1, z1 = stimuli[0].split(sep = ":")
-            stim1trio = create_trio(x1, y1, z1)
+            stim1trio = workout_type_library.create_trio(x1, y1, z1)
             workout = []
             workout.append(stim1trio)
             
             if stimuli.length > 1:
                 x2, y2, z2 = stimuli[1].split(sep = ":")
-                stim2trio = create_trio(x2, y2, z2)
+                stim2trio = workout_type_library.create_trio(x2, y2, z2)
                 workout.append(stim2trio)
                 
         
@@ -109,7 +116,7 @@ def txt_to_database(filename, database):
             weekly_expected_RPE += day.expected_rpe
             
         week.total_mileage = weekly_total_mileage
-        week.goal_stimuli = create_trio(weekly_stimuli, weekly_RPE, weekly_length)
+        week.goal_stimuli = workout_type_library.create_trio(weekly_stimuli, weekly_RPE, weekly_length)
         week.expected_rpe = weekly_expected_RPE
 
     
@@ -133,7 +140,7 @@ def txt_to_database(filename, database):
             monthly_expected_RPE += week.expected_rpe
             
         month.total_mileage = monthly_total_mileage
-        month.goal_stimuli = create_trio(monthly_stimuli, monthly_RPE, monthly_length)
+        month.goal_stimuli = workout_type_library.create_trio(monthly_stimuli, monthly_RPE, monthly_length)
         month.expected_rpe = monthly_expected_RPE
         
     for mo in months:
@@ -142,3 +149,5 @@ def txt_to_database(filename, database):
     for we in weeks:
         database.week.put(we)
     
+    
+txt_to_database("backend/data/raw/training_plan_test.txt", database=training_database)

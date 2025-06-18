@@ -1,15 +1,16 @@
 import backend.src.utils.user_storage.day_plan as day_plan
 import backend.src.utils.user_storage.month_plan as month_plan
+from backend.src.utils.workout.workout_type_library import *
 
 
 class week_plan:
     __slots__ = ("total_mileage", "completed_mileage", "percent_completion",
-                 "goal_stimuli", "cycle", "days", "expected_rpe", "real_rpe")
+                 "goal_stimuli", "cycle", "days", "expected_rpe", "real_rpe", "month_id")
 
     global DAYS_IN_WEEK
     DAYS_IN_WEEK = 7
 
-    def __init__(self, total_mileage: int, goal_stimuli: str, cycle: str, expected_rpe, month_id: month_plan, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, days: list = None):
+    def __init__(self, total_mileage: int = -1, goal_stimuli = workout_type_library.create_trio(-1, -1, -1), cycle: str = "", expected_rpe = -1, month_id: int = -1, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, days: list = []):
         self.total_mileage = total_mileage
         self.completed_mileage = completed_mileage
         self.percent_completion = percent_completion

@@ -6,7 +6,7 @@ class day_plan:
     __slots__ = ("total_mileage", "completed_mileage", "goal_stimuli",
                  "lift", "expected_rpe", "real_rpe", "percent_completion", "workouts", "week_id")
 
-    def __init__(self, workouts: list, total_mileage: int, lift: bool, expected_rpe, week_id: int = 0, 
+    def __init__(self, workouts: list = [], total_mileage: int = -1, lift: bool = False, expected_rpe = -1, week_id: int = -1, 
                  real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0):
         
         self.workouts = workouts
