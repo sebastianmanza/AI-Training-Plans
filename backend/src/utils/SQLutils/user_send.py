@@ -4,6 +4,7 @@ from backend.src.utils.user_storage.user import user
 from backend.src.utils.SQLutils.database_connect import init_db
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.user_storage.month_plan import *
+from backend.src.utils.user_storage.storage_stacks_and_queues import *
 
 
 
@@ -88,7 +89,7 @@ def send_month_cycle(new_user, username, password):
             # execute query with filled parameters
             curr.execute(query, record_to_insert)
             
-        while new_user.month_furture:
+        while new_user.month_future:
             
             fut = new_user.month_future.pop()
             # write query
@@ -206,10 +207,14 @@ def send_day_cycle(new_user, username, password):
 
 
 # testing     
+storage = storage_stacks_and_queues()
 
-new_user = user("16", "F", "five", "4", 6, 8, 8)
+new_user = user(19, "male", "advanced", "17:45", 3, 5, 7, storage.month_history, 
+            storage.week_history, storage.day_history, storage.month_future, storage.week_future, 
+            storage.day_future)
 
-send_user_info(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+
+# send_user_info(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 
 #  user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, complete_score, month_id, past_month, complete_mileage
 

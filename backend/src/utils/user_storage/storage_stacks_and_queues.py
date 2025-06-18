@@ -36,8 +36,8 @@ m_s.append(month)
 #while i < 4:
 #    print(m_s.pop())
 #    i += 1
-print(m_s.pop().goal_stimuli)  # Output: Endurance
+#print(m_s.pop().goal_stimuli)  # Output: Endurance
 #queues info
 m_q = storer.month_future
 m_q.put("hello")
-print(m_q.get())
+#print(m_q.get())
