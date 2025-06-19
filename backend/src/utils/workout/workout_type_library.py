@@ -42,7 +42,7 @@ class workout_type_library:
         
         return workout_type_library.workout_dictionary[final_trio]
     
-    def get_individual_workout(x, y, z, workout_type):
+    def get_individual_workout_helper(x, y, z, workout_type):
         distance = 100
         final_workout = workout_database.storage.workout_type[0]
         for workout in workout_database.storage.workout_type:
@@ -53,6 +53,11 @@ class workout_type_library:
             
         return final_workout
     
+    def get_individual_workout(x, y, z):
+        workout_type = workout_type_library.get_workout_type(x, y, z)
+        return workout_type_library.get_individual_workout_helper(x, y, z, workout_type)
+    
+
     ## Returns the closest pair of coordinates for a given workout type.
     def get_workout_type_coordinates(x, y, z):
         distance = 100
