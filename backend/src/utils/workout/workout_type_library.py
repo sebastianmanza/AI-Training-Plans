@@ -1,4 +1,5 @@
 from math import sqrt
+from backend.src.utils.workout.workout_database import *
 
 class workout_type_library:
 
@@ -40,6 +41,17 @@ class workout_type_library:
             raise ValueError("No matching workout type found for the given coordinates.")
         
         return workout_type_library.workout_dictionary[final_trio]
+    
+    def get_individual_workout(x, y, z, workout_type):
+        distance = 100
+        final_workout = workout_database.storage.workout_type[0]
+        for workout in workout_database.storage.workout_type:
+            new_distance = sqrt((workout[0][0] - x) ** 2 + (workout[0][1] - y) ** 2 + (workout[0][2] - z) ** 2)
+            if new_distance < distance:
+                distance = new_distance
+                final_workout = workout
+            
+        return final_workout
     
     ## Returns the closest pair of coordinates for a given workout type.
     def get_workout_type_coordinates(x, y, z):

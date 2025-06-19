@@ -78,6 +78,11 @@ class workout_node:
         else:
             self.set += num_change
 
+     #creates a pair of a trio coordinate and a workout
+    @staticmethod
+    def create_final_workout(trio, workout):
+        return (trio, workout)
+
 
 # Test code (feel free to mess around/delete)
 test_workout = workout_node(4, None, None, False)
@@ -95,4 +100,6 @@ mile_workout = workout_node(1, 2, "ET", True)
 
 
 test_workout.alter_reps(0, "2")
-print(test_workout)
+final_workout = test_workout.create_final_workout((1, 2, 3), test_workout)
+print(final_workout[0][0])
+#print(test_workout)
