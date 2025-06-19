@@ -26,33 +26,10 @@ class workout_storage:
 
     ## Add a workout to the appropriate list based on its type.
     ## Raises ValueError if the workout type is unknown.
-    def add_workout(self, workout_type, workout):
-        if workout_type == "ET":
-            self.et.append(workout)
-        elif workout_type == "Recovery":
-            self.recovery.append(workout)
-        elif workout_type == "Kenyan":
-            self.kenyan.append(workout)
-        elif workout_type == "Long":
-            self.long.append(workout)
-        elif workout_type == "Threshold":
-            self.threshold.append(workout)
-        elif workout_type == "Fartlek":
-            self.fartlek.append(workout)
-        elif workout_type == "Race Pace Interval":
-            self.race_pace_interval.append(workout)
-        elif workout_type == "Strides":
-            self.strides.append(workout)
-        elif workout_type == "Hill Sprints":
-            self.hill_sprints.append(workout)
-        elif workout_type == "Flat Sprints":
-            self.flat_sprints.append(workout)
-        elif workout_type == "Time Trial":
-            self.time_trial.append(workout)
-        elif workout_type == "Warmup and Cooldown":
-            self.warmup_and_cooldown.append(workout)
-        else:
-            raise ValueError(f"Unknown workout type: {workout_type}")
+    def add_workout(self, trio, workout):
+        for key in workout_type_library.workout_dictionary:
+            final_type = workout_type_library.get_workout_type(trio[0], trio[1], trio[2])
+            self.final_type.append(workout)
 
     ## Getters for the workout lists
     #get et workouts
