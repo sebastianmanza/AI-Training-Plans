@@ -26,9 +26,9 @@ class workout_storage:
 
     ## Add a workout to the appropriate list based on its type.
     ## Raises ValueError if the workout type is unknown.
-    def add_workout(self, trio, workout):
+    def add_workout(self, workout):
         for key in workout_type_library.workout_dictionary:
-            final_type = workout_type_library.get_workout_type(trio[0], trio[1], trio[2])
+            final_type = workout_type_library.get_workout_type(workout[0][0], workout[0][1], workout[0][2])
             self.final_type.append(workout)
 
     ## Getters for the workout lists
