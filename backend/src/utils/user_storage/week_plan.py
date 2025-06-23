@@ -25,7 +25,7 @@ class week_plan:
         self.month_id = month_id  # Reference to the month plan this week belongs to
 
     # Once we have the days add them to the week
-    def add_days(self, *days):
+    def add_days(self, days):
         for day in days:
             self.days.append(day)
 
