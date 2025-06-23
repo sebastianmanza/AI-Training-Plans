@@ -1,2 +1,5 @@
 psycopg2
 matplotlib
+xlrd
+pandas
+openpyxl

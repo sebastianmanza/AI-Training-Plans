@@ -1,4 +1,4 @@
-from backend.src.utils.workout.workout_type_library import *
+from backend.src.utils.workout.workout_type_library import workout_type_library
 
 class workout_storage:
     #all the workout types
