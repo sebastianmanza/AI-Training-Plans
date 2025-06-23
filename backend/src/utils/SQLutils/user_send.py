@@ -1,3 +1,17 @@
+import sys
+import os
+
+# Dynamically find the root directory containing the 'backend' folder
+current_dir = os.path.dirname(__file__)
+while not os.path.exists(os.path.join(current_dir, "backend")):
+    current_dir = os.path.dirname(current_dir)
+    if current_dir == "/":  # Stop if we reach the root of the filesystem
+        raise RuntimeError("Could not find 'backend' folder in the directory hierarchy.")
+
+# Add the root directory to the Python path
+sys.path.append(current_dir)
+
+
 from queue import Empty
 import psycopg2
 from backend.src.utils.SQLutils.database_connect import db_insert, db_update
@@ -231,7 +245,7 @@ send_user_info(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSW
 
 
 #testing month population
-'''
+
 month_one = month_plan(100, 1, 2, 10, 3, 99, 99, 10)
 month_two = month_plan(100, 1, 2, 10, 3, 99, 99, 10)
 month_three = month_plan(100, 1, 2, 11, 4, 99, 99, 10)
@@ -245,7 +259,7 @@ new_user.append_fut_month(month_three)
 
 send_month_history(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 send_month_future(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-'''
+
 #testing week population
 '''
 week_one = week_plan.week_plan(100, 1, 2, 10, 3, 99, 99, 10)
