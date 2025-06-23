@@ -1,0 +1,12 @@
+import pandas as pd
+
+# Example DataFrame
+df = pd.DataFrame({
+    'Trio': [(1, 2, 3)],
+    'Reps': [(1, 1)]
+    'Pace': [(5000, 3000)]
+    'Distance':[50]
+})
+
+# Save to Excel
+df.to_excel(r'C:\Users\owenh\OneDrive\Desktop\AI-Training-Plan\AI-Training-Plans\backend\data\raw\workouts_to_database.xlsx', index=False)
