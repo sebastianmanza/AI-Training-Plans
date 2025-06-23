@@ -94,25 +94,25 @@ def txt_to_database(filename, database):
             
             if day_phase == 0:
                 # Read the first line for total_mileage
-                total_mileage = int(cur_string)
+                total_mileage = float(cur_string)
                 day_phase = 1
             elif day_phase == 1:
                 # Read the second line for goal_stimuli
                 stimuli = cur_string.split(sep = ",")
             
-                x1, y1, z1 = [int(value) for value in stimuli[0].split(sep = ":")]
+                x1, y1, z1 = [float(value) for value in stimuli[0].split(sep = "/")]
                 stim1trio = workout_type_library.create_trio(x1, y1, z1)
                 workout = []
                 workout.append(stim1trio)
                 
                 if len(stimuli) > 1:
-                    x2, y2, z2 = [int(value) for value in stimuli[1].split(sep = ":")]
+                    x2, y2, z2 = [float(value) for value in stimuli[1].split(sep = "/")]
                     stim2trio = workout_type_library.create_trio(x2, y2, z2)
                     workout.append(stim2trio)
                     
                 day_phase = 2
             elif day_phase == 2:
-                expected_rpe = int(cur_string)
+                expected_rpe = float(cur_string)
                 day_phase = 0
                 
                 day = day_plan(
