@@ -245,7 +245,7 @@ send_user_info(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSW
 
 
 #testing month population
-'''
+
 month_one = month_plan(100, 1, 2, 10, 3, 99, 99, 10)
 month_two = month_plan(100, 1, 2, 10, 3, 99, 99, 10)
 month_three = month_plan(100, 1, 2, 11, 4, 99, 99, 10)
@@ -259,7 +259,7 @@ new_user.append_fut_month(month_three)
 
 send_month_history(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 send_month_future(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-'''
+
 #testing week population
 '''
 week_one = week_plan.week_plan(100, 1, 2, 10, 3, 99, 99, 10)
