@@ -1,10 +1,10 @@
 import psycopg2
 from backend.src.utils.SQLutils.database_connect import db_select
 from backend.src.utils.user_storage.user import user
-from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.user_storage.month_plan import month_plan
 from backend.src.utils.user_storage.week_plan import week_plan
 from backend.src.utils.user_storage.day_plan import day_plan
+from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 
 
 class UserNotFoundError(Exception):

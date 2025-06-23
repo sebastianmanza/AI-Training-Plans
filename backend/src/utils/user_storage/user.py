@@ -20,11 +20,8 @@ class user:
     DISTANCES = [3000, 5000, 10000]
 
     def __init__(self, age, sex, running_ex, five_km_estimate, goal_date, mean_RPE, STD_RPE):
-        storage = storage_stacks_and_queues
-        id_num = secrets.randbelow(100000000 - 10000000)
-        while (not unique_id(id_num)):
-            id_num = secrets.randbelow(100000000 - 10000000)
-        self.user_id = id_num
+        storage = storage_stacks_and_queues()
+        self.user_id = secrets.randbelow(100000000 - 10000000)
         self.age = age
         self.sex = sex
         self.five_km_estimate = five_km_estimate
@@ -87,8 +84,23 @@ class user:
     def append_month(self, month):
         self.month_history.append(month)
 
+    def append_fut_month(self, month):
+        self.month_future.put(month)
 
-''' alex = user(19, "male", "advanced", "17:45", "3/14/2026", "5", "7")
+    def append_week(self, week):
+        self.week_history.append(week)
+
+    def append_fut_week(self, week):
+        self.week_future.put(week)
+
+    def append_day(self, day):
+        self.day_history.append(day)
+
+    def append_fut_day(self, day):
+        self.day_future.put(day)
+
+
+alex = user(19, "male", "advanced", "17:45", "3/14/2026", "5", "7")
 alex.set_pace(5000, "17:30")
 alex.make_predictions()
 print(alex.get_user_id())
@@ -100,5 +112,5 @@ print(alex.get_user_id())
 
 month = month_plan(100, "Endurance", "Base", 5, 6, 100, 100, None)
 
-alex.append_month(month)
-'''
+# alex.append_month(month)
+# alex.append_fut_month(month)
