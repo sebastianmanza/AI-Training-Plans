@@ -3,11 +3,12 @@ from backend.src.utils.workout.workout_type_library import *
 
 
 class month_plan:
-    __slots__ = ("total_mileage", "goal_stimuli", "cycle", "weeks",
+    __slots__ = ("month_id", "total_mileage", "goal_stimuli", "cycle", "weeks",
                  "percent_completion", "completed_mileage", "expected_rpe", "real_rpe")
 
     def __init__(self, month_id: int = -1, total_mileage: int = 0, goal_stimuli = workout_type_library.create_trio(0, 0, 0), cycle: str = "", expected_rpe: int = 0, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, weeks: list = []):
 
+        self.month_id = month_id
         self.total_mileage = total_mileage
         self.completed_mileage = completed_mileage
         self.percent_completion = percent_completion
@@ -20,7 +21,7 @@ class month_plan:
         self.real_rpe = real_rpe
 
     # Once we have the weeks add them to the month
-    def add_weeks(self, *weeks):
+    def add_weeks(self, weeks):
         for week in weeks:
             self.weeks.append(week)
 

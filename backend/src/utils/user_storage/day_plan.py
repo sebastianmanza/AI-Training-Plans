@@ -21,7 +21,7 @@ class day_plan:
             y = 0
             z = 0
             for trios in workouts:
-                if(trios[0]> x and trios[2] > 1):
+                if(trios[0] > x and trios[2] > 1):
                     x = trios[0]
                 if(trios[1] > y):
                     y = trios[1]
