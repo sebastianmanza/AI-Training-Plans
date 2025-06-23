@@ -1,3 +1,17 @@
+import sys
+import os
+
+# Dynamically find the root directory containing the 'backend' folder
+current_dir = os.path.dirname(__file__)
+while not os.path.exists(os.path.join(current_dir, "backend")):
+    current_dir = os.path.dirname(current_dir)
+    if current_dir == "/":  # Stop if we reach the root of the filesystem
+        raise RuntimeError("Could not find 'backend' folder in the directory hierarchy.")
+
+# Add the root directory to the Python path
+sys.path.append(current_dir)
+
+
 from queue import Empty
 import psycopg2
 from backend.src.utils.SQLutils.database_connect import db_insert, db_update

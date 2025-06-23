@@ -14,7 +14,8 @@ def init_db(username, pwd):
                                 user = username,
                                 host = locate,
                                 password = pwd,
-                                port = "5432")
+                                port = "5432",
+                                connect_timeout=10)
             
         return conn
     except psycopg2.Error as e:
