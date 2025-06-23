@@ -4,66 +4,32 @@ class workout_storage:
     #all the workout types
     ## These lists will store different types of workouts.
     ## lists of key value points that the key is the trio and the value is the workout
-    et = []
-    recovery = []
-    kenyan = []
-    long = []
-    threshold = []
-    fartlek = []
-    race_pace_interval = []
-    strides = []
-    hill_sprints = []
-    flat_sprints = []
-    time_trial = []
-    warmup_and_cooldown = []
+    __slots__ = ("et", "recovery", "kenyan", "long", "threshold", "fartlek", "race_pace_interval",
+                    "strides", "hill_sprints", "flat_sprints", "time_trial", "warmup_and_cooldown")
 
 
     ## Initialize the workout storage with empty lists for threshold and interval workouts.
     def __init__(self):
-        w_s = workout_storage
-        self.et = w_s.et
-        self.recovery = w_s.recovery
-        self.kenyan = w_s.kenyan
-        self.long = w_s.long
-        self.threshold = w_s.threshold
-        self.fartlek = w_s.fartlek
-        self.race_pace_interval = w_s.race_pace_interval
-        self.strides = w_s.strides
-        self.hill_sprints = w_s.hill_sprints
-        self.flat_sprints = w_s.flat_sprints
-        self.time_trial = w_s.time_trial
-        self.warmup_and_cooldown = w_s.warmup_and_cooldown
+        self.et = []
+        self.recovery = []
+        self.kenyan = []
+        self.long = []
+        self.threshold = []
+        self.fartlek = []
+        self.race_pace_interval = []
+        self.strides = []
+        self.hill_sprints = []
+        self.flat_sprints = []
+        self.time_trial = []
+        self.warmup_and_cooldown = []
 
 
     ## Add a workout to the appropriate list based on its type.
     ## Raises ValueError if the workout type is unknown.
-    def add_workout(self, workout, workout_type):
-        if workout_type == "ET":
-            self.et.append(workout)
-        elif workout_type == "Recovery":
-            self.recovery.append(workout)
-        elif workout_type == "Kenyan":
-            self.kenyan.append(workout)
-        elif workout_type == "Long":
-            self.long.append(workout)
-        elif workout_type == "Threshold":
-            self.threshold.append(workout)
-        elif workout_type == "Fartlek":
-            self.fartlek.append(workout)
-        elif workout_type == "Race Pace Interval":
-            self.race_pace_interval.append(workout)
-        elif workout_type == "Strides":
-            self.strides.append(workout)
-        elif workout_type == "Hill Sprints":
-            self.hill_sprints.append(workout)
-        elif workout_type == "Flat Sprints":
-            self.flat_sprints.append(workout)
-        elif workout_type == "Time Trial":
-            self.time_trial.append(workout)
-        elif workout_type == "Warmup and Cooldown":
-            self.warmup_and_cooldown.append(workout)
-        else:
-            raise ValueError(f"Unknown workout type: {workout_type}")
+    def add_workout(self, workout):
+        for key in workout_type_library.workout_dictionary:
+            final_type = workout_type_library.get_workout_type(workout[0][0], workout[0][1], workout[0][2])
+            self.final_type.append(workout)
 
     ## Getters for the workout lists
     #get et workouts
