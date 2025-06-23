@@ -22,11 +22,11 @@ class storage_stacks_and_queues:
 
 # Example usage
 # This code demonstrates how to use the storage class
-storer = storage_stacks_and_queues()
+#storer = storage_stacks_and_queues()
 #stacks info
-m_s = storer.month_history
-month = month_plan(100, "Endurance", "Base", 5)
-m_s.append(month)
+#m_s = storer.month_history
+#month = month_plan(100, "Endurance", "Base", 5)
+#m_s.append(month)
 #m_s.append("hi")
 #m_s.append("there")
 #m_s.append("how")
@@ -38,6 +38,6 @@ m_s.append(month)
 #    i += 1
 #print(m_s.pop().goal_stimuli)  # Output: Endurance
 #queues info
-m_q = storer.month_future
-m_q.put("hello")
+#m_q = storer.month_future
+#m_q.put("hello")
 #print(m_q.get())
