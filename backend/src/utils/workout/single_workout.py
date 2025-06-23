@@ -1,5 +1,3 @@
-
-
 class single_workout:
 
     __slots__ = ("trio", "reps", "pace", "distance")
