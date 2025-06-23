@@ -1,3 +1,17 @@
+import sys
+import os
+
+# Dynamically find the root directory containing the 'backend' folder
+current_dir = os.path.dirname(__file__)
+while not os.path.exists(os.path.join(current_dir, "backend")):
+    current_dir = os.path.dirname(current_dir)
+    if current_dir == "/":  # Stop if we reach the root of the filesystem
+        raise RuntimeError("Could not find 'backend' folder in the directory hierarchy.")
+
+# Add the root directory to the Python path
+sys.path.append(current_dir)
+
+
 import psycopg2
 from backend.src.utils.SQLutils.database_connect import db_select
 from backend.src.utils.user_storage.user import user
@@ -12,7 +26,7 @@ class UserNotFoundError(Exception):
         super().__init__(f"No user found with ID {user_id}.")
 
 
-def retrieve_user_info(user_id: int, username, pwd, col_names = False) -> user:
+def retrieve_user_info(user_id: int, username, pwd, col_names = False):
     """
     Retrieves user information from the database and populates it in a user object.
     
@@ -108,7 +122,7 @@ def create_data_dicts(data, columns):
         for row in data
     ]
     
-def populate_user_info(user_id) -> user:
+def populate_user_info(user_id):
     """
     Populates user information from the database into a user object.
     
@@ -119,7 +133,7 @@ def populate_user_info(user_id) -> user:
         user: An instance of the user class populated with user details.
     """
     # Retrieve user information
-    user_info = retrieve_user_info(user_id, DB_CREDENTIALS["username"], DB_CREDENTIALS["password"], True)
+    user_info = retrieve_user_info(user_id, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], True)
     
     if not user_info:
         raise UserNotFoundError(user_id)
@@ -221,6 +235,6 @@ def populate_user_info(user_id) -> user:
     
     return new_user
 # Testing
-print(populate_user_info(1).age) 
+user = populate_user_info(40340819)
 
 # Column names: 'userid', 'dob', 'sex', 'runningex', 'fivekm', 'goaldate', 'mean_rpe', 'std_rpe', 'user_id', 'total_mileage', 'goal_stimuli', 'cycle', 'expected_rpe', 'real_rpe', 'complete_score', 'month_id', 'month_id', 'total_mileage', 'goal_stimuli', 'cycle', 'expected_rpe', 'real_rpe', 'complete_score', 'week_id', 'week_id', 'total_mileage', 'goal_stimuli', 'cycle', 'expected_rpe', 'real_rpe', 'complete_score'
