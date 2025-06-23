@@ -7,3 +7,6 @@ sheet1 = xlsx.parse(0)
 
 print(sheet1)
 
+#for row in sheet1:
+ #   print(row)
+
