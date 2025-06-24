@@ -1,17 +1,18 @@
 from backend.src.utils.workout.workout_storage import workout_storage
 from math import sqrt
 
+
 class workout_database:
 
     storage = workout_storage()
-    
-     ## Creates a trio that can be used as a key in the workout dictionary.
+
+    # Creates a trio that can be used as a key in the workout dictionary.
     @staticmethod
     def create_trio(x, y, z):
         return (x, y, z)
-    
-    ## x range is 1 - 7 stimulus, y range is 1 -10 RPE, z range is 1 - 10 Distance
-    ## Dictionary that maps trios of (x, y, z) coordinates to workout types.
+
+    # x range is 1 - 7 stimulus, y range is 1 -10 RPE, z range is 1 - 10 Distance
+    # Dictionary that maps trios of (x, y, z) coordinates to workout types.
     workout_dictionary = {
         create_trio(2.5, 4, 5.5): "ET",
         create_trio(2, 3, 4.5): "Recovery",
@@ -28,11 +29,11 @@ class workout_database:
         create_trio(0, 0, 0,): "Off"
     }
 
-    def __init__(self, et = list, recovery = list, kenyan = list, 
-                 long = list, threshold = list, fartlek = list,
-                 race_pace_interval = list, strides = list, hill_sprints = list,
-                 flat_sprints = list, time_trial = list, warmup_and_cooldown = list):
-        
+    def __init__(self, et=list, recovery=list, kenyan=list,
+                 long=list, threshold=list, fartlek=list,
+                 race_pace_interval=list, strides=list, hill_sprints=list,
+                 flat_sprints=list, time_trial=list, warmup_and_cooldown=list):
+
         self.et = workout_database.storage.et
         self.recovery = workout_database.storage.recovery
         self.kenyan = workout_database.storage.kenyan
@@ -47,7 +48,8 @@ class workout_database:
         self.warmup_and_cooldown = workout_database.storage.warmup_and_cooldown
 
     def add_workout(self, workout):
-        workout_type = workout_database.get_workout_type(workout.trio[0], workout.trio[1], workout.trio[2])
+        workout_type = workout_database.get_workout_type(
+            workout.trio[0], workout.trio[1], workout.trio[2])
         if workout_type == "ET":
             workout_database.storage.et.append(workout)
         elif workout_type == "Recovery":
@@ -72,7 +74,11 @@ class workout_database:
             workout_database.storage.time_trial.append(workout)
         else:
             workout_database.storage.warmup_and_cooldown.append(workout)
-    
+
+    def mass_add_workouts(self, workouts):
+        for workout in workouts:
+            self.add_workout(workout)
+
     def print_workouts(self, workout_type):
         if workout_type == "ET":
             print("ET Workouts:")
@@ -123,59 +129,62 @@ class workout_database:
             print("Warmup and Cooldown Workouts:")
             for workout in self.warmup_and_cooldown:
                 print(workout)
-                
-    ## Returns a workout type based on the given x and y coordinates.
+
+    # Returns a workout type based on the given x and y coordinates.
     @staticmethod
     def get_workout_type(x, y, z):
         distance = 100
         final_trio = workout_database.create_trio(0, 0, 0)
         for trio in workout_database.workout_dictionary:
-            new_distance = sqrt((trio[0] - x) ** 2 + (trio[1] - y) ** 2 + (trio[2] - z) ** 2)
+            new_distance = sqrt((trio[0] - x) ** 2 +
+                                (trio[1] - y) ** 2 + (trio[2] - z) ** 2)
             if new_distance < distance:
                 distance = new_distance
                 final_trio = trio
 
         if final_trio == (0, 0, 0):
-            raise ValueError("No matching workout type found for the given coordinates.")
-        
+            raise ValueError(
+                "No matching workout type found for the given coordinates.")
+
         return workout_database.workout_dictionary[final_trio]
-    
+
     def get_individual_workout_helper(self, x, y, z, workout_type):
         distance = 100
         final_workout = workout_database.storage.workout_type[0]
         for workout in workout_database.storage.workout_type:
-            new_distance = sqrt((workout[0][0] - x) ** 2 + (workout[0][1] - y) ** 2 + (workout[0][2] - z) ** 2)
+            new_distance = sqrt(
+                (workout[0][0] - x) ** 2 + (workout[0][1] - y) ** 2 + (workout[0][2] - z) ** 2)
             if new_distance < distance:
                 distance = new_distance
                 final_workout = workout
-            
+
         return final_workout
-    
+
     def get_individual_workout(self, x, y, z):
         workout_type = workout_database.get_workout_type(x, y, z)
         return workout_database.get_individual_workout_helper(self, x, y, z, workout_type)
-    
 
-    ## Returns the closest pair of coordinates for a given workout type.
     def get_workout_type_coordinates(x, y, z):
         distance = 100
         final_trio = workout_database.create_trio(0, 0, 0)
         for trio in workout_database.workout_dictionary:
-            new_distance = sqrt((trio[0] - x) ** 2 + (trio[1] - y) ** 2 + (trio[2] - z) ** 2)
+            new_distance = sqrt((trio[0] - x) ** 2 +
+                                (trio[1] - y) ** 2 + (trio[2] - z) ** 2)
             if new_distance < distance:
                 distance = new_distance
                 final_trio = trio
 
         if final_trio == (0, 0, 0):
-            raise ValueError("No matching workout type found for the given coordinates.")
-        
-        return final_trio
+            raise ValueError(
+                "No matching workout type found for the given coordinates.")
 
+        return final_trio
 
     def get_workout_difference(x, y, z):
         workout_trio = workout_database.get_workout_type_coordinates(x, y, z)
         stimulus_mod = x - workout_trio[0]
         RPE_mod = y - workout_trio[1]
         distance_mod = z - workout_trio[2]
-        real_difference = workout_database.create_trio(stimulus_mod, RPE_mod, distance_mod)
+        real_difference = workout_database.create_trio(
+            stimulus_mod, RPE_mod, distance_mod)
         return real_difference
