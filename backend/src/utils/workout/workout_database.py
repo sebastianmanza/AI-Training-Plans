@@ -1,14 +1,15 @@
 from backend.src.utils.workout.workout_storage import *
 
+
 class workout_database:
 
     storage = workout_storage()
 
-    def __init__(self, et = list, recovery = list, kenyan = list, 
-                 long = list, threshold = list, fartlek = list,
-                 race_pace_interval = list, strides = list, hill_sprints = list,
-                 flat_sprints = list, time_trial = list, warmup_and_cooldown = list):
-        
+    def __init__(self, et=list, recovery=list, kenyan=list,
+                 long=list, threshold=list, fartlek=list,
+                 race_pace_interval=list, strides=list, hill_sprints=list,
+                 flat_sprints=list, time_trial=list, warmup_and_cooldown=list):
+
         self.et = workout_database.storage.et
         self.recovery = workout_database.storage.recovery
         self.kenyan = workout_database.storage.kenyan
@@ -23,7 +24,8 @@ class workout_database:
         self.warmup_and_cooldown = workout_database.storage.warmup_and_cooldown
 
     def add_workout(self, workout):
-        workout_type = workout_type_library.get_workout_type(workout.trio[0], workout.trio[1], workout.trio[2])
+        workout_type = workout_type_library.get_workout_type(
+            workout.trio[0], workout.trio[1], workout.trio[2])
         if workout_type == "ET":
             workout_database.storage.et.append(workout)
         elif workout_type == "Recovery":
@@ -48,7 +50,11 @@ class workout_database:
             workout_database.storage.time_trial.append(workout)
         else:
             workout_database.storage.warmup_and_cooldown.append(workout)
-    
+
+    def mass_add_workouts(self, workouts):
+        for workout in workouts:
+            self.add_workout(workout)
+
     def print_workouts(self, workout_type):
         if workout_type == "ET":
             print("ET Workouts:")
