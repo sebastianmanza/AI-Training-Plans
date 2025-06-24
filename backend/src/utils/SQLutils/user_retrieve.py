@@ -238,11 +238,11 @@ def populate_user_info(user_id):
     
     return new_user
 # Testing
-user = populate_user_info(51025805)
+# user = populate_user_info(51025805)
 
-print("Age:", user.age)
-print("Sex:", user.sex)
-print("Month 1 expected RPE:", user.month_history.pop().expected_rpe)
+# print("Age:", user.age)
+# print("Sex:", user.sex)
+# print("Month 1 expected RPE:", user.month_history.pop().expected_rpe)
 # print("Age:", user.age)
 # print("Age:", user.age)
 # print("Age:", user.age)
