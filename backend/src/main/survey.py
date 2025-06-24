@@ -34,10 +34,7 @@ class main:
             response = input(question + " ")
             answers.append(response)
         
-        storage = storage_stacks_and_queues()
-        new_user = user(answers[0], answers[1], answers[3], answers[4], answers[8], 1, 1, 1, storage.month_history,
-                        storage.week_history, storage.day_history, storage.month_future, storage.week_future,
-                        storage.day_future)
+        new_user = user.user(answers[0], answers[1], answers[3], answers[4], answers[8], 1, 1, 1)
         
         return new_user
     

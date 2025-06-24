@@ -1,9 +1,9 @@
 # import training
 import math
 import secrets
-from backend.src.utils.user_storage.storage_stacks_and_queues import *
+from backend.src.utils.user_storage import storage_stacks_and_queues
 from backend.src.utils.time_conversion import *
-from backend.src.utils.user_storage.training_database import *
+from backend.src.utils.user_storage.training_database import training_database 
 from backend.src.utils.user_storage.month_plan import month_plan
 from backend.src.utils.SQLutils.user_retrieve import unique_id
 
@@ -20,7 +20,7 @@ class user:
     DISTANCES = [3000, 5000, 10000]
 
     def __init__(self, age, sex, running_ex, five_km_estimate, goal_date, mean_RPE, STD_RPE, user_id = secrets.randbelow(100000000 - 10000000)):
-        storage = storage_stacks_and_queues()
+        storage = storage_stacks_and_queues.storage_stacks_and_queues()
         self.user_id = user_id
         self.age = age
         self.sex = sex
@@ -110,7 +110,7 @@ print(alex.month_history)
 alex.generate_new_id()
 print(alex.get_user_id())
 
-month = month_plan(100, "Endurance", "Base", 5, 6, 100, 100, None)
+#month = month_plan(100, "Endurance", "Base", 5, 6, 100, 100, None)
 
 # alex.append_month(month)
 # alex.append_fut_month(month)

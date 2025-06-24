@@ -1,5 +1,5 @@
 import backend.src.utils.user_storage.week_plan as week_plan
-from backend.src.utils.workout.workout_type_library import *
+from backend.src.utils.workout.workout_database import workout_database
 
 
 class day_plan:
@@ -26,7 +26,7 @@ class day_plan:
                 if(trios[1] > y):
                     y = trios[1]
                 z = z + trios[2]
-            self.goal_stimuli = workout_type_library.create_trio(x, y, z)
+            self.goal_stimuli = workout_database.create_trio(x, y, z)
 
         self.lift = lift
         self.expected_rpe = expected_rpe

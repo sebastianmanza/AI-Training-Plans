@@ -1,4 +1,3 @@
-from backend.src.utils.workout.workout_type_library import workout_type_library
 
 
 class workout_storage:
@@ -24,15 +23,6 @@ class workout_storage:
         self.time_trial = []
         self.warmup_and_cooldown = []
 
-    # Add a workout to the appropriate list based on its type.
-    # Raises ValueError if the workout type is unknown.
-
-    def add_workout(self, workout):
-        for key in workout_type_library.workout_dictionary:
-            final_type = workout_type_library.get_workout_type(
-                workout[0][0], workout[0][1], workout[0][2])
-            self.final_type.append(workout)
-
     # Getters for the workout lists
     # get et workouts
     def get_et_workouts(self):
@@ -52,8 +42,8 @@ class workout_storage:
     # get threshold workouts
 
     def get_threshold_workouts(self):
-        return self.threshold\
-            # get fartlek workouts
+        return self.threshold
+    # get fartlek workouts
 
     def get_fartlek_workouts(self):
         return self.fartlek

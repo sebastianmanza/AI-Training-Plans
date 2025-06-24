@@ -1,12 +1,12 @@
 import backend.src.utils.user_storage.week_plan as week_plan
-from backend.src.utils.workout.workout_type_library import *
+from backend.src.utils.workout.workout_database import workout_database
 
 
 class month_plan:
     __slots__ = ("month_id", "total_mileage", "goal_stimuli", "cycle", "weeks",
                  "percent_completion", "completed_mileage", "expected_rpe", "real_rpe")
 
-    def __init__(self, month_id: int = -1, total_mileage: int = 0, goal_stimuli = workout_type_library.create_trio(0, 0, 0), cycle: str = "", expected_rpe: int = 0, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, weeks: list = []):
+    def __init__(self, month_id: int = -1, total_mileage: int = 0, goal_stimuli = workout_database.create_trio(0, 0, 0), cycle: str = "", expected_rpe: int = 0, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, weeks: list = []):
 
         self.month_id = month_id
         self.total_mileage = total_mileage
