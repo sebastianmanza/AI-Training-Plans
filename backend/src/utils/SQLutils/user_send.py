@@ -246,10 +246,10 @@ send_user_info(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSW
 
 #testing month population
 
-month_one = month_plan(100, 1, 2, 10, 3, 99, 99, 10)
-month_two = month_plan(100, 1, 2, 10, 3, 99, 99, 10)
-month_three = month_plan(100, 1, 2, 11, 4, 99, 99, 10)
-month_four = month_plan(100, 1, 2, 11, 4, 99, 99, 10)
+month_one = month_plan.month_plan(100, 1, 2, 10, 3, 99, 99, 10)
+month_two =  month_plan.month_plan(100, 1, 2, 10, 3, 99, 99, 10)
+month_three =  month_plan.month_plan(100, 1, 2, 11, 4, 99, 99, 10)
+month_four =  month_plan.month_plan(100, 1, 2, 11, 4, 99, 99, 10)
 
 new_user.append_month(month_one)
 new_user.append_month(month_two)
