@@ -140,8 +140,7 @@ class workout_database:
         
         return workout_database.workout_dictionary[final_trio]
     
-    def get_individual_workout_helper(x, y, z, workout_type):
-        from backend.src.utils.workout.workout_database import workout_database
+    def get_individual_workout_helper(self, x, y, z, workout_type):
         distance = 100
         final_workout = workout_database.storage.workout_type[0]
         for workout in workout_database.storage.workout_type:
@@ -152,9 +151,9 @@ class workout_database:
             
         return final_workout
     
-    def get_individual_workout(x, y, z):
+    def get_individual_workout(self, x, y, z):
         workout_type = workout_database.get_workout_type(x, y, z)
-        return workout_database.get_individual_workout_helper(x, y, z, workout_type)
+        return workout_database.get_individual_workout_helper(self, x, y, z, workout_type)
     
 
     ## Returns the closest pair of coordinates for a given workout type.
