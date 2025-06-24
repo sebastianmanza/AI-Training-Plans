@@ -5,6 +5,7 @@ from backend.src.utils.user_storage import storage_stacks_and_queues
 from backend.src.utils.time_conversion import *
 from backend.src.utils.user_storage.training_database import training_database 
 from backend.src.utils.user_storage.month_plan import month_plan
+from backend.src.utils.SQLutils.user_retrieve import unique_id
 
 
 class user:
@@ -57,49 +58,47 @@ class user:
         for k, v in self.times.items():
             toReturn += f"{k}:{v}\n"
         return toReturn
-    
+
     def get_user_id(self):
         return self.user_id
-    
+
     def generate_new_id(self):
         self.user_id = secrets.randbelow(100000000 - 10000000)
-        
-        
-    # update training 
+
+    # update training
+
     def update_training(self):
         self.day_future = training_database.day
         self.week_future = training_database.week
         self.month_future = training_database.month
-        
-        
+
     def update_day(self):
         self.day_future = training_database.day
-        
-        
+
     def update_week(self):
         self.week_future = training_database.week
-        
-        
+
     def update_month(self):
         self.month_future = training_database.month
-        
+
     def append_month(self, month):
         self.month_history.append(month)
-        
+
     def append_fut_month(self, month):
         self.month_future.put(month)
-        
+
     def append_week(self, week):
         self.week_history.append(week)
-        
+
     def append_fut_week(self, week):
         self.week_future.put(week)
-    
+
     def append_day(self, day):
         self.day_history.append(day)
-    
+
     def append_fut_day(self, day):
         self.day_future.put(day)
+
 
 alex = user(19, "male", "advanced", "17:45", "3/14/2026", "5", "7")
 alex.set_pace(5000, "17:30")
@@ -113,5 +112,5 @@ print(alex.get_user_id())
 
 #month = month_plan(100, "Endurance", "Base", 5, 6, 100, 100, None)
 
-#alex.append_month(month)
-#alex.append_fut_month(month)
+# alex.append_month(month)
+# alex.append_fut_month(month)

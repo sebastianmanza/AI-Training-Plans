@@ -11,12 +11,11 @@ while not os.path.exists(os.path.join(current_dir, "backend")):
 # Add the root directory to the Python path
 sys.path.append(current_dir)
 
-
 from backend.src.utils.user_storage.day_plan import day_plan
 from backend.src.utils.user_storage.month_plan import month_plan
 from backend.src.utils.user_storage.week_plan import week_plan
-from backend.src.utils.workout.workout_type_library import *
 from backend.src.utils.user_storage.training_database import training_database
+from backend.src.utils.workout.workout_database import workout_database
 
 def txt_to_database(filename, database):
     filereader = open(filename)
@@ -26,6 +25,10 @@ def txt_to_database(filename, database):
         expected_rpe"""
     cur_string = ""
     phase = 0
+    
+# Initialize an empty array that will store the monthsm
+    month_ID = 0
+    months = []
     
     while cur_string != "ENDOFFILE":
         cur_string = filereader.readline().strip()
@@ -38,9 +41,6 @@ def txt_to_database(filename, database):
                 weeks = []
                 continue
             
-            # Initialize an empty array that will store the monthsm
-            month_ID = 0
-            months = []
             
             # Read the first line for the cycle
             if cur_string != "":
@@ -101,13 +101,14 @@ def txt_to_database(filename, database):
                 stimuli = cur_string.split(sep = ",")
             
                 x1, y1, z1 = [float(value) for value in stimuli[0].split(sep = "/")]
-                stim1trio = workout_type_library.create_trio(x1, y1, z1)
+                stim1trio = workout_database.create_trio(x1, y1, z1)
                 workout = []
                 workout.append(stim1trio)
                 
+                # If there are multiple stimuli, read the second one (currently not working for > 2)
                 if len(stimuli) > 1:
                     x2, y2, z2 = [float(value) for value in stimuli[1].split(sep = "/")]
-                    stim2trio = workout_type_library.create_trio(x2, y2, z2)
+                    stim2trio = workout_database.create_trio(x2, y2, z2)
                     workout.append(stim2trio)
                     
                 day_phase = 2
@@ -147,6 +148,7 @@ def txt_to_database(filename, database):
         weekly_length = 0
         weekly_expected_RPE = 0
         
+        # Calculate weekly totals based on its day children
         for day in day_children:
            
             weekly_total_mileage += day.total_mileage
@@ -156,8 +158,12 @@ def txt_to_database(filename, database):
             weekly_length += z
             weekly_expected_RPE += day.expected_rpe
             
+        weekly_stimuli = round((weekly_stimuli / len(day_children) if day_children else 0), 1)
+        weekly_RPE = round((weekly_RPE / len(day_children) if day_children else 0), 1)
+        weekly_length = round((weekly_length / len(day_children) if day_children else 0), 1)
+        
         week.total_mileage = weekly_total_mileage
-        week.goal_stimuli = workout_type_library.create_trio(weekly_stimuli, weekly_RPE, weekly_length)
+        week.goal_stimuli = workout_database.create_trio(weekly_stimuli, weekly_RPE, weekly_length)
         week.expected_rpe = weekly_expected_RPE
         week_ID += 1
 
@@ -182,8 +188,14 @@ def txt_to_database(filename, database):
             monthly_length += z
             monthly_expected_RPE += week.expected_rpe
             
+        # Update the month with the calculated totals
+        monthly_stimuli = round((monthly_stimuli / len(week_children) if week_children else 0), 1)
+        monthly_RPE = round((monthly_RPE / len(week_children) if week_children else 0), 1)
+        monthly_length = round((monthly_length / len(week_children) if week_children else 0), 1)
+        
+        
         month.total_mileage = monthly_total_mileage
-        month.goal_stimuli = workout_type_library.create_trio(monthly_stimuli, monthly_RPE, monthly_length)
+        month.goal_stimuli = workout_database.create_trio(monthly_stimuli, monthly_RPE, monthly_length)
         month.expected_rpe = monthly_expected_RPE
         month_ID += 1
         
