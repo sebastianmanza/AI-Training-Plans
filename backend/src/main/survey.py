@@ -1,3 +1,4 @@
+import secrets
 from backend.src.utils.user_storage import day_plan
 from backend.src.utils.user_storage import user, week_plan
 from backend.src.utils.user_storage.month_plan import month_plan
@@ -34,13 +35,13 @@ class main:
             response = input(question + " ")
             answers.append(response)
         
-        new_user = user.user(answers[0], answers[1], answers[3], answers[4], answers[8], 1, 1, 1)
+        new_user = user.user(answers[0], answers[1], answers[3], answers[4], answers[8], 4, 5, user_id=secrets.randbelow(100000000 - 10000000))
         
         return new_user
     
     
     # testing 
-    user_send.send_user_info(prelim_survey(), "postgres", "Control1500#")
+    # user_send.send_user_info(prelim_survey(), "postgres", "Control1500#")
 
     def daily_post_run_survey():
         """This is the post run survey that will be used to gather data from the user after each run."""

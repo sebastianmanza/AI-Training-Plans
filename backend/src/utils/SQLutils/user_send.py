@@ -230,35 +230,49 @@ def send_day_cycle(new_user, username, password):
     # close connection
     conn.close()
     
+    
+    
+def send_user_all(user_id, username, password):
+    
+    send_user_info(user_id, username, password)
+    
+    send_month_history(user_id, username, password)
+    
+    send_month_future(user_id, username, password)
+    
+    send_week_cycle(user_id, username, password)
+    
+    send_day_cycle(user_id, username, password)
+    
 
 
 
-# testing     
-storage = storage_stacks_and_queues()
+# # testing     
+# storage = storage_stacks_and_queues()
 
-new_user = user(19, "male", "advanced", "17:45", 3, 5, 7)
-
-
-send_user_info(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-
-#  user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, complete_score, month_id, past_month, complete_mileage
+# new_user = user(19, "male", "advanced", "17:45", 3, 5, 7)
 
 
-#testing month population
+# send_user_info(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 
-month_one = month_plan.month_plan(100, 1, 2, 10, 3, 99, 99, 10)
-month_two =  month_plan.month_plan(100, 1, 2, 10, 3, 99, 99, 10)
-month_three =  month_plan.month_plan(100, 1, 2, 11, 4, 99, 99, 10)
-month_four =  month_plan.month_plan(100, 1, 2, 11, 4, 99, 99, 10)
+# #  user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, complete_score, month_id, past_month, complete_mileage
 
-new_user.append_month(month_one)
-new_user.append_month(month_two)
 
-new_user.append_fut_month(month_two)
-new_user.append_fut_month(month_three)
+# #testing month population
 
-send_month_history(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-send_month_future(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+# month_one = month_plan.month_plan(100, 1, 2, 10, 3, 99, 99, 10)
+# month_two =  month_plan.month_plan(100, 1, 2, 10, 3, 99, 99, 10)
+# month_three =  month_plan.month_plan(100, 1, 2, 11, 4, 99, 99, 10)
+# month_four =  month_plan.month_plan(100, 1, 2, 11, 4, 99, 99, 10)
+
+# new_user.append_month(month_one)
+# new_user.append_month(month_two)
+
+# new_user.append_fut_month(month_two)
+# new_user.append_fut_month(month_three)
+
+# send_month_history(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+# send_month_future(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 
 #testing week population
 '''
