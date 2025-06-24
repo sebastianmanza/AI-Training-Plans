@@ -25,4 +25,4 @@ class single_workout:
         return self.trio[2]
 
     def __str__(self):
-        return f"Single Workout: {self.trio}, Reps: {self.reps}, Pace: {self.pace}, Distance: {self.distance}"
+        return f"Workout: {self.trio}, Reps: {self.reps}, Pace: {self.pace}, Distance: {self.distance}"
