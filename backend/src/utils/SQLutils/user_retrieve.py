@@ -1,3 +1,10 @@
+from backend.src.utils.user_storage.day_plan import day_plan
+from backend.src.utils.user_storage.week_plan import week_plan
+from backend.src.utils.user_storage.month_plan import month_plan
+from backend.src.utils.SQLutils.config import DB_CREDENTIALS
+from backend.src.utils.user_storage.user import user
+from backend.src.utils.SQLutils.database_connect import db_select
+import psycopg2
 import sys
 import os
 
@@ -6,19 +13,11 @@ current_dir = os.path.dirname(__file__)
 while not os.path.exists(os.path.join(current_dir, "backend")):
     current_dir = os.path.dirname(current_dir)
     if current_dir == "/":  # Stop if we reach the root of the filesystem
-        raise RuntimeError("Could not find 'backend' folder in the directory hierarchy.")
+        raise RuntimeError(
+            "Could not find 'backend' folder in the directory hierarchy.")
 
 # Add the root directory to the Python path
 sys.path.append(current_dir)
-
-
-import psycopg2
-from backend.src.utils.SQLutils.database_connect import db_select
-from backend.src.utils.user_storage.user import user
-from backend.src.utils.user_storage.month_plan import month_plan
-from backend.src.utils.user_storage.week_plan import week_plan
-from backend.src.utils.user_storage.day_plan import day_plan
-from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 
 
 class UserNotFoundError(Exception):
@@ -28,11 +27,7 @@ class UserNotFoundError(Exception):
         super().__init__(f"No user found with ID {user_id}.")
 
 
-<<<<<<< HEAD
-def retrieve_user_info(user_id: int, username, pwd, col_names=False) -> user:
-=======
-def retrieve_user_info(user_id: int, username, pwd, col_names = False):
->>>>>>> origin
+def retrieve_user_info(user_id: int, username, pwd, col_names=False):
     """
     Retrieves user information from the database and populates it in a user object.
 
@@ -47,9 +42,9 @@ def retrieve_user_info(user_id: int, username, pwd, col_names = False):
 
     # Prepare the queries
     user_query = """
-        SELECT userid, dob, sex, runningex, fivekm, goaldate, mean_rpe, std_rpe
+        SELECT user_id, dob, sex, runningex, fivekm, goaldate, mean_rpe, std_rpe
         FROM userlistai
-        WHERE userid = %s;
+        WHERE user_id = %s;
         """
 
     month_query = """
@@ -69,7 +64,7 @@ def retrieve_user_info(user_id: int, username, pwd, col_names = False):
     """
 
     day_query = """
-        SELECT total_mileage AS day_total_mileage, goal_stimuli AS day_goal_stimuli, cycle AS day_cycle, expected_rpe AS day_expected_rpe,
+        SELECT total_mileage AS day_total_mileage, goal_stimuli AS day_goal_stimuli, lift AS day_cycle, expected_rpe AS day_expected_rpe,
                 complete_mileage AS day_completed_mileage, complete_score AS day_percent_completion, 
                 real_rpe AS day_real_rpe, past_day
         FROM day_cycle
@@ -87,6 +82,7 @@ def retrieve_user_info(user_id: int, username, pwd, col_names = False):
         day_info, day_cursor = db_select(
             username, pwd, user_id, day_query, return_cursor=True)
 
+        print(month_info)
         # Retrieve column names
         user_columns = [desc[0] for desc in user_cursor.description]
         month_columns = [desc[0] for desc in month_cursor.description]
@@ -132,14 +128,9 @@ def create_data_dicts(data, columns):
          col in enumerate(columns)}
         for row in data
     ]
-<<<<<<< HEAD
 
 
-def populate_user_info(user_id) -> user:
-=======
-    
 def populate_user_info(user_id):
->>>>>>> origin
     """
     Populates user information from the database into a user object.
 
@@ -150,14 +141,9 @@ def populate_user_info(user_id):
         user: An instance of the user class populated with user details.
     """
     # Retrieve user information
-<<<<<<< HEAD
     user_info = retrieve_user_info(
-        user_id, DB_CREDENTIALS["username"], DB_CREDENTIALS["password"], True)
+        user_id, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], True)
 
-=======
-    user_info = retrieve_user_info(user_id, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], True)
-    
->>>>>>> origin
     if not user_info:
         raise UserNotFoundError(user_id)
 
@@ -171,9 +157,9 @@ def populate_user_info(user_id):
     day_data = user_info['days'][1]
     day_columns = user_info['days'][0]
 
-    print("User Info:", user_info)
-    print("User Data:", user_data)
-    print("User Columns:", user_columns)
+    # print("User Info:", user_info)
+    # print("User Data:", user_data)
+    # print("User Columns:", user_columns)
 
     # Create a dictionary mapping column names to their values
     user_data_dict = create_data_dicts(user_data, user_columns)
@@ -183,7 +169,7 @@ def populate_user_info(user_id):
 
     # Create a new user object
     new_user = user(
-        user_id=user_data_dict[0].get('userid'),
+        user_id=user_data_dict[0].get('user_id'),
         age=user_data_dict[0].get('dob'),
         sex=user_data_dict[0].get('sex'),
         running_ex=user_data_dict[0].get('runningex'),
@@ -202,9 +188,12 @@ def populate_user_info(user_id):
                 cycle=month_data_dict.get('month_cycle'),
                 expected_rpe=month_data_dict.get('month_expected_rpe'),
                 real_rpe=month_data_dict.get('month_real_rpe'),
-                complete_score=month_data_dict.get('month_percent_completion'),
+                percent_completion=month_data_dict.get(
+                    'month_percent_completion'),
                 month_id=month_data_dict.get('month_id')
+
             ))
+            print(month_data_dict.get('month_id'))
         else:
             new_user.month_future.put(month_plan(
                 total_mileage=month_data_dict.get('month_total_mileage'),
@@ -222,7 +211,8 @@ def populate_user_info(user_id):
                 cycle=week_data_dict.get('week_cycle'),
                 expected_rpe=week_data_dict.get('week_expected_rpe'),
                 real_rpe=week_data_dict.get('week_real_rpe'),
-                complete_score=week_data_dict.get('week_percent_completion'),
+                percent_completion=week_data_dict.get(
+                    'week_percent_completion'),
                 week_id=week_data_dict.get('week_id')
             ))
         else:
@@ -242,49 +232,31 @@ def populate_user_info(user_id):
                 cycle=day_data_dict.get('day_cycle'),
                 expected_rpe=day_data_dict.get('day_expected_rpe'),
                 real_rpe=day_data_dict.get('day_real_rpe'),
-                complete_score=day_data_dict.get('day_percent_completion'),
+                percent_completion=day_data_dict.get('day_percent_completion'),
                 day_id=day_data_dict.get('day_id')
             ))
         else:
             new_user.day_future.put(day_plan(
-<<<<<<< HEAD
                 total_mileage=day_data_dict.get('day_total_mileage'),
                 goal_stimuli=day_data_dict.get('day_goal_stimuli'),
                 cycle=day_data_dict.get('day_cycle'),
                 expected_rpe=day_data_dict.get('day_expected_rpe'),
                 day_id=day_data_dict.get('day_id')))
-=======
-            total_mileage = day_data_dict.get('day_total_mileage'),
-            goal_stimuli = day_data_dict.get('day_goal_stimuli'),
-            cycle = day_data_dict.get('day_cycle'), 
-            expected_rpe = day_data_dict.get('day_expected_rpe'),
-            day_id = day_data_dict.get('day_id')))
-    
-    
-    return new_user
-# Testing
-user = populate_user_info(40340819)
->>>>>>> origin
 
     return new_user
 
-# I don't know if this works
-
-
-def unique_id(int: int) -> bool:
-    """    Checks if a user ID is unique in the database.
-    Args:
-        int (int): The user ID to check.
-    Returns:
-        bool: True if the user ID is unique, False otherwise.
-    """
-    existance_query = """
-    SELECT EXISTS(SELECT 1 FROM userlistai WHERE userid = %s);
-    """
-    return existance_query
-
 
 # Testing
-print(populate_user_info(1).age)
+user = populate_user_info(51025805)
 
+print("Age:", user.age)
+print("Sex:", user.sex)
+print("Month 1 expected RPE:", user.month_history.pop().expected_rpe)
+# print("Age:", user.age)
+# print("Age:", user.age)
+# print("Age:", user.age)
+# print("Age:", user.age)
+# print("Age:", user.age)
+# print("Age:", user.age)
+# print("Age:", user.age)
 # Column names: 'userid', 'dob', 'sex', 'runningex', 'fivekm', 'goaldate', 'mean_rpe', 'std_rpe', 'user_id', 'total_mileage', 'goal_stimuli', 'cycle', 'expected_rpe', 'real_rpe', 'complete_score', 'month_id', 'month_id', 'total_mileage', 'goal_stimuli', 'cycle', 'expected_rpe', 'real_rpe', 'complete_score', 'week_id', 'week_id', 'total_mileage', 'goal_stimuli', 'cycle', 'expected_rpe', 'real_rpe', 'complete_score'
