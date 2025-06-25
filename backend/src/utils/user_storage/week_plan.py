@@ -5,7 +5,7 @@ from backend.src.utils.workout.workout_database import workout_database
 
 class week_plan:
     __slots__ = ("total_mileage", "completed_mileage", "percent_completion",
-                 "goal_stimuli", "cycle", "days", "expected_rpe", "real_rpe", "month_id")
+                 "goal_stimuli", "cycle", "days", "expected_rpe", "real_rpe", "month_id", "week_id")
 
     global DAYS_IN_WEEK
     DAYS_IN_WEEK = 7

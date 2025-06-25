@@ -9,6 +9,7 @@ class workout_database:
     # Creates a trio that can be used as a key in the workout dictionary.
     @staticmethod
     def create_trio(x, y, z):
+        x, y, z = float(x), float(y), float(z)
         return (x, y, z)
 
     # x range is 1 - 7 stimulus, y range is 1 -10 RPE, z range is 1 - 10 Distance
