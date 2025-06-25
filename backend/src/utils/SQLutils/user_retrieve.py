@@ -64,7 +64,7 @@ def retrieve_user_info(user_id: int, username, pwd, col_names=False):
     """
 
     day_query = """
-        SELECT total_mileage AS day_total_mileage, goal_stimuli AS day_goal_stimuli, lift AS day_cycle, expected_rpe AS day_expected_rpe,
+        SELECT total_mileage AS day_total_mileage, workouts AS day_workouts, goal_stimuli AS day_goal_stimuli, lift AS day_cycle, expected_rpe AS day_expected_rpe,
                 complete_mileage AS day_completed_mileage, complete_score AS day_percent_completion, 
                 real_rpe AS day_real_rpe, past_day
         FROM day_cycle
@@ -228,7 +228,8 @@ def populate_user_info(user_id):
         if (day_data_dict.get('past_day')):
             new_user.day_history.append(day_plan(
                 total_mileage=day_data_dict.get('day_total_mileage'),
-                workouts=day_data_dict.get('day_goal_stimuli'),
+                workouts=day_data_dict.get('day_workouts'),
+                goal_stimuli= day_data_dict.get('day_goal_stimuli'),
                 lift=day_data_dict.get('day_cycle'),
                 expected_rpe=day_data_dict.get('day_expected_rpe'),
                 real_rpe=day_data_dict.get('day_real_rpe'),
@@ -238,7 +239,8 @@ def populate_user_info(user_id):
         else:
             new_user.day_future.put(day_plan(
                 total_mileage=day_data_dict.get('day_total_mileage'),
-                workouts=day_data_dict.get('day_goal_stimuli'),
+                workouts=day_data_dict.get('day_workouts'),
+                goal_stimuli= day_data_dict.get('day_goal_stimuli'),
                 lift=day_data_dict.get('day_cycle'),
                 expected_rpe=day_data_dict.get('day_expected_rpe'),
                 day_id=day_data_dict.get('day_id')))
