@@ -17,7 +17,8 @@ from backend.src.utils.user_storage.week_plan import week_plan
 from backend.src.utils.user_storage.training_database import training_database
 from backend.src.utils.workout.workout_database import workout_database
 
-def txt_to_database(filename, database):
+def txt_to_database(filename):
+    database = training_database.get_instance()
     filereader = open(filename)
     """Expect files in format: 
         total_mileage
@@ -206,7 +207,9 @@ def txt_to_database(filename, database):
         database.week.put(we)
     # Close the file reader
     filereader.close()
+    
+    return database
  
 # Example usage
-database = training_database.get_instance()
-txt_to_database("backend/data/raw/training_plan_test.txt", database=database)
+# database = txt_to_database("backend/data/raw/training_plan_test.txt")
+# print(training_database.get_instance().week.get().cycle)
