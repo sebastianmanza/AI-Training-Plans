@@ -77,7 +77,7 @@ def send_month_history(new_user, username, password):
     
         # 1 is a placeholder (too lazy to change shit)
         record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli, pres.cycle, pres.expected_rpe, pres.real_rpe,
-                            pres.percent_completion, 1, True, pres.completed_mileage)
+                            pres.percent_completion, pres.month_id, True, pres.completed_mileage)
 
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -110,7 +110,7 @@ def send_month_future(new_user, username, password):
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """  
         # 1 is a placeholder (too lazy to change shit)
         record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli, fut.cycle, fut.expected_rpe, fut.real_rpe,
-                            fut.percent_completion, 1, False, fut.completed_mileage)
+                            fut.percent_completion, fut.month_id, False, fut.completed_mileage)
         
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -144,7 +144,7 @@ def send_week_cycle(new_user, username, password):
     
         # 1 is a placeholder (too lazy to change shit)
         record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli, pres.cycle, pres.expected_rpe, pres.real_rpe, 
-                            pres.percent_completion, 1, True, pres.completed_mileage, 1)
+                            pres.percent_completion, pres.week_id, True, pres.completed_mileage, pres.month_id)
 
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -165,7 +165,7 @@ def send_week_cycle(new_user, username, password):
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """   
         # 1 is a placeholder (too lazy to change shit)
         record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli, fut.cycle, fut.expected_rpe, fut.real_rpe, 
-                            fut.percent_completion, 1, False, fut.completed_mileage, 1)
+                            fut.percent_completion, fut.week_id, False, fut.completed_mileage, fut.month_id)
         
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -197,7 +197,7 @@ def send_day_cycle(new_user, username, password):
     
         # 1 is a placeholder (too lazy to change shit)
         record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli, pres.lift, pres.expected_rpe, pres.real_rpe,
-                            pres.percent_completion, True, pres.completed_mileage, 1)
+                            pres.percent_completion, True, pres.completed_mileage, pres.week_id)
 
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -218,7 +218,7 @@ def send_day_cycle(new_user, username, password):
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """     
         # 1 is a placeholder (too lazy to change shit)
         record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli, fut.lift, fut.expected_rpe, fut.real_rpe,
-                            fut.percent_completion, False, fut.completed_mileage, 1)
+                            fut.percent_completion, False, fut.completed_mileage, fut.week_id)
         
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
