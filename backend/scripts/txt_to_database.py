@@ -74,6 +74,7 @@ def txt_to_database(filename):
                 # print(cycle)
                 
                 week = week_plan(
+                    week_id = week_ID,
                     cycle = cycle,
                     month_id = month_ID)
         
@@ -118,6 +119,7 @@ def txt_to_database(filename):
                 day_phase = 0
                 
                 day = day_plan(
+                    day_id = day_ID,
                     total_mileage=total_mileage,
                     workouts=workout,
                     expected_rpe=expected_rpe,

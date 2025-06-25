@@ -11,7 +11,8 @@ class week_plan:
     DAYS_IN_WEEK = 7
     
 
-    def __init__(self, total_mileage: int = -1, goal_stimuli = workout_database.create_trio(-1, -1, -1), cycle: str = "", expected_rpe = -1, month_id: int = -1, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, days: list = []):
+    def __init__(self, total_mileage: int = -1, goal_stimuli = workout_database.create_trio(-1, -1, -1), cycle: str = "", expected_rpe = -1, month_id: int = -1, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, days: list = [], week_id = -1):
+        self.week_id = week_id
         self.total_mileage = total_mileage
         self.completed_mileage = completed_mileage
         self.percent_completion = percent_completion
