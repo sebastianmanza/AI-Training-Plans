@@ -22,6 +22,7 @@ from backend.src.utils.user_storage.month_plan import *
 from backend.src.utils.user_storage.week_plan import *
 from backend.src.utils.user_storage.day_plan import *
 from backend.src.utils.user_storage.storage_stacks_and_queues import *
+import json
 
 
 
@@ -192,12 +193,15 @@ def send_day_cycle(new_user, username, password):
         # write query
         query = """ INSERT INTO public.day_cycle(
             user_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, complete_score, past_day, complete_mileage, week_id)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """   
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """   
         # fill query with appropriate user ID
+        
+        json_array = json.dumps(pres.workouts)  # Convert workouts to JSON string if needed
+
     
         # 1 is a placeholder (too lazy to change shit)
         record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli, pres.lift, pres.expected_rpe, pres.real_rpe,
-                            pres.percent_completion, True, pres.completed_mileage, pres.week_id)
+                            pres.percent_completion, True, pres.completed_mileage, pres.week_id, json_array)
 
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -212,13 +216,15 @@ def send_day_cycle(new_user, username, password):
         
         fut = new_user.day_future.get()
         
+        json_array = json.dumps(pres.workouts)  # Convert workouts to JSON string if needed
+        
         # write query
         query = """ INSERT INTO public.day_cycle(
             user_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, complete_score, past_day, complete_mileage, week_id)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """     
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """     
         # 1 is a placeholder (too lazy to change shit)
         record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli, fut.lift, fut.expected_rpe, fut.real_rpe,
-                            fut.percent_completion, False, fut.completed_mileage, fut.week_id)
+                            fut.percent_completion, False, fut.completed_mileage, fut.week_id, json_array)
         
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
