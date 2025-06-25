@@ -208,4 +208,5 @@ def txt_to_database(filename, database):
     filereader.close()
  
 # Example usage
-txt_to_database("backend/data/raw/training_plan_test.txt", database=training_database)
+database = training_database.get_instance()
+txt_to_database("backend/data/raw/training_plan_test.txt", database=database)
