@@ -19,7 +19,7 @@ week_cycle
 ENDOFWEEKS
 
 total_mileage_day
-x:y:z, x:y:z
+x:y:z,x:y:z
 expected_rpe_day
 
 total_mileage_day

@@ -17,13 +17,19 @@ from backend.src.utils.user_storage.training_database import training_database
 from backend.src.utils.SQLutils.user_send import send_user_all
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.main.survey import main
+from backend.scripts.txt_to_database import txt_to_database
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 
 
+
+database = txt_to_database("backend/data/raw/training_plan_test.txt")
+# print(database._instance_)
+
+
 test_user = user(12345, "male", "advanced", "17:45", 4, 5, 2)
-test_user.day_future = training_database.day
-test_user.week_future = training_database.week
-test_user.month_future = training_database.month
+test_user.day_future = database.day
+test_user.week_future = database.week
+test_user.month_future = database.month
 
 
 def test_user_cycle():
@@ -35,7 +41,11 @@ def test_user_cycle():
     send_user_all(test_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
     
     return_user = populate_user_info(test_user.user_id)
+    print("User information retrieved")
     
+    print(database.day.get().expected_rpe)
+    print("Day future expected RPE")
+    print(test_user.day_future.get().expected_rpe)
     print("working")
     # return 
     print(test_user.user_id)

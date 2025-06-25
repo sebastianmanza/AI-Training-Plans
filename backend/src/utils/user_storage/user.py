@@ -4,8 +4,6 @@ import secrets
 from backend.src.utils.user_storage import storage_stacks_and_queues
 from backend.src.utils.time_conversion import *
 from backend.src.utils.user_storage.training_database import training_database 
-from backend.src.utils.user_storage.month_plan import month_plan
-from backend.src.utils.SQLutils.user_retrieve import unique_id
 
 
 class user:
@@ -67,19 +65,19 @@ class user:
 
     # update training
 
-    def update_training(self):
-        self.day_future = training_database.day
-        self.week_future = training_database.week
-        self.month_future = training_database.month
+    # def update_training(self):
+    #     self.day_future = training_database.day
+    #     self.week_future = training_database.week
+    #     self.month_future = training_database.month
 
-    def update_day(self):
-        self.day_future = training_database.day
+    # def update_day(self):
+    #     self.day_future = training_database.day
 
-    def update_week(self):
-        self.week_future = training_database.week
+    # def update_week(self):
+    #     self.week_future = training_database.week
 
-    def update_month(self):
-        self.month_future = training_database.month
+    # def update_month(self):
+    #     self.month_future = training_database.month
 
     def append_month(self, month):
         self.month_history.append(month)
@@ -100,15 +98,15 @@ class user:
         self.day_future.put(day)
 
 
-alex = user(19, "male", "advanced", "17:45", "3/14/2026", "5", "7")
-alex.set_pace(5000, "17:30")
-alex.make_predictions()
-print(alex.get_user_id())
-print(len(alex.times))
-print(alex.get_times())
-print(alex.month_history)
-alex.generate_new_id()
-print(alex.get_user_id())
+# alex = user(19, "male", "advanced", "17:45", "3/14/2026", "5", "7")
+# alex.set_pace(5000, "17:30")
+# alex.make_predictions()
+# print(alex.get_user_id())
+# print(len(alex.times))
+# print(alex.get_times())
+# print(alex.month_history)
+# alex.generate_new_id()
+# print(alex.get_user_id())
 
 #month = month_plan(100, "Endurance", "Base", 5, 6, 100, 100, None)
 
