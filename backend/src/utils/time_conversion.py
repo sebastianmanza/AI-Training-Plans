@@ -57,3 +57,32 @@ def total_time(pace: str, distance: int):
 
 def alter_pace(pace: str, increase: int):
     return to_str(from_str(pace) + increase)
+
+# Takes in the time run for the distance and returns the mile pace in seconds.
+
+
+def mile_pace(pace: str, distance: int):
+    second = from_str(pace)
+    if distance == 0:
+        return 0
+    return math.floor((second * METERS_PER_MILE) / distance)
+
+# Takes in a string and a user i.e. (5000+10, 17:30 5k runner) and returns the pace associated with it.
+
+
+def parse_pace(pace: str, user):
+    if pace.find("+") != -1:
+        distance, increase = pace.split("+")
+        increase = int(increase)
+    elif pace.find("-") != -1:
+        distance, increase = pace.split("-")
+        increase = -int(increase)
+    else:
+        increase = 0
+    pace = pace.strip()
+    seconds = "17:30"  # Seconds is the string representation of how long the race takes
+    mile_time = mile_pace(seconds, int(distance))
+    return to_str(mile_time + increase)
+
+
+print(parse_pace("5000-10", "17:30 5k runner"))  # Example usage
