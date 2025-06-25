@@ -7,8 +7,9 @@ class day_plan:
                  "lift", "expected_rpe", "real_rpe", "percent_completion", "workouts", "week_id")
 
     def __init__(self, workouts: list = [], total_mileage: int = -1, lift: bool = False, expected_rpe = -1, week_id: int = -1, 
-                 real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0):
+                 real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, day_id = -1):
         
+        self.week_id = week_id  
         self.workouts = workouts
         self.total_mileage = total_mileage
         self.completed_mileage = completed_mileage
