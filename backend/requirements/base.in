@@ -3,3 +3,5 @@ matplotlib
 xlrd
 pandas
 openpyxl
+fastapi
+uvicorn
