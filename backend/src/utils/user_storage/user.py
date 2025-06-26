@@ -35,10 +35,10 @@ class user:
         self.longest_run = longest_run
         self.running_ex = running_ex
         self.times = {}
-        self.five_km_estimate_seconds = tc.mile_pace(tc.from_str(five_km_estimate), FIVEKDIST)
+        self.five_km_estimate_seconds = tc.mile_pace(
+            tc.from_str(five_km_estimate), FIVEKDIST)
         self.set_pace(FIVEKDIST, self.five_km_estimate_seconds)
         self.make_predictions()
-        
 
         self.mean_RPE = mean_RPE
         self.STD_RPE = STD_RPE

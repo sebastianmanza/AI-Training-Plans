@@ -213,5 +213,5 @@ def txt_to_database(filename):
     return database
  
 # Example usage
-# database = txt_to_database("backend/data/raw/training_plan_test.txt")
+database = txt_to_database("backend/data/raw/training_plan_test.txt")
 # print(training_database.get_instance().week.get().cycle)
