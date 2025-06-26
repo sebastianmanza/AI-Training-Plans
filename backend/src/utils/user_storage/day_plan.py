@@ -4,15 +4,19 @@ from backend.src.utils.workout.workout_database import workout_database
 
 class day_plan:
     __slots__ = ("total_mileage", "completed_mileage", "goal_stimuli",
-                 "lift", "expected_rpe", "real_rpe", "percent_completion", "workouts", "week_id")
+                 "lift", "expected_rpe", "real_rpe", "percent_completion", "workouts", "week_id", "day_id")
 
     def __init__(self, workouts: list = [], total_mileage: int = -1, lift: bool = False, expected_rpe = -1, week_id: int = -1, 
-                 real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0):
+                 real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, day_id = -1, goal_stimuli = workout_database.create_trio(-1, -1, -1)):
         
+        self.day_id = day_id  # Unique identifier for the day
+        self.lift = lift  # Boolean indicating if the day is a lifting day
+        self.week_id = week_id  
         self.workouts = workouts
         self.total_mileage = total_mileage
         self.completed_mileage = completed_mileage
         self.percent_completion = percent_completion
+        self.goal_stimuli = goal_stimuli
 
         if len(workouts) < 1:
             self.goal_stimuli = workouts[0]
