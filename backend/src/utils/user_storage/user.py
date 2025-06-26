@@ -4,10 +4,11 @@ import secrets
 from backend.src.utils.user_storage import storage_stacks_and_queues
 import backend.src.utils.time_conversion as tc
 from backend.src.utils.user_storage.training_database import training_database
+import datetime
 
 
 class user:
-    # __slots__ = ("age", "sex", "five_km_estimate", "when-to-run", "injury", "mileage", "wo_history", "goal_date")
+    # __slots__ = ("age", "dob", "sex", "five_km_estimate", "when-to-run", "injury", "mileage", "wo_history", "goal_date")
     global FIVEKDIST
     FIVEKDIST = 5000
 
@@ -20,19 +21,26 @@ class user:
     global DISTANCES
     DISTANCES = [3000, 5000, 10000]
 
-    def __init__(self, age, sex, running_ex, five_km_estimate, goal_date, mean_RPE, STD_RPE, user_id=secrets.randbelow(100000000 - 10000000)):
+    def __init__(self, dob, sex, running_ex, five_km_estimate, goal_date, mean_RPE, STD_RPE, user_id=secrets.randbelow(100000000 - 10000000), longest_run=0):
         storage = storage_stacks_and_queues.storage_stacks_and_queues()
         self.user_id = user_id
-        self.age = age
+        self.dob = dob
+        self.age = self.get_age()
         self.sex = sex
-        self.five_km_estimate = five_km_estimate
+        
+        
         self.when_to_run = None
         self.injury = None
         self.goal_date = goal_date
+
+        self.longest_run = longest_run
         self.running_ex = running_ex
+        self.five_km_estimate = five_km_estimate
         self.times = {}
+
         self.mean_RPE = mean_RPE
         self.STD_RPE = STD_RPE
+
         self.month_history = storage.month_history
         self.week_history = storage.week_history
         self.day_history = storage.day_history
@@ -73,6 +81,12 @@ class user:
 
     def generate_new_id(self):
         self.user_id = secrets.randbelow(100000000 - 10000000)
+
+    def get_age(self):
+        today = datetime.date.today()
+        dob = datetime.datetime.strptime(self.dob, "%m/%d/%Y").date()
+        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+        return age
 
     # update training
 
