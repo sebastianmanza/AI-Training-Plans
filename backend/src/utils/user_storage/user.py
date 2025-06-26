@@ -47,6 +47,7 @@ class user:
         else:
             self.times[distance] = new_pace
 
+    # Returns the mile pace for a given distance in seconds.
     def get_pace(self, distance: int):
         return self.times[distance]
 
