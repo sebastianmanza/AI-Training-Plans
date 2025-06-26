@@ -1,10 +1,10 @@
 # import training
 import math
 import secrets
-from backend.src.utils.user_storage import storage_stacks_and_queues
-import backend.src.utils.time_conversion as tc
-from backend.src.utils.user_storage.training_database import training_database
 import datetime
+from backend.src.utils.user_storage.storage_stacks_and_queues import storage_stacks_and_queues
+import backend.src.utils.time_conversion as tc
+import backend.src.utils.user_storage.training_database as training_database
 
 
 class user:
@@ -22,21 +22,23 @@ class user:
     DISTANCES = [3000, 5000, 10000]
 
     def __init__(self, dob, sex, running_ex, five_km_estimate, goal_date, mean_RPE, STD_RPE, user_id=secrets.randbelow(100000000 - 10000000), longest_run=0):
-        storage = storage_stacks_and_queues.storage_stacks_and_queues()
+        storage = storage_stacks_and_queues()
         self.user_id = user_id
         self.dob = dob
         self.age = self.get_age()
         self.sex = sex
-        
-        
+
         self.when_to_run = None
         self.injury = None
         self.goal_date = goal_date
 
         self.longest_run = longest_run
         self.running_ex = running_ex
-        self.five_km_estimate = five_km_estimate
         self.times = {}
+        self.five_km_estimate_seconds = tc.mile_pace(tc.from_str(five_km_estimate), FIVEKDIST)
+        self.set_pace(FIVEKDIST, self.five_km_estimate_seconds)
+        self.make_predictions()
+        
 
         self.mean_RPE = mean_RPE
         self.STD_RPE = STD_RPE
@@ -85,7 +87,8 @@ class user:
     def get_age(self):
         today = datetime.date.today()
         dob = datetime.datetime.strptime(self.dob, "%m/%d/%Y").date()
-        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+        age = today.year - dob.year - \
+            ((today.month, today.day) < (dob.month, dob.day))
         return age
 
     # update training
@@ -122,8 +125,25 @@ class user:
     def append_fut_day(self, day):
         self.day_future.put(day)
 
+        # Takes in a string and a user i.e. (5000+10, 17:30 5k runner) and returns the pace associated with it.
 
-# alex = user(19, "male", "advanced", "17:45", "3/14/2026", "5", "7")
+    def parse_pace(self, pace: str):
+        if pace.find("+") != -1:
+            distance, increase = pace.split("+")
+            increase = int(increase)
+        elif pace.find("-") != -1:
+            distance, increase = pace.split("-")
+            increase = -int(increase)
+        else:
+            increase = 0
+        pace = pace.strip()
+        seconds = self.get_pace(int(distance))
+        return tc.alter_pace(seconds, increase)
+
+
+alex = user("8/22/2005", "male", "advanced", "17:30", "5", "7", "1")
+print(alex.get_pace(10000))
+print(alex.parse_pace("10000+10"))
 # alex.set_pace(5000, "17:30")
 # alex.make_predictions()
 # print(alex.get_times())

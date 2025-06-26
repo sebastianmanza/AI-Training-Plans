@@ -58,19 +58,7 @@ def mile_pace(pace: int, distance: int):
     return math.floor((pace * METERS_PER_MILE) / distance)
 
 
-# Takes in a string and a user i.e. (5000+10, 17:30 5k runner) and returns the pace associated with it.
-def parse_pace(pace: str, user):
-    if pace.find("+") != -1:
-        distance, increase = pace.split("+")
-        increase = int(increase)
-    elif pace.find("-") != -1:
-        distance, increase = pace.split("-")
-        increase = -int(increase)
-    else:
-        increase = 0
-    pace = pace.strip()
-    seconds = user.get_pace(int(distance))
-    return alter_pace(seconds, increase)
+
 
 
 # print(parse_pace("5000-10", "17:30 5k runner"))  # Example (to use replace seconds = user.get_pace(int(distance)) with seconds = "17:30")
