@@ -34,8 +34,6 @@ def from_str(pace: str):
     return total
 
 # Convert from decimal to pace. i.e. 7.5->7:30
-
-
 def from_dec(pace: float):
     dec = math.floor((pace % 1) * MIN_CONVERSION)
     val = math.floor(pace)
@@ -80,9 +78,9 @@ def parse_pace(pace: str, user):
     else:
         increase = 0
     pace = pace.strip()
-    seconds = "17:30"  # Seconds is the string representation of how long the race takes
+    seconds = user.get_pace(int(distance))  # Seconds is the string representation of how long the race takes
     mile_time = mile_pace(seconds, int(distance))
     return to_str(mile_time + increase)
 
 
-print(parse_pace("5000-10", "17:30 5k runner"))  # Example usage
+# print(parse_pace("5000-10", "17:30 5k runner"))  # Example (to use replace seconds = user.get_pace(int(distance)) with seconds = "17:30")
