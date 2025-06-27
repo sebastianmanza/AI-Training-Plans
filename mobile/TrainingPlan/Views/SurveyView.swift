@@ -135,7 +135,8 @@ struct DateWheelPicker: View {
 struct UpdatedSurveyView: View {
   @StateObject private var vm = SurveyViewModel()
   @State private var currentStep: Step = .introPage
-
+  let onSurveyComplete: () -> Void
+ 
   enum Step {
     case introPage
     case dateOfBirth
