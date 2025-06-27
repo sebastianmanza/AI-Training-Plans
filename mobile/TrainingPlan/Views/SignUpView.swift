@@ -1,5 +1,7 @@
 import SwiftUI
 
+
+/* A view that displays the terms and conditions for the Endorphin app. */
 struct TermsView: View {
     var body: some View {
         ScrollView {
@@ -23,9 +25,7 @@ struct TermsView: View {
                     Text("3. No Guarantees")
                         .font(.headline)
                     Text("We do not guarantee that our recommendations will lead to any specific fitness or health outcome. All results vary based on individual conditions and effort.")
-                }
-
-                Group {
+            
                     Text("4. Limitation of Liability")
                         .font(.headline)
                     Text("To the fullest extent permitted by law, Endorphin, its creators, affiliates, and partners shall not be liable for any direct, indirect, incidental, consequential, special, or punitive damages, including but not limited to injury, loss of use, data, or profits, arising out of or related to your use of the app.")
@@ -55,8 +55,14 @@ struct TermsView: View {
     }
 }
 
-
+/* A view that allows users to sign up for the Endorphin app.
+    It includes fields for email, username, and password, and provides options to log in or view terms and conditions.
+    */
 struct SignUpView: View {
+
+    // the current focused field
+    enum Field { case email, username, password }
+    @FocusState private var focusedField: Field?
 
     @State private var email = ""
     @State private var username = ""
@@ -68,83 +74,113 @@ struct SignUpView: View {
 
     var body: some View {
         GeometryReader { geo in
-            /* Create a full-screen image background with a vertical stack */
             ZStack {
+                //background 
                 Image("signupBackground")
-                .resizable() 
-                .scaledToFill() 
-                .edgesIgnoringSafeArea(.all)
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
+                    .blur(radius: focusedField != nil ? 12 : 0)
+                    .animation(.easeInOut(duration: 0.25), value: focusedField)
 
-                ZStack {
-                    Rectangle()
-                        .fill(Color.white)
-                        .frame(width: geo.size.width * 0.85, height: geo.size.height * 0.65)
-                        .cornerRadius(40)
-                    
-                    VStack {
-                        CapsuleTextField(prompt: "Email", text: $email)
-                            .padding(.bottom, 10)
-                    
-                        CapsuleTextField(prompt: "Username", text: $username)
-                            .padding(.bottom, 10)
-                    
-                        CapsulePasswordField(prompt: "Password", text: $password)
-                            .padding(.bottom, 20)
+                //overlay stack
+                VStack(spacing: 40) {
+                    Spacer()
 
-                        Button(action: onSignUpDone) {
-                            Text("Sign up")
-                                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 16))
-                                .foregroundColor(.white)
-                                .frame(width: 275, height: 40)
-                                .background(Color(red: 0, green: 54/255, blue: 104/255))
-                                .clipShape(Capsule())
-                        }
-                            .padding(.bottom, 30)
-                        
-                        Text("Already have an account?")
-                            .font(.custom("MADEOkineSansPERSONALUSE-Light", size: 14))
-                            .foregroundColor(.black)
-
-                        Button(action: onLogInTapped) {
-                            Text("Login")
-                                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 16))
-                                .foregroundColor(.white)
-                                .frame(width: 275, height: 40)
-                                .background(Color(red: 153/255, green: 208/255, blue: 208/255))
-                                .clipShape(Capsule())
-                        }
-
-                        Button(action: {
-                            showingTerms = true
-                            }) {
-                            Text("Terms and Conditions")
-                            .underline()
-                            .foregroundColor(.gray)
-                            .font(.custom("MADEOkineSansPERSONALUSE-Light", size: 8))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal, 64)
-                            }
-                            .sheet(isPresented: $showingTerms) {
-                        TermsView()
-                            }
+                    //logo and name, sandwiched by spacers
+                    VStack(spacing: 16) {
+                        Image("Logo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 120, height: 120)
+                        Text("ENDORPHIN")
+                            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 32))
+                            .foregroundColor(.white)
                     }
-                }
-                .position(x: geo.size.width / 2, y: 2 * geo.size.height / 3)
-                
-                
-                VStack {
-                    Image("Logo")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 115, height: 115)
+                    .blur(radius: focusedField != nil ? 12 : 0)
+                    .animation(.easeInOut(duration: 0.25), value: focusedField)
 
-                    Text("ENDORPHIN")
-                        .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 32))
-                        .foregroundColor(.white)
-                }
-                .position(x: geo.size.width / 2, y: geo.size.height / 5)
+                    Spacer()
 
-                
+                    // The white rectangle that took an amazing amount of work
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 40)
+                            .fill(Color.white)
+                            .frame(width: geo.size.width * 0.85)
+                            .blur(radius: focusedField != nil ? 12 : 0)
+                            .animation(.easeInOut(duration: 0.25), value: focusedField)
+                            // .padding(.bottom, 45)
+
+                        // Capsule text fields for entering text, become clear when either of the other
+                        // two is pressed
+
+                        VStack(spacing: 15) {
+                            CapsuleTextField(prompt: "Email", text: $email)
+                                .focused($focusedField, equals: .email)
+                                .opacity(focusedField == .email || focusedField == nil ? 1 : 0)
+                                .offset(y: focusedField == .email ? 40 : 0)
+
+                            CapsuleTextField(prompt: "Username", text: $username)
+                                .focused($focusedField, equals: .username)
+                                .opacity(focusedField == .username || focusedField == nil ? 1 : 0)
+                                .offset(y: focusedField == .username ? -25 : 0)
+
+                            CapsulePasswordField(prompt: "Password", text: $password)
+                                .focused($focusedField, equals: .password)
+                                .opacity(focusedField == .password || focusedField == nil ? 1 : 0)
+                                .offset(y: focusedField == .password ? -90 : 0)
+
+                            // Sign up button below them, slight padding on top and bottom
+                            Button(action: onSignUpDone) {
+                                Text("Sign up")
+                                    .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 16))
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: min(275, geo.size.width * 0.85), minHeight: 40)
+                                    .background(Color(red: 0, green: 54/255, blue: 104/255))
+                                    .clipShape(Capsule())
+                            }
+                            .padding(.top, 10)
+                            .blur(radius: focusedField != nil ? 12 : 0)
+
+                            // Another Vstack for the already have an account/terms
+                            VStack() {
+                                Text("Already have an account?")
+                                    .font(.custom("MADEOkineSansPERSONALUSE-Light", size: 14))
+                                    .foregroundColor(.black)
+                                    .blur(radius: focusedField != nil ? 12 : 0)
+
+                                Button(action: onLogInTapped) {
+                                    Text("Login")
+                                        .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 16))
+                                        .foregroundColor(.white)
+                                        .frame(maxWidth: min(275, geo.size.width * 0.85), minHeight: 40)
+                                        .background(Color(red: 153/255, green: 208/255, blue: 208/255))
+                                        .clipShape(Capsule())
+                                }
+                                .blur(radius: focusedField != nil ? 12 : 0)
+
+                                //TERMS LINK
+                                Button(action: { showingTerms = true }) {
+                                    Text("Terms and Conditions")
+                                        .underline()
+                                        .foregroundColor(.gray)
+                                        .font(.custom("MADEOkineSansPERSONALUSE-Light", size: 8))
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.horizontal, 55)
+                                }
+                                .sheet(isPresented: $showingTerms) {
+                                    TermsView()
+                                }
+                                .blur(radius: focusedField != nil ? 12 : 0)
+                            }
+                        }
+                        .padding(.vertical, 30)
+                    }
+                    Spacer()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                }
+                .contentShape(Rectangle())
+                .onTapGesture { focusedField = nil }
             }
         }
     }
