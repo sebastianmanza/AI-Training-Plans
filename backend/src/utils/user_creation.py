@@ -22,6 +22,7 @@ def user_create(users: dict, username: str, password: str, email: str, surveyque
     login_info = [username, hashed_password]
     # Make the method in this line:
     # user.add_to_database(new_user)
+    # When a new user is created user.py handles creating a user id.
     users.update(login_info, new_user.user_id) # Add the user to the database.
     
 def login(username: str, password: str, users: dict) -> user:
