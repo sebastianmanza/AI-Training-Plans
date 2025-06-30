@@ -45,9 +45,11 @@ struct TrainingPlanApp: App {
                         }
                     )
                 case .survey:
-                    UpdatedSurveyView{
-                        appState.currentScreen = .start
-                    }
+                    SurveyViews(
+                        onSurveyComplete: {
+                            appState.currentScreen = .start // Go back to start after survey
+                        }
+                    ) //Placeholder
                 }
             }
             .environmentObject(appState) // Pass the app state to the environment

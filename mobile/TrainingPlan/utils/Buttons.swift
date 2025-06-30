@@ -85,3 +85,20 @@ struct LogInButton: View {
             .clipShape(Capsule()) // Capsule shape
     }
 }
+
+/* A single arrow circular button for survey answers */
+struct SurveyButton: View {
+    let action: () -> Void
+    let color: Color
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: "arrow.right")
+            .font(.system(size: 35, weight: .bold))
+            .foregroundColor(.white)
+        }
+            .frame(width: 60, height: 60)
+            .background(color)
+            .clipShape(Circle())
+    }
+}
