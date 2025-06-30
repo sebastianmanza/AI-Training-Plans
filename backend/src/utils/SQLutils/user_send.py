@@ -197,10 +197,14 @@ def send_day_cycle(new_user, username, password):
         
         pres = new_user.day_history.pop()
         
+        # cast workouts to trio type
+        TrioType = register_composite('trio', conn, globally=True).type
+        workouts = cast_workouts_to_trios(pres.workouts, TrioType)
+        
         # write query
         query = """ INSERT INTO public.day_cycle(
             user_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, complete_score, past_day, complete_mileage, week_id, workouts)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """   
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s::trio[]); """   
         # fill query with appropriate user ID
     
         # 1 is a placeholder (too lazy to change shit)
@@ -220,10 +224,14 @@ def send_day_cycle(new_user, username, password):
         
         fut = new_user.day_future.get()
         
+        # cast workouts to trio type
+        TrioType = register_composite('trio', conn, globally=True).type
+        workouts = cast_workouts_to_trios(fut.workouts, TrioType)
+        
         # write query
         query = """ INSERT INTO public.day_cycle(
             user_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, complete_score, past_day, complete_mileage, week_id, workouts)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """     
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s::trio[]); """     
         # 1 is a placeholder (too lazy to change shit)
         record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli, fut.lift, fut.expected_rpe, fut.real_rpe,
                             fut.percent_completion, False, fut.completed_mileage, fut.week_id, workouts)
@@ -253,12 +261,12 @@ def send_user_all(user_id, username, password):
     send_day_cycle(user_id, username, password)
     
     
-Trio = namedtuple('Trio', ['x', 'y', 'z'])
+# Trio = namedtuple('Trio', ['x', 'y', 'z'])
 
-def cast_workouts_to_trios(workouts):
+def cast_workouts_to_trios(workouts, TrioType):
     
     
-    return [Trio(*triplet) for triplet in workouts]
+    return [TrioType(*triplet) for triplet in workouts]
 
 
     
@@ -266,14 +274,14 @@ def testing_cycle(username, password):
     
     conn = init_db(username, password)
     cursor = conn.cursor()
-    register_composite('trio', conn, globally=True)  # No errors = good
+    TrioType = register_composite('trio', conn, globally=True).type  # No errors = good
     
     raw_workouts = [(1.0, 2.0, 3.0), (4.0, 5.0, 6.0), (7.0, 8.0, 9.0)]
     # Minimal, valid trio array
-    casted_workouts = cast_workouts_to_trios(raw_workouts)
+    casted_workouts = cast_workouts_to_trios(raw_workouts, TrioType)
 
     cursor.execute(
-        "INSERT INTO day_cycle (user_id, workouts) VALUES (%s, %s)",
+        "INSERT INTO day_cycle (user_id, workouts) VALUES (%s, %s::trio[])",
         (999, casted_workouts)
     )
     conn.commit()
@@ -340,7 +348,7 @@ send_week_cycle(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASS
 
 # send_day_cycle(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 
-testing_cycle(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+# testing_cycle(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 
 
 #print(type(new_user.month_history), len(new_user.month_history))
