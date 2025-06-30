@@ -33,12 +33,9 @@ for idx, row in sheet1.iterrows():
                 pace.append(p.strip())
         else:
             distance = row[col]
-    workout = single_workout(workout_database.create_trio(trio[0], trio[1], trio[2]), reps, pace, distance)
+    workout = single_workout(workout_database.create_trio(
+        trio[0], trio[1], trio[2]), reps, pace, distance)
     new_workout_database.add_workout(workout)
-#new_workout_database.print_workouts("Warmup and Cooldown")
-#new_workout_database.print_workouts("Kenyan")
+# new_workout_database.print_workouts("Warmup and Cooldown")
+# new_workout_database.print_workouts("Kenyan")
 new_workout_database.get_individual_workout(4, 5, 6)
-    
-    
-
-

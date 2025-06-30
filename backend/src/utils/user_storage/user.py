@@ -2,8 +2,8 @@
 import math
 import secrets
 from backend.src.utils.user_storage import storage_stacks_and_queues
-from backend.src.utils.time_conversion import *
-from backend.src.utils.user_storage.training_database import training_database 
+import backend.src.utils.time_conversion as tc
+from backend.src.utils.user_storage.training_database import training_database
 
 
 class user:
@@ -11,13 +11,16 @@ class user:
     global FIVEKDIST
     FIVEKDIST = 5000
 
+    global METERS_PER_MILE
+    METERS_PER_MILE = 1600
+
     global CALCNUM
     CALCNUM = 1.06
 
     global DISTANCES
     DISTANCES = [3000, 5000, 10000]
 
-    def __init__(self, age, sex, running_ex, five_km_estimate, goal_date, mean_RPE, STD_RPE, user_id = secrets.randbelow(100000000 - 10000000)):
+    def __init__(self, age, sex, running_ex, five_km_estimate, goal_date, mean_RPE, STD_RPE, user_id=secrets.randbelow(100000000 - 10000000)):
         storage = storage_stacks_and_queues.storage_stacks_and_queues()
         self.user_id = user_id
         self.age = age
@@ -37,24 +40,32 @@ class user:
         self.week_future = storage.week_future
         self.day_future = storage.day_future
 
-    def set_pace(self, distance: int, new_pace: str):
-        self.times[distance] = new_pace
+    # Takes in a distance and assigns the mile pace to it.
+    def set_pace(self, distance: int, new_pace):
+        if isinstance(new_pace, str):
+            self.times[distance] = tc.mile_pace(new_pace, distance)
+        else:
+            self.times[distance] = new_pace
 
+    # Returns the mile pace for a given distance in seconds.
     def get_pace(self, distance: int):
         return self.times[distance]
 
+    # Makes the predictions for every distance in DISTANCES.
     def make_predictions(self):
         for distance in DISTANCES:
-            self.set_pace(distance, self.predict_distance(distance))
+            self.set_pace(distance, self.predict_pace(distance))
 
-    def predict_distance(self, distance):
-        fivekpace = from_str(self.get_pace(FIVEKDIST))
-        return to_str(math.floor((fivekpace)*pow((distance/FIVEKDIST), CALCNUM)))
+    # Predicts the mile pace for a given distance based on the 5k pace.
+    def predict_pace(self, distance):
+        fivekpace = self.get_pace(FIVEKDIST)
+        return math.floor((fivekpace)*pow((distance/FIVEKDIST), CALCNUM)*(FIVEKDIST / distance))
 
+    # Returns the mile pace for each distance.
     def get_times(self):
         toReturn = ""
         for k, v in self.times.items():
-            toReturn += f"{k}:{v}\n"
+            toReturn += f"{k}:{tc.to_str(v)}\n"
         return toReturn
 
     def get_user_id(self):
@@ -101,6 +112,7 @@ class user:
 # alex = user(19, "male", "advanced", "17:45", "3/14/2026", "5", "7")
 # alex.set_pace(5000, "17:30")
 # alex.make_predictions()
+# print(alex.get_times())
 # print(alex.get_user_id())
 # print(len(alex.times))
 # print(alex.get_times())
@@ -108,7 +120,7 @@ class user:
 # alex.generate_new_id()
 # print(alex.get_user_id())
 
-#month = month_plan(100, "Endurance", "Base", 5, 6, 100, 100, None)
+# month = month_plan(100, "Endurance", "Base", 5, 6, 100, 100, None)
 
 # alex.append_month(month)
 # alex.append_fut_month(month)
