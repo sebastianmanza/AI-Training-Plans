@@ -2,6 +2,9 @@ import SwiftUI
 
 struct LoginView: View {
 
+    enum Field { case username, password }
+    @FocusState private var focusedField: Field?
+
     @State private var username = ""
     @State private var password = ""
 
@@ -16,60 +19,89 @@ struct LoginView: View {
                 .resizable() 
                 .scaledToFill() 
                 .edgesIgnoringSafeArea(.all)
+                .blur(radius: focusedField != nil ? 12 : 0)
+                .animation(.easeInOut(duration: 0.25), value: focusedField)
 
-                ZStack {
-                    Rectangle()
-                        .fill(Color.white)
-                        .frame(width: geo.size.width * 0.85, height: geo.size.height * 0.5)
-                        .cornerRadius(40)
-                    
-                    VStack {
-                        CapsuleTextField(prompt: "Username", text: $username)
-                            .padding(.bottom, 10)
-                    
-                        CapsulePasswordField(prompt: "Password", text: $password)
-                            .padding(.bottom, 20)
+                //overlay stack
+                VStack(spacing: 40) {
+                    Spacer()
 
-                        Button(action: onLoginDone) {
-                            Text("Login")
-                                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 16))
-                                .foregroundColor(.white)
-                                .frame(width: 275, height: 40)
-                                .background(Color(red: 0, green: 54/255, blue: 104/255))
-                                .clipShape(Capsule())
-                        }
-                            .padding(.bottom, 30)
-                        
-                        Text("Need an account?")
-                            .font(.custom("MADEOkineSansPERSONALUSE-Light", size: 14))
-                            .foregroundColor(.black)
-
-                        Button(action: onSignUpTapped) {
-                            Text("Sign up")
-                                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 16))
-                                .foregroundColor(.white)
-                                .frame(width: 275, height: 40)
-                                .background(Color(red: 153/255, green: 208/255, blue: 208/255))
-                                .clipShape(Capsule())
-                        }
+                    //logo and name, sandwiched by spacers
+                    VStack(spacing: 16) {
+                        Image("Logo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 120, height: 120)
+                        Text("ENDORPHIN")
+                            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 32))
+                            .foregroundColor(.white)
                     }
-                }
-                .position(x: geo.size.width / 2, y: 2 * geo.size.height / 3)
-                
-                
-                VStack {
-                    Image("Logo")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 115, height: 115)
+                    .blur(radius: focusedField != nil ? 12 : 0)
+                    .animation(.easeInOut(duration: 0.25), value: focusedField)
 
-                    Text("ENDORPHIN")
-                        .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 32))
-                        .foregroundColor(.white)
-                }
-                .position(x: geo.size.width / 2, y: geo.size.height / 5)
+                    Spacer()
 
-                
+                    // The white rectangle that took an amazing amount of work
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 40)
+                            .fill(Color.white)
+                            .frame(width: geo.size.width * 0.85)
+                            .blur(radius: focusedField != nil ? 12 : 0)
+                            .animation(.easeInOut(duration: 0.25), value: focusedField)
+                            // .padding(.bottom, 45)
+
+                        // Capsule text fields for entering text, become clear when either of the other
+                        // two is pressed
+
+                        VStack(spacing: 15) {
+                            // Username and password fields
+                            CapsuleTextField(prompt: "Username", text: $username)
+                                .focused($focusedField, equals: .username)
+                                .opacity(focusedField == .username || focusedField == nil ? 1 : 0)
+                                .offset(y: focusedField == .username ? 25 : 0)
+
+                            CapsulePasswordField(prompt: "Password", text: $password)
+                                .focused($focusedField, equals: .password)
+                                .opacity(focusedField == .password || focusedField == nil ? 1 : 0)
+                                .offset(y: focusedField == .password ? -40 : 0)
+
+                            // Sign up button below them, slight padding on top and bottom
+                            Button(action: onLoginDone) {
+                                Text("Login")
+                                    .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 16))
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: min(275, geo.size.width * 0.85), minHeight: 40)
+                                    .background(Color(red: 0, green: 54/255, blue: 104/255))
+                                    .clipShape(Capsule())
+                            }
+                            .padding(.top, 10)
+                            .blur(radius: focusedField != nil ? 12 : 0)
+
+                            // Another Vstack for the already have an account/terms
+                            VStack() {
+                                Text("Don't have an account?")
+                                    .font(.custom("MADEOkineSansPERSONALUSE-Light", size: 14))
+                                    .foregroundColor(.black)
+                                    .blur(radius: focusedField != nil ? 12 : 0)
+
+                                Button(action: onSignUpTapped) {
+                                    Text("Sign up")
+                                        .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 16))
+                                        .foregroundColor(.white)
+                                        .frame(maxWidth: min(275, geo.size.width * 0.85), minHeight: 40)
+                                        .background(Color(red: 153/255, green: 208/255, blue: 208/255))
+                                        .clipShape(Capsule())
+                                }
+                                .blur(radius: focusedField != nil ? 12 : 0)
+                            }
+                        }
+                        .padding(.vertical, 30)
+                    }
+                    Spacer()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                }
+                .contentShape(Rectangle())
+                .onTapGesture { focusedField = nil }
             }
         }
     }

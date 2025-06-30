@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string>MAP.TrainingPlan</string>
+	<string>MAP.Endorphin</string>
 	<key>CFBundleName</key>
-	<string>TrainingPlan</string>
+	<string>Endorphin</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>CFBundleShortVersionString</key>
@@ -23,6 +23,7 @@
 		<string>MADEOkineSansPERSONALUSE-Medium.otf</string>
 		<string>MADEOkineSansPERSONALUSE-Bold.otf</string>
 		<string>MADEOkineSansPERSONALUSE-Light.otf</string>
+		<string>MADEOkineSansPERSONALUSE-Regular.otf</string>
 	</array>
 </dict>
 </plist>
