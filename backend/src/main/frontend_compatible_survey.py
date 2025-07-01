@@ -14,13 +14,7 @@ class main:
         """
         payload is a dictionary of original questions and answers
         """
-        # map only the fields you need for month_plan
-        real_rpe = int(payload["real_rpe"])
 
-        # build your month plan
-        new_month = month_plan(real_rpe=real_rpe)
-
-        # if you still want to create a user object
         new_user = user.user(
             payload["date_of_birth"],
             payload["sex"],
