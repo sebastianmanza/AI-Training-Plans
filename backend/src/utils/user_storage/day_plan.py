@@ -1,38 +1,40 @@
 import backend.src.utils.user_storage.week_plan as week_plan
 from backend.src.utils.workout.workout_database import workout_database
 
-trio_stim,trio_RPE,trio_dist = 0, 1, 2  # Constants for indexing the trio
+trio_stim, trio_RPE, trio_dist = 0, 1, 2  # Constants for indexing the trio
+
 
 class day_plan:
-
-    
 
     __slots__ = ("total_mileage", "completed_mileage", "goal_stimuli",
                  "lift", "expected_rpe", "real_rpe", "percent_completion", "workouts", "week_id", "day_id")
 
-    def __init__(self, workouts: list = [], total_mileage: int = -1, lift: bool = False, expected_rpe = -1, week_id: int = -1, 
-                 real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, day_id = -1, goal_stimuli = workout_database.create_trio(-1, -1, -1)):
-        
+    def __init__(self, workouts: list = [], total_mileage: int = -1, lift: bool = False, expected_rpe=-1, week_id: int = -1,
+                 real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, day_id=-1, goal_stimuli=workout_database.create_trio(-1, -1, -1)):
+
         self.day_id = day_id  # Unique identifier for the day
         self.lift = lift  # Boolean indicating if the day is a lifting day
-        self.week_id = week_id  
+        self.week_id = week_id
         self.workouts = workouts
         self.total_mileage = total_mileage
         self.completed_mileage = completed_mileage
         self.percent_completion = percent_completion
         self.goal_stimuli = goal_stimuli
 
-        if len(workouts) < 1: # If there are no workouts the stimuli is for an off day
+        if len(workouts) < 1:  # If there are no workouts the stimuli is for an off day
             self.goal_stimuli = workouts[0]
-        else: # Otherwise 
-            tot_stim,tot_rpe,tot_dist = 0, 0, 0 # Initialize values representing the days trio
+        else:  # Otherwise
+            # Initialize values representing the days trio
+            tot_stim, tot_rpe, tot_dist = 0, 0, 0
             for trios in workouts:
-                if(trios[trio_stim] > tot_stim and trios[trio_dist] > 1): # Only consider the stimuli if the distance > 1 (Ignore warmup/cooldown)
+                # Only consider the stimuli if the distance > 1 (Ignore warmup/cooldown)
+                if (trios[trio_stim] > tot_stim and trios[trio_dist] > 1):
                     tot_stim = trios[trio_stim]
-                if(trios[trio_RPE] > tot_rpe):
+                if (trios[trio_RPE] > tot_rpe):
                     tot_rpe = trios[trio_RPE]
                 tot_dist += trios[trio_dist]
-            self.goal_stimuli = workout_database.create_trio(tot_stim, tot_rpe, tot_dist) # Use the values to create the day trio
+            self.goal_stimuli = workout_database.create_trio(
+                tot_stim, tot_rpe, tot_dist)  # Use the values to create the day trio
 
         self.lift = lift
         self.expected_rpe = expected_rpe
@@ -84,8 +86,10 @@ class day_plan:
         """
         self.update_daily_mileage(mileage)
         self.update__real_rpe(real_rpe)
-        #self.week_id.update_week()
-#testing code
+
+
+        # self.week_id.update_week()
+# testing code
 '''day = day_plan([(1, 3, 4), (4, 5, 6)], 10, False, 6, 1, 9, 10, 1)
 print("stim 1")
 print(day.workouts[0])
