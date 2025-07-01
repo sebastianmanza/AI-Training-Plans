@@ -234,7 +234,7 @@ def populate_user_info(user_id):
                 expected_rpe=day_data_dict.get('day_expected_rpe'),
                 real_rpe=day_data_dict.get('day_real_rpe'),
                 percent_completion=day_data_dict.get('day_percent_completion'),
-                day_id=day_data_dict.get('day_id')
+                day_id=day_data_dict.get('day_id'),
             ))
         else:
             new_user.day_future.put(day_plan(

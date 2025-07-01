@@ -40,18 +40,18 @@ def test_user_cycle():
     #test_user = main.prelim_survey()
     send_user_all(test_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
     
-    return_user = populate_user_info(test_user.user_id)
-    print("User information retrieved")
+   # return_user = populate_user_info(test_user.user_id)
+   # print("User information retrieved")
     
-    print(database.day.get().expected_rpe)
-    print("Day future expected RPE")
-    print(test_user.day_future.get().expected_rpe)
-    print("working")
+    # print(database.day.get().expected_rpe)
+    # print("Day future expected RPE")
+    # print(test_user.day_future.get().expected_rpe)
+    # print("working")
     # return 
-    print(test_user.user_id)
-    print(return_user.user_id)
-    print(return_user.age)
-    print(return_user.sex)
+    # print(test_user.user_id)
+    # print(return_user.user_id)
+    # print(return_user.age)
+    # print(return_user.sex)
     
 
 test_user_cycle()

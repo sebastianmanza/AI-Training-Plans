@@ -22,7 +22,10 @@ from backend.src.utils.user_storage.month_plan import *
 from backend.src.utils.user_storage.week_plan import *
 from backend.src.utils.user_storage.day_plan import *
 from backend.src.utils.user_storage.storage_stacks_and_queues import *
-import json
+from psycopg2.extras import register_composite
+from collections import namedtuple
+
+
 
 
 
@@ -183,25 +186,30 @@ def send_week_cycle(new_user, username, password):
 def send_day_cycle(new_user, username, password):
     
     conn = init_db(username, password)
+    register_composite('trio', conn)  # No errors = good
+    
+    workouts = [(1.0, 2.0, 3.0), (1.0, 2.0, 3.0)]
+
     # open cursor to perform sql queries
     curr = conn.cursor()
     
     while new_user.day_history:
         
         pres = new_user.day_history.pop()
-
+        
+        # cast workouts to trio type
+        TrioType = register_composite('trio', conn, globally=True).type
+        workouts = cast_workouts_to_trios(pres.workouts, TrioType)
+        
         # write query
         query = """ INSERT INTO public.day_cycle(
-            user_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, complete_score, past_day, complete_mileage, week_id)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """   
+            user_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, complete_score, past_day, complete_mileage, week_id, workouts)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s::trio[]); """   
         # fill query with appropriate user ID
-        
-        json_array = json.dumps(pres.workouts)  # Convert workouts to JSON string if needed
-
     
         # 1 is a placeholder (too lazy to change shit)
         record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli, pres.lift, pres.expected_rpe, pres.real_rpe,
-                            pres.percent_completion, True, pres.completed_mileage, pres.week_id, json_array)
+                            pres.percent_completion, True, pres.completed_mileage, pres.week_id, workouts)
 
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -216,15 +224,17 @@ def send_day_cycle(new_user, username, password):
         
         fut = new_user.day_future.get()
         
-        json_array = json.dumps(pres.workouts)  # Convert workouts to JSON string if needed
+        # cast workouts to trio type
+        TrioType = register_composite('trio', conn, globally=True).type
+        workouts = cast_workouts_to_trios(fut.workouts, TrioType)
         
         # write query
         query = """ INSERT INTO public.day_cycle(
-            user_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, complete_score, past_day, complete_mileage, week_id)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """     
+            user_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, complete_score, past_day, complete_mileage, week_id, workouts)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s::trio[]); """     
         # 1 is a placeholder (too lazy to change shit)
         record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli, fut.lift, fut.expected_rpe, fut.real_rpe,
-                            fut.percent_completion, False, fut.completed_mileage, fut.week_id, json_array)
+                            fut.percent_completion, False, fut.completed_mileage, fut.week_id, workouts)
         
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -250,13 +260,40 @@ def send_user_all(user_id, username, password):
     
     send_day_cycle(user_id, username, password)
     
+    
+# Trio = namedtuple('Trio', ['x', 'y', 'z'])
+
+def cast_workouts_to_trios(workouts, TrioType):
+    
+    
+    return [TrioType(*triplet) for triplet in workouts]
+
+
+    
+def testing_cycle(username, password):
+    
+    conn = init_db(username, password)
+    cursor = conn.cursor()
+    TrioType = register_composite('trio', conn, globally=True).type  # No errors = good
+    
+    raw_workouts = [(1.0, 2.0, 3.0), (4.0, 5.0, 6.0), (7.0, 8.0, 9.0)]
+    # Minimal, valid trio array
+    casted_workouts = cast_workouts_to_trios(raw_workouts, TrioType)
+
+    cursor.execute(
+        "INSERT INTO day_cycle (user_id, workouts) VALUES (%s, %s::trio[])",
+        (999, casted_workouts)
+    )
+    conn.commit()
+
+    
 
 
 
 # # testing     
-# storage = storage_stacks_and_queues()
+storage = storage_stacks_and_queues()
 
-# new_user = user(19, "male", "advanced", "17:45", 3, 5, 7)
+new_user = user(19, "male", "advanced", "17:45", 3, 5, 7)
 
 
 # send_user_info(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
@@ -296,21 +333,23 @@ send_week_cycle(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASS
 '''
 #testing day population
 
-'''
-list_of_workouts = [(1, 3, 4), (4, 5, 6)]
 
-day_one = day_plan(list_of_workouts, 1, False, 10, 3, 99, 99, 10)
-day_two = day_plan(list_of_workouts, 1, False, 10, 3, 99, 99, 10)
-day_three = day_plan(list_of_workouts, 1, False, 11, 4, 99, 99, 10)
+# list_of_workouts = [(1, 3, 4), (4, 5, 6)]
 
-new_user.append_day(day_one)
-new_user.append_day(day_two) 
+# day_one = day_plan(list_of_workouts, 1, False, 10, 3, 99, 99, 10)
+# day_two = day_plan(list_of_workouts, 1, False, 10, 3, 99, 99, 10)
+# day_three = day_plan(list_of_workouts, 1, False, 11, 4, 99, 99, 10)
+
+# new_user.append_day(day_one)
+# new_user.append_day(day_two) 
    
-new_user.append_fut_day(day_two)
-new_user.append_fut_day(day_three)
+# new_user.append_fut_day(day_two)
+# new_user.append_fut_day(day_three)
 
-send_day_cycle(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-'''
+# send_day_cycle(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+
+# testing_cycle(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+
 
 #print(type(new_user.month_history), len(new_user.month_history))
 #print("Queue before sending:", new_user.month_future.qsize())

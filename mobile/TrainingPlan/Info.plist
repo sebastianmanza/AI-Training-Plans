@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>MAP.Endorphin</string>
+	<key>CFBundleName</key>
+	<string>Endorphin</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>MADEOkineSansPERSONALUSE-Black.otf</string>
+		<string>MADEOkineSansPERSONALUSE-Medium.otf</string>
+		<string>MADEOkineSansPERSONALUSE-Bold.otf</string>
+		<string>MADEOkineSansPERSONALUSE-Light.otf</string>
+		<string>MADEOkineSansPERSONALUSE-Regular.otf</string>
+	</array>
+</dict>
+</plist>
