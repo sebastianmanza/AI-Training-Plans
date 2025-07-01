@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct TrainingPlanApp: App {
+    
     /* Check if the start screen has been seen */
     @StateObject private var appState = AppScreens()
 
