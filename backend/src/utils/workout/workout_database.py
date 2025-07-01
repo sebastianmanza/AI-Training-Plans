@@ -3,7 +3,7 @@ from backend.src.utils.workout.single_workout import single_workout
 from math import sqrt
 
 TRIO_STIM, TRIO_RPE, TRIO_DIST = 0, 1, 2
-LARGE_NUM = 100
+LARGE_NUM = 4000
 
 
 class workout_database:
@@ -146,13 +146,15 @@ class workout_database:
         distance = LARGE_NUM
         final_trio = workout_database.create_trio(0, 0, 0)
         for trio in workout_database.workout_dictionary:
-            new_distance = sqrt((trio[TRIO_STIM] - stim) ** 2 +
-                                (trio[TRIO_RPE] - rpe) ** 2 + (trio[TRIO_DIST] - dist) ** 2)
+            new_distance = \
+                (trio[TRIO_STIM] - stim) ** 2 + \
+                (trio[TRIO_RPE] - rpe) ** 2 + \
+                (trio[TRIO_DIST] - dist) ** 2
             if new_distance < distance:
                 distance = new_distance
                 final_trio = trio
 
-        if final_trio == (0, 0, 0):
+        if final_trio == (0, 0, 0) and not dist == 0: # If the distance isn't 0 then a workout type hasn't been found.
             raise ValueError(
                 "No matching workout type found for the given coordinates.")
 
@@ -189,8 +191,10 @@ class workout_database:
         distance = LARGE_NUM  # A value large enough to not be the min
         final_workout = workout_database.storage.workout_type[0]
         for workout in workout_database.storage.workout_type:
-            new_distance = sqrt(
-                (workout.get_stim() - x) ** 2 + (workout.get_rpe() - y) ** 2 + (workout.get_distance() - z) ** 2)
+            new_distance = \
+                (workout.get_stim() - x) ** 2 + \
+                (workout.get_rpe() - y) ** 2 + \
+                (workout.get_distance() - z) ** 2
             if new_distance < distance:
                 distance = new_distance
                 final_workout = workout
@@ -205,18 +209,20 @@ class workout_database:
             self, workout_database.get_workout_type(x, y, z))
         return workout_database.get_individual_workout_helper(self, x, y, z, workout_type)
 
-    def get_workout_type_coordinates(x, y, z):
+    def get_workout_type_coordinates(stim, rpe, dist):
         """Given stim, rpe, and dist return the coordinates associated with the workout type"""
         distance = LARGE_NUM
         final_trio = workout_database.create_trio(0, 0, 0)
         for trio in workout_database.workout_dictionary:
-            new_distance = sqrt((trio[0] - x) ** 2 +
-                                (trio[1] - y) ** 2 + (trio[2] - z) ** 2)
+            new_distance = \
+                (trio[0] - stim) ** 2 + \
+                (trio[1] - rpe) ** 2 + \
+                (trio[2] - dist) ** 2
             if new_distance < distance:
                 distance = new_distance
                 final_trio = trio
 
-        if final_trio == (0, 0, 0):
+        if final_trio == (0, 0, 0) and not dist == 0:
             raise ValueError(
                 "No matching workout type found for the given coordinates.")
 
