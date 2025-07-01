@@ -1,76 +1,75 @@
 import math
 
 
-global METERS_PER_MILE
 METERS_PER_MILE = 1609
-global MIN_CONVERSION
-MIN_CONVERSION = 60
-
-# Convert from seconds to string 1:01:01 -> whatever that is in seconds
+CONVERSION_NUM = 60
 
 
-def to_str(sec: int):
-    minutes = (math.floor(sec/MIN_CONVERSION) % MIN_CONVERSION)
-    hours = math.floor(sec/(MIN_CONVERSION*MIN_CONVERSION))
-    remainingSec = sec % MIN_CONVERSION
+def to_str(sec: int) -> str:
+    """ Convert seconds to a string in the format H:MM:SS."""
+    minutes = (math.floor(sec/CONVERSION_NUM) %
+               CONVERSION_NUM)  # Get the number of minutes
+    hours = math.floor(sec/(CONVERSION_NUM*CONVERSION_NUM)
+                       )  # Get the number of hours
+    remainingSec = sec % CONVERSION_NUM  # Get the seconds
     toReturn = ""
-    if hours != 0:
+    if hours != 0:  # Check to add hours
         toReturn += f"{hours}:"
-    if minutes != 0:
+    if minutes != 0:  # Check to add minutes
         toReturn += f"{minutes}:"
-    toReturn += f"{remainingSec}"
+    toReturn += f"{remainingSec}"  # Always add seconds
     return toReturn
 
-# Convert from pace (as string) to seconds 1:10->70
 
-
-def from_str(pace: str):
-    times = pace.split(":")
-    multiplier = 1
-    total = 0
-    for num in reversed(times):
+def from_str(pace: str) -> int:
+    """ Convert pace in the format H:MM:SS to seconds."""
+    times = pace.split(":")  # Split the string to
+    multiplier = 1  # Prepare the multiplier for conversion
+    total = 0  # Total seconds
+    for num in reversed(times):  # Go through the times to convert to seconds
+        # Add the time to the total when changed by the multiplier
         total += multiplier * int(num)
-        multiplier *= MIN_CONVERSION
+        multiplier *= CONVERSION_NUM  # Increase the multiplier for the next time
     return total
 
-# Convert from decimal to pace. i.e. 7.5->7:30
-def from_dec(pace: float):
-    dec = math.floor((pace % 1) * MIN_CONVERSION)
-    val = math.floor(pace)
+
+def from_dec(pace: float) -> str:
+    """ Convert decimal pace to a string in the format M:SS."""
+    dec = math.floor(
+        (pace % 1) * CONVERSION_NUM)  # Get the decimal part in seconds
+    val = math.floor(pace)  # Get the integer part in minutes
     return f"{val}:{dec}"
 
-# Convert from distance and pace to total time
-def total_time_miles(pace: int, mile: int):
+# This is essentially a helper function
+
+
+def total_time_miles(pace, mile: int) -> int:
+    """ Calculate the total time in seconds for a given pace (in seconds per mile) and distance (in miles)."""
+    if isinstance(pace, str):  # If pace is a string, convert it to seconds
+        pace = from_str(pace)
     return total_time(pace, (mile * METERS_PER_MILE))
 
 
-def total_time(pace: str, distance: int):
+def total_time(pace, distance: int) -> int:
+    """ Calculate the total time in seconds for a given pace (in seconds per mile) and distance (in meters)."""
+    if isinstance(pace, str):  # If pace is a string, convert it to seconds
+        pace = from_str(pace)
     return math.floor((pace * distance) / METERS_PER_MILE)
 
-# Alter the pace and return it as a string. Remember you can add negative numbers
-def alter_pace(pace: int, increase: int):
+
+def alter_pace(pace, increase: int):
+    """ Alter the pace by a given increase in seconds."""
+    if isinstance(pace, str):  # If pace is a string, convert it to seconds
+        pace = from_str(pace)
     return pace + increase
 
-# Takes in the time run for the distance and returns the mile pace in seconds.
-def mile_pace(pace: int, distance: int):
-    if distance == 0:
+
+def mile_pace(pace, distance: int):
+    if distance == 0:  # If distance is 0, return 0 to avoid division by zero
         return 0
+    if isinstance(pace, str):  # If pace is a string, convert it to seconds
+        pace = from_str(pace)
     return math.floor((pace * METERS_PER_MILE) / distance)
-
-
-# Takes in a string and a user i.e. (5000+10, 17:30 5k runner) and returns the pace associated with it.
-def parse_pace(pace: str, user):
-    if pace.find("+") != -1:
-        distance, increase = pace.split("+")
-        increase = int(increase)
-    elif pace.find("-") != -1:
-        distance, increase = pace.split("-")
-        increase = -int(increase)
-    else:
-        increase = 0
-    pace = pace.strip()
-    seconds = user.get_pace(int(distance))
-    return alter_pace(seconds, increase)
 
 
 # print(parse_pace("5000-10", "17:30 5k runner"))  # Example (to use replace seconds = user.get_pace(int(distance)) with seconds = "17:30")
