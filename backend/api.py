@@ -21,7 +21,7 @@ class SurveyIn(BaseModel):
     days_per_week: int
     days_of_week: list
     most_time_day: str
-    current_5k_fitness: float
+    current_5k_fitness: int
     major_injuries: str
     most_recent_injury: str
 

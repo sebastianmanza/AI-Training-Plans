@@ -6,10 +6,10 @@ class SurveyViewModel: ObservableObject {
   @Published var dateOfBirth = ""
   @Published var sex = ""
   @Published var experience = ""
-  @Published var daysPerWeek = 3
-  @Published var daysOfWeekText = ""        // comma-separated for now
+    @Published var daysPerWeek: Int = 0
+    @Published var daysOfWeek: [String] = []
   @Published var mostTimeDay = ""
-  @Published var current5k = 20.0
+    @Published var current5k: Int = 1110 // 5k estimate in seconds
   @Published var majorInjuries = ""
   @Published var recentInjury = ""
   
@@ -23,17 +23,13 @@ class SurveyViewModel: ObservableObject {
     isSubmitting = true
     defer { isSubmitting = false }
 
-    // split comma-list into array
-    let days = daysOfWeekText
-      .split(separator: ",")
-      .map { $0.trimmingCharacters(in: .whitespaces) }
 
     let survey = SurveyIn(
       date_of_birth: dateOfBirth,
       sex: sex,
       running_experience: experience,
       days_per_week: daysPerWeek,
-      days_of_week: days,
+      days_of_week: daysOfWeek,
       most_time_day: mostTimeDay,
       current_5k_fitness: current5k,
       major_injuries: majorInjuries,
