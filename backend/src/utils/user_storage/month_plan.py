@@ -32,9 +32,7 @@ class month_plan:
             self.weeks.append(week)
 
     def update_monthly_real_rpe(self):
-        """
-        Update the real RPE for the month based on the expected and real RPE values.
-        """
+        """Update the real RPE for the month based on the expected and real RPE values."""
         total = 0  # Total the RPE
         for week in self.weeks:
             total += week.calc_weekly_real_rpe()
@@ -42,9 +40,7 @@ class month_plan:
         self.real_rpe = total / len(self.weeks) if self.weeks else 0
 
     def update_monthly_mileage(self):
-        """
-        Update the monthly completion based on the weekly completion.
-        """
+        """Update the monthly completion based on the weekly completion."""
         total = 0  # Total the weekly mileage
         for week in self.weeks:
             total += week.completed_mileage  # Sum the completed mileage for each week
@@ -61,8 +57,6 @@ class month_plan:
 
     # Note that updating mileage also updates the percentage
     def update_week(self):
-        """
-        Update the monthly mileage and RPE.
-        """
+        """Update the monthly mileage and RPE."""
         self.update_monthly_mileage()
         self.update_monthly_real_rpe()

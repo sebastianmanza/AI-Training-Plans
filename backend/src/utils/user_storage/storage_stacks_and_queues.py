@@ -19,6 +19,7 @@ class storage_stacks_and_queues:
         self.day_future = Queue()
 
 
+
 # Example usage
 # This code demonstrates how to use the storage class
 # storer = storage_stacks_and_queues()
