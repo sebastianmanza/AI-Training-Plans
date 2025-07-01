@@ -1,8 +1,12 @@
 import backend.src.utils.user_storage.week_plan as week_plan
 from backend.src.utils.workout.workout_database import workout_database
 
+trio_stim,trio_RPE,trio_dist = 0, 1, 2  # Constants for indexing the trio
 
 class day_plan:
+
+    
+
     __slots__ = ("total_mileage", "completed_mileage", "goal_stimuli",
                  "lift", "expected_rpe", "real_rpe", "percent_completion", "workouts", "week_id", "day_id")
 
@@ -18,19 +22,17 @@ class day_plan:
         self.percent_completion = percent_completion
         self.goal_stimuli = goal_stimuli
 
-        if len(workouts) < 1:
+        if len(workouts) < 1: # If there are no workouts the stimuli is for an off day
             self.goal_stimuli = workouts[0]
-        else:
-            x = 0
-            y = 0
-            z = 0
+        else: # Otherwise 
+            tot_stim,tot_rpe,tot_dist = 0, 0, 0 # Initialize values representing the days trio
             for trios in workouts:
-                if(trios[0] > x and trios[2] > 1):
-                    x = trios[0]
-                if(trios[1] > y):
-                    y = trios[1]
-                z = z + trios[2]
-            self.goal_stimuli = workout_database.create_trio(x, y, z)
+                if(trios[trio_stim] > tot_stim and trios[trio_dist] > 1): # Only consider the stimuli if the distance > 1 (Ignore warmup/cooldown)
+                    tot_stim = trios[trio_stim]
+                if(trios[trio_RPE] > tot_rpe):
+                    tot_rpe = trios[trio_RPE]
+                tot_dist += trios[trio_dist]
+            self.goal_stimuli = workout_database.create_trio(tot_stim, tot_rpe, tot_dist) # Use the values to create the day trio
 
         self.lift = lift
         self.expected_rpe = expected_rpe
@@ -39,11 +41,13 @@ class day_plan:
 
         self.week_id = week_id  # Reference to the week plan this day belongs to
 
+    # May not be used if initialized workouts are final
     def add_workouts(self, *workouts):
+        """ Add multiple workouts to the day plan."""
         for workout in workouts:
             self.workouts.append(workout)
 
-    def update__real_rpe(self, real_rpe: int):
+    def update__real_rpe(self, real_rpe: int) -> None:
         """
         Update the real RPE for the day.
 

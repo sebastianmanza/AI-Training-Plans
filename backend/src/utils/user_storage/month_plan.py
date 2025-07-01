@@ -1,5 +1,6 @@
 import backend.src.utils.user_storage.week_plan as week_plan
 from backend.src.utils.workout.workout_database import workout_database
+from typing import cast, List
 
 
 class month_plan:
@@ -17,11 +18,16 @@ class month_plan:
         self.cycle = cycle
 
         self.weeks = weeks
+        for week in self.weeks:
+            # Ensure that each week is of type week_plan
+            if not isinstance(week, week_plan.week_plan):
+                raise TypeError("All weeks must be instances of week_plan.week_plan")
         self.expected_rpe = expected_rpe
         self.real_rpe = real_rpe
 
     # Once we have the weeks add them to the month
-    def add_weeks(self, weeks):
+    def add_weeks(self, weeks) -> None:
+        """ Add multiple weeks to the month plan."""
         for week in weeks:
             self.weeks.append(week)
 
@@ -32,8 +38,7 @@ class month_plan:
         total = 0  # Total the RPE
         for week in self.weeks:
             total += week.calc_weekly_real_rpe()
-        # Divide by the number of weeks
-        self.real_rpe = total / len(self.weeks) if self.weeks else 0
+        self.real_rpe = total / len(self.weeks) if self.weeks else 0 # Divide by the number of weeks
 
     def update_monthly_mileage(self):
         """
@@ -43,7 +48,7 @@ class month_plan:
         for week in self.weeks:
             total += week.completed_mileage  # Sum the completed mileage for each week
         self.completed_mileage = total
-        self.update_monthly_percent()
+        self.update_monthly_percent() # Update the percentage after updating completed mileage
 
     def update_monthly_percent(self):
         """
