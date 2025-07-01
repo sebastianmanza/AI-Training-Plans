@@ -1,9 +1,7 @@
 import math
 
 
-global METERS_PER_MILE
 METERS_PER_MILE = 1609
-global MIN_CONVERSION
 MIN_CONVERSION = 60
 
 # Convert from seconds to string 1:01:01 -> whatever that is in seconds

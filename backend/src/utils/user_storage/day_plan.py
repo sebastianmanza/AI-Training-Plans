@@ -1,7 +1,7 @@
 import backend.src.utils.user_storage.week_plan as week_plan
 from backend.src.utils.workout.workout_database import workout_database
 
-trio_stim, trio_RPE, trio_dist = 0, 1, 2  # Constants for indexing the trio
+TRIO_STIM, TRIO_RPE, TRIO_DIST = 0, 1, 2  # Constants for indexing the trio
 
 
 class day_plan:
@@ -28,11 +28,11 @@ class day_plan:
             tot_stim, tot_rpe, tot_dist = 0, 0, 0
             for trios in workouts:
                 # Only consider the stimuli if the distance > 1 (Ignore warmup/cooldown)
-                if (trios[trio_stim] > tot_stim and trios[trio_dist] > 1):
-                    tot_stim = trios[trio_stim]
-                if (trios[trio_RPE] > tot_rpe):
-                    tot_rpe = trios[trio_RPE]
-                tot_dist += trios[trio_dist]
+                if (trios[TRIO_STIM] > tot_stim and trios[TRIO_DIST] > 1):
+                    tot_stim = trios[TRIO_STIM]
+                if (trios[TRIO_RPE] > tot_rpe):
+                    tot_rpe = trios[TRIO_RPE]
+                tot_dist += trios[TRIO_DIST]
             self.goal_stimuli = workout_database.create_trio(
                 tot_stim, tot_rpe, tot_dist)  # Use the values to create the day trio
 

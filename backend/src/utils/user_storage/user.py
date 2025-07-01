@@ -6,9 +6,9 @@ from backend.src.utils.user_storage.storage_stacks_and_queues import storage_sta
 import backend.src.utils.time_conversion as tc
 import backend.src.utils.user_storage.training_database as training_database
 
-fivekdist, meters_per_mile = 5000, 1600  # Distance conversions
-calcnum = 1.06  # Exponent for pace prediction
-distances = [3000, 5000, 10000]  # Distances for which we will make predictions
+FIVEKDIST, METERS_PER_MILE = 5000, 1600  # Distance conversions
+CALCNUM = 1.06  # Exponent for pace prediction
+DISTANCES = [3000, 5000, 10000]  # Distances for which we will make predictions
 
 
 class user:
@@ -29,8 +29,8 @@ class user:
         self.running_ex = running_ex
         self.times = {}
         self.five_km_estimate_seconds = tc.mile_pace(
-            tc.from_str(five_km_estimate), fivekdist)
-        self.set_pace(fivekdist, self.five_km_estimate_seconds)
+            tc.from_str(five_km_estimate), FIVEKDIST)
+        self.set_pace(FIVEKDIST, self.five_km_estimate_seconds)
         self.make_predictions()
 
         self.mean_RPE = mean_RPE
@@ -56,13 +56,13 @@ class user:
 
     # Makes the predictions for every distance in DISTANCES.
     def make_predictions(self):
-        for distance in distances:
+        for distance in DISTANCES:
             self.set_pace(distance, self.predict_pace(distance))
 
     # Predicts the mile pace for a given distance based on the 5k pace.
     def predict_pace(self, distance):
-        fivekpace = self.get_pace(fivekdist)
-        return math.floor((fivekpace)*pow((distance/fivekdist), calcnum)*(fivekdist / distance))
+        fivekpace = self.get_pace(FIVEKDIST)
+        return math.floor((fivekpace)*pow((distance/FIVEKDIST), CALCNUM)*(FIVEKDIST / distance))
 
     # Returns the mile pace for each distance.
     def get_times(self):

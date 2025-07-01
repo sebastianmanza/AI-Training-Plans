@@ -2,7 +2,7 @@ import backend.src.utils.user_storage.day_plan as day_plan
 import backend.src.utils.user_storage.month_plan as month_plan
 from backend.src.utils.workout.workout_database import workout_database
 
-days_in_week = 7  # Default number of days in a week
+DAYS_IN_WEEK = 7  # Default number of days in a week
 
 
 class week_plan:
@@ -35,7 +35,7 @@ class week_plan:
         total = 0  # Total the RPE
         for day in self.days:
             total += day.real_rpe
-        self.real_rpe = total / days_in_week
+        self.real_rpe = total / DAYS_IN_WEEK
 
     def update_weekly_mileage(self):
         """Update the weekly completion based on the daily completion."""
