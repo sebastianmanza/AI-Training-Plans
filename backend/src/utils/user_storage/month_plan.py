@@ -25,7 +25,7 @@ class month_plan:
         self.expected_rpe = expected_rpe
         self.real_rpe = real_rpe
 
-    # Once we have the weeks add them to the month
+    # Once we have the weeks add them to the month. May be removed
     def add_weeks(self, weeks) -> None:
         """ Add multiple weeks to the month plan."""
         for week in weeks:
