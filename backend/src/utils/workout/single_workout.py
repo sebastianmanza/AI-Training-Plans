@@ -16,12 +16,15 @@ class single_workout:
         return self.trio
 
     def get_stim(self):
+        """Return the stimulus"""
         return self.trio[0]
 
     def get_rpe(self):
+        """Return the RPE"""
         return self.trio[1]
 
     def get_distance(self):
+        """"Return the distance"""
         return self.trio[2]
 
     def __str__(self):

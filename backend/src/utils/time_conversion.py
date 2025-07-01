@@ -35,11 +35,14 @@ def from_str(pace: str) -> int:
 
 def from_dec(pace: float) -> str:
     """ Convert decimal pace to a string in the format M:SS."""
-    dec = math.floor((pace % 1) * CONVERSION_NUM) # Get the decimal part in seconds
-    val = math.floor(pace) # Get the integer part in minutes
+    dec = math.floor(
+        (pace % 1) * CONVERSION_NUM)  # Get the decimal part in seconds
+    val = math.floor(pace)  # Get the integer part in minutes
     return f"{val}:{dec}"
 
 # This is essentially a helper function
+
+
 def total_time_miles(pace, mile: int) -> int:
     """ Calculate the total time in seconds for a given pace (in seconds per mile) and distance (in miles)."""
     if isinstance(pace, str):  # If pace is a string, convert it to seconds
@@ -62,7 +65,7 @@ def alter_pace(pace, increase: int):
 
 
 def mile_pace(pace, distance: int):
-    if distance == 0: # If distance is 0, return 0 to avoid division by zero
+    if distance == 0:  # If distance is 0, return 0 to avoid division by zero
         return 0
     if isinstance(pace, str):  # If pace is a string, convert it to seconds
         pace = from_str(pace)
