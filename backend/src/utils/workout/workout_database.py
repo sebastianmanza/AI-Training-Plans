@@ -40,7 +40,6 @@ class workout_database:
                  flat_sprints=list, time_trial=list, warmup_and_cooldown=list):
 
         # Set up the collection of workouts of each type
-    def __init__(self):
         self.et = workout_database.storage.et
         self.recovery = workout_database.storage.recovery
         self.kenyan = workout_database.storage.kenyan
@@ -173,7 +172,7 @@ class workout_database:
         elif workout_type == "Fartlek":
             return workout_database.storage.fartlek
         elif workout_type == "Race Pace Interval":
-            return workout_database.storage 
+            return workout_database.storage
         elif workout_type == "Strides":
             return workout_database.storage.strides
         elif workout_type == "Hill Sprints":
@@ -190,9 +189,6 @@ class workout_database:
         distance = LARGE_NUM  # A value large enough to not be the min
         final_workout = workout_database.storage.workout_type[0]
         for workout in workout_database.storage.workout_type:
-        distance = 100
-        final_workout = workout_type[0]
-        for workout in workout_type:
             new_distance = sqrt(
                 (workout.get_stim() - x) ** 2 + (workout.get_rpe() - y) ** 2 + (workout.get_distance() - z) ** 2)
             if new_distance < distance:
@@ -205,7 +201,8 @@ class workout_database:
         workout_type = workout_database.get_workout_type(
             x, y, z)  # Get the workout type based on the trio
         # Find the closest workout within the particular database
-        workout_type = workout_database.get_workout_storage_type(self, workout_database.get_workout_type(x, y, z))
+        workout_type = workout_database.get_workout_storage_type(
+            self, workout_database.get_workout_type(x, y, z))
         return workout_database.get_individual_workout_helper(self, x, y, z, workout_type)
 
     def get_workout_type_coordinates(x, y, z):
