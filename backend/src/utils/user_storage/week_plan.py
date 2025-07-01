@@ -2,13 +2,11 @@ import backend.src.utils.user_storage.day_plan as day_plan
 import backend.src.utils.user_storage.month_plan as month_plan
 from backend.src.utils.workout.workout_database import workout_database
 
-
+days_in_week = 7  # Default number of days in a week
 class week_plan:
     __slots__ = ("total_mileage", "completed_mileage", "percent_completion",
                  "goal_stimuli", "cycle", "days", "expected_rpe", "real_rpe", "month_id", "week_id")
 
-    global DAYS_IN_WEEK
-    DAYS_IN_WEEK = 7
     
 
     def __init__(self, total_mileage: int = -1, goal_stimuli = workout_database.create_trio(-1, -1, -1), cycle: str = "", expected_rpe = -1, month_id: int = -1, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, days: list = [], week_id = -1):
@@ -28,6 +26,7 @@ class week_plan:
 
     # Once we have the days add them to the week
     def add_days(self, days):
+        """ Add multiple days to the week plan."""
         for day in days:
             self.days.append(day)
 
@@ -38,7 +37,7 @@ class week_plan:
         total = 0  # Total the RPE
         for day in self.days:
             total += day.real_rpe
-        self.real_rpe = total / DAYS_IN_WEEK
+        self.real_rpe = total / days_in_week
 
     def update_weekly_mileage(self):
         """
