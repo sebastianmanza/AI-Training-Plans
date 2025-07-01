@@ -8,3 +8,9 @@ __pycache__/
 # Ignore vscode files
 .vscode/
 .idea/
+
+mobile/TrainingPlan/build/
+mobile/TrainingPlan/TrainingPlan.xcodeproj/
+mobile/TrainingPlan/Assets.xcassets/
+
+*.log
