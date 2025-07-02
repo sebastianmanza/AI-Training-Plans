@@ -27,7 +27,7 @@ class user:
 
         self.longest_run = longest_run
         self.running_ex = running_ex
-        self.times = {}
+        self.pace_times_dict = {}
         self.five_km_estimate_seconds = tc.mile_pace(
             tc.from_str(five_km_estimate), FIVEKDIST)
         self.set_pace(FIVEKDIST, self.five_km_estimate_seconds)
@@ -46,13 +46,13 @@ class user:
     # Takes in a distance and assigns the mile pace to it.
     def set_pace(self, distance: int, new_pace) -> None:
         if isinstance(new_pace, str):
-            self.times[distance] = tc.mile_pace(new_pace, distance)
+            self.pace_times_dict[distance] = tc.mile_pace(new_pace, distance)
         else:
-            self.times[distance] = new_pace
+            self.pace_times_dict[distance] = new_pace
 
     # Returns the mile pace for a given distance in seconds.
     def get_pace(self, distance: int) -> int:
-        return self.times[distance]
+        return self.pace_times_dict[distance]
 
     # Makes the predictions for every distance in DISTANCES.
     def make_predictions(self) -> None:
@@ -67,7 +67,7 @@ class user:
     # Returns the mile pace for each distance.
     def get_times(self) -> str:
         toReturn = ""
-        for k, v in self.times.items():
+        for k, v in self.pace_times_dict.items():
             toReturn += f"{k}:{tc.to_str(v)}\n"
         return toReturn
 
