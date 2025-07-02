@@ -246,6 +246,64 @@ def send_day_cycle(new_user, username, password):
     # close connection
     conn.close()
     
+""" To do: update method to check for existing user_id and handle appropriate updating without repeated user inputs"""  
+# sends username, password, email, and userid into the database
+
+def send_user_creds(new_user, username, password, user_username, user_password, user_email):
+    
+    try:
+        
+        conn = init_db(username, password)
+        # open cursor to perform sql queries
+        curr = conn.cursor()
+    
+        # prepare query to find or new user credential fields 
+        query = """ INSERT INTO public.user_credentials(user_id, email, username, password)
+                VALUES (%s, %s, %s, %s); """   
+        
+        record_to_insert = (new_user.user_id, user_username, user_password, user_email) 
+            
+        # execute query with filled parameters
+        curr.execute(query, record_to_insert)
+        
+        # make changes in database persistent
+        conn.commit()
+        
+        # close cursor
+        curr.close()
+        # close connection
+        conn.close()
+    
+    except Exception:
+        
+        try:
+            
+            conn = init_db(username, password)
+            # open cursor to perform sql queries
+            curr = conn.cursor()
+        
+            query = """ UPDATE public.user_credentials email=%s, username=%s, password=%s
+                        WHERE user_id=%s; """
+            
+            record_to_insert = (new_user.user_id, user_username, user_password, user_email) 
+                
+            # execute query with filled parameters
+            curr.execute(query, record_to_insert)
+            
+            # make changes in database persistent
+            conn.commit()
+            
+            # close cursor
+            curr.close()
+            # close connection
+            conn.close()
+        
+        except Exception as e:
+            print("Error updating user credentials:", e)
+            # Handle the error as needed, e.g., log it or raise an exception
+            
+        
+    
     
     
 def send_user_all(user_id, username, password):
