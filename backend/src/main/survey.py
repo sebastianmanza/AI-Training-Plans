@@ -9,9 +9,28 @@ import datetime
 
 
 class main:
+    
+    def sign_up():
+        
+        questions = [
+            "Email:",
+            "Username:",
+            "Password:",
+        ]
+    
+        answers = []
+        
+        for question in questions:
+                response = input(question + " ")
+                answers.append(response) 
+        
+        return answers  
+                
 
     """This is the main class that will run the preliminary survey for the user and store it in the database."""
     def prelim_survey():
+        
+        
 
         # Preliminary questions that will make up the users initial info.
         questions = [
@@ -35,9 +54,9 @@ class main:
             response = input(question + " ")
             answers.append(response)
         
-        new_user = user.user(answers[0], answers[1], answers[3], answers[4], answers[8], 4, 5, user_id=secrets.randbelow(100000000 - 10000000))
+        # new_user = user.user(answers[0], answers[1], answers[3], answers[4], answers[8], 4, 5, user_id=secrets.randbelow(100000000 - 10000000))
         
-        return new_user
+        return answers
     
     
     # testing 
