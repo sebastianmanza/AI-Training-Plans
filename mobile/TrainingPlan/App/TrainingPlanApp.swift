@@ -48,9 +48,27 @@ struct TrainingPlanApp: App {
                 case .survey:
                     SurveyViews(
                         onSurveyComplete: {
-                            appState.currentScreen = .start // Go back to start after survey
+                            appState.currentScreen = .home // Go back to start after survey
                         }
                     ) //Placeholder
+
+                case .home:
+                    HomeView(
+                        onCompleted: {
+                            appState.currentScreen = .start // Placeholder for next action
+                        },
+                        onDidNotComplete: {
+                            appState.currentScreen = .start
+                        },
+                        onQuestionMark: {
+                            appState.currentScreen = .start
+                        },
+                        onCalendarTapped: {
+                            appState.currentScreen = .start // Placeholder for calendar action
+                        },
+                        onProfileTapped: {
+                            appState.currentScreen = .start // Placeholder for profile action
+                        })
                 }
             }
             .environmentObject(appState) // Pass the app state to the environment
