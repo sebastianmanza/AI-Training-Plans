@@ -25,19 +25,19 @@ class week_plan:
         self.month_id = month_id  # Reference to the month plan this week belongs to
 
     # Once we have the days add them to the week
-    def add_days(self, days):
+    def add_days(self, days) -> None:
         """ Add multiple days to the week plan."""
         for day in days:
             self.days.append(day)
 
-    def update_weekly_real_rpe(self):
+    def update_weekly_real_rpe(self) -> None:
         """Update the real RPE for the week based on the expected and real RPE values."""
         total = 0  # Total the RPE
         for day in self.days:
             total += day.real_rpe
         self.real_rpe = total / DAYS_IN_WEEK
 
-    def update_weekly_mileage(self):
+    def update_weekly_mileage(self) -> None:
         """Update the weekly completion based on the daily completion."""
         total = 0  # Total the completion scores
         for day in self.days:  # Sum the completed mileage for each day
@@ -45,13 +45,13 @@ class week_plan:
         self.completed_mileage = total
         self.update_weekly_percent()
 
-    def update_weekly_percent(self):
+    def update_weekly_percent(self) -> None:
         """Update the weekly completion percentage based on the total mileage and completed mileage."""
         self.percent_completion = self.completed_mileage / \
             self.total_mileage if self.total_mileage > 0 else 1
 
     # Note that updating mileage also updates the percentage
-    def update_week(self):
+    def update_week(self) -> None:
         """Update the weekly mileage and RPE."""
         self.update_weekly_mileage()
         self.update_weekly_real_rpe()
