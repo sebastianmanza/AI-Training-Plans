@@ -125,11 +125,20 @@ struct IntroPage: View {
 
   var body: some View {
     ZStack {
-      //Background for survey
-      Image("surveyBackground")
-        .resizable()
-        .scaledToFill()
-        .edgesIgnoringSafeArea(.all)
+        
+      Color(red: 20 / 255, green: 18 / 255, blue: 50 / 255)
+            .ignoresSafeArea()
+        
+      LinearGradient(
+        gradient: Gradient(stops: [
+            .init(color: Color(red:   0/255, green: 106/255, blue: 255/255), location: 0.0),
+            .init(color: Color(red:   0/255, green: 226/255, blue: 188/255).opacity(0.2), location: 0.55),
+            .init(color: Color(red:   0/255, green: 226/255, blue: 188/255).opacity(0), location: 0.7)
+        ]),
+        startPoint: .top,
+        endPoint: .bottom
+      )
+      .ignoresSafeArea()
 
       // Overlay with content
       Spacer()

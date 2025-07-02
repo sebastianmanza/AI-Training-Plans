@@ -6,6 +6,7 @@ enum currentView {
     case survey
     case signup
     case login
+    case home
 }
 
 class AppScreens: ObservableObject {
