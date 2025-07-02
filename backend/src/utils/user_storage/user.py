@@ -129,7 +129,7 @@ class user:
             distance, increase = pace.split("-")
             increase = -int(increase)
         else: # No increase
-            increase = 0
+            distance, increase = pace, 0
         pace = pace.strip()
         seconds = self.get_pace(int(distance))
         return tc.alter_pace(seconds, increase)
