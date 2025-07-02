@@ -14,7 +14,7 @@ DISTANCES = [3000, 5000, 10000]  # Distances for which we will make predictions
 class user:
     # __slots__ = ("age", "dob", "sex", "five_km_estimate", "when-to-run", "injury", "mileage", "wo_history", "goal_date")
 
-    def __init__(self, dob, sex, running_ex, five_km_estimate, goal_date, mean_RPE, STD_RPE, user_id=secrets.randbelow(100000000 - 10000000), longest_run=0):
+    def __init__(self, dob, sex: str, running_ex, five_km_estimate: str, goal_date, mean_RPE: float, STD_RPE: float, user_id=secrets.randbelow(100000000 - 10000000), longest_run: int = 0):
         storage = storage_stacks_and_queues()
         self.user_id = user_id
         self.dob = dob
@@ -44,40 +44,41 @@ class user:
         self.day_future = storage.day_future
 
     # Takes in a distance and assigns the mile pace to it.
-    def set_pace(self, distance: int, new_pace):
+    def set_pace(self, distance: int, new_pace) -> None:
         if isinstance(new_pace, str):
             self.times[distance] = tc.mile_pace(new_pace, distance)
         else:
             self.times[distance] = new_pace
 
     # Returns the mile pace for a given distance in seconds.
-    def get_pace(self, distance: int):
+    def get_pace(self, distance: int) -> int:
         return self.times[distance]
 
     # Makes the predictions for every distance in DISTANCES.
-    def make_predictions(self):
+    def make_predictions(self) -> None:
         for distance in DISTANCES:
             self.set_pace(distance, self.predict_pace(distance))
 
     # Predicts the mile pace for a given distance based on the 5k pace.
-    def predict_pace(self, distance):
+    def predict_pace(self, distance) -> int:
         fivekpace = self.get_pace(FIVEKDIST)
         return math.floor((fivekpace)*pow((distance/FIVEKDIST), CALCNUM)*(FIVEKDIST / distance))
 
     # Returns the mile pace for each distance.
-    def get_times(self):
+    def get_times(self) -> str:
         toReturn = ""
         for k, v in self.times.items():
             toReturn += f"{k}:{tc.to_str(v)}\n"
         return toReturn
 
-    def get_user_id(self):
+    def get_user_id(self) -> int:
         return self.user_id
 
-    def generate_new_id(self):
+    def generate_new_id(self) -> None:
         self.user_id = secrets.randbelow(100000000 - 10000000)
 
-    def get_age(self):
+    def get_age(self) -> int:
+        """Returns the number of years the user has been alive as an int"""
         today = datetime.date.today()
         dob = datetime.datetime.strptime(self.dob, "%m/%d/%Y").date()
         age = today.year - dob.year - \
@@ -120,14 +121,14 @@ class user:
 
         # Takes in a string and a user i.e. (5000+10, 17:30 5k runner) and returns the pace associated with it.
 
-    def parse_pace(self, pace: str):
-        if pace.find("+") != -1:
+    def parse_pace(self, pace: str) -> int:
+        if pace.find("+") != -1: # See if a value is being added
             distance, increase = pace.split("+")
             increase = int(increase)
-        elif pace.find("-") != -1:
+        elif pace.find("-") != -1: # See if a value is being subtracted
             distance, increase = pace.split("-")
             increase = -int(increase)
-        else:
+        else: # No increase
             increase = 0
         pace = pace.strip()
         seconds = self.get_pace(int(distance))
@@ -136,7 +137,7 @@ class user:
 
 alex = user("8/22/2005", "male", "advanced", "17:30", "5", "7", "1")
 print(alex.get_pace(10000))
-print(alex.parse_pace("10000+10"))
+print(alex.parse_pace("10000"))
 # alex.set_pace(5000, "17:30")
 # alex.make_predictions()
 # print(alex.get_times())
