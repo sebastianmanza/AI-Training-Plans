@@ -86,7 +86,7 @@ class workout_database:
     def mass_add_workouts(self, workouts):
         """"Add a list of workouts to the database"""
         for workout in workouts:
-            if (isinstance(workout, single_workout)):
+            if not (isinstance(workout, single_workout)):
                 raise (
                     "Tried to add something that isn't a workout to the workout database")
             else:
