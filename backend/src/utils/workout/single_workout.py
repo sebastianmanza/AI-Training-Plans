@@ -1,3 +1,6 @@
+TRIO_STIM, TRIO_RPE, TRIO_DIST = 0, 1, 2
+
+
 class single_workout:
 
     __slots__ = ("trio", "reps", "pace", "distance")
@@ -16,13 +19,16 @@ class single_workout:
         return self.trio
 
     def get_stim(self):
-        return self.trio[0]
+        """Return the stimulus"""
+        return self.trio[TRIO_STIM]
 
     def get_rpe(self):
-        return self.trio[1]
+        """Return the RPE"""
+        return self.trio[TRIO_RPE]
 
     def get_distance(self):
-        return self.trio[2]
+        """"Return the distance"""
+        return self.trio[TRIO_DIST]
 
     def __str__(self):
         return f"Workout: {self.trio}, Reps: {self.reps}, Pace: {self.pace}, Distance: {self.distance}"
