@@ -449,17 +449,8 @@ class decision_tree:
                             ###user is an intermediate or advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
-                            ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
-                                #return training_plan
-                                return -1
-                            #user is 15 or under
-                            ##user is male
-                            ###user is an intermediate or advanced runner
-                            ####user has 1 - 2 injuries
-                            #####user most recent injury is 0 - 3 months ago
-                            ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            ######checks if user longest long run is 0 - 4 miles
+                            if self.user.longest_long_run <= 4:
                                 #return training_plan
                                 return -1
                             #user is 15 or under
@@ -491,17 +482,8 @@ class decision_tree:
                             ###user is an intermediate or advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
-                            ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
-                                #return training_plan
-                                return -1
-                            #user is 15 or under
-                            ##user is male
-                            ###user is an intermediate or advanced runner
-                            ####user has 1 - 2 injuries
-                            #####user most recent injury is 3 - 6 months ago
-                            ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            ######checks if user longest long run is 0 - 4 miles
+                            if self.user.longest_long_run <= 4:
                                 #return training_plan
                                 return -1
                             #user is 15 or under
@@ -533,17 +515,8 @@ class decision_tree:
                             ###user is an intermediate or advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
-                            ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
-                                #return training_plan
-                                return -1
-                            #user is 15 or under
-                            ##user is male
-                            ###user is an intermediate or advanced runner
-                            ####user has 1 - 2 injuries
-                            #####user most recent injury is 6 - 12 months ago
-                            ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            ######checks if user longest long run is 0 - 4 miles
+                            if self.user.longest_long_run <= 4:
                                 #return training_plan
                                 return -1
                             #user is 15 or under
@@ -575,17 +548,8 @@ class decision_tree:
                             ###user is an intermediate or advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
-                            ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
-                                #return training_plan
-                                return -1
-                            #user is 15 or under
-                            ##user is male
-                            ###user is an intermediate or advanced runner
-                            ####user has 1 - 2 injuries
-                            #####user most recent injury is 12 - 24 months ago
-                            ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            ######checks if user longest long run is 0 - 4 miles
+                            if self.user.longest_long_run <= 4:
                                 #return training_plan
                                 return -1
                             #user is 15 or under
@@ -3009,31 +2973,31 @@ class decision_tree:
                         ##user is female or other
                         ###user is an intermediate runner
                         ####user has 0 injuries
-                        #####checks if user longest long run is 0 - 5 miles
-                        if self.user.longest_long_run <= 5:
+                        #####checks if user longest long run is 0 - 6 miles
+                        if self.user.longest_long_run <= 6:
                             #return training_plan
                             return -1
                         #user is between 15 and 25
                         ##user is female or other
                         ###user is an intermediate runner
                         ####user has 0 injuries
-                        #####checks if user longest long run is 6 - 7 miles
-                        elif self.user.longest_long_run <= 7:
+                        #####checks if user longest long run is 7 - 8 miles
+                        elif self.user.longest_long_run <= 8:
                             #return training_plan
                             return -1
                         #user is between 15 and 25
                         ##user is female or other
                         ###user is an intermediate runner
                         ####user has 0 injuries
-                        #####checks if user longest long run is 8 - 9 miles
-                        elif self.user.longest_long_run <= 9:
+                        #####checks if user longest long run is 9 - 10 miles
+                        elif self.user.longest_long_run <= 10:
                             #return training_plan
                             return -1
                         #user is between 15 and 25
                         ##user is female or other
                         ###user is an intermediate runner
                         ####user has 0 injuries
-                        #####checks if user longest long run is 9+ miles
+                        #####checks if user longest long run is 10+ miles
                         else:
                             #return training_plan
                             return -1
