@@ -1,6 +1,14 @@
 import SwiftUI
 import UIKit
 
+extension Float {
+  var formattedMileage: String {
+    truncatingRemainder(dividingBy: 1) == 0
+      ? String(format: "%.0f", self)
+      : String(format: "%.1f", self)
+  }
+}
+
 struct HomeView: View {
   @StateObject private var vm = HomeViewModel()
 
@@ -74,7 +82,7 @@ struct HomeView: View {
                 // foreground
                 VStack(spacing: 25) {
                   if let data = vm.homeData {
-                    Text(data.day)
+                    Text(data.day.uppercased())
                       .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 24))
                       .foregroundColor(.white)
                       .multilineTextAlignment(.center)
@@ -84,7 +92,7 @@ struct HomeView: View {
                       .frame(width: geo.size.width * 0.65, height: 1.5)
                       .padding(.bottom, 20)
 
-                    Text("\(data.mileage) MILES")
+                    Text("\(data.mileage.formattedMileage) MILES")
                       .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
                       .foregroundColor(.white)
                       .multilineTextAlignment(.center)
@@ -100,7 +108,7 @@ struct HomeView: View {
                           .foregroundColor(.white)
                       }
                       HStack(spacing: 20) {
-                        Text("STIMULI:")
+                        Text("WORKOUT:")
                           .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
                           .foregroundColor(.white)
 
@@ -110,7 +118,7 @@ struct HomeView: View {
                       }
 
                       HStack(spacing: 20) {
-                        Text("GOAL RPE")
+                        Text("GOAL RPE:")
                           .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
                           .foregroundColor(.white)
 
