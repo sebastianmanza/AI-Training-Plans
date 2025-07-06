@@ -15,7 +15,6 @@ class workout_database:
     def create_trio(stim, rpe, dist):
         stim, rpe, dist = float(stim), float(rpe), float(dist)
         return (stim, rpe, dist)
-    
 
     # x range is 1 - 7 stimulus, y range is 1 -10 RPE, z range is 1 - 10 Distance
     # Dictionary that maps trios of (x, y, z) coordinates to workout types.

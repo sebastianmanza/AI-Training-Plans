@@ -34,13 +34,13 @@ class main:
         for question in questions:
             response = input(question + " ")
             answers.append(response)
-        
-        new_user = user.user(answers[0], answers[1], answers[3], answers[4], answers[8], 4, 5, user_id=secrets.randbelow(100000000 - 10000000))
-        
+
+        new_user = user.user(answers[0], answers[1], answers[3], answers[4],
+                             answers[8], 4, 5, user_id=secrets.randbelow(100000000 - 10000000))
+
         return new_user
-    
-    
-    # testing 
+
+    # testing
     # user_send.send_user_info(prelim_survey(), "postgres", "Control1500#")
 
     def daily_post_run_survey():

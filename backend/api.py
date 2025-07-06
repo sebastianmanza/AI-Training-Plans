@@ -9,10 +9,11 @@ app = FastAPI()
 # Allow simulator to find API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 class SurveyIn(BaseModel):
     date_of_birth: str
@@ -26,6 +27,8 @@ class SurveyIn(BaseModel):
     most_recent_injury: str
 
 # Endpoint for preliminary survey
+
+
 @app.post("/survey/prelim")
 async def survey_prelim(payload: SurveyIn):
     try:
