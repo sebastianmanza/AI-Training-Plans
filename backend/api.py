@@ -54,17 +54,25 @@ async def get_home_data():
     cur_day = datetime.now().strftime("%A")
     
     # TODO Replace with actual retrieval using user_id in the SQL database
+    # Logic should go something like this: 
+        # 1. Retrieve user_id from session (either logged in user or when user logs in)
+        # 2. Use user_id to retrieve the whole user from the database
+        # 3. For now use the assumption that the user is filling out post run everyday, update the stack with the info entered
+        # 4. put that on the stack, pop the top of the stack and shift everything into their places
+        # 5. send info back to the database
     # For now, we will use a placeholder for our training plans
     database = txt_to_database("backend/data/raw/training_plan_test.txt")
     current_day_object = database.day.get()
     next_day = database.day.get()
     
+    stim_cur = str(current_day_object.workouts[0]) if (len(current_day_object.workouts) == 1) else str(current_day_object.workouts[0]) + " + " + str(current_day_object.workouts[1])
+    stim_next = str(next_day.workouts[0]) if (len(next_day.workouts) == 1) else str(next_day.workouts[0]) + " + " + str(next_day.workouts[1])
     
     return HomeData(
         day = cur_day,
         mileage = current_day_object.total_mileage,
-        pace= "7:00-7:30",  # Placeholder pace, should be replaced with actual logic
-        stimuli = "EASY RUN",
+        pace= "7:00-7:30",  # Placeholder pace, should be replaced with actual logic based on the user
+        stimuli = stim_cur,
         goal_rpe = str(current_day_object.expected_rpe) + "/10",
-        upcoming = "3 MILE KENYAN"
+        upcoming = stim_next
     )
