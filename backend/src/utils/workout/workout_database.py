@@ -19,10 +19,10 @@ class workout_database:
     # x range is 1 - 7 stimulus, y range is 1 -10 RPE, z range is 1 - 10 Distance
     # Dictionary that maps trios of (x, y, z) coordinates to workout types.
     workout_dictionary = {
-        create_trio(2.5, 4, 5.5): "ET",
-        create_trio(2, 3, 4.5): "Recovery",
-        create_trio(4, 6, 6): "Kenyan",
-        create_trio(2.5, 5, 10): "Long",
+        create_trio(2.5, 4, 5.5): "Easy Run",
+        create_trio(2, 3, 4.5): "Recovery Run",
+        create_trio(4, 6, 6): "Progression",
+        create_trio(2.5, 5, 10): "Long Run",
         create_trio(4.5, 7, 7.5): "Threshold",
         create_trio(5, 6, 7): "Fartlek",
         create_trio(5.5, 8, 6.5): "Race Pace Interval",
@@ -57,13 +57,13 @@ class workout_database:
         """Add a workout to the matching workout database"""
         workout_type = workout_database.get_workout_type(
             workout.trio[TRIO_STIM], workout.trio[TRIO_RPE], workout.trio[TRIO_DIST])
-        if workout_type == "ET":
+        if workout_type == "Easy Run":
             workout_database.storage.et.append(workout)
-        elif workout_type == "Recovery":
+        elif workout_type == "Recovery Run":
             workout_database.storage.recovery.append(workout)
-        elif workout_type == "Kenyan":
+        elif workout_type == "Progression":
             workout_database.storage.kenyan.append(workout)
-        elif workout_type == "Long":
+        elif workout_type == "Long Run":
             workout_database.storage.long.append(workout)
         elif workout_type == "Threshold":
             workout_database.storage.threshold.append(workout)
@@ -93,19 +93,19 @@ class workout_database:
 
     def print_workouts(self, workout_type: str):
         """Print out every workout of an inputted type"""
-        if workout_type == "ET":
+        if workout_type == "Easy Run":
             print("ET Workouts:")
             for workout in self.et:
                 print(workout)
-        elif workout_type == "Recovery":
+        elif workout_type == "Recovery Run":
             print("Recovery Workouts:")
             for workout in self.recovery:
                 print(workout)
-        elif workout_type == "Kenyan":
+        elif workout_type == "Progression":
             print("Kenyan Workouts:")
             for workout in self.kenyan:
                 print(workout)
-        elif workout_type == "Long":
+        elif workout_type == "Long Run":
             print("Long Workouts:")
             for workout in self.long:
                 print(workout)
@@ -164,19 +164,19 @@ class workout_database:
 
 
     @staticmethod
-    def get_workout_type(trio):
+    def get_workout_type_trio(trio):
         """Returns the workout type based on the trio"""
         stim, rpe, dist = trio[TRIO_STIM], trio[TRIO_RPE], trio[TRIO_DIST]
         return workout_database.get_workout_type(stim, rpe, dist)
     
     def get_workout_storage_type(self, workout_type: str):
-        if workout_type == "ET":
+        if workout_type == "Easy Run":
             return workout_database.storage.et
-        elif workout_type == "Recovery":
+        elif workout_type == "Recovery Run":
             return workout_database.storage.recovery
-        elif workout_type == "Kenyan":
+        elif workout_type == "Progression":
             return workout_database.storage.kenyan
-        elif workout_type == "Long":
+        elif workout_type == "Long Run":
             return workout_database.storage.long
         elif workout_type == "Threshold":
             return workout_database.storage.threshold
