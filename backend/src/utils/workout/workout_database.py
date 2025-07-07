@@ -162,6 +162,13 @@ class workout_database:
 
         return workout_database.workout_dictionary[final_trio]
 
+
+    @staticmethod
+    def get_workout_type(trio):
+        """Returns the workout type based on the trio"""
+        stim, rpe, dist = trio[TRIO_STIM], trio[TRIO_RPE], trio[TRIO_DIST]
+        return workout_database.get_workout_type(stim, rpe, dist)
+    
     def get_workout_storage_type(self, workout_type: str):
         if workout_type == "ET":
             return workout_database.storage.et
