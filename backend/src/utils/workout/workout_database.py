@@ -53,7 +53,7 @@ class workout_database:
         self.time_trial = workout_database.storage.time_trial
         self.warmup_and_cooldown = workout_database.storage.warmup_and_cooldown
 
-    def add_workout(self, workout: single_workout):
+    def add_workout(self, workout: single_workout) -> None:
         """Add a workout to the matching workout database"""
         workout_type = workout_database.get_workout_type(
             workout.trio[TRIO_STIM], workout.trio[TRIO_RPE], workout.trio[TRIO_DIST])
@@ -82,7 +82,7 @@ class workout_database:
         else:
             workout_database.storage.warmup_and_cooldown.append(workout)
 
-    def mass_add_workouts(self, workouts):
+    def mass_add_workouts(self, workouts) -> None:
         """"Add a list of workouts to the database"""
         for workout in workouts:
             if not (isinstance(workout, single_workout)):
@@ -91,7 +91,7 @@ class workout_database:
             else:
                 self.add_workout(workout)
 
-    def print_workouts(self, workout_type: str):
+    def print_workouts(self, workout_type: str) -> None:
         """Print out every workout of an inputted type"""
         if workout_type == "ET":
             print("ET Workouts:")
@@ -162,7 +162,7 @@ class workout_database:
 
         return workout_database.workout_dictionary[final_trio]
 
-    def get_workout_storage_type(self, workout_type: str):
+    def get_workout_storage_type(self, workout_type: str) -> list:
         if workout_type == "ET":
             return workout_database.storage.et
         elif workout_type == "Recovery":
@@ -188,7 +188,7 @@ class workout_database:
         else:
             return workout_database.storage.warmup_and_cooldown
 
-    def get_individual_workout_helper(self, stim: float, rpe: float, dist: float, workout_type: str):
+    def get_individual_workout_helper(self, stim: float, rpe: float, dist: float, workout_type: str) -> single_workout:
         """Returns the workout closest to the stim,rpe and dist from within the type"""
         distance = LARGE_NUM  # A value large enough to not be the min
         final_workout = workout_database.storage.workout_type[0]
@@ -201,7 +201,7 @@ class workout_database:
 
         return final_workout
 
-    def get_individual_workout(self, stim: float, rpe: float, dist: float):
+    def get_individual_workout(self, stim: float, rpe: float, dist: float) -> single_workout:
         workout_type = workout_database.get_workout_type(
             stim, rpe, dist)  # Get the workout type based on the trio
         # Find the closest workout within the particular database
