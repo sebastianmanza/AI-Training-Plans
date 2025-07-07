@@ -1,7 +1,16 @@
 import SwiftUI
 import UIKit
 
+extension Float {
+  var formattedMileage: String {
+    truncatingRemainder(dividingBy: 1) == 0
+      ? String(format: "%.0f", self)
+      : String(format: "%.1f", self)
+  }
+}
+
 struct HomeView: View {
+  @StateObject private var vm = HomeViewModel()
 
   /* The current options for clickable objects */
   var onCompleted: () -> Void
@@ -72,57 +81,62 @@ struct HomeView: View {
               .overlay(
                 // foreground
                 VStack(spacing: 25) {
-                  Text("MONDAY")
-                    .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 24))
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
+                  if let data = vm.homeData {
+                    Text(data.day.uppercased())
+                      .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 24))
+                      .foregroundColor(.white)
+                      .multilineTextAlignment(.center)
 
-                  Rectangle()
-                    .fill(.white)
-                    .frame(width: geo.size.width * 0.65, height: 1.5)
-                    .padding(.bottom, 20)
+                    Rectangle()
+                      .fill(.white)
+                      .frame(width: geo.size.width * 0.65, height: 1.5)
+                      .padding(.bottom, 20)
 
-                  Text("7 MILES")
-                    .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
+                    Text("\(data.mileage.formattedMileage) MILES")
+                      .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
+                      .foregroundColor(.white)
+                      .multilineTextAlignment(.center)
 
-                  VStack(alignment: .leading, spacing: 20) {
-                    HStack(spacing: 20) {
-                      Text("PACE:")
-                        .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
-                        .foregroundColor(.white)
+                    VStack(alignment: .leading, spacing: 20) {
+                      HStack(spacing: 20) {
+                        Text("PACE:")
+                          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
+                          .foregroundColor(.white)
 
-                      Text("7:00-7:30")
-                        .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
-                        .foregroundColor(.white)
+                        Text(data.pace)
+                          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
+                          .foregroundColor(.white)
+                      }
+                      HStack(spacing: 20) {
+                        Text("WORKOUT:")
+                          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
+                          .foregroundColor(.white)
+
+                        Text(data.stimuli)
+                          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
+                          .foregroundColor(.white)
+                      }
+
+                      HStack(spacing: 20) {
+                        Text("GOAL RPE:")
+                          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
+                          .foregroundColor(.white)
+
+                        Text(data.goalRPE)
+                          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
+                          .foregroundColor(.white)
+                      }
                     }
-                    HStack(spacing: 20) {
-                      Text("STIMULI:")
-                        .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
-                        .foregroundColor(.white)
 
-                      Text("BASE:")
-                        .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
-                        .foregroundColor(.white)
-                    }
-
-                    HStack(spacing: 20) {
-                      Text("GOAL RPE")
-                        .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
-                        .foregroundColor(.white)
-
-                      Text("5/10")
-                        .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
-                        .foregroundColor(.white)
+                    HStack(spacing: 15) {
+                      Spacer()
+                      XButton(action: onDidNotComplete)
+                      CheckButton(action: onCompleted)
+                        .padding(.trailing, 25)
                     }
                   }
-
-                  HStack(spacing: 15) {
-                    Spacer()
-                    XButton(action: onDidNotComplete)
-                    CheckButton(action: onCompleted)
-                      .padding(.trailing, 25)
+                  else {
+                    ProgressView()
                   }
                 })
 
@@ -134,21 +148,27 @@ struct HomeView: View {
 
             .overlay(
               VStack(spacing: 15) {
-                Text("UPCOMING")
-                  .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 20))
-                  .foregroundColor(.white)
-                  .multilineTextAlignment(.center)
+                if let data = vm.homeData {
+                  Text("UPCOMING")
+                    .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 20))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
 
-                Rectangle()
-                  .fill(.white)
-                  .frame(width: geo.size.width * 0.65, height: 1.5)
+                  Rectangle()
+                    .fill(.white)
+                    .frame(width: geo.size.width * 0.65, height: 1.5)
 
-                Text("3 MILE KENYAN")
-                  .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 16))
-                  .foregroundColor(.white)
-                  .multilineTextAlignment(.center)
+                  Text(data.upcoming)
+                    .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 16))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                }
+                else {
+                  ProgressView()
+                }
               })
         }
+        .onAppear { Task { await vm.load() } }
         .padding(.bottom, 50)
         .overlay(
           CalendarButton(action: onCalendarTapped)

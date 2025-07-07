@@ -229,7 +229,7 @@ def populate_user_info(user_id):
             new_user.day_history.append(day_plan(
                 total_mileage=day_data_dict.get('day_total_mileage'),
                 workouts=day_data_dict.get('day_workouts'),
-                goal_stimuli= day_data_dict.get('day_goal_stimuli'),
+                goal_stimuli=day_data_dict.get('day_goal_stimuli'),
                 lift=day_data_dict.get('day_cycle'),
                 expected_rpe=day_data_dict.get('day_expected_rpe'),
                 real_rpe=day_data_dict.get('day_real_rpe'),
@@ -240,7 +240,7 @@ def populate_user_info(user_id):
             new_user.day_future.put(day_plan(
                 total_mileage=day_data_dict.get('day_total_mileage'),
                 workouts=day_data_dict.get('day_workouts'),
-                goal_stimuli= day_data_dict.get('day_goal_stimuli'),
+                goal_stimuli=day_data_dict.get('day_goal_stimuli'),
                 lift=day_data_dict.get('day_cycle'),
                 expected_rpe=day_data_dict.get('day_expected_rpe'),
                 day_id=day_data_dict.get('day_id')))
