@@ -122,13 +122,13 @@ class user:
         # Takes in a string and a user i.e. (5000+10, 17:30 5k runner) and returns the pace associated with it.
 
     def parse_pace(self, pace: str) -> int:
-        if pace.find("+") != -1: # See if a value is being added
+        if pace.find("+") != -1:  # See if a value is being added
             distance, increase = pace.split("+")
             increase = int(increase)
-        elif pace.find("-") != -1: # See if a value is being subtracted
+        elif pace.find("-") != -1:  # See if a value is being subtracted
             distance, increase = pace.split("-")
             increase = -int(increase)
-        else: # No increase
+        else:  # No increase
             distance, increase = pace, 0
         pace = pace.strip()
         seconds = self.get_pace(int(distance))

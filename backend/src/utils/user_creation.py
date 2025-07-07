@@ -13,7 +13,8 @@ def user_create(users: dict, username: str, password: str, email: str, surveyque
     if (username in (users.keys())[USERNAME_LOC]):  # user.keys() returns the login_info, so we check if the username is in the keys.
         raise ValueError("Username already exists.")
 
-    if (len(password) < PASS_LEN_REQ):  # Maybe make a is_valid_password function later.
+    # Maybe make a is_valid_password function later.
+    if (len(password) < PASS_LEN_REQ):
         raise ValueError("Password must be at least 8 characters long.")
 
     hashed_password = hash(password)  # Replace with a secure hashing function

@@ -1,19 +1,19 @@
 set -e
 
+LOGFILE="$(pwd)/backend/uvicorn.log"
 # Start athe API
 
 # If an old uvicorn is running, kill it so we don’t leak processes
-pkill -f "uvicorn api:app" 2>/dev/null || true
+pkill -f "uvicorn.*backend\.api:app" 2>/dev/null || true
 
 echo "Starting FastAPI backend…"
-pushd backend > /dev/null
 
-# Start uvicorn in the background (logs to backend/uvicorn.log)
-nohup uvicorn api:app --reload --host 127.0.0.1 --port 8000 \
-  > uvicorn.log 2>&1 &
+# stay in AI-Training-Plans
+nohup python3 -u -m uvicorn backend.api:app \
+    --reload --host localhost --port 8000 \
+    > "$LOGFILE" 2>&1 &
 
 echo "API started (pid $!) and logging to backend/uvicorn.log"
-popd > /dev/null
 
 # Fire up the simulator
 DEVICE="iPhone 16 Pro"

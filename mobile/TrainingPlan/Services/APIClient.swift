@@ -7,8 +7,8 @@ enum APIError: Error {
   case jsonDecoding(Error)
 }
 
-class SurveyAPI {
-  static let baseURL = "http://YOUR_BACKEND_IP:8000"
+class APIClient {
+  static let baseURL = "http://localhost:8000"
   
   /// Sends the survey and returns the raw JSON as a dictionary.
   static func submitPrelim(_ survey: SurveyIn) async throws -> [String: Any] {
@@ -42,5 +42,16 @@ class SurveyAPI {
     } catch {
       throw APIError.jsonDecoding(error)
     }
+  }
+
+    static func fetchHomeData() async throws -> HomeData {
+    guard let url = URL(string: "\(baseURL)/home/data") else {
+      throw APIError.badURL
+    }
+    let (data, resp) = try await URLSession.shared.data(from: url)
+    guard let http = resp as? HTTPURLResponse, 200..<300 ~= http.statusCode else {
+      throw APIError.http((resp as? HTTPURLResponse)?.statusCode ?? -1, data)
+    }
+    return try JSONDecoder().decode(HomeData.self, from: data)
   }
 }
