@@ -112,7 +112,7 @@ struct HomeView: View {
                           .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
                           .foregroundColor(.white)
 
-                        Text(data.stimuli)
+                        Text(data.stimuli.uppercased())
                           .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
                           .foregroundColor(.white)
                       }
@@ -158,7 +158,7 @@ struct HomeView: View {
                     .fill(.white)
                     .frame(width: geo.size.width * 0.65, height: 1.5)
 
-                  Text(data.upcoming)
+                  Text(data.upcoming.uppercased())
                     .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 16))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
