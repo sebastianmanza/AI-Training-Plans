@@ -10,6 +10,8 @@ from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.user_send import send_user_info
 from backend.src.utils import user_creation
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
+from backend.src.utils.user_storage.user import user
+from backend.src.utils.time_conversion import to_str
 
 app = FastAPI()
 
@@ -87,7 +89,7 @@ async def survey_prelim(payload: SurveyIn):
         raise HTTPException(status_code=500, detail=str(e))
     
 @app.get("/home/data", response_model=HomeData)
-async def get_home_data(user_id: int):
+async def get_home_data(user_id: int = 0):
     """get_home_data is an endpoint that retrieves the home page data for a user.
 
     Args:
@@ -98,10 +100,13 @@ async def get_home_data(user_id: int):
     """
     day_of_week = datetime.now().strftime("%A")
     
-    user = populate_user_info(user_id)
+    # user = populate_user_info(user_id)
     
-    current_day = user.day_future.get() if user.day_future else None
-    next_day = user.day_future[0] if user.day_future and len(user.day_future) > 1 else None
+    # current_day = user.day_future.get() if user.day_future else None
+    # next_day = user.day_future.queue[0] if user.day_future and len(user.day_future) > 1 else None
+    
+    
+    
     # TODO Replace with actual retrieval using user_id in the SQL database
     # Logic should go something like this: 
         # 1. Retrieve user_id from session (either logged in user or when user logs in)
@@ -109,20 +114,46 @@ async def get_home_data(user_id: int):
         # 3. For now use the assumption that the user is filling out post run everyday, update the stack with the info entered
         # 4. put that on the stack, pop the top of the stack and shift everything into their places
         # 5. send info back to the database
+        
+        
     # For now, we will use a placeholder for our training plans
     database = txt_to_database("backend/data/raw/training_plan_test.txt")
-    current_day = database.day.get()
-    next_day = database.day.get()
+    test_user = user("3/17/2005", sex = "Male", running_ex="Advanced", five_km_estimate="16:30", goal_date=date(2024, 5, 1), mean_RPE=5, STD_RPE=2)
+    test_user.day_future = database.day
+    test_user.week_future = database.week
+    test_user.month_future = database.month
+    
+    current_day = test_user.day_future.get()
+    next_day = test_user.day_future.queue[0]
+    
+    pace = 0
+    pace_str = ""
     
     
     # Create a string representation of the current day and next day workouts
-    workout_cur = workout_database.get_workout_type_trio(current_day_object.workouts[0]) if (len(current_day_object.workouts) == 1) else workout_database.get_workout_type_trio(current_day_object.workouts[0]) + " + \n" + workout_database.get_workout_type_trio(current_day_object.workouts[1])
+    workout_cur = workout_database.get_workout_type_trio(current_day.workouts[0]) if (len(current_day.workouts) == 1) else workout_database.get_workout_type_trio(current_day.workouts[0]) + " + \n" + workout_database.get_workout_type_trio(current_day.workouts[1])
     workout_next = workout_database.get_workout_type_trio(next_day.workouts[0]) if (len(next_day.workouts) == 1) else workout_database.get_workout_type_trio(next_day.workouts[0]) + " + " + workout_database.get_workout_type_trio(next_day.workouts[1])
+    
+    workout_check = workout_database.get_workout_type_trio(current_day.workouts[0])
+    if workout_check == "Rest":
+        pace_str = ""
+    elif workout_check == "Easy Run":
+        pace = test_user.predict_pace(distance = 80000)
+    elif workout_check == "Progression":
+        pace = test_user.predict_pace(distance = 40000)
+    elif workout_check == "Recovery Run":
+        pace = test_user.predict_pace(distance = 120000)
+    elif workout_check == "Threshold":
+        pace = test_user.predict_pace(distance = 20000)
+    elif workout_check == "Long Run":
+        pace = test_user.predict_pace(distance = 70000)
+        
+    pace_str = to_str(pace - 15) + "-" + to_str(pace + 15) if pace != 0 else ""
     
     return HomeData(
         day = day_of_week,
         mileage = current_day.total_mileage,
-        pace= "7:00-7:30",  # Placeholder pace, should be replaced with actual logic based on the user
+        pace= pace_str,  # Placeholder pace, should be replaced with actual logic based on the user
         stimuli = workout_cur,
         goal_rpe = str(current_day.expected_rpe) + "/10",
         upcoming = workout_next
