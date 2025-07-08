@@ -22,7 +22,9 @@ class user:
         self.sex = sex
 
         self.when_to_run = None
-        self.injury = None
+        self.injury = 0
+        self.most_recent_injury = 0
+
         self.goal_date = goal_date
 
         self.longest_run = longest_run
@@ -136,8 +138,8 @@ class user:
 
 
 alex = user("8/22/2005", "male", "advanced", "17:30", "5", "7", "1")
-print(alex.get_pace(10000))
-print(alex.parse_pace("10000"))
+#print(alex.get_pace(10000))
+#print(alex.parse_pace("10000"))
 # alex.set_pace(5000, "17:30")
 # alex.make_predictions()
 # print(alex.get_times())

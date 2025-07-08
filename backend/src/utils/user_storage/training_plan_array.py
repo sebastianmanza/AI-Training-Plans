@@ -1,6 +1,6 @@
+from backend.src.main import test_user_cycle 
+
 class training_plan_array:
-    
-    training_plans = []
     #NAMING CONVENTION:
     #age_sex_level_injury_injuryHistory_injuryRecent_longestLongRun
     #u before if you want under o after if you want over
@@ -1023,5 +1023,16 @@ class training_plan_array:
     FIFTYFIVEO_FEMALE_ADVANCED_3O_U24_11 = 988
     FIFTYFIVEO_FEMALE_ADVANCED_3O_U24_11O = 989
 
+    training_plans = [0] * 989
 
+    #UTWENTYFIVE_MALE_ADVANCED_NO_11_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/training_plan_test.txt")
+
+    for i in range(len(training_plans)):
+        #training_plans[i] = UTWENTYFIVE_MALE_ADVANCED_NO_11_DATABASE
+        training_plans[i] = i
+
+    #print(training_plans[0])    
+    
+
+ 
 

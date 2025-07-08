@@ -1,6 +1,7 @@
 from backend.src.utils.user_storage.training_plan_array import training_plan_array
+from backend.src.utils.user_storage.user import user
 
-#user needs a variable longest_long_run
+#user needs a variable longest_run
 #user needs more injury inputs
 #we need to create a way to pull running plans from the folder
 #we need a way to create key/value pairs for running folder
@@ -1035,25 +1036,25 @@ class decision_tree:
         FIFTYFIVEO_FEMALE_ADVANCED_3O_U24_11 = 988
         FIFTYFIVEO_FEMALE_ADVANCED_3O_U24_11O = 989
         #checks if user age is less than or equal to 15
-        if self.user.age <= 15:
+        if self.age <= 15:
             #user is 15 or younger
             ##checks if user is male
-            if self.user.sex == "male":
+            if self.sex == "male":
                 #user is 15 or younger
                 ##user is male
                 ##checks if user is a beginner runner
-                if self.user.running_ex == "beginner":
+                if self.running_ex == "beginner":
                     #user is 15 or younger
                     ##user is male
                     ###user is a beginner runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is 15 or younger
                         ##user is male
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 2 miles
-                        if self.user.longest_long_run <= 2:
+                        if self.longest_run <= 2:
                             #return training_plan
                             return plans.training_plans[UFIFTEEN_MALE_BEGINNER_NO_2]
                         #user is 15 or younger
@@ -1061,7 +1062,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 3 - 4 miles
-                        elif self.user.longest_long_run <= 4:
+                        elif self.longest_run <= 4:
                             #return training_plan
                             return plans.training_plans[UFIFTEEN_MALE_BEGINNER_NO_4]
                         #user is 15 or younger
@@ -1069,7 +1070,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 5 - 6 miles
-                        elif self.user.longest_long_run <= 6:
+                        elif self.longest_run <= 6:
                             #return training_plan
                             return plans.training_plans[UFIFTEEN_MALE_BEGINNER_NO_6]
                         #user is 15 or younger
@@ -1084,20 +1085,20 @@ class decision_tree:
                     ##user is male
                     ###user is a beginner runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is 15 or younger
                         ##user is male
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is 15 or under
                             ##user is male
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_U3_U3_2]
                             #user is 15 or under
@@ -1106,7 +1107,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_U3_U3_4]
                             #user is 15 or under
@@ -1115,7 +1116,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_U3_U3_6]
                             #user is 15 or under
@@ -1133,14 +1134,14 @@ class decision_tree:
                             ####user has been injured 1 - 2 times
                             ######user most recent injury is 0 - 3 months ago
                             ######checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is 15 or under
                             ##user is male
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_U3_U6_2]
                             #user is 15 or under
@@ -1149,7 +1150,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_U3_U6_4]
                             #user is 15 or under
@@ -1158,7 +1159,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_U3_U6_6]
                             #user is 15 or under
@@ -1175,14 +1176,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is 15 or under
                             ##user is male
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_U3_U12_2]
                             #user is 15 or under
@@ -1191,7 +1192,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_U3_U12_4]
                             #user is 15 or under
@@ -1200,7 +1201,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_U3_U12_6]
                             #user is 15 or under
@@ -1224,7 +1225,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_U3_U24_2]
                             #user is 15 or under
@@ -1233,7 +1234,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_U3_U24_4]
                             #user is 15 or under
@@ -1242,7 +1243,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_U3_U24_6]
                             #user is 15 or under
@@ -1264,14 +1265,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is 15 or under
                             ##user is male
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_3O_U3_2]
                             #user is 15 or under
@@ -1280,7 +1281,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_3O_U3_4]
                             #user is 15 or under
@@ -1289,7 +1290,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_3O_U3_6]
                             #user is 15 or under
@@ -1306,14 +1307,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is 15 or under
                             ##user is male
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_3O_U6_2]
                             #user is 15 or under
@@ -1322,7 +1323,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_3O_U6_4]
                             #user is 15 or under
@@ -1331,7 +1332,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_3O_U6_6]
                             #user is 15 or under
@@ -1348,14 +1349,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is 15 or under
                             ##user is male
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_3O_U12_2]
                             #user is 15 or under
@@ -1364,7 +1365,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_3O_U12_4]
                             #user is 15 or under
@@ -1373,7 +1374,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_3O_U12_6]
                             #user is 15 or under
@@ -1397,7 +1398,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_3O_U24_2]
                             #user is 15 or under
@@ -1406,7 +1407,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_3O_U24_4]
                             #user is 15 or under
@@ -1415,7 +1416,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_BEGINNER_3O_U24_6]
                             #user is 15 or under
@@ -1435,13 +1436,13 @@ class decision_tree:
                     ##user is male
                     ###user is an intermediate or advanced runner
                     ####checks if user has no injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is 15 or younger
                         ##user is male
                         ###user is an intermediate or advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 4 miles
-                        if self.user.longest_long_run <= 4:
+                        if self.longest_run <= 4:
                             #return training_plan
                             return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_NO_4]
                         #user is 15 or younger
@@ -1449,7 +1450,7 @@ class decision_tree:
                         ###user is an intermediate or advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 4 - 6 miles
-                        elif self.user.longest_long_run <= 6:
+                        elif self.longest_run <= 6:
                             #return training_plan
                             return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_NO_6]
                         #user is 15 or younger
@@ -1464,20 +1465,20 @@ class decision_tree:
                     ##user is male
                     ###user is an intermediate or advanced runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is 15 or younger
                         ##user is male
                         ###user is an intermediate or advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is 15 or under
                             ##user is male
                             ###user is an intermediate or advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_U3_U3_4]
                             #user is 15 or under
@@ -1486,7 +1487,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_U3_U3_6]
                             #user is 15 or under
@@ -1503,14 +1504,14 @@ class decision_tree:
                         ###user is an intermediate or advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is 15 or under
                             ##user is male
                             ###user is an intermediate or advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_U3_U6_4]
                             #user is 15 or under
@@ -1519,7 +1520,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_U3_U6_6]
                             #user is 15 or under
@@ -1536,14 +1537,14 @@ class decision_tree:
                         ###user is an intermediate or advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is 15 or under
                             ##user is male
                             ###user is an intermediate or advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_U3_U12_4]
                             #user is 15 or under
@@ -1552,7 +1553,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_U3_U12_6]
                             #user is 15 or under
@@ -1576,7 +1577,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_U3_U24_4]
                             #user is 15 or under
@@ -1585,7 +1586,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_U3_U24_6]
                             #user is 15 or under
@@ -1607,14 +1608,14 @@ class decision_tree:
                         ###user is an intermediate or advanced runner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is 15 or under
                             ##user is male
                             ###user is an intermediate or advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_3O_U3_4]
                             #user is 15 or under
@@ -1623,7 +1624,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_3O_U3_6]
                             #user is 15 or under
@@ -1640,14 +1641,14 @@ class decision_tree:
                         ###user is an intermediate or advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is 15 or under
                             ##user is male
                             ###user is an intermediate or advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_3O_U6_4]
                             #user is 15 or under
@@ -1656,7 +1657,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_3O_U6_6]
                             #user is 15 or under
@@ -1673,14 +1674,14 @@ class decision_tree:
                         ###user is an intermediate or advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is 15 or under
                             ##user is male
                             ###user is an intermediate or advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_3O_U12_4]
                             #user is 15 or under
@@ -1689,7 +1690,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_3O_U12_6]
                             #user is 15 or under
@@ -1713,7 +1714,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_3O_U24_4]
                             #user is 15 or under
@@ -1722,7 +1723,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_MALE_INTERMEDIATEADVANCED_3O_U24_6]
                             #user is 15 or under
@@ -1740,18 +1741,18 @@ class decision_tree:
                 #user is 15 or younger
                 ##user is female or other
                 ###checks if user is a beginner runner
-                if self.user.running_ex == "beginner":
+                if self.running_ex == "beginner":
                     #user is 15 or younger
                     ##user is female or other
                     ###user is a beginner runner
                     ####checks if user has no injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is 15 or younger
                         ##user is female or other
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 2 miles
-                        if self.user.longest_long_run <= 2:
+                        if self.longest_run <= 2:
                             #return training_plan
                             return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_NO_2]
                         #user is 15 or younger
@@ -1759,7 +1760,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 3 - 4 miles
-                        elif self.user.longest_long_run <= 4:
+                        elif self.longest_run <= 4:
                             #return training_plan
                             return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_NO_4]
                         #user is 15 or younger
@@ -1767,7 +1768,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 5 - 6 miles
-                        elif self.user.longest_long_run <= 6:
+                        elif self.longest_run <= 6:
                             #return training_plan
                             return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_NO_6]
                         #user is 15 or younger
@@ -1782,20 +1783,20 @@ class decision_tree:
                     ##user is female or other
                     ###user is a beginner runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is 15 or younger
                         ##user is female or other
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is 15 or under
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_U3_U3_2]
                             #user is 15 or under
@@ -1804,7 +1805,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_U3_U3_4]
                             #user is 15 or under
@@ -1813,7 +1814,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_U3_U3_6]
                             #user is 15 or under
@@ -1830,14 +1831,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is 15 or under
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_U3_U6_2]
                             #user is 15 or under
@@ -1846,7 +1847,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_U3_U6_4]
                             #user is 15 or under
@@ -1855,7 +1856,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_U3_U6_6]
                             #user is 15 or under
@@ -1872,14 +1873,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is 15 or under
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_U3_U12_2]
                             #user is 15 or under
@@ -1888,7 +1889,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_U3_U12_4]
                             #user is 15 or under
@@ -1897,7 +1898,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_U3_U12_6]
                             #user is 15 or under
@@ -1921,7 +1922,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_U3_U24_2]
                             #user is 15 or under
@@ -1930,7 +1931,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_U3_U24_4]
                             #user is 15 or under
@@ -1939,7 +1940,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_U3_U24_6]
                             #user is 15 or under
@@ -1961,14 +1962,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is 15 or under
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_3O_U3_2]
                             #user is 15 or under
@@ -1977,7 +1978,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_3O_U3_4]
                             #user is 15 or under
@@ -1986,7 +1987,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_3O_U3_6]
                             #user is 15 or under
@@ -2003,14 +2004,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is 15 or under
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_3O_U6_2]
                             #user is 15 or under
@@ -2019,7 +2020,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_3O_U6_4]
                             #user is 15 or under
@@ -2028,7 +2029,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_3O_U6_6]
                             #user is 15 or under
@@ -2045,14 +2046,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is 15 or under
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_3O_U12_2]
                             #user is 15 or under
@@ -2061,7 +2062,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_3O_U12_4]
                             #user is 15 or under
@@ -2070,7 +2071,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_3O_U12_6]
                             #user is 15 or under
@@ -2094,7 +2095,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 2 miles
-                            if self.user.longest_long_run <= 2:
+                            if self.longest_run <= 2:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_3O_U24_2]
                             #user is 15 or under
@@ -2103,7 +2104,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 3 - 4 miles
-                            elif self.user.longest_long_run <= 4:
+                            elif self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_3O_U24_4]
                             #user is 15 or under
@@ -2112,7 +2113,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_BEGINNER_3O_U24_6]
                             #user is 15 or under
@@ -2132,13 +2133,13 @@ class decision_tree:
                     ##user is female or other
                     ###user is an intermediate or advanced runner
                     ####checks if user has no injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is 15 or younger
                         ##user is female or other
                         ###user is an intermediate or advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 4 miles
-                        if self.user.longest_long_run <= 4:
+                        if self.longest_run <= 4:
                             #return training_plan
                             return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_NO_4]
                         #user is 15 or younger
@@ -2146,7 +2147,7 @@ class decision_tree:
                         ###user is an intermediate or advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 4 - 6 miles
-                        elif self.user.longest_long_run <= 6:
+                        elif self.longest_run <= 6:
                             #return training_plan
                             return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_NO_6]
                         #user is 15 or younger
@@ -2161,20 +2162,20 @@ class decision_tree:
                     ##user is female or other
                     ###user is an intermediate or advanced runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is 15 or younger
                         ##user is female or other
                         ###user is an intermediate or advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is 15 or under
                             ##user is female or other
                             ###user is an intermediate or advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_U3_U3_4]
                             #user is 15 or under
@@ -2183,7 +2184,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_U3_U3_6]
                             #user is 15 or under
@@ -2200,14 +2201,14 @@ class decision_tree:
                         ###user is an intermediate or advanced runner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is 15 or under
                             ##user is female or other
                             ###user is an intermediate or advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_U3_U6_4]
                             #user is 15 or under
@@ -2216,7 +2217,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_U3_U6_6]
                             #user is 15 or under
@@ -2233,14 +2234,14 @@ class decision_tree:
                         ###user is an intermediate or advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is 15 or under
                             ##user is female or other
                             ###user is an intermediate or advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_U3_U12_4]
                             #user is 15 or under
@@ -2249,7 +2250,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_U3_U12_6]
                             #user is 15 or under
@@ -2273,7 +2274,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_U3_U24_4]
                             #user is 15 or under
@@ -2282,7 +2283,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_U3_U24_6]
                             #user is 15 or under
@@ -2304,14 +2305,14 @@ class decision_tree:
                         ###user is an intermediate or advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is 15 or under
                             ##user is female or other
                             ###user is an intermediate or advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_3O_U3_4]
                             #user is 15 or under
@@ -2320,7 +2321,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_3O_U3_6]
                             #user is 15 or under
@@ -2337,14 +2338,14 @@ class decision_tree:
                         ###user is an intermediate or advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is 15 or under
                             ##user is female or other
                             ###user is an intermediate or advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_3O_U6_4]
                             #user is 15 or under
@@ -2353,7 +2354,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_3O_U6_6]
                             #user is 15 or under
@@ -2370,14 +2371,14 @@ class decision_tree:
                         ###user is an intermediate or advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is 15 or under
                             ##user is female or other
                             ###user is an intermediate or advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_3O_U12_4]
                             #user is 15 or under
@@ -2386,7 +2387,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_3O_U12_6]
                             #user is 15 or under
@@ -2410,7 +2411,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 4 miles
-                            if self.user.longest_long_run <= 4:
+                            if self.longest_run <= 4:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_3O_U24_4]
                             #user is 15 or under
@@ -2419,7 +2420,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 5 - 6 miles
-                            elif self.user.longest_long_run <= 6:
+                            elif self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_3O_U24_6]
                             #user is 15 or under
@@ -2432,25 +2433,25 @@ class decision_tree:
                                 #return training_plan
                                 return plans.training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_3O_U24_6O]
         #checks if user age is less than or equal to 25
-        elif self.user.age <= 25:
+        elif self.age <= 25:
             #user is between 15 and 25
             ##checks if user is male
-            if self.user.sex == "male":
+            if self.sex == "male":
                 #user is between 15 and 25
                 ##user is male
                 ###checks if user is a beginner runner
-                if self.user.running_ex == "beginner":
+                if self.running_ex == "beginner":
                     #user is between 15 and 25
                     ##user is male
                     ###user is a beginner runner
                     ####checks if user has no injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 15 and 25
                         ##user is male
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 5 miles
-                        if self.user.longest_long_run <= 5:
+                        if self.longest_run <= 5:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_NO_5]
                         #user is between 15 and 25
@@ -2458,7 +2459,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 6 - 7 miles
-                        elif self.user.longest_long_run <= 7:
+                        elif self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_NO_7]
                         #user is between 15 and 25
@@ -2466,7 +2467,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 8 - 9 miles
-                        elif self.user.longest_long_run <= 9:
+                        elif self.longest_run <= 9:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_NO_9]
                         #user is between 15 and 25
@@ -2481,20 +2482,20 @@ class decision_tree:
                     ##user is male
                     ###user is a beginner runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 15 and 25
                         ##user is male
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 15 and 25
                             ##user is male
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_U3_U3_5]
                             #user is between 15 and 25
@@ -2503,7 +2504,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_U3_U3_7]
                             #user is between 15 and 25
@@ -2512,7 +2513,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_U3_U3_9]
                             #user is between 15 and 25
@@ -2529,14 +2530,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 15 and 25
                             ##user is male
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_U3_U6_5]
                             #user is between 15 and 25
@@ -2545,7 +2546,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_U3_U6_7]
                             #user is between 15 and 25
@@ -2554,7 +2555,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_U3_U6_9]
                             #user is between 15 and 25
@@ -2571,14 +2572,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 15 and 25
                             ##user is male
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_U3_U12_5]
                             #user is between 15 and 25
@@ -2587,7 +2588,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_U3_U12_7]
                             #user is between 15 and 25
@@ -2596,7 +2597,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_U3_U12_9]
                             #user is between 15 and 25
@@ -2620,7 +2621,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_U3_U24_5]
                             #user is between 15 and 25
@@ -2629,7 +2630,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_U3_U24_7]
                             #user is between 15 and 25
@@ -2638,7 +2639,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_U3_U24_9]
                             #user is between 15 and 25
@@ -2660,14 +2661,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 15 and 25
                             ##user is male
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_3O_U3_5]
                             #user is between 15 and 25
@@ -2676,7 +2677,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_3O_U3_7]
                             #user is between 15 and 25
@@ -2685,7 +2686,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_3O_U3_9]
                             #user is between 15 and 25
@@ -2702,14 +2703,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 15 and 25
                             ##user is male
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_3O_U6_5]
                             #user is between 15 and 25
@@ -2718,7 +2719,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_3O_U6_7]
                             #user is between 15 and 25
@@ -2727,7 +2728,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_3O_U6_9]
                             #user is between 15 and 25
@@ -2744,14 +2745,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 15 and 25
                             ##user is male
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_3O_U12_5]
                             #user is between 15 and 25
@@ -2760,7 +2761,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_3O_U12_7]
                             #user is between 15 and 25
@@ -2769,7 +2770,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_3O_U12_9]
                             #user is between 15 and 25
@@ -2793,7 +2794,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12- 24 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_3O_U24_5]
                             #user is between 15 and 25
@@ -2802,7 +2803,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_3O_U24_7]
                             #user is between 15 and 25
@@ -2811,7 +2812,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_BEGINNER_3O_U24_9]
                             #user is between 15 and 25
@@ -2826,18 +2827,18 @@ class decision_tree:
                 #user is between 15 and 25
                 ##user is male
                 ###check if user is an intermediate runner
-                elif self.user.running_ex == "intermediate":
+                elif self.running_ex == "intermediate":
                     #user is between 15 and 25
                     ##user is male
                     ###user is an intermediate runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 15 and 25
                         ##user is male
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 6 miles
-                        if self.user.longest_long_run <= 6:
+                        if self.longest_run <= 6:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_NO_6]
                         #user is between 15 and 25
@@ -2845,7 +2846,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 7 - 8 miles
-                        elif self.user.longest_long_run <= 8:
+                        elif self.longest_run <= 8:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_NO_8]
                         #user is between 15 and 25
@@ -2853,7 +2854,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 9 - 10 miles
-                        elif self.user.longest_long_run <= 10:
+                        elif self.longest_run <= 10:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_NO_10]
                         #user is between 15 and 25
@@ -2868,20 +2869,20 @@ class decision_tree:
                     ##user is male
                     ###user is an intermediate runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 15 and 25
                         ##user is male
                         ###user is an intermediate runner
                         ####user has 1 - 2 injuries
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 15 and 25
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_U3_U3_6]
                             #user is between 15 and 25
@@ -2890,7 +2891,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_U3_U3_8]
                             #user is between 15 and 25
@@ -2899,7 +2900,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_U3_U3_10]
                             #user is between 15 and 25
@@ -2916,14 +2917,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 15 and 25
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_U3_U6_6]
                             #user is between 15 and 25
@@ -2932,7 +2933,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_U3_U6_8]
                             #user is between 15 and 25
@@ -2941,7 +2942,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_U3_U6_10]
                             #user is between 15 and 25
@@ -2958,14 +2959,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 15 and 25
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_U3_U12_6]
                             #user is between 15 and 25
@@ -2974,7 +2975,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_U3_U12_8]
                             #user is between 15 and 25
@@ -2983,7 +2984,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_U3_U12_10]
                             #user is between 15 and 25
@@ -3007,7 +3008,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_U3_U24_6]
                             #user is between 15 and 25
@@ -3016,7 +3017,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_U3_U24_8]
                             #user is between 15 and 25
@@ -3025,7 +3026,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_U3_U24_10]
                             #user is between 15 and 25
@@ -3047,14 +3048,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 15 and 25
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_3O_U3_6]
                             #user is between 15 and 25
@@ -3063,7 +3064,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_3O_U3_8]
                             #user is between 15 and 25
@@ -3072,7 +3073,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_3O_U3_10]
                             #user is between 15 and 25
@@ -3089,14 +3090,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 15 and 25
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_3O_U6_6]
                             #user is between 15 and 25
@@ -3105,7 +3106,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_3O_U6_8]
                             #user is between 15 and 25
@@ -3114,7 +3115,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_3O_U6_10]
                             #user is between 15 and 25
@@ -3131,14 +3132,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 15 and 25
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_3O_U12_6]
                             #user is between 15 and 25
@@ -3147,7 +3148,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_3O_U12_8]
                             #user is between 15 and 25
@@ -3156,7 +3157,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_3O_U12_10]
                             #user is between 15 and 25
@@ -3180,7 +3181,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_3O_U24_6]
                             #user is between 15 and 25
@@ -3189,7 +3190,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_3O_U24_8]
                             #user is between 15 and 25
@@ -3198,7 +3199,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12- 24 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_3O_U24_10]
                             #user is between 15 and 25
@@ -3218,13 +3219,13 @@ class decision_tree:
                     ##user is male
                     ###user is an advanced runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 15 and 25
                         ##user is male
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 7 miles
-                        if self.user.longest_long_run <= 7:
+                        if self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_NO_7]
                         #user is between 15 and 25
@@ -3232,7 +3233,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 8 - 9 miles
-                        elif self.user.longest_long_run <= 9:
+                        elif self.longest_run <= 9:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_NO_9]
                         #user is between 15 and 25
@@ -3240,7 +3241,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 10 - 11 miles
-                        elif self.user.longest_long_run <= 11:
+                        elif self.longest_run <= 11:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_NO_11]
                         #user is between 15 and 25
@@ -3255,20 +3256,20 @@ class decision_tree:
                     ##user is male
                     ###user is an advanced runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 15 and 25
                         ##user is male
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 15 and 25
                             ##user is male
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_U3_U3_7]
                             #user is between 15 and 25
@@ -3277,7 +3278,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_U3_U3_9]
                             #user is between 15 and 25
@@ -3286,7 +3287,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_U3_U3_11]
                             #user is between 15 and 25
@@ -3303,14 +3304,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 15 and 25
                             ##user is male
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_U3_U6_7]
                             #user is between 15 and 25
@@ -3319,7 +3320,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_U3_U6_9]
                             #user is between 15 and 25
@@ -3328,7 +3329,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_U3_U6_11]
                             #user is between 15 and 25
@@ -3345,14 +3346,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 15 and 25
                             ##user is male
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_U3_U12_7]
                             #user is between 15 and 25
@@ -3361,7 +3362,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_U3_U12_9]
                             #user is between 15 and 25
@@ -3370,7 +3371,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_U3_U12_11]
                             #user is between 15 and 25
@@ -3394,7 +3395,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_U3_U24_7]
                             #user is between 15 and 25
@@ -3403,7 +3404,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_U3_U24_9]
                             #user is between 15 and 25
@@ -3412,7 +3413,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_U3_U24_11]
                             #user is between 15 and 25
@@ -3434,14 +3435,14 @@ class decision_tree:
                         ###user is an advanced runner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 15 and 25
                             ##user is male
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_3O_U3_7]
                             #user is between 15 and 25
@@ -3450,7 +3451,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_3O_U3_9]
                             #user is between 15 and 25
@@ -3459,7 +3460,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_3O_U3_11]
                             #user is between 15 and 25
@@ -3476,14 +3477,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 15 and 25
                             ##user is male
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_3O_U6_7]
                             #user is between 15 and 25
@@ -3492,7 +3493,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_3O_U6_9]
                             #user is between 15 and 25
@@ -3501,7 +3502,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_3O_U6_11]
                             #user is between 15 and 25
@@ -3518,14 +3519,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 15 and 25
                             ##user is male
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_3O_U12_7]
                             #user is between 15 and 25
@@ -3534,7 +3535,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_3O_U12_9]
                             #user is between 15 and 25
@@ -3543,7 +3544,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_3O_U12_11]
                             #user is between 15 and 25
@@ -3567,7 +3568,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_3O_U24_7]
                             #user is between 15 and 25
@@ -3576,7 +3577,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_3O_U24_9]
                             #user is between 15 and 25
@@ -3585,7 +3586,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_MALE_ADVANCED_3O_U24_11]
                             #user is between 15 and 25
@@ -3603,18 +3604,18 @@ class decision_tree:
                 #user is between 15 and 25
                 ##user is female or other
                 ## checks if user is a beginner runner
-                if self.user.running_ex == "beginner":
+                if self.running_ex == "beginner":
                     #user is between 15 and 25
                     ##user is female or other
                     ###user is a beginner runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 15 and 25
                         ##user is female or other
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 5 miles
-                        if self.user.longest_long_run <= 5:
+                        if self.longest_run <= 5:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_NO_5]
                         #user is between 15 and 25
@@ -3622,7 +3623,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 6 - 7 miles
-                        elif self.user.longest_long_run <= 7:
+                        elif self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_NO_7]
                         #user is between 15 and 25
@@ -3630,7 +3631,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 8 - 9 miles
-                        elif self.user.longest_long_run <= 9:
+                        elif self.longest_run <= 9:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_NO_9]
                         #user is between 15 and 25
@@ -3645,20 +3646,20 @@ class decision_tree:
                     ##user is female or other
                     ###user is a beginner runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 15 and 25
                         ##user is female or other
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_U3_U3_5]
                             #user is between 15 and 25
@@ -3667,7 +3668,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_U3_U3_7]
                             #user is between 15 and 25
@@ -3676,7 +3677,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_U3_U3_9]
                             #user is between 15 and 25
@@ -3693,14 +3694,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_U3_U6_5]
                             #user is between 15 and 25
@@ -3709,7 +3710,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_U3_U6_7]
                             #user is between 15 and 25
@@ -3718,7 +3719,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_U3_U6_9]
                             #user is between 15 and 25
@@ -3735,14 +3736,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_U3_U12_5]
                             #user is between 15 and 25
@@ -3751,7 +3752,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_U3_U12_7]
                             #user is between 15 and 25
@@ -3760,7 +3761,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_U3_U12_9]
                             #user is between 15 and 25
@@ -3784,7 +3785,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_U3_U24_5]
                             #user is between 15 and 25
@@ -3793,7 +3794,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_U3_U24_7]
                             #user is between 15 and 25
@@ -3802,7 +3803,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_U3_U24_9]
                             #user is between 15 and 25
@@ -3824,14 +3825,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_3O_U3_5]
                             #user is between 15 and 25
@@ -3840,7 +3841,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_3O_U3_7]
                             #user is between 15 and 25
@@ -3849,7 +3850,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_3O_U3_9]
                             #user is between 15 and 25
@@ -3866,14 +3867,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_3O_U6_5]
                             #user is between 15 and 25
@@ -3882,7 +3883,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_3O_U6_7]
                             #user is between 15 and 25
@@ -3891,7 +3892,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_3O_U6_9]
                             #user is between 15 and 25
@@ -3908,14 +3909,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_3O_U12_5]
                             #user is between 15 and 25
@@ -3924,7 +3925,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_3O_U12_7]
                             #user is between 15 and 25
@@ -3933,7 +3934,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_3O_U12_9]
                             #user is between 15 and 25
@@ -3957,7 +3958,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_3O_U24_5]
                             #user is between 15 and 25
@@ -3966,7 +3967,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_3O_U24_7]
                             #user is between 15 and 25
@@ -3975,7 +3976,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_BEGINNER_3O_U24_9]
                             #user is between 15 and 25
@@ -3990,18 +3991,18 @@ class decision_tree:
                 #user is between 15 and 25
                 ##user is female or other
                 ###checks if user is an intermediate runner
-                elif self.user.running_ex == "intermediate":
+                elif self.running_ex == "intermediate":
                     #user is between 15 and 25
                     ##user is female or other
                     ###user is an intermediate runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 15 and 25
                         ##user is female or other
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 6 miles
-                        if self.user.longest_long_run <= 6:
+                        if self.longest_run <= 6:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_NO_6]
                         #user is between 15 and 25
@@ -4009,7 +4010,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 7 - 8 miles
-                        elif self.user.longest_long_run <= 8:
+                        elif self.longest_run <= 8:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_NO_8]
                         #user is between 15 and 25
@@ -4017,7 +4018,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 9 - 10 miles
-                        elif self.user.longest_long_run <= 10:
+                        elif self.longest_run <= 10:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_NO_10]
                         #user is between 15 and 25
@@ -4032,20 +4033,20 @@ class decision_tree:
                     ##user is female or other
                     ###user is an intermediate runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 15 and 25
                         ##user is female or other
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_U3_U3_6]
                             #user is between 15 and 25
@@ -4054,7 +4055,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_U3_U3_8]
                             #user is between 15 and 25
@@ -4063,7 +4064,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_U3_U3_10]
                             #user is between 15 and 25
@@ -4080,14 +4081,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_U3_U6_6]
                             #user is between 15 and 25
@@ -4096,7 +4097,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_U3_U6_8]
                             #user is between 15 and 25
@@ -4105,7 +4106,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_U3_U6_10]
                             #user is between 15 and 25
@@ -4122,14 +4123,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3 - 6 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_U3_U12_6]
                             #user is between 15 and 25
@@ -4138,7 +4139,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_U3_U12_8]
                             #user is between 15 and 25
@@ -4147,7 +4148,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_U3_U12_10]
                             #user is between 15 and 25
@@ -4171,7 +4172,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_U3_U24_6]
                             #user is between 15 and 25
@@ -4180,7 +4181,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_U3_U24_8]
                             #user is between 15 and 25
@@ -4189,7 +4190,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_U3_U24_10]
                             #user is between 15 and 25
@@ -4211,14 +4212,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_3O_U3_6]
                             #user is between 15 and 25
@@ -4227,7 +4228,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_3O_U3_8]
                             #user is between 15 and 25
@@ -4236,7 +4237,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_3O_U3_10]
                             #user is between 15 and 25
@@ -4253,14 +4254,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_3O_U6_6]
                             #user is between 15 and 25
@@ -4269,7 +4270,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_3O_U6_8]
                             #user is between 15 and 25
@@ -4278,7 +4279,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_3O_U6_10]
                             #user is between 15 and 25
@@ -4295,14 +4296,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_3O_U12_6]
                             #user is between 15 and 25
@@ -4311,7 +4312,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_3O_U12_8]
                             #user is between 15 and 25
@@ -4320,7 +4321,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_3O_U12_10]
                             #user is between 15 and 25
@@ -4344,7 +4345,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_3O_U24_6]
                             #user is between 15 and 25
@@ -4353,7 +4354,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_3O_U24_8]
                             #user is between 15 and 25
@@ -4362,7 +4363,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_3O_U24_10]
                             #user is between 15 and 25
@@ -4382,13 +4383,13 @@ class decision_tree:
                     ##user is female or other
                     ###user is an advanced runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 15 and 25
                         ##user is female or other
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 7 miles
-                        if self.user.longest_long_run <= 7:
+                        if self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_NO_7]
                         #user is between 15 and 25
@@ -4396,7 +4397,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 8 - 9 miles
-                        elif self.user.longest_long_run <= 9:
+                        elif self.longest_run <= 9:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_NO_9]
                         #user is between 15 and 25
@@ -4404,7 +4405,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 10 - 11 miles
-                        elif self.user.longest_long_run <= 11:
+                        elif self.longest_run <= 11:
                             #return training_plan
                             return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_NO_11]
                         #user is between 15 and 25
@@ -4419,20 +4420,20 @@ class decision_tree:
                     ##user is female or other
                     ###user is an advanced runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 15 and 25
                         ##user is female or other
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_U3_U3_7]
                             #user is between 15 and 25
@@ -4441,7 +4442,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_U3_U3_9]
                             #user is between 15 and 25
@@ -4450,7 +4451,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_U3_U3_11]
                             #user is between 15 and 25
@@ -4467,14 +4468,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_U3_U6_7]
                             #user is between 15 and 25
@@ -4483,7 +4484,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_U3_U6_9]
                             #user is between 15 and 25
@@ -4492,7 +4493,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_U3_U6_11]
                             #user is between 15 and 25
@@ -4509,14 +4510,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_U3_U12_7]
                             #user is between 15 and 25
@@ -4525,7 +4526,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_U3_U12_9]
                             #user is between 15 and 25
@@ -4534,7 +4535,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_U3_U12_11]
                             #user is between 15 and 25
@@ -4558,7 +4559,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_U3_U24_7]
                             #user is between 15 and 25
@@ -4567,7 +4568,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_U3_U24_9]
                             #user is between 15 and 25
@@ -4576,7 +4577,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_U3_U24_11]
                             #user is between 15 and 25
@@ -4598,14 +4599,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_3O_U3_7]
                             #user is between 15 and 25
@@ -4614,7 +4615,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_3O_U3_9]
                             #user is between 15 and 25
@@ -4623,7 +4624,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_3O_U3_11]
                             #user is between 15 and 25
@@ -4640,14 +4641,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_3O_U6_7]
                             #user is between 15 and 25
@@ -4656,7 +4657,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_3O_U6_9]
                             #user is between 15 and 25
@@ -4665,7 +4666,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_3O_U6_11]
                             #user is between 15 and 25
@@ -4682,14 +4683,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 15 and 25
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_3O_U12_7]
                             #user is between 15 and 25
@@ -4698,7 +4699,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_3O_U12_9]
                             #user is between 15 and 25
@@ -4707,7 +4708,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_3O_U12_11]
                             #user is between 15 and 25
@@ -4731,7 +4732,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_3O_U24_7]
                             #user is between 15 and 25
@@ -4740,7 +4741,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_3O_U24_9]
                             #user is between 15 and 25
@@ -4749,7 +4750,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_3O_U24_11]
                             #user is between 15 and 25
@@ -4762,25 +4763,25 @@ class decision_tree:
                                 #return training_plan
                                 return plans.training_plans[UTWENTYFIVE_FEMALE_ADVANCED_3O_U24_11O]
         #checks if user age is less than or equal to 40
-        elif self.user.age <= 40:
+        elif self.age <= 40:
             #user is between 25 and 40
             ##checks if user is male
-            if self.user.sex == "male":
+            if self.sex == "male":
                 #user is between 25 and 40
                 ##user is male
                 ###checks if user is a beginner runner
-                if self.user.running_ex == "beginner":
+                if self.running_ex == "beginner":
                     #user is between 25 and 40
                     ##user is male
                     ###user is a beginner runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 25 and 40
                         ##user is male
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 5 miles
-                        if self.user.longest_long_run <= 5:
+                        if self.longest_run <= 5:
                             #return training_plan
                             return plans.training_plans[UFORTY_MALE_BEGINNER_NO_5]
                         #user is between 25 and 40
@@ -4788,7 +4789,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 6 - 7 miles
-                        elif self.user.longest_long_run <= 7:
+                        elif self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[UFORTY_MALE_BEGINNER_NO_7]
                         #user is between 25 and 40
@@ -4796,7 +4797,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 8 - 9 miles
-                        elif self.user.longest_long_run <= 9:
+                        elif self.longest_run <= 9:
                             #return training_plan
                             return plans.training_plans[UFORTY_MALE_BEGINNER_NO_9]
                         #user is between 25 and 40
@@ -4811,20 +4812,20 @@ class decision_tree:
                     ##user is male
                     ###user is a beginner runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 25 and 40
                         ##user is male
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 25 and 40
                             ##user is male
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_U3_U3_5]
                             #user is between 25 and 40
@@ -4833,7 +4834,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 5 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_U3_U3_7]
                             #user is between 25 and 40
@@ -4842,7 +4843,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_BEGINNER_U3_U3_9]
                             #user is between 25 and 40
@@ -4859,14 +4860,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 25 and 40
                             ##user is male
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_U3_U6_5]
                             #user is between 25 and 40
@@ -4875,7 +4876,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 5 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_U3_U6_7]
                             #user is between 25 and 40
@@ -4884,7 +4885,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_BEGINNER_U3_U6_9]
                             #user is between 25 and 40
@@ -4901,14 +4902,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 25 and 40
                             ##user is male
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_U3_U12_5]
                             #user is between 25 and 40
@@ -4917,7 +4918,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 5 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_U3_U12_7]
                             #user is between 25 and 40
@@ -4926,7 +4927,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_BEGINNER_U3_U12_9]
                             #user is between 25 and 40
@@ -4950,7 +4951,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_U3_U24_5]
                             #user is between 25 and 40
@@ -4959,7 +4960,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 5 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_U3_U24_7]
                             #user is between 25 and 40
@@ -4968,7 +4969,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_BEGINNER_U3_U24_9]
                             #user is between 25 and 40
@@ -4990,14 +4991,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 25 and 40
                             ##user is male
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_3O_U3_5]
                             #user is between 25 and 40
@@ -5006,7 +5007,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 5 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_3O_U3_7]
                             #user is between 25 and 40
@@ -5015,7 +5016,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_BEGINNER_3O_U3_9]
                             #user is between 25 and 40
@@ -5032,14 +5033,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 25 and 40
                             ##user is male
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_3O_U6_5]
                             #user is between 25 and 40
@@ -5048,7 +5049,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 5 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_3O_U6_7]
                             #user is between 25 and 40
@@ -5057,7 +5058,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_BEGINNER_3O_U6_9]
                             #user is between 25 and 40
@@ -5074,14 +5075,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 25 and 40
                             ##user is male
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_3O_U12_5]
                             #user is between 25 and 40
@@ -5090,7 +5091,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 5 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_3O_U12_7]
                             #user is between 25 and 40
@@ -5099,7 +5100,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_BEGINNER_3O_U12_9]
                             #user is between 25 and 40
@@ -5123,7 +5124,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_3O_U24_5]
                             #user is between 25 and 40
@@ -5132,7 +5133,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 5 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_BEGINNER_3O_U24_7]
                             #user is between 25 and 40
@@ -5141,7 +5142,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_BEGINNER_3O_U24_9]
                             #user is between 25 and 40
@@ -5156,18 +5157,18 @@ class decision_tree:
                 #user is between 25 and 40
                 ##user is male
                 ##checks if user is an intermediate runner
-                elif self.user.running_ex == "intermediate":
+                elif self.running_ex == "intermediate":
                     #user is between 25 and 40
                     ##user is male
                     ###user is an intermediate runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 25 and 40
                         ##user is male
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 6 miles
-                        if self.user.longest_long_run <= 6:
+                        if self.longest_run <= 6:
                             #return training_plan
                             return plans.training_plans[UFORTY_MALE_INTERMEDIATE_NO_6]
                         #user is between 25 and 40
@@ -5175,7 +5176,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 7 - 8 miles
-                        elif self.user.longest_long_run <= 8:
+                        elif self.longest_run <= 8:
                             #return training_plan
                             return plans.training_plans[UFORTY_MALE_INTERMEDIATE_NO_8]
                         #user is between 25 and 40
@@ -5183,7 +5184,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 9 - 10 miles
-                        elif self.user.longest_long_run <= 10:
+                        elif self.longest_run <= 10:
                             #return training_plan
                             return plans.training_plans[UFORTY_MALE_INTERMEDIATE_NO_10]
                         #user is between 25 and 40
@@ -5198,20 +5199,20 @@ class decision_tree:
                     ##user is male
                     ###user is an intermediate runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 25 and 40
                         ##user is male
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 25 and 40
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_U3_U3_6]
                             #user is between 25 and 40
@@ -5220,7 +5221,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_U3_U3_8]
                             #user is between 25 and 40
@@ -5229,7 +5230,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_INTERMEDIATE_U3_U3_10]
                             #user is between 25 and 40
@@ -5246,14 +5247,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 25 and 40
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_U3_U6_6]
                             #user is between 25 and 40
@@ -5262,7 +5263,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_U3_U6_8]
                             #user is between 25 and 40
@@ -5271,7 +5272,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_INTERMEDIATE_U3_U6_10]
                             #user is between 25 and 40
@@ -5288,14 +5289,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 25 and 40
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_U3_U12_6]
                             #user is between 25 and 40
@@ -5304,7 +5305,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_U3_U12_8]
                             #user is between 25 and 40
@@ -5313,7 +5314,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_INTERMEDIATE_U3_U12_10]
                             #user is between 25 and 40
@@ -5337,7 +5338,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_U3_U24_6]
                             #user is between 25 and 40
@@ -5346,7 +5347,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_U3_U24_8]
                             #user is between 25 and 40
@@ -5355,7 +5356,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_INTERMEDIATE_U3_U24_10]
                             #user is between 25 and 40
@@ -5377,14 +5378,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 25 and 40
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_3O_U3_6]
                             #user is between 25 and 40
@@ -5393,7 +5394,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_3O_U3_8]
                             #user is between 25 and 40
@@ -5402,7 +5403,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_INTERMEDIATE_3O_U3_10]
                             #user is between 25 and 40
@@ -5419,14 +5420,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 25 and 40
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_3O_U6_6]
                             #user is between 25 and 40
@@ -5435,7 +5436,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_3O_U6_8]
                             #user is between 25 and 40
@@ -5444,7 +5445,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_INTERMEDIATE_3O_U6_10]
                             #user is between 25 and 40
@@ -5461,14 +5462,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 25 and 40
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_3O_U12_6]
                             #user is between 25 and 40
@@ -5477,7 +5478,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_3O_U12_8]
                             #user is between 25 and 40
@@ -5486,7 +5487,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_INTERMEDIATE_3O_U12_10]
                             #user is between 25 and 40
@@ -5510,7 +5511,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_3O_U24_6]
                             #user is between 25 and 40
@@ -5519,7 +5520,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_INTERMEDIATE_3O_U24_8]
                             #user is between 25 and 40
@@ -5528,7 +5529,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_INTERMEDIATE_3O_U24_10]
                             #user is between 25 and 40
@@ -5548,13 +5549,13 @@ class decision_tree:
                     ##user is male
                     ###user is an advanced runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 25 and 40
                         ##user is male
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 7 miles
-                        if self.user.longest_long_run <= 7:
+                        if self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[UFORTY_MALE_ADVANCED_NO_7]
                         #user is between 25 and 40
@@ -5562,7 +5563,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 8 - 9 miles
-                        elif self.user.longest_long_run <= 9:
+                        elif self.longest_run <= 9:
                             #return training_plan
                             return plans.training_plans[UFORTY_MALE_ADVANCED_NO_9]
                         #user is between 25 and 40
@@ -5570,7 +5571,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 10 - 11 miles
-                        elif self.user.longest_long_run <= 11:
+                        elif self.longest_run <= 11:
                             #return training_plan
                             return plans.training_plans[UFORTY_MALE_ADVANCED_NO_11]
                         #user is between 25 and 40
@@ -5585,20 +5586,20 @@ class decision_tree:
                     ##user is male
                     ###user is an advanced runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 25 and 40
                         ##user is male
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 25 and 40
                             ##user is male
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_U3_U3_7]
                             #user is between 25 and 40
@@ -5607,7 +5608,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_U3_U3_9]
                             #user is between 25 and 40
@@ -5616,7 +5617,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_ADVANCED_U3_U3_11]
                             #user is between 25 and 40
@@ -5633,14 +5634,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 25 and 40
                             ##user is male
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_U3_U6_7]
                             #user is between 25 and 40
@@ -5649,7 +5650,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_U3_U6_9]
                             #user is between 25 and 40
@@ -5658,7 +5659,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_ADVANCED_U3_U6_11]
                             #user is between 25 and 40
@@ -5675,14 +5676,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 25 and 40
                             ##user is male
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_U3_U12_7]
                             #user is between 25 and 40
@@ -5691,7 +5692,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_U3_U12_9]
                             #user is between 25 and 40
@@ -5700,7 +5701,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_ADVANCED_U3_U12_11]
                             #user is between 25 and 40
@@ -5724,7 +5725,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_U3_U24_7]
                             #user is between 25 and 40
@@ -5733,7 +5734,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_U3_U24_9]
                             #user is between 25 and 40
@@ -5742,7 +5743,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_ADVANCED_U3_U24_11]
                             #user is between 25 and 40
@@ -5764,14 +5765,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 25 and 40
                             ##user is male
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_3O_U3_7]
                             #user is between 25 and 40
@@ -5780,7 +5781,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_3O_U3_9]
                             #user is between 25 and 40
@@ -5789,7 +5790,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_ADVANCED_3O_U3_11]
                             #user is between 25 and 40
@@ -5806,14 +5807,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 25 and 40
                             ##user is male
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_3O_U6_7]
                             #user is between 25 and 40
@@ -5822,7 +5823,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_3O_U6_9]
                             #user is between 25 and 40
@@ -5831,7 +5832,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_ADVANCED_3O_U6_11]
                             #user is between 25 and 40
@@ -5848,14 +5849,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 25 and 40
                             ##user is male
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_3O_U12_7]
                             #user is between 25 and 40
@@ -5864,7 +5865,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_3O_U12_9]
                             #user is between 25 and 40
@@ -5873,7 +5874,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_ADVANCED_3O_U12_11]
                             #user is between 25 and 40
@@ -5897,7 +5898,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_3O_U24_7]
                             #user is between 25 and 40
@@ -5906,7 +5907,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_MALE_ADVANCED_3O_U24_9]
                             #user is between 25 and 40
@@ -5915,7 +5916,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_MALE_ADVANCED_3O_U24_11]
                             #user is between 25 and 40
@@ -5933,18 +5934,18 @@ class decision_tree:
                 #user is between 25 and 40
                 ##user is female or other
                 ###checks if user is a beginner runner
-                if self.user.running_ex == "beginner":
+                if self.running_ex == "beginner":
                     #user is between 25 and 40
                     ##user is female or other
                     ###user is a beginner runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 25 and 40
                         ##user is female or other
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 5 miles
-                        if self.user.longest_long_run <= 5:
+                        if self.longest_run <= 5:
                             #return training_plan
                             return plans.training_plans[UFORTY_FEMALE_BEGINNER_NO_5]
                         #user is between 25 and 40
@@ -5952,7 +5953,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 6 - 7 miles
-                        elif self.user.longest_long_run <= 7:
+                        elif self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[UFORTY_FEMALE_BEGINNER_NO_7]
                         #user is between 25 and 40
@@ -5960,7 +5961,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 8 - 9 miles
-                        elif self.user.longest_long_run <= 9:
+                        elif self.longest_run <= 9:
                             #return training_plan
                             return plans.training_plans[UFORTY_FEMALE_BEGINNER_NO_9]
                         #user is between 25 and 40
@@ -5975,20 +5976,20 @@ class decision_tree:
                     ##user is female or other
                     ###user is a beginner runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 25 and 40
                         ##user is female or other
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_U3_U3_5]
                             #user is between 25 and 40
@@ -5997,7 +5998,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_U3_U3_7]
                             #user is between 25 and 40
@@ -6006,7 +6007,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_BEGINNER_U3_U3_9]
                             #user is between 25 and 40
@@ -6023,14 +6024,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_U3_U6_5]
                             #user is between 25 and 40
@@ -6039,7 +6040,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_U3_U6_7]
                             #user is between 25 and 40
@@ -6048,7 +6049,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_BEGINNER_U3_U6_9]
                             #user is between 25 and 40
@@ -6065,14 +6066,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_U3_U12_5]
                             #user is between 25 and 40
@@ -6081,7 +6082,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_U3_U12_7]
                             #user is between 25 and 40
@@ -6090,7 +6091,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_BEGINNER_U3_U12_9]
                             #user is between 25 and 40
@@ -6114,7 +6115,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_U3_U24_5]
                             #user is between 25 and 40
@@ -6123,7 +6124,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_U3_U24_7]
                             #user is between 25 and 40
@@ -6132,7 +6133,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_BEGINNER_U3_U24_9]
                             #user is between 25 and 40
@@ -6154,14 +6155,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_3O_U3_5]
                             #user is between 25 and 40
@@ -6170,7 +6171,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_3O_U3_7]
                             #user is between 25 and 40
@@ -6179,7 +6180,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_BEGINNER_3O_U3_9]
                             #user is between 25 and 40
@@ -6196,14 +6197,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_3O_U6_5]
                             #user is between 25 and 40
@@ -6212,7 +6213,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_3O_U6_7]
                             #user is between 25 and 40
@@ -6221,7 +6222,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_BEGINNER_3O_U6_9]
                             #user is between 25 and 40
@@ -6238,14 +6239,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_3O_U12_5]
                             #user is between 25 and 40
@@ -6254,7 +6255,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_3O_U12_7]
                             #user is between 25 and 40
@@ -6263,7 +6264,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_BEGINNER_3O_U12_9]
                             #user is between 25 and 40
@@ -6287,7 +6288,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_3O_U24_5]
                             #user is between 25 and 40
@@ -6296,7 +6297,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_BEGINNER_3O_U24_7]
                             #user is between 25 and 40
@@ -6305,7 +6306,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_BEGINNER_3O_U24_9]
                             #user is between 25 and 40
@@ -6320,18 +6321,18 @@ class decision_tree:
                 #user is between 25 and 40
                 ##user is female or other
                 ###checks if user is an intermediate runner
-                elif self.user.running_ex == "intermediate":
+                elif self.running_ex == "intermediate":
                     #user is between 25 and 40
                     ##user is female or other
                     ###user is an intermediate runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 25 and 40
                         ##user is female or other
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 6 miles
-                        if self.user.longest_long_run <= 6:
+                        if self.longest_run <= 6:
                             #return training_plan
                             return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_NO_6]
                         #user is between 25 and 40
@@ -6339,7 +6340,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 7 - 8 miles
-                        elif self.user.longest_long_run <= 8:
+                        elif self.longest_run <= 8:
                             #return training_plan
                             return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_NO_8]
                         #user is between 25 and 40
@@ -6347,7 +6348,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 9 - 10 miles
-                        elif self.user.longest_long_run <= 10:
+                        elif self.longest_run <= 10:
                             #return training_plan
                             return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_NO_10]
                         #user is between 25 and 40
@@ -6362,20 +6363,20 @@ class decision_tree:
                     ##user is female or other
                     ###user is an intermediate runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 25 and 40
                         ##user is female or other
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_U3_U3_6]
                             #user is between 25 and 40
@@ -6384,7 +6385,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_U3_U3_8]
                             #user is between 25 and 40
@@ -6393,7 +6394,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_U3_U3_10]
                             #user is between 25 and 40
@@ -6410,14 +6411,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_U3_U6_6]
                             #user is between 25 and 40
@@ -6426,7 +6427,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_U3_U6_8]
                             #user is between 25 and 40
@@ -6435,7 +6436,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_U3_U6_10]
                             #user is between 25 and 40
@@ -6452,14 +6453,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_U3_U12_6]
                             #user is between 25 and 40
@@ -6468,7 +6469,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_U3_U12_8]
                             #user is between 25 and 40
@@ -6477,7 +6478,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_U3_U12_10]
                             #user is between 25 and 40
@@ -6501,7 +6502,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_U3_U24_6]
                             #user is between 25 and 40
@@ -6510,7 +6511,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_U3_U24_8]
                             #user is between 25 and 40
@@ -6519,7 +6520,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_U3_U24_10]
                             #user is between 25 and 40
@@ -6541,14 +6542,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_3O_U3_6]
                             #user is between 25 and 40
@@ -6557,7 +6558,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_3O_U3_8]
                             #user is between 25 and 40
@@ -6566,7 +6567,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_3O_U3_10]
                             #user is between 25 and 40
@@ -6583,14 +6584,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_3O_U6_6]
                             #user is between 25 and 40
@@ -6599,7 +6600,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_3O_U6_8]
                             #user is between 25 and 40
@@ -6608,7 +6609,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_3O_U6_10]
                             #user is between 25 and 40
@@ -6625,14 +6626,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_3O_U12_6]
                             #user is between 25 and 40
@@ -6641,7 +6642,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_3O_U12_8]
                             #user is between 25 and 40
@@ -6650,7 +6651,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_3O_U12_10]
                             #user is between 25 and 40
@@ -6674,7 +6675,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_3O_U24_6]
                             #user is between 25 and 40
@@ -6683,7 +6684,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_3O_U24_8]
                             #user is between 25 and 40
@@ -6692,7 +6693,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_INTERMEDIATE_3O_U24_10]
                             #user is between 25 and 40
@@ -6712,13 +6713,13 @@ class decision_tree:
                     ##user is female or other
                     ###user is an advanced runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 25 and 40
                         ##user is female or other
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 7 miles
-                        if self.user.longest_long_run <= 7:
+                        if self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[UFORTY_FEMALE_ADVANCED_NO_7]
                         #user is between 25 and 40
@@ -6726,7 +6727,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 7 - 8 miles
-                        elif self.user.longest_long_run <= 9:
+                        elif self.user.longest_run <= 9:
                             #return training_plan
                             return plans.training_plans[UFORTY_FEMALE_ADVANCED_NO_9]
                         #user is between 25 and 40
@@ -6734,7 +6735,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 9 - 10 miles
-                        elif self.user.longest_long_run <= 11:
+                        elif self.longest_run <= 11:
                             #return training_plan
                             return plans.training_plans[UFORTY_FEMALE_ADVANCED_NO_11]
                         #user is between 25 and 40
@@ -6749,20 +6750,20 @@ class decision_tree:
                     ##user is female or other
                     ###user is an advanced runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 25 and 40
                         ##user is female or other
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_ADVANCED_U3_U3_7]
                             #user is between 25 and 40
@@ -6771,7 +6772,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_ADVANCED_U3_U3_9]
                             #user is between 25 and 40
@@ -6780,7 +6781,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_U3_U3_11]
                             #user is between 25 and 40
@@ -6797,14 +6798,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_U3_U6_7]
                             #user is between 25 and 40
@@ -6813,7 +6814,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_U3_U6_9]
                             #user is between 25 and 40
@@ -6822,7 +6823,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_U3_U6_11]
                             #user is between 25 and 40
@@ -6839,14 +6840,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_U3_U12_7]
                             #user is between 25 and 40
@@ -6855,7 +6856,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_U3_U12_9]
                             #user is between 25 and 40
@@ -6864,7 +6865,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_U3_U12_11]
                             #user is between 25 and 40
@@ -6888,7 +6889,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_U3_U24_7]
                             #user is between 25 and 40
@@ -6897,7 +6898,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_U3_U24_9]
                             #user is between 25 and 40
@@ -6906,7 +6907,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_U3_U24_11]
                             #user is between 25 and 40
@@ -6928,14 +6929,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_ADVANCED_3O_U3_7]
                             #user is between 25 and 40
@@ -6944,7 +6945,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_ADVANCED_3O_U3_9]
                             #user is between 25 and 40
@@ -6953,7 +6954,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_3O_U3_11]
                             #user is between 25 and 40
@@ -6970,14 +6971,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_3O_U6_7]
                             #user is between 25 and 40
@@ -6986,7 +6987,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_3O_U6_9]
                             #user is between 25 and 40
@@ -6995,7 +6996,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_3O_U6_11]
                             #user is between 25 and 40
@@ -7012,14 +7013,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 25 and 40
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_3O_U12_7]
                             #user is between 25 and 40
@@ -7028,7 +7029,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_3O_U12_9]
                             #user is between 25 and 40
@@ -7037,7 +7038,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_3O_U12_11]
                             #user is between 25 and 40
@@ -7061,7 +7062,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_3O_U24_7]
                             #user is between 25 and 40
@@ -7070,7 +7071,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                  return plans.training_plans[UFORTY_FEMALE_ADVANCED_3O_U24_9]
                             #user is between 25 and 40
@@ -7079,7 +7080,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_3O_U24_11]
                             #user is between 25 and 40
@@ -7092,25 +7093,25 @@ class decision_tree:
                                 #return training_plan
                                 return plans.training_plans[UFORTY_FEMALE_ADVANCED_3O_U24_11O]
         #checks if user age is less than or equal to 55
-        elif self.user.age <= 55:
+        elif self.age <= 55:
             #user is between 40 and 55
             ##checks if user is male
-            if self.user.sex == "male":
+            if self.sex == "male":
                 #user is between 40 and 55
                 ##user is male
                 ###checks if user is a beginner runner
-                if self.user.running_ex == "beginner":
+                if self.running_ex == "beginner":
                     #user is between 40 and 55
                     ##user is male
                     ###user is a beginner runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 40 and 55
                         ##user is male
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 5 miles
-                        if self.user.longest_long_run <= 5:
+                        if self.longest_run <= 5:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_NO_5]
                         #user is between 40 and 55
@@ -7118,7 +7119,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 6 - 7 miles
-                        elif self.user.longest_long_run <= 7:
+                        elif self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_NO_7]
                         #user is between 40 and 55
@@ -7126,7 +7127,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 8 - 9 miles
-                        elif self.user.longest_long_run <= 9:
+                        elif self.longest_run <= 9:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_NO_9]
                         #user is between 40 and 55
@@ -7141,20 +7142,20 @@ class decision_tree:
                     ##user is male
                     ###user is a beginner runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 40 and 55
                         ##user is male
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 40 and 55
                             ##user is male
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_U3_U3_5]
                             #user is between 40 and 55
@@ -7163,7 +7164,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_U3_U3_7]
                             #user is between 40 and 55
@@ -7172,7 +7173,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_U3_U3_9]
                             #user is between 40 and 55
@@ -7189,14 +7190,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 40 and 55
                             ##user is male
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_U3_U6_5]
                             #user is between 40 and 55
@@ -7205,7 +7206,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_U3_U6_7]
                             #user is between 40 and 55
@@ -7214,7 +7215,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_U3_U6_9]
                             #user is between 40 and 55
@@ -7231,14 +7232,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 40 and 55
                             ##user is male
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_U3_U12_5]
                             #user is between 40 and 55
@@ -7247,7 +7248,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_U3_U12_7]
                             #user is between 40 and 55
@@ -7256,7 +7257,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_U3_U12_9]
                             #user is between 40 and 55
@@ -7280,7 +7281,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_U3_U24_5]
                             #user is between 40 and 55
@@ -7289,7 +7290,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_U3_U24_7]
                             #user is between 40 and 55
@@ -7298,7 +7299,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_U3_U24_9]
                             #user is between 40 and 55
@@ -7320,14 +7321,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 40 and 55
                             ##user is male
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_3O_U3_5]
                             #user is between 40 and 55
@@ -7336,7 +7337,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_3O_U3_7]
                             #user is between 40 and 55
@@ -7345,7 +7346,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_3O_U3_9]
                             #user is between 40 and 55
@@ -7362,14 +7363,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 40 and 55
                             ##user is male
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_3O_U6_5]
                             #user is between 40 and 55
@@ -7378,7 +7379,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_3O_U6_7]
                             #user is between 40 and 55
@@ -7387,7 +7388,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_3O_U6_9]
                             #user is between 40 and 55
@@ -7404,14 +7405,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 40 and 55
                             ##user is male
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_3O_U12_5]
                             #user is between 40 and 55
@@ -7420,7 +7421,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_3O_U12_7]
                             #user is between 40 and 55
@@ -7429,7 +7430,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_3O_U12_9]
                             #user is between 40 and 55
@@ -7453,7 +7454,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                  return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_3O_U24_5]
                             #user is between 40 and 55
@@ -7462,7 +7463,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                  return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_3O_U24_7]
                             #user is between 40 and 55
@@ -7471,7 +7472,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_BEGINNER_3O_U24_9]
                             #user is between 40 and 55
@@ -7486,18 +7487,18 @@ class decision_tree:
                 #user is between 40 and 55
                 ##user is male
                 ###checks if user is an intermediate runner
-                elif self.user.running_ex == "intermediate":
+                elif self.running_ex == "intermediate":
                     #user is between 40 and 55
                     ##user is male
                     ###user is an intermediate runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 40 and 55
                         ##user is male
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 6 miles
-                        if self.user.longest_long_run <= 6:
+                        if self.longest_run <= 6:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_NO_6]
                         #user is between 40 and 55
@@ -7505,7 +7506,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 7 - 8 miles
-                        elif self.user.longest_long_run <= 8:
+                        elif self.longest_run <= 8:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_NO_8]
                         #user is between 40 and 55
@@ -7513,7 +7514,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 9 - 10 miles
-                        elif self.user.longest_long_run <= 10:
+                        elif self.longest_run <= 10:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_NO_10]
                         #user is between 40 and 55
@@ -7528,20 +7529,20 @@ class decision_tree:
                     ##user is male
                     ###user is an intermediate runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 40 and 55
                         ##user is male
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 40 and 55
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_U3_U3_6]
                             #user is between 40 and 55
@@ -7550,7 +7551,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_U3_U3_8]
                             #user is between 40 and 55
@@ -7559,7 +7560,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_U3_U3_10]
                             #user is between 40 and 55
@@ -7576,14 +7577,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 40 and 55
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_U3_U6_6]
                             #user is between 40 and 55
@@ -7592,7 +7593,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_U3_U6_8]
                             #user is between 40 and 55
@@ -7601,7 +7602,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_U3_U6_10]
                             #user is between 40 and 55
@@ -7618,14 +7619,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 40 and 55
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_U3_U12_6]
                             #user is between 40 and 55
@@ -7634,7 +7635,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_U3_U12_8]
                             #user is between 40 and 55
@@ -7643,7 +7644,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_U3_U12_10]
                             #user is between 40 and 55
@@ -7667,7 +7668,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_U3_U24_6]
                             #user is between 40 and 55
@@ -7676,7 +7677,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_U3_U24_8]
                             #user is between 40 and 55
@@ -7685,7 +7686,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_U3_U24_10]
                             #user is between 40 and 55
@@ -7707,14 +7708,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 40 and 55
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_3O_U3_6]
                             #user is between 40 and 55
@@ -7723,7 +7724,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                  return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_3O_U3_8]
                             #user is between 40 and 55
@@ -7732,7 +7733,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_3O_U3_10]
                             #user is between 40 and 55
@@ -7749,14 +7750,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 40 and 55
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_3O_U6_6]
                             #user is between 40 and 55
@@ -7765,7 +7766,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_3O_U6_8]
                             #user is between 40 and 55
@@ -7774,7 +7775,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_3O_U6_10]
                             #user is between 40 and 55
@@ -7791,14 +7792,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 40 and 55
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_3O_U12_6]
                             #user is between 40 and 55
@@ -7807,7 +7808,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_3O_U12_8]
                             #user is between 40 and 55
@@ -7816,7 +7817,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 -12 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_3O_U12_10]
                             #user is between 40 and 55
@@ -7840,7 +7841,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_3O_U24_6]
                             #user is between 40 and 55
@@ -7849,7 +7850,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_3O_U24_8]
                             #user is between 40 and 55
@@ -7858,7 +7859,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_INTERMEDIATE_3O_U24_10]
                             #user is between 40 and 55
@@ -7878,13 +7879,13 @@ class decision_tree:
                     ##user is male
                     ###user is an advanced runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 40 and 55
                         ##user is male
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 7 miles
-                        if self.user.longest_long_run <= 7:
+                        if self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_NO_7]
                         #user is between 40 and 55
@@ -7892,7 +7893,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 8 - 9 miles
-                        elif self.user.longest_long_run <= 9:
+                        elif self.longest_run <= 9:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_NO_9]
                         #user is between 40 and 55
@@ -7900,7 +7901,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 10 - 11 miles
-                        elif self.user.longest_long_run <= 11:
+                        elif self.longest_run <= 11:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_NO_11]
                         #user is between 40 and 55
@@ -7915,20 +7916,20 @@ class decision_tree:
                     ##user is male
                     ###user is an advanced runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 40 and 55
                         ##user is male
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 40 and 55
                             ##user is male
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_U3_U3_7]
                             #user is between 40 and 55
@@ -7937,7 +7938,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_U3_U3_9]
                             #user is between 40 and 55
@@ -7946,7 +7947,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_U3_U3_11]
                             #user is between 40 and 55
@@ -7963,14 +7964,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 40 and 55
                             ##user is male
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_U3_U6_7]
                             #user is between 40 and 55
@@ -7979,7 +7980,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_U3_U6_9]
                             #user is between 40 and 55
@@ -7988,7 +7989,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_U3_U6_11]
                             #user is between 40 and 55
@@ -8005,14 +8006,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 40 and 55
                             ##user is male
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_U3_U12_7]
                             #user is between 40 and 55
@@ -8021,7 +8022,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_U3_U12_9]
                             #user is between 40 and 55
@@ -8030,7 +8031,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_U3_U12_11]
                             #user is between 40 and 55
@@ -8054,7 +8055,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_U3_U24_7]
                             #user is between 40 and 55
@@ -8063,7 +8064,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_U3_U24_9]
                             #user is between 40 and 55
@@ -8072,7 +8073,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_U3_U24_11]
                             #user is between 40 and 55
@@ -8094,14 +8095,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 40 and 55
                             ##user is male
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_3O_U3_7]
                             #user is between 40 and 55
@@ -8110,7 +8111,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_3O_U3_9]
                             #user is between 40 and 55
@@ -8119,7 +8120,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_3O_U3_11]
                             #user is between 40 and 55
@@ -8136,14 +8137,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 40 and 55
                             ##user is male
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_3O_U6_7]
                             #user is between 40 and 55
@@ -8152,7 +8153,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_3O_U6_9]
                             #user is between 40 and 55
@@ -8161,7 +8162,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_3O_U6_11]
                             #user is between 40 and 55
@@ -8178,14 +8179,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 40 and 55
                             ##user is male
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_3O_U12_7]
                             #user is between 40 and 55
@@ -8194,7 +8195,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_3O_U12_9]
                             #user is between 40 and 55
@@ -8203,7 +8204,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_3O_U12_11]
                             #user is between 40 and 55
@@ -8227,7 +8228,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_3O_U24_7]
                             #user is between 40 and 55
@@ -8236,7 +8237,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_3O_U24_9]
                             #user is between 40 and 55
@@ -8245,7 +8246,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_MALE_ADVANCED_3O_U24_11]
                             #user is between 40 and 55
@@ -8263,18 +8264,18 @@ class decision_tree:
                 #user is between 40 and 55
                 ##user is female or other
                 ###checks if user is a beginner runner
-                if self.user.running_ex == "beginner":
+                if self.running_ex == "beginner":
                     #user is between 40 and 55
                     ##user is female or other
                     ###user is a beginner runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 40 and 55
                         ##user is female or other
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 5 miles
-                        if self.user.longest_long_run <= 5:
+                        if self.longest_run <= 5:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_NO_5]
                         #user is between 40 and 55
@@ -8282,7 +8283,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 6 - 7 miles
-                        elif self.user.longest_long_run <= 7:
+                        elif self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_NO_7]
                         #user is between 40 and 55
@@ -8290,7 +8291,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 8 - 9 miles
-                        elif self.user.longest_long_run <= 9:
+                        elif self.longest_run <= 9:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_NO_9]
                         #user is between 40 and 55
@@ -8305,20 +8306,20 @@ class decision_tree:
                     ##user is female or other
                     ###user is a beginner runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 40 and 55
                         ##user is female or other
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_U3_U3_5]
                             #user is between 40 and 55
@@ -8327,7 +8328,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_U3_U3_7]
                             #user is between 40 and 55
@@ -8336,7 +8337,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_U3_U3_9]
                             #user is between 40 and 55
@@ -8353,14 +8354,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_U3_U6_5]
                             #user is between 40 and 55
@@ -8369,7 +8370,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_U3_U6_7]
                             #user is between 40 and 55
@@ -8378,7 +8379,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_U3_U6_9]
                             #user is between 40 and 55
@@ -8395,14 +8396,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_U3_U12_5]
                             #user is between 40 and 55
@@ -8411,7 +8412,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_U3_U12_7]
                             #user is between 40 and 55
@@ -8420,7 +8421,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_U3_U12_9]
                             #user is between 40 and 55
@@ -8444,7 +8445,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_U3_U24_5]
                             #user is between 40 and 55
@@ -8453,7 +8454,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_U3_U24_7]
                             #user is between 40 and 55
@@ -8462,7 +8463,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_U3_U24_9]
                             #user is between 40 and 55
@@ -8484,14 +8485,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_3O_U3_5]
                             #user is between 40 and 55
@@ -8500,7 +8501,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_3O_U3_7]
                             #user is between 40 and 55
@@ -8509,7 +8510,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_3O_U3_9]
                             #user is between 40 and 55
@@ -8526,14 +8527,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_3O_U6_5]
                             #user is between 40 and 55
@@ -8542,7 +8543,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_3O_U6_7]
                             #user is between 40 and 55
@@ -8551,7 +8552,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_3O_U6_9]
                             #user is between 40 and 55
@@ -8568,14 +8569,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_3O_U12_5]
                             #user is between 40 and 55
@@ -8584,7 +8585,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_3O_U12_7]
                             #user is between 40 and 55
@@ -8593,7 +8594,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_3O_U12_9]
                             #user is between 40 and 55
@@ -8617,7 +8618,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 5 miles
-                            if self.user.longest_long_run <= 5:
+                            if self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_3O_U24_5]
                             #user is between 40 and 55
@@ -8626,7 +8627,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_3O_U24_7]
                             #user is between 40 and 55
@@ -8635,7 +8636,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_BEGINNER_3O_U24_9]
                             #user is between 40 and 55
@@ -8650,18 +8651,18 @@ class decision_tree:
                 #user is between 40 and 55
                 ##user is female or other
                 ###checks if user is an intermediate runner
-                elif self.user.running_ex == "intermediate":
+                elif self.running_ex == "intermediate":
                     #user is between 40 and 55
                     ##user is female or other
                     ###user is an intermediate runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 40 and 55
                         ##user is female or other
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 6 miles
-                        if self.user.longest_long_run <= 6:
+                        if self.longest_run <= 6:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_NO_6]
                         #user is between 40 and 55
@@ -8669,7 +8670,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 7 - 8 miles
-                        elif self.user.longest_long_run <= 8:
+                        elif self.longest_run <= 8:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_NO_8]
                         #user is between 40 and 55
@@ -8677,7 +8678,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 9 - 10 miles
-                        elif self.user.longest_long_run <= 10:
+                        elif self.longest_run <= 10:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_NO_10]
                         #user is between 40 and 55
@@ -8692,20 +8693,20 @@ class decision_tree:
                     ##user is female or other
                     ###user is an intermediate runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 40 and 55
                         ##user is female or other
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if selfmost_recent_injury < 3:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_U3_U3_6]
                             #user is between 40 and 55
@@ -8714,7 +8715,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_U3_U3_8]
                             #user is between 40 and 55
@@ -8723,7 +8724,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_U3_U3_10]
                             #user is between 40 and 55
@@ -8740,14 +8741,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_U3_U6_6]
                             #user is between 40 and 55
@@ -8756,7 +8757,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_U3_U6_8]
                             #user is between 40 and 55
@@ -8765,7 +8766,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_U3_U6_10]
                             #user is between 40 and 55
@@ -8782,14 +8783,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_U3_U12_6]
                             #user is between 40 and 55
@@ -8798,7 +8799,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_U3_U12_8]
                             #user is between 40 and 55
@@ -8807,7 +8808,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_U3_U12_10]
                             #user is between 40 and 55
@@ -8831,7 +8832,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_U3_U24_6]
                             #user is between 40 and 55
@@ -8840,7 +8841,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_U3_U24_8]
                             #user is between 40 and 55
@@ -8849,7 +8850,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_U3_U24_10]
                             #user is between 40 and 55
@@ -8871,14 +8872,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_3O_U3_6]
                             #user is between 40 and 55
@@ -8887,7 +8888,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_3O_U3_8]
                             #user is between 40 and 55
@@ -8896,7 +8897,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_3O_U3_10]
                             #user is between 40 and 55
@@ -8913,14 +8914,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_3O_U6_6]
                             #user is between 40 and 55
@@ -8929,7 +8930,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_3O_U6_8]
                             #user is between 40 and 55
@@ -8938,7 +8939,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_3O_U6_10]
                             #user is between 40 and 55
@@ -8955,14 +8956,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_3O_U12_6]
                             #user is between 40 and 55
@@ -8971,7 +8972,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6  - 12 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_3O_U12_8]
                             #user is between 40 and 55
@@ -8980,7 +8981,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_3O_U12_10]
                             #user is between 40 and 55
@@ -9004,7 +9005,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 6 miles
-                            if self.user.longest_long_run <= 6:
+                            if self.longest_run <= 6:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_3O_U24_6]
                             #user is between 40 and 55
@@ -9013,7 +9014,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 7 - 8 miles
-                            elif self.user.longest_long_run <= 8:
+                            elif self.longest_run <= 8:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_3O_U24_8]
                             #user is between 40 and 55
@@ -9022,7 +9023,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 9 - 10 miles
-                            elif self.user.longest_long_run <= 10:
+                            elif self.longest_run <= 10:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_INTERMEDIATE_3O_U24_10]
                             #user is between 40 and 55
@@ -9042,13 +9043,13 @@ class decision_tree:
                     ##user is female or other
                     ###user is an advanced runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is between 40 and 55
                         ##user is female or other
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 7 miles
-                        if self.user.longest_long_run <= 7:
+                        if self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_NO_7]
                         #user is between 40 and 55
@@ -9056,7 +9057,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 8 - 9 miles
-                        elif self.user.longest_long_run <= 9:
+                        elif self.longest_run <= 9:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_NO_9]
                         #user is between 40 and 55
@@ -9064,7 +9065,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 10 - 11 miles
-                        elif self.user.longest_long_run <= 11:
+                        elif self.longest_run <= 11:
                             #return training_plan
                             return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_NO_11]
                         #user is between 40 and 55
@@ -9079,20 +9080,20 @@ class decision_tree:
                     ##user is female or other
                     ###user is an advanced runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is between 40 and 55
                         ##user is female or other
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_U3_U3_7]
                             #user is between 40 and 55
@@ -9101,7 +9102,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_U3_U3_9]
                             #user is between 40 and 55
@@ -9110,7 +9111,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_U3_U3_11]
                             #user is between 40 and 55
@@ -9127,14 +9128,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_U3_U6_7]
                             #user is between 40 and 55
@@ -9143,7 +9144,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_U3_U6_9]
                             #user is between 40 and 55
@@ -9152,7 +9153,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_U3_U6_11]
                             #user is between 40 and 55
@@ -9169,14 +9170,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_U3_U12_7]
                             #user is between 40 and 55
@@ -9185,7 +9186,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_U3_U12_9]
                             #user is between 40 and 55
@@ -9194,7 +9195,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_U3_U12_11]
                             #user is between 40 and 55
@@ -9218,7 +9219,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_U3_U24_7]
                             #user is between 40 and 55
@@ -9227,7 +9228,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_U3_U24_9]
                             #user is between 40 and 55
@@ -9236,7 +9237,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_U3_U24_11]
                             #user is between 40 and 55
@@ -9258,14 +9259,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_3O_U3_7]
                             #user is between 40 and 55
@@ -9274,7 +9275,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_3O_U3_9]
                             #user is between 40 and 55
@@ -9283,7 +9284,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_3O_U3_11]
                             #user is between 40 and 55
@@ -9300,14 +9301,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_3O_U6_7]
                             #user is between 40 and 55
@@ -9316,7 +9317,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_3O_U6_9]
                             #user is between 40 and 55
@@ -9325,7 +9326,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_3O_U6_11]
                             #user is between 40 and 55
@@ -9342,14 +9343,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_3O_U12_7]
                             #user is between 40 and 55
@@ -9358,7 +9359,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_3O_U12_9]
                             #user is between 40 and 55
@@ -9367,7 +9368,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_3O_U12_11]
                             #user is between 40 and 55
@@ -9391,7 +9392,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_3O_U24_7]
                             #user is between 40 and 55
@@ -9400,7 +9401,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_3O_U24_9]
                             #user is between 40 and 55
@@ -9409,7 +9410,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[UFIFTYFIVE_FEMALE_ADVANCED_3O_U24_11]
                             #user is between 40 and 55
@@ -9425,22 +9426,22 @@ class decision_tree:
         else:
             #user is over the age of 55
             ##checks if user is male
-            if self.user.sex == "male":
+            if self.sex == "male":
                #user is over the age of 55
                ##user is male
                ###checks if user is a beginner runner
-                if self.user.running_ex == "beginner":
+                if self.running_ex == "beginner":
                     #user is over 55
                     ##user is male
                     ###user is a beginner runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is over 55
                         ##user is male
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 3 miles
-                        if self.user.longest_long_run <= 3:
+                        if self.longest_run <= 3:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_NO_3]
                         #user is over 55
@@ -9448,7 +9449,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 4 - 5 miles
-                        elif self.user.longest_long_run <= 5:
+                        elif self.longest_run <= 5:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_NO_5]
                         #user is over 55
@@ -9456,7 +9457,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 6 - 7 miles
-                        elif self.user.longest_long_run <= 7:
+                        elif self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_NO_7]
                         #user is over 55
@@ -9471,20 +9472,20 @@ class decision_tree:
                     ##user is male
                     ###user is a beginner runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is over 55
                         ##user is male
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is over 55
                             ##user is male
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_U3_U3_3]
                             #user is over 55
@@ -9493,7 +9494,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_U3_U3_5]
                             #user is over 55
@@ -9502,7 +9503,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_U3_U3_7]
                             #user is over 55
@@ -9519,14 +9520,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is over 55
                             ##user is male
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_U3_U6_3]
                             #user is over 55
@@ -9535,7 +9536,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_U3_U6_5]
                             #user is over 55
@@ -9544,7 +9545,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_U3_U6_7]
                             #user is over 55
@@ -9561,14 +9562,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is over 55
                             ##user is male
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_U3_U12_3]
                             #user is over 55
@@ -9577,7 +9578,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_U3_U12_5]
                             #user is over 55
@@ -9586,7 +9587,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_U3_U12_7]
                             #user is over 55
@@ -9610,7 +9611,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_U3_U24_3]
                             #user is over 55
@@ -9619,7 +9620,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_U3_U24_5]
                             #user is over 55
@@ -9628,7 +9629,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_U3_U24_7]
                             #user is over 55
@@ -9650,14 +9651,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is over 55
                             ##user is male
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_3O_U3_3]
                             #user is over 55
@@ -9666,7 +9667,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_3O_U3_5]
                             #user is over 55
@@ -9675,7 +9676,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_3O_U3_7]
                             #user is over 55
@@ -9692,14 +9693,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is over 55
                             ##user is male
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_3O_U6_3]
                             #user is over 55
@@ -9708,7 +9709,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_3O_U6_5]
                             #user is over 55
@@ -9717,7 +9718,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif selflongest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_3O_U6_7]
                             #user is over 55
@@ -9734,14 +9735,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is over 55
                             ##user is male
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_3O_U12_3]
                             #user is over 55
@@ -9750,7 +9751,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_3O_U12_5]
                             #user is over 55
@@ -9759,7 +9760,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_3O_U12_7]
                             #user is over 55
@@ -9783,7 +9784,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_3O_U24_3]
                             #user is over 55
@@ -9792,7 +9793,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_3O_U24_5]
                             #user is over 55
@@ -9801,7 +9802,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_3O_U24_7]
                             #user is over 55
@@ -9816,18 +9817,18 @@ class decision_tree:
                 #user is over the age of 55
                 ##user is male
                 ###checks if user is an intermediate runner
-                elif self.user.running_ex == "intermediate":
+                elif self.running_ex == "intermediate":
                     #user is over 55
                     ##user is male
                     ###user is an intermediate runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is over 55
                         ##user is male
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 3 miles
-                        if self.user.longest_long_run <= 3:
+                        if self.longest_run <= 3:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_NO_3]
                         #user is over 55
@@ -9835,7 +9836,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 4 - 5 miles
-                        elif self.user.longest_long_run <= 5:
+                        elif self.longest_run <= 5:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_NO_5]
                         #user is over 55
@@ -9843,7 +9844,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 6 - 7 miles
-                        elif self.user.longest_long_run <= 7:
+                        elif self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_NO_7]
                         #user is over 55
@@ -9858,20 +9859,20 @@ class decision_tree:
                     ##user is male
                     ###user is an intermediate runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is over 55
                         ##user is male
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is over 55
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_U3_U3_3]
                             #user is over 55
@@ -9880,7 +9881,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_U3_U3_5]
                             #user is over 55
@@ -9889,7 +9890,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_U3_U3_7]
                             #user is over 55
@@ -9906,14 +9907,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is over 55
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_U3_U6_3]
                             #user is over 55
@@ -9922,7 +9923,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_U3_U6_5]
                             #user is over 55
@@ -9931,7 +9932,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_U3_U6_7]
                             #user is over 55
@@ -9948,14 +9949,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is over 55
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_U3_U12_3]
                             #user is over 55
@@ -9964,7 +9965,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_U3_U12_5]
                             #user is over 55
@@ -9973,7 +9974,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_U3_U12_7]
                             #user is over 55
@@ -9997,7 +9998,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_U3_U24_3]
                             #user is over 55
@@ -10006,7 +10007,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_U3_U24_5]
                             #user is over 55
@@ -10015,7 +10016,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_U3_U24_7]
                             #user is over 55
@@ -10037,14 +10038,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is over 55
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_3O_U3_3]
                             #user is over 55
@@ -10053,7 +10054,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_3O_U3_5]
                             #user is over 55
@@ -10062,7 +10063,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_3O_U3_7]
                             #user is over 55
@@ -10079,14 +10080,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is over 55
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_3O_U6_3]
                             #user is over 55
@@ -10095,7 +10096,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_3O_U6_5]
                             #user is over 55
@@ -10104,7 +10105,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_3O_U6_7]
                             #user is over 55
@@ -10121,14 +10122,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is over 55
                             ##user is male
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_3O_U12_3]
                             #user is over 55
@@ -10137,7 +10138,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_3O_U12_5]
                             #user is over 55
@@ -10146,7 +10147,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_3O_U12_7]
                             #user is over 55
@@ -10170,7 +10171,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_3O_U24_3]
                             #user is over 55
@@ -10179,7 +10180,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_3O_U24_5]
                             #user is over 55
@@ -10188,7 +10189,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_INTERMEDIATE_3O_U24_7]
                             #user is over 55
@@ -10208,13 +10209,13 @@ class decision_tree:
                     ##user is male
                     ###user is an advanced runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is over 55
                         ##user is male
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 7 miles
-                        if self.user.longest_long_run <= 7:
+                        if self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_NO_7]
                         #user is over 55
@@ -10222,7 +10223,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 8 - 9 miles
-                        elif self.user.longest_long_run <= 9:
+                        elif self.longest_run <= 9:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_NO_9]
                         #user is over 55
@@ -10230,7 +10231,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 10 - 11 miles
-                        elif self.user.longest_long_run <= 11:
+                        elif self.longest_run <= 11:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_NO_11]
                         #user is over 55
@@ -10245,20 +10246,20 @@ class decision_tree:
                     ##user is male
                     ###user is an advanced runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is over 55
                         ##user is male
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is over 55
                             ##user is male
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_U3_U3_7]
                             #user is over 55
@@ -10267,7 +10268,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_U3_U3_9]
                             #user is over 55
@@ -10276,7 +10277,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_U3_U3_11]
                             #user is over 55
@@ -10293,14 +10294,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is over 55
                             ##user is male
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_U3_U6_7]
                             #user is over 55
@@ -10309,7 +10310,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_U3_U6_9]
                             #user is over 55
@@ -10318,7 +10319,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_U3_U6_11]
                             #user is over 55
@@ -10335,14 +10336,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is over 55
                             ##user is male
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_U3_U12_7]
                             #user is over 55
@@ -10351,7 +10352,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_U3_U12_9]
                             #user is over 55
@@ -10360,7 +10361,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_U3_U12_11]
                             #user is over 55
@@ -10384,7 +10385,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_U3_U24_7]
                             #user is over 55
@@ -10393,7 +10394,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_U3_U24_9]
                             #user is over 55
@@ -10402,7 +10403,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_U3_U24_11]
                             #user is over 55
@@ -10424,14 +10425,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is over 55
                             ##user is male
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_3O_U3_7]
                             #user is over 55
@@ -10440,7 +10441,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_3O_U3_9]
                             #user is over 55
@@ -10449,7 +10450,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_3O_U3_11]
                             #user is over 55
@@ -10466,14 +10467,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is over 55
                             ##user is male
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_3O_U6_7]
                             #user is over 55
@@ -10482,7 +10483,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_3O_U6_9]
                             #user is over 55
@@ -10491,7 +10492,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_3O_U6_11]
                             #user is over 55
@@ -10508,14 +10509,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is over 55
                             ##user is male
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_3O_U12_7]
                             #user is over 55
@@ -10524,7 +10525,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_3O_U12_9]
                             #user is over 55
@@ -10533,7 +10534,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_3O_U12_11]
                             #user is over 55
@@ -10557,7 +10558,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_3O_U24_7]
                             #user is over 55
@@ -10566,7 +10567,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_3O_U24_9]
                             #user is over 55
@@ -10575,7 +10576,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_ADVANCED_3O_U24_11]
                             #user is over 55
@@ -10593,18 +10594,18 @@ class decision_tree:
                 #user is over the age of 55
                 ##user is female or other
                 ###checks if user is a beginner runner
-                if self.user.running_ex == "beginner":
+                if self.running_ex == "beginner":
                     #user is over 55
                     ##user is female or other
                     ###user is a beginner runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is over 55
                         ##user is female or other
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 3 miles
-                        if self.user.longest_long_run <= 3:
+                        if self.longest_run <= 3:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_NO_3]
                         #user is over 55
@@ -10612,7 +10613,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 4 - 5 miles
-                        elif self.user.longest_long_run <= 5:
+                        elif self.longest_run <= 5:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_NO_5]
                         #user is over 55
@@ -10620,7 +10621,7 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 6 - 7 miles
-                        elif self.user.longest_long_run <= 7:
+                        elif self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_NO_7]
                         #user is over 55
@@ -10635,20 +10636,20 @@ class decision_tree:
                     ##user is female or other
                     ###user is a beginner runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is over 55
                         ##user is female or other
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is over 55
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_U3_U3_3]
                             #user is over 55
@@ -10657,7 +10658,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_U3_U3_5]
                             #user is over 55
@@ -10666,7 +10667,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_U3_U3_7]
                             #user is over 55
@@ -10683,14 +10684,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is over 55
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_U3_U6_3]
                             #user is over 55
@@ -10699,7 +10700,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_U3_U6_5]
                             #user is over 55
@@ -10708,7 +10709,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_U3_U6_7]
                             #user is over 55
@@ -10725,14 +10726,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is over 55
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_U3_U12_3]
                             #user is over 55
@@ -10741,7 +10742,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_U3_U12_5]
                             #user is over 55
@@ -10750,7 +10751,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_U3_U12_7]
                             #user is over 55
@@ -10774,7 +10775,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_U3_U24_3]
                             #user is over 55
@@ -10783,7 +10784,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_U3_U24_5]
                             #user is over 55
@@ -10792,7 +10793,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_U3_U24_7]
                             #user is over 55
@@ -10814,14 +10815,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is over 55
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_3O_U3_3]
                             #user is over 55
@@ -10830,7 +10831,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_3O_U3_5]
                             #user is over 55
@@ -10839,7 +10840,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_3O_U3_7]
                             #user is over 55
@@ -10856,14 +10857,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is over 55
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_3O_U6_3]
                             #user is over 55
@@ -10872,7 +10873,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_3O_U6_5]
                             #user is over 55
@@ -10881,7 +10882,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_3O_U6_7]
                             #user is over 55
@@ -10898,14 +10899,14 @@ class decision_tree:
                         ###user is a beginner runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is over 55
                             ##user is female or other
                             ###user is a beginner runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_3O_U12_3]
                             #user is over 55
@@ -10914,7 +10915,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_3O_U12_5]
                             #user is over 55
@@ -10923,7 +10924,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_3O_U12_7]
                             #user is over 55
@@ -10947,7 +10948,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_3O_U24_3]
                             #user is over 55
@@ -10956,7 +10957,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_3O_U24_5]
                             #user is over 55
@@ -10965,7 +10966,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_BEGINNER_3O_U24_7]
                             #user is over 55
@@ -10980,18 +10981,18 @@ class decision_tree:
                 #user is over the age of 55
                 ##user is female or other
                 ###checks if user is an intermediate runner
-                elif self.user.running_ex == "intermediate":
+                elif self.running_ex == "intermediate":
                     #user is over 55
                     ##user is female or other
                     ###user is an intermediate runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is over 55
                         ##user is female or other
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 - 3 miles
-                        if self.user.longest_long_run <= 3:
+                        if self.longest_run <= 3:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_NO_3]
                         #user is over 55
@@ -10999,7 +11000,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 4 - 5 miles
-                        elif self.user.longest_long_run <= 5:
+                        elif self.longest_run <= 5:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_NO_5]
                         #user is over 55
@@ -11007,7 +11008,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 6 - 7 miles
-                        elif self.user.longest_long_run <= 7:
+                        elif self.longest_run <= 7:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_NO_7]
                         #user is over 55
@@ -11022,20 +11023,20 @@ class decision_tree:
                     ##user is female or other
                     ###user is an intermediate runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is over 55
                         ##user is female or other
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is over 55
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_U3_U3_3]
                             #user is over 55
@@ -11044,7 +11045,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_U3_U3_5]
                             #user is over 55
@@ -11053,7 +11054,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_U3_U3_7]
                             #user is over 55
@@ -11070,14 +11071,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is over 55
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_U3_U6_3]
                             #user is over 55
@@ -11086,7 +11087,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_U3_U6_5]
                             #user is over 55
@@ -11095,7 +11096,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_U3_U6_7]
                             #user is over 55
@@ -11112,14 +11113,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is over 55
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_U3_U12_3]
                             #user is over 55
@@ -11128,7 +11129,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_U3_U12_5]
                             #user is over 55
@@ -11137,7 +11138,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_U3_U12_7]
                             #user is over 55
@@ -11161,7 +11162,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_U3_U24_3]
                             #user is over 55
@@ -11170,7 +11171,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_U3_U24_5]
                             #user is over 55
@@ -11179,7 +11180,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_U3_U24_7]
                             #user is over 55
@@ -11201,14 +11202,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is over 55
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_3O_U3_3]
                             #user is over 55
@@ -11217,7 +11218,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_3O_U3_5]
                             #user is over 55
@@ -11226,7 +11227,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_3O_U3_7]
                             #user is over 55
@@ -11243,14 +11244,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is over 55
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_3O_U6_3]
                             #user is over 55
@@ -11259,7 +11260,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_3O_U6_5]
                             #user is over 55
@@ -11268,7 +11269,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_3O_U6_7]
                             #user is over 55
@@ -11285,14 +11286,14 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is over 55
                             ##user is female or other
                             ###user is an intermediate runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_3O_U12_3]
                             #user is over 55
@@ -11301,7 +11302,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_3O_U12_5]
                             #user is over 55
@@ -11310,7 +11311,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_3O_U12_7]
                             #user is over 55
@@ -11334,7 +11335,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 3 miles
-                            if self.user.longest_long_run <= 3:
+                            if self.longest_run <= 3:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_3O_U24_3]
                             #user is over 55
@@ -11343,7 +11344,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 4 - 5 miles
-                            elif self.user.longest_long_run <= 5:
+                            elif self.longest_run <= 5:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_3O_U24_5]
                             #user is over 55
@@ -11352,7 +11353,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif self.user.longest_long_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_INTERMEDIATE_3O_U24_7]
                             #user is over 55
@@ -11372,13 +11373,13 @@ class decision_tree:
                     ##user is female or other
                     ###user is an advanced runner
                     ####checks if user has 0 injuries
-                    if self.user.injury == 0:
+                    if self.injury == 0:
                         #user is over 55
                         ##user is female or other
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 0 -7 miles
-                        if self.user.longest_long_run <= 3:
+                        if self.longest_run <= 3:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_NO_7]
                         #user is over 55
@@ -11386,7 +11387,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 8 - 9 miles
-                        elif self.user.longest_long_run <= 9:
+                        elif self.longest_run <= 9:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_NO_9]
                         #user is over 55
@@ -11394,7 +11395,7 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has 0 injuries
                         #####checks if user longest long run is 10 - 11 miles
-                        elif self.user.longest_long_run <= 11:
+                        elif self.longest_run <= 11:
                             #return training_plan
                             return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_NO_11]
                         #user is over 55
@@ -11409,20 +11410,20 @@ class decision_tree:
                     ##user is female or other
                     ###user is an advanced runner
                     ####checks if user has 1 - 2 injuries
-                    elif self.user.injury < 3:
+                    elif self.injury < 3:
                         #user is over 55
                         ##user is female or other
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is over 55
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_U3_U3_7]
                             #user is over 55
@@ -11431,7 +11432,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_U3_U3_9]
                             #user is over 55
@@ -11440,7 +11441,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_U3_U3_11]
                             #user is over 55
@@ -11457,14 +11458,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is over 55
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_U3_U6_7]
                             #user is over 55
@@ -11473,7 +11474,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_U3_U6_9]
                             #user is over 55
@@ -11482,7 +11483,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_U3_U6_11]
                             #user is over 55
@@ -11499,14 +11500,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is over 55
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_U3_U12_7]
                             #user is over 55
@@ -11515,7 +11516,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_U3_U12_9]
                             #user is over 55
@@ -11524,7 +11525,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_U3_U12_11]
                             #user is over 55
@@ -11548,7 +11549,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_U3_U24_7]
                             #user is over 55
@@ -11557,7 +11558,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_U3_U24_9]
                             #user is over 55
@@ -11566,7 +11567,7 @@ class decision_tree:
                             ####user has 1 - 2 injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_U3_U24_11]
                             #user is over 55
@@ -11588,14 +11589,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if self.user.most_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is over 55
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_3O_U3_7]
                             #user is over 55
@@ -11604,7 +11605,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_3O_U3_9]
                             #user is over 55
@@ -11613,7 +11614,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 0 - 3 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_3O_U3_11]
                             #user is over 55
@@ -11630,14 +11631,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 3 - 6 months ago
-                        elif self.user.most_recent_injury < 6:
+                        elif self.most_recent_injury < 6:
                             #user is over 55
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_3O_U6_7]
                             #user is over 55
@@ -11646,7 +11647,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_3O_U6_9]
                             #user is over 55
@@ -11655,7 +11656,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_3O_U6_11]
                             #user is over 55
@@ -11672,14 +11673,14 @@ class decision_tree:
                         ###user is an advanced runner
                         ####user has been injured 3+ times
                         #####checks if user most recent injury is 6 - 12 months ago
-                        elif self.user.most_recent_injury < 12:
+                        elif self.most_recent_injury < 12:
                             #user is over 55
                             ##user is female or other
                             ###user is an advanced runner
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_3O_U12_7]
                             #user is over 55
@@ -11688,7 +11689,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_3O_U12_9]
                             #user is over 55
@@ -11697,7 +11698,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 6 - 12 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_3O_U12_11]
                             #user is over 55
@@ -11721,7 +11722,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 0 - 7 miles
-                            if self.user.longest_long_run <= 7:
+                            if self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_3O_U24_7]
                             #user is over 55
@@ -11730,7 +11731,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 8 - 9 miles
-                            elif self.user.longest_long_run <= 9:
+                            elif self.longest_run <= 9:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_3O_U24_9]
                             #user is over 55
@@ -11739,7 +11740,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 12 - 24 months ago
                             ######checks if user longest long run is 10 - 11 miles
-                            elif self.user.longest_long_run <= 11:
+                            elif self.longest_run <= 11:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_3O_U24_11]
                             #user is over 55
@@ -11751,3 +11752,7 @@ class decision_tree:
                             else:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_3O_U24_11O]
+    
+    test_user = user("06/27/2020", "male", "beginner", "15:00", 10, 7.5, 7.5, 1, 2)
+
+    print(get_decision_tree(test_user))
