@@ -41,7 +41,7 @@ struct TrainingPlanApp: App {
         case .login:
           LoginView(
             onLoginDone: {
-              appState.currentScreen = .survey
+              appState.currentScreen = .home
             },
             onSignUpTapped: {
               appState.currentScreen = .signup
@@ -57,13 +57,13 @@ struct TrainingPlanApp: App {
         case .home:
           HomeView(
             onCompleted: {
-              appState.currentScreen = .start  // Placeholder for next action
+              appState.currentScreen = .home  // Placeholder for next action
             },
             onDidNotComplete: {
-              appState.currentScreen = .start
+              appState.currentScreen = .home
             },
             onQuestionMark: {
-              appState.currentScreen = .start
+              appState.currentScreen = .home
             },
             onCalendarTapped: {
               appState.currentScreen = .start  // Placeholder for calendar action
