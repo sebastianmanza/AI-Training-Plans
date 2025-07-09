@@ -1025,13 +1025,13 @@ class training_plan_array:
 
     training_plans = [0] * 989
 
-    #UTWENTYFIVE_MALE_ADVANCED_NO_11_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/training_plan_test.txt")
+    UTWENTYFIVE_MALE_ADVANCED_NO_11_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/training_plan_test.txt")
 
     for i in range(len(training_plans)):
-        #training_plans[i] = UTWENTYFIVE_MALE_ADVANCED_NO_11_DATABASE
-        training_plans[i] = i
+        training_plans[i] = UTWENTYFIVE_MALE_ADVANCED_NO_11_DATABASE
+        #training_plans[i] = i
 
-    print(training_plans[0])    
+    print(training_plans[10])    
     
 
  
