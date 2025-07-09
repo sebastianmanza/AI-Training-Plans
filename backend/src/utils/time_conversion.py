@@ -17,7 +17,7 @@ def to_str(sec: int) -> str:
         toReturn += f"{hours}:"
     if minutes != 0:  # Check to add minutes
         toReturn += f"{minutes}:"
-    toReturn += f"{remainingSec}"  # Always add seconds
+    toReturn += f"{remainingSec:02d}"  # Always add seconds
     return toReturn
 
 
