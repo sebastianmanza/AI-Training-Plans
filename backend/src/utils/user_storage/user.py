@@ -26,7 +26,7 @@ class user:
         storage = storage_stacks_and_queues()
         self.user_id = user_id
         self.dob = dob
-        self.age = self.get_age()
+        # self.age = self.get_age()
         self.sex = sex
 
         self.when_to_run = None
@@ -105,13 +105,13 @@ class user:
     def generate_new_id(self) -> None:
         self.user_id = secrets.randbelow(100000000 - 10000000)
 
-    def get_age(self) -> int:
-        """Returns the number of years the user has been alive as an int"""
-        today = datetime.date.today()
-        dob = datetime.datetime.strptime(self.dob, "%m/%d/%Y").date()
-        age = today.year - dob.year - \
-            ((today.month, today.day) < (dob.month, dob.day))
-        return age
+    # def get_age(self) -> int:
+    #     """Returns the number of years the user has been alive as an int"""
+    #     today = datetime.date.today()
+    #     dob = datetime.datetime.strptime(self.dob, "%m/%d/%Y").date()
+    #     age = today.year - dob.year - \
+    #         ((today.month, today.day) < (dob.month, dob.day))
+    #     return age
 
     # update training
 
