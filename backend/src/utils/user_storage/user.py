@@ -53,7 +53,7 @@ class user:
 
         # The key is the type of run. The first number in the value is the mean RPE
         # and the second is the number of these workouts run.
-        # the third number is the average deviation
+        # the third number is the the value of standard deviation
         # i.e.(5,2,1) implies the mean RPE is 5 after 2 workouts with an average deviation of 1
         self.workout_mean_RPE = workout_nums
 
@@ -68,7 +68,7 @@ class user:
         new_deviation = ((info[DEVIATION]*info[DAYS]) +
                          abs(given_RPE-expected_RPE)) / (info[DAYS]+1)
         self.workout_mean_RPE.update(
-            type, (new_mean, (info[DAYS]+1)))  # Update the information
+            type, (new_mean, (info[DAYS]+1), new_deviation))  # Update the information
 
     # Takes in a distance and assigns the mile pace to it.
 
