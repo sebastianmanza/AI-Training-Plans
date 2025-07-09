@@ -25,49 +25,49 @@ class workout_storage:
 
     # Getters for the workout lists
     # get et workouts
-    def get_et_workouts(self):
+    def get_et_workouts(self) -> list:
         return self.et
     # get recovery workouts
 
-    def get_recovery_workouts(self):
+    def get_recovery_workouts(self) -> list:
         return self.recovery
     # get kenyan workouts
 
-    def get_kenyan_workouts(self):
+    def get_kenyan_workouts(self) -> list:
         return self.kenyan
     # get long workouts
 
-    def get_long_workouts(self):
+    def get_long_workouts(self) -> list:
         return self.long
     # get threshold workouts
 
-    def get_threshold_workouts(self):
+    def get_threshold_workouts(self) -> list:
         return self.threshold
     # get fartlek workouts
 
-    def get_fartlek_workouts(self):
+    def get_fartlek_workouts(self) -> list:
         return self.fartlek
     # get race pace interval workouts
 
-    def get_race_pace_interval_workouts(self):
+    def get_race_pace_interval_workouts(self) -> list:
         return self.race_pace_interval
     # get strides workouts
 
-    def get_strides_workouts(self):
+    def get_strides_workouts(self) -> list:
         return self.strides
     # get hill sprints workouts
 
-    def get_hill_sprints_workouts(self):
+    def get_hill_sprints_workouts(self) -> list:
         return self.hill_sprints
     # get flat sprints workouts
 
-    def get_flat_sprints_workouts(self):
+    def get_flat_sprints_workouts(self) -> list:
         return self.flat_sprints
     # get time trial workouts
 
-    def get_time_trial_workouts(self):
+    def get_time_trial_workouts(self) -> list:
         return self.time_trial
     # get warmup and cooldown workouts
 
-    def get_warmup_and_cooldown(self):
+    def get_warmup_and_cooldown(self) -> list:
         return self.warmup_and_cooldown

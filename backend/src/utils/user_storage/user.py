@@ -10,12 +10,19 @@ from backend.src.utils.pace_calculations import get_training_pace_helper
 FIVEKDIST, METERS_PER_MILE = 5000, 1600  # Distance conversions
 CALCNUM = 1.06  # Exponent for pace prediction
 DISTANCES = [3000, 5000, 10000]  # Distances for which we will make predictions
+RPE, DAYS, DEVIATION = 0, 1, 2  # Indexes used for mean RPE
+DEFAULT_WORKOUT_NUMS = {
+    "Easy Run": (0, 0, 0), "Recovery Run": (0, 0, 0), "Progression": (0, 0, 0), "Long Run": (0, 0, 0),
+    "Threshold": (0, 0, 0), "Fartlek": (0, 0, 0), "Race Pace Interval": (0, 0, 0), "Strides": (0, 0, 0),
+    "Hill Sprints": (0, 0, 0), "Flat Sprints": (0, 0, 0), "Time Trial": (0, 0, 0), "Warmup and Cooldown": (0, 0, 0), "Off": (0, 0, 0)}
 
 
 class user:
     # __slots__ = ("age", "dob", "sex", "five_km_estimate", "when-to-run", "injury", "mileage", "wo_history", "goal_date")
 
-    def __init__(self, dob, sex: str, running_ex, five_km_estimate: str, goal_date, mean_RPE: float, STD_RPE: float, user_id=secrets.randbelow(100000000 - 10000000), longest_run: int = 0):
+    def __init__(self, dob, sex: str, running_ex, five_km_estimate: str, goal_date, mean_RPE: float,
+                 STD_RPE: float, user_id=secrets.randbelow(100000000 - 10000000), longest_run: int = 0,
+                 workout_nums=DEFAULT_WORKOUT_NUMS):
         storage = storage_stacks_and_queues()
         self.user_id = user_id
         self.dob = dob
@@ -44,7 +51,27 @@ class user:
         self.week_future = storage.week_future
         self.day_future = storage.day_future
 
+        # The key is the type of run. The first number in the value is the mean RPE
+        # and the second is the number of these workouts run.
+        # the third number is the average deviation
+        # i.e.(5,2,1) implies the mean RPE is 5 after 2 workouts with an average deviation of 1
+        self.workout_mean_RPE = workout_nums
+
+    # Update the mean_RPE using the workout type and the RPE
+
+    def update_mean_RPE(self, type: str, given_RPE: float, expected_RPE: float) -> None:
+        # Get the info for the workout type
+        info = self.workout_mean_RPE.get(type)
+        new_mean = ((info[RPE]*info[DAYS]) + given_RPE) / \
+            (info[DAYS]+1)  # Calculate the new mean
+        # Calculate the new average deviation
+        new_deviation = ((info[DEVIATION]*info[DAYS]) +
+                         abs(given_RPE-expected_RPE)) / (info[DAYS]+1)
+        self.workout_mean_RPE.update(
+            type, (new_mean, (info[DAYS]+1)))  # Update the information
+
     # Takes in a distance and assigns the mile pace to it.
+
     def set_pace(self, distance: int, new_pace) -> None:
         if isinstance(new_pace, str):
             self.pace_times_dict[distance] = tc.mile_pace(new_pace, distance)
