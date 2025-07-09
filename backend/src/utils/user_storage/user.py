@@ -5,6 +5,7 @@ import datetime
 from backend.src.utils.user_storage.storage_stacks_and_queues import storage_stacks_and_queues
 import backend.src.utils.time_conversion as tc
 import backend.src.utils.user_storage.training_database as training_database
+from backend.src.utils.pace_calculations import get_training_pace_helper
 
 FIVEKDIST, METERS_PER_MILE = 5000, 1600  # Distance conversions
 CALCNUM = 1.06  # Exponent for pace prediction
@@ -134,10 +135,32 @@ class user:
         seconds = self.get_pace(int(distance))
         return tc.alter_pace(seconds, increase)
 
+    def get_training_pace(self, type) -> int:
+        """Returns the training pace for a given type of workout."""
+        if type == "Easy Run":
+            return get_training_pace_helper(5000, self.five_km_estimate_seconds * 3.1, 0.67)
+        elif type == "Progression":
+            return get_training_pace_helper(5000, self.five_km_estimate_seconds * 3.1, 0.82)
+        elif type == "Recovery Run":
+            return get_training_pace_helper(5000, self.five_km_estimate_seconds * 3.1, 0.64)
+        elif type == "Threshold":
+            return get_training_pace_helper(5000, self.five_km_estimate_seconds * 3.1, 0.87)
+        elif type == "Long Run":
+            return get_training_pace_helper(5000, self.five_km_estimate_seconds * 3.1, 0.7)
+        elif type == "VO2Max":
+            return get_training_pace_helper(5000, self.five_km_estimate_seconds * 3.1, 0.95)
+        elif type == "Tempo":
+            return get_training_pace_helper(5000, self.five_km_estimate_seconds * 3.1, 0.82)
+        else:
+            return 0
 
-alex = user("8/22/2005", "male", "advanced", "17:30", "5", "7", "1")
-print(alex.get_pace(10000))
-print(alex.parse_pace("10000"))
+# alex = user("8/22/2005", "male", "advanced", "17:30", "5", "7", "1")
+# # print(alex.get_pace(10000))
+# # print(alex.parse_pace("10000"))
+
+# print(alex.five_km_estimate_seconds)
+# print(alex.get_training_pace("Recovery Run"))
+
 # alex.set_pace(5000, "17:30")
 # alex.make_predictions()
 # print(alex.get_times())
