@@ -44,7 +44,7 @@ class day_plan:
         self.week_id = week_id  # Reference to the week plan this day belongs to
 
     # May not be used if initialized workouts are final
-    def add_workouts(self, *workouts):
+    def add_workouts(self, *workouts) -> None:
         """ Add multiple workouts to the day plan."""
         for workout in workouts:
             self.workouts.append(workout)
@@ -58,7 +58,7 @@ class day_plan:
         """
         self.real_rpe = real_rpe
 
-    def update_daily_mileage(self, mileage: int):
+    def update_daily_mileage(self, mileage: int) -> None:
         """
         Update the completed mileage for the day.
 
@@ -68,7 +68,7 @@ class day_plan:
         self.completed_mileage = mileage
         self.update_daily_percentage()  # Update the completion percentage
 
-    def update_daily_percentage(self):
+    def update_daily_percentage(self) -> None:
         """
         Update the completion percentage based on the total and completed mileage.
         """
@@ -76,7 +76,7 @@ class day_plan:
             self.total_mileage if self.total_mileage > 0 else 1
 
     # Note that updating mileage also updates the percentage
-    def update_day(self, mileage: int, real_rpe: int):
+    def update_day(self, mileage: int, real_rpe: int) -> None:
         """
         Update the daily mileage and RPE.
 

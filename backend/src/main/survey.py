@@ -53,6 +53,7 @@ class main:
         for question in questions:
             response = input(question + " ")
             answers.append(response)
+<<<<<<< HEAD
         
         # new_user = user.user(answers[0], answers[1], answers[3], answers[4], answers[8], 4, 5, user_id=secrets.randbelow(100000000 - 10000000))
         
@@ -60,6 +61,15 @@ class main:
     
     
     # testing 
+=======
+
+        new_user = user.user(answers[0], answers[1], answers[3], answers[4],
+                             answers[8], 4, 5, user_id=secrets.randbelow(100000000 - 10000000))
+
+        return new_user
+
+    # testing
+>>>>>>> 6d8ebbac9647a622415f24db7a53703c0e54c94e
     # user_send.send_user_info(prelim_survey(), "postgres", "Control1500#")
 
     def daily_post_run_survey():
