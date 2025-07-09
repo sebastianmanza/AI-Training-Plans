@@ -45,7 +45,7 @@ def send_user_info(new_user, username, password):
         curr.execute(db_query, record_to_insert)
         
         # now update the information of the existing user within the SQL database
-        db_update(username, password, new_user.age, new_user.sex, new_user.five_km_estimate, new_user.goal_date, 
+        db_update(username, password, new_user.dob, new_user.sex, new_user.five_km_estimate_seconds, new_user.goal_date, 
                     new_user.running_ex, new_user.mean_RPE, new_user.STD_RPE)
         
         # make changes in database persistent
@@ -58,7 +58,7 @@ def send_user_info(new_user, username, password):
     except Exception:
         
         # inserts as a new row in the database if user does not exist already
-        db_insert(username, password, new_user.user_id, new_user.age, new_user.sex, new_user.five_km_estimate, new_user.goal_date, new_user.running_ex,
+        db_insert(username, password, new_user.user_id, new_user.dob, new_user.sex, new_user.five_km_estimate_seconds, new_user.goal_date, new_user.running_ex,
                     new_user.mean_RPE, new_user.STD_RPE)
   
 
@@ -246,10 +246,11 @@ def send_day_cycle(new_user, username, password):
     # close connection
     conn.close()
     
+    
 """ To do: update method to check for existing user_id and handle appropriate updating without repeated user inputs"""  
 # sends username, password, email, and userid into the database
 
-def send_user_creds(new_user, username, password, user_username, user_password, user_email):
+def send_user_creds(new_user, username, password, login_info):
     
     try:
         
@@ -261,7 +262,7 @@ def send_user_creds(new_user, username, password, user_username, user_password, 
         query = """ INSERT INTO public.user_credentials(user_id, email, username, password)
                 VALUES (%s, %s, %s, %s); """   
         
-        record_to_insert = (new_user.user_id, user_username, user_password, user_email) 
+        record_to_insert = (new_user.user_id, login_info[0], login_info[1], login_info[2]) 
             
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -285,7 +286,7 @@ def send_user_creds(new_user, username, password, user_username, user_password, 
             query = """ UPDATE public.user_credentials email=%s, username=%s, password=%s
                         WHERE user_id=%s; """
             
-            record_to_insert = (new_user.user_id, user_username, user_password, user_email) 
+            record_to_insert = (new_user.user_id, login_info.user_email, login_info.user_username, login_info.user_password) 
                 
             # execute query with filled parameters
             curr.execute(query, record_to_insert)

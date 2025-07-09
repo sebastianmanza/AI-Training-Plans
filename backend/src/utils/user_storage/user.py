@@ -18,7 +18,7 @@ class user:
         storage = storage_stacks_and_queues()
         self.user_id = user_id
         self.dob = dob
-        self.age = self.get_age()
+        #self.age = self.get_age()
         self.sex = sex
 
         self.when_to_run = None
@@ -28,10 +28,11 @@ class user:
         self.longest_run = longest_run
         self.running_ex = running_ex
         self.times = {}
-        self.five_km_estimate_seconds = tc.mile_pace(
-            tc.from_str(five_km_estimate), FIVEKDIST)
-        self.set_pace(FIVEKDIST, self.five_km_estimate_seconds)
-        self.make_predictions()
+        # self.five_km_estimate_seconds = tc.mile_pace(
+        #     tc.from_str(five_km_estimate), FIVEKDIST)
+        # self.set_pace(FIVEKDIST, self.five_km_estimate_seconds)
+        self.five_km_estimate_seconds = five_km_estimate
+        # self.make_predictions()
 
         self.mean_RPE = mean_RPE
         self.STD_RPE = STD_RPE
@@ -77,12 +78,12 @@ class user:
     def generate_new_id(self):
         self.user_id = secrets.randbelow(100000000 - 10000000)
 
-    def get_age(self):
-        today = datetime.date.today()
-        dob = datetime.datetime.strptime(self.dob, "%m/%d/%Y").date()
-        age = today.year - dob.year - \
-            ((today.month, today.day) < (dob.month, dob.day))
-        return age
+    # def get_age(self):
+    #     today = datetime.date.today()
+    #     dob = datetime.datetime.strptime(self.dob, "%m/%d/%Y").date()
+    #     age = today.year - dob.year - \
+    #         ((today.month, today.day) < (dob.month, dob.day))
+    #     return age
 
     # update training
 
@@ -134,9 +135,9 @@ class user:
         return tc.alter_pace(seconds, increase)
 
 
-alex = user("8/22/2005", "male", "advanced", "17:30", "5", "7", "1")
-print(alex.get_pace(10000))
-print(alex.parse_pace("10000+10"))
+# alex = user("8/22/2005", "male", "advanced", "17:30", "5", "7", "1")
+# print(alex.get_pace(10000))
+# print(alex.parse_pace("10000+10"))
 # alex.set_pace(5000, "17:30")
 # alex.make_predictions()
 # print(alex.get_times())
