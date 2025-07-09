@@ -1,6 +1,7 @@
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.SQLutils.user_send import send_user_creds, send_user_all
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
+from backend.src.utils.SQLutils.database_connect import init_db
 
 USERNAME_LOC, PASSWORD_LOC = 0, 1
 PASS_LEN_REQ = 8
@@ -65,7 +66,7 @@ signupanswers = [
 ]
 
 
-user_create(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], suveryanswers, signupanswers)
+## user_create(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], suveryanswers, signupanswers)
 
 
 def login(username: str, password: str, users: dict) -> user:
@@ -78,3 +79,118 @@ def login(username: str, password: str, users: dict) -> user:
             # Assume this is made:
             # return SQLutils.get_user(user_obj.user_id)
     return None
+
+
+def credential_check(username: str, password: str) -> bool:
+    """ A function that checks if the username and password are valid.
+    Returns True if valid, False otherwise.
+    """
+    
+    # initialize the database connection
+    conn = init_db()
+    
+    # open cursor to perform sql queries
+    curr = conn.cursor()
+
+    # write query
+    query = """ SELECT password
+	                FROM public.user_credentials WHERE username = %s; """
+    # fill query with appropriate user ID
+    record_to_insert = (username)
+    
+    try:
+        # execute query with filled parameters
+        curr.execute(query, record_to_insert)
+        # fetch the result
+        result = curr.fetchone()
+        
+        if result is None:
+            return False  # No user found with that username
+        
+        # Check if the provided password matches the stored password
+        return result[0] == hash(password)
+    except Exception as e:
+        
+        print(f"Error executing query: {e}")
+        return False
+    
+    finally:
+        # close cursor
+        curr.close()
+        # close connection
+        conn.close()
+        
+def user_exists(email: str) -> bool:
+    """ A function that checks if the email exists in the database.
+    Returns True if it exists, False otherwise.
+    """
+    
+    # initialize the database connection
+    conn = init_db()
+    
+    # open cursor to perform sql queries
+    curr = conn.cursor()
+
+    # write query
+    query = """ SELECT username FROM public.user_credentials WHERE email = %s; """
+    
+    record_to_insert = (email)
+    
+    try:
+        # execute query with filled parameters
+        curr.execute(query, record_to_insert)
+        # fetch the result
+        result = curr.fetchone()
+        
+        return result is not None  # Return True if user exists, False otherwise
+    except Exception as e:
+        print(f"Error executing query: {e}")
+        return False
+    
+    finally:
+        # close cursor
+        curr.close()
+        # close connection
+        conn.close()
+      
+        
+def forgot_password(username: str, new_password: str, email: str) -> bool:
+    """ A function that resets the password for a user.
+    Returns True if successful, False otherwise.
+    """
+    
+    # checks if the user exists in the database
+    if not user_exists(email):
+        
+        # initialize the database connection
+        conn = init_db()
+        
+        # open cursor to perform sql queries
+        curr = conn.cursor()
+
+        # write query
+        query = """ UPDATE public.user_credentials SET password = %s WHERE username = %s; """
+        
+        record_to_insert = (hash(new_password), username)
+        
+        try:
+            # execute query with filled parameters
+            curr.execute(query, record_to_insert)
+            # commit the changes
+            conn.commit()
+            
+            return True  # Password reset successful
+        except Exception as e:
+            print(f"Error executing query: {e}")
+            return False
+        
+        finally:
+            # close cursor
+            curr.close()
+            # close connection
+            conn.close()
+    
+    else:
+        print("User does not exist.")
+        return False
+
