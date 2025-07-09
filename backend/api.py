@@ -135,20 +135,9 @@ async def get_home_data(user_id: int = 0):
     workout_next = workout_database.get_workout_type_trio(next_day.workouts[0]) if (len(next_day.workouts) == 1) else workout_database.get_workout_type_trio(next_day.workouts[0]) + " + " + workout_database.get_workout_type_trio(next_day.workouts[1])
     
     workout_check = workout_database.get_workout_type_trio(current_day.workouts[0])
-    if workout_check == "Rest":
-        pace_str = ""
-    elif workout_check == "Easy Run":
-        pace = test_user.predict_pace(distance = 80000)
-    elif workout_check == "Progression":
-        pace = test_user.predict_pace(distance = 40000)
-    elif workout_check == "Recovery Run":
-        pace = test_user.predict_pace(distance = 120000)
-    elif workout_check == "Threshold":
-        pace = test_user.predict_pace(distance = 20000)
-    elif workout_check == "Long Run":
-        pace = test_user.predict_pace(distance = 70000)
+    pace = test_user.get_training_pace(workout_check)
         
-    pace_str = to_str(pace - 15) + "-" + to_str(pace + 15) if pace != 0 else ""
+    pace_str = to_str(pace) + "-" + to_str(pace + 30) if pace != 0 else ""
     
     return HomeData(
         day = day_of_week,
