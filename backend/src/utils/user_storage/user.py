@@ -14,7 +14,9 @@ DISTANCES = [3000, 5000, 10000]  # Distances for which we will make predictions
 class user:
     # __slots__ = ("age", "dob", "sex", "five_km_estimate", "when-to-run", "injury", "mileage", "wo_history", "goal_date")
 
-    def __init__(self, dob, sex: str, running_ex, five_km_estimate: str, goal_date, mean_RPE: float, STD_RPE: float, user_id=secrets.randbelow(100000000 - 10000000), longest_run: int = 0):
+    def __init__(self, dob, sex: str, running_ex, five_km_estimate: str, goal_date, 
+                 mean_RPE: float, STD_RPE: float, user_id=secrets.randbelow(100000000 - 10000000), longest_run: int = 0,
+                 injury: int = 0, most_recent_injury: int = 0):
         storage = storage_stacks_and_queues()
         self.user_id = user_id
         self.dob = dob
@@ -22,8 +24,8 @@ class user:
         self.sex = sex
 
         self.when_to_run = None
-        self.injury = 0
-        self.most_recent_injury = 0
+        self.injury = injury
+        self.most_recent_injury = most_recent_injury
 
         self.goal_date = goal_date
 

@@ -1031,7 +1031,7 @@ class training_plan_array:
         #training_plans[i] = UTWENTYFIVE_MALE_ADVANCED_NO_11_DATABASE
         training_plans[i] = i
 
-    #print(training_plans[0])    
+    print(training_plans[0])    
     
 
  
