@@ -176,6 +176,22 @@ struct QuestionMarkButton: View {
   }
 }
 
+struct XButtonQuestionMarkStyle: View {
+  let action: () -> Void
+
+  var body: some View {
+    Button(action: action) {
+      Image(systemName: "xmark")
+        .font(.system(size: 15, weight: .bold))
+        .foregroundColor(.white)
+    }
+    .frame(width: 25, height: 25)
+    .background(.clear)
+    .overlay(Circle().stroke(.white, lineWidth: 2))
+    .clipShape(Circle())
+  }
+}
+
 struct CalendarButton: View {
   let action: () -> Void
 
