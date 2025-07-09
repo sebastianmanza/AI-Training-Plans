@@ -18,17 +18,17 @@ class single_workout:
     def get_trio(self):
         return self.trio
 
-    def get_stim(self):
+    def get_stim(self) -> float:
         """Return the stimulus"""
         return self.trio[TRIO_STIM]
 
-    def get_rpe(self):
+    def get_rpe(self) -> float:
         """Return the RPE"""
         return self.trio[TRIO_RPE]
 
-    def get_distance(self):
+    def get_distance(self) -> float:
         """"Return the distance"""
         return self.trio[TRIO_DIST]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Workout: {self.trio}, Reps: {self.reps}, Pace: {self.pace}, Distance: {self.distance}"
