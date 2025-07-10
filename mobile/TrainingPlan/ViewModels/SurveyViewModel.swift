@@ -1,54 +1,65 @@
-import SwiftUI
+import Foundation
 
 @MainActor
 class SurveyViewModel: ObservableObject {
-  // form fields
-  @Published var dateOfBirth = ""
-  @Published var sex = ""
-  @Published var experience = ""
-    @Published var daysPerWeek: Int = 0
-    @Published var daysOfWeek: [String] = []
-  @Published var mostTimeDay = ""
-    @Published var current5k: Int = 1110 // 5k estimate in seconds
-  @Published var majorInjuries = ""
-  @Published var recentInjury = ""
-  
-  // UI state
-  @Published var isSubmitting = false
-  @Published var response: [String: Any]?
-  @Published var errorMessage: String?
+  // MARK: – Form fields
+  @Published var userID: Int = 0
+  @Published var dateOfBirth: String = ""        // "YYYY-MM-DD"
+  @Published var sex: String = ""                // "Male" / "Female" / …
+  @Published var experience: String = ""         // "Beginner" / "Advanced" / …
+  @Published var majorInjuries: Int = 0
+  @Published var recentInjury: Int = 0
+  @Published var longestRun: Int = 0             // in miles
+  @Published var goalDate: String = ""           // "YYYY-MM-DD"
+  @Published var daysPerWeek: Int = 0
+  @Published var daysOfWeek: [String] = []       // ["Mon","Wed","Fri"]
+  @Published var mostTimeDay: String = ""        // e.g. "Morning"
+  @Published var current5k: Int = 0              // 5k estimate in seconds
+
+  // MARK: – UI state
+  @Published var isSubmitting: Bool = false
+  @Published var response: [String: Any]? = nil
+  @Published var errorMessage: String? = nil
 
   func submit() async {
     errorMessage = nil
     isSubmitting = true
     defer { isSubmitting = false }
 
-
+    // Build the payload matching FastAPI SurveyIn model:
     let survey = SurveyIn(
-      date_of_birth: dateOfBirth,
-      sex: sex,
-      running_experience: experience,
-      days_per_week: daysPerWeek,
-      days_of_week: daysOfWeek,
-      most_time_day: mostTimeDay,
-      current_5k_fitness: current5k,
-      major_injuries: majorInjuries,
-      most_recent_injury: recentInjury
+      user_id:               userID,
+      date_of_birth:         dateOfBirth,
+      sex:                   sex,
+      running_experience:    experience,
+      major_injuries:        majorInjuries,
+      most_recent_injury:    recentInjury,
+      longest_run:           longestRun,
+      goal_date:             goalDate,
+      days_per_week:         daysPerWeek,
+      days_of_week:          daysOfWeek,
+      most_time_day:         mostTimeDay,
+      current_5k_fitness:    current5k
     )
 
     do {
       let result = try await APIClient.submitPrelim(survey)
       response = result
-    } catch let APIError.badURL {
+    }
+    catch APIError.badURL {
       errorMessage = "Invalid server URL."
-    } catch let APIError.network(err) {
+    }
+    catch APIError.network(let err) {
       errorMessage = "Network error: \(err.localizedDescription)"
-    } catch let APIError.http(code, data) {
-      let msg = String(data: data, encoding: .utf8) ?? ""
+    }
+    catch APIError.http(let code, let data) {
+      let msg = String(data: data, encoding: .utf8) ?? "Unknown error"
       errorMessage = "Server \(code): \(msg)"
-    } catch let APIError.jsonDecoding(err) {
-      errorMessage = "Response parsing error: \(err.localizedDescription)"
-    } catch {
+    }
+    catch APIError.jsonDecoding(let err) {
+      errorMessage = "Parsing error: \(err.localizedDescription)"
+    }
+    catch {
       errorMessage = error.localizedDescription
     }
   }
