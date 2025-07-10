@@ -43,17 +43,19 @@ def send_user_info(new_user, username, password):
             # Update existing user
             db_update(
                 username, password,
-                new_user.dob, new_user.sex, new_user.five_km_estimate_seconds,
-                new_user.goal_date, new_user.running_ex,
-                new_user.mean_RPE, new_user.STD_RPE
+                new_user.dob, new_user.sex, new_user.injury, new_user.pace_estimates, 
+                new_user.goal_date, new_user.running_ex, new_user.available_days, 
+                new_user.number_of_days, new_user.workout_RPE, new_user.longest_run, 
+                new_user.most_recent_injury, new_user.user_id
             )
         else:
             # Insert new user
             db_insert(
-                username, password, new_user.user_id,
-                new_user.dob, new_user.sex, new_user.five_km_estimate_seconds,
-                new_user.goal_date, new_user.running_ex,
-                new_user.mean_RPE, new_user.STD_RPE
+                username, password,
+                new_user.dob, new_user.sex, new_user.injury, new_user.pace_estimates, 
+                new_user.goal_date, new_user.running_ex, new_user.available_days, 
+                new_user.number_of_days, new_user.workout_RPE, new_user.longest_run, 
+                new_user.most_recent_injury, new_user.user_id
             )
 
         conn.commit()
