@@ -194,9 +194,5 @@ def forgot_password(username: str, new_password: str, email: str) -> bool:
     
     else:
         print("User does not exist.")
-<<<<<<< HEAD
         return False
 
-=======
-        return False
->>>>>>> 15b89316ba5e461379bbca3c4a554a5cd240fb74
