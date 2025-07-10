@@ -46,7 +46,6 @@ class user:
         storage = storage_stacks_and_queues()
         #inputs
         self.dob = dob
-        self.age = self.get_age()
         self.sex = sex
         self.running_ex = running_ex
         self.injury = injury
@@ -65,6 +64,8 @@ class user:
         self.month_future = storage.month_future
         self.week_future = storage.week_future
         self.day_future = storage.day_future
+        #additional information
+        self.age = self.get_age()
 
         
 
