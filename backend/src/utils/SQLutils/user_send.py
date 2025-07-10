@@ -250,7 +250,7 @@ def send_day_cycle(new_user, username, password):
 """ To do: update method to check for existing user_id and handle appropriate updating without repeated user inputs"""  
 # sends username, password, email, and userid into the database
 
-def send_user_creds(new_user, username, password, login_info):
+def send_user_creds(user_id, username, password, login_info):
     
     try:
         
@@ -262,7 +262,7 @@ def send_user_creds(new_user, username, password, login_info):
         query = """ INSERT INTO public.user_credentials(user_id, email, username, password)
                 VALUES (%s, %s, %s, %s); """   
         
-        record_to_insert = (new_user.user_id, login_info[0], login_info[1], login_info[2]) 
+        record_to_insert = (user_id, login_info[0], login_info[1], login_info[2]) 
             
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -286,7 +286,7 @@ def send_user_creds(new_user, username, password, login_info):
             query = """ UPDATE public.user_credentials email=%s, username=%s, password=%s
                         WHERE user_id=%s; """
             
-            record_to_insert = (new_user.user_id, login_info.user_email, login_info.user_username, login_info.user_password) 
+            record_to_insert = (user_id, login_info.user_email, login_info.user_username, login_info.user_password) 
                 
             # execute query with filled parameters
             curr.execute(query, record_to_insert)
