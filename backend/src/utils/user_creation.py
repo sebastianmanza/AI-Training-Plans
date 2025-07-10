@@ -1,3 +1,4 @@
+import secrets
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.SQLutils.user_send import send_user_creds, send_user_all
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
@@ -120,9 +121,10 @@ def credential_check(username: str, password: str) -> bool:
         # close connection
         conn.close()
         
-def user_exists(email: str) -> bool:
+        
+def user_exists(user_credentials):
     """ A function that checks if the email exists in the database.
-    Returns True if it exists, False otherwise.
+    Returns True if it exists. In the case where the user does not exists, a generated user id is returned.
     """
     
     # initialize the database connection
@@ -134,24 +136,24 @@ def user_exists(email: str) -> bool:
     # write query
     query = """ SELECT username FROM public.user_credentials WHERE email = %s; """
     
-    record_to_insert = (email)
+    record_to_insert = (user_credentials['email'])
     
     try:
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
-        # fetch the result
-        result = curr.fetchone()
         
-        return result is not None  # Return True if user exists, False otherwise
+        return True  # Return True if user exists, False otherwise
     except Exception as e:
-        print(f"Error executing query: {e}")
-        return False
+        user_id = secrets.randbelow(100000000 - 10000000)
+        return user_id
     
     finally:
         # close cursor
         curr.close()
         # close connection
         conn.close()
+        
+    
       
         
 def forgot_password(username: str, new_password: str, email: str) -> bool:
@@ -192,9 +194,4 @@ def forgot_password(username: str, new_password: str, email: str) -> bool:
     
     else:
         print("User does not exist.")
-<<<<<<< HEAD
         return False
-
-=======
-        return False
->>>>>>> 15b89316ba5e461379bbca3c4a554a5cd240fb74
