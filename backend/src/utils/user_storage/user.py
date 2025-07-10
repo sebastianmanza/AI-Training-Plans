@@ -30,7 +30,9 @@ class user:
         self.sex = sex
 
         self.when_to_run = None
-        self.injury = None
+        self.injury = 0
+        self.most_recent_injury = 0
+
         self.goal_date = goal_date
 
         self.longest_run = longest_run
