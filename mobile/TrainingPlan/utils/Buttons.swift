@@ -79,11 +79,11 @@ struct LogInButton: View {
   var body: some View {
     Button(action: action) {
       Text(buttonTitle)
-      .frame(width: 275, height: 40)
-      .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))  // Custom font
-      .foregroundColor(.white)
-      .background(color)
-      .clipShape(Capsule())
+        .frame(width: 275, height: 40)
+        .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))  // Custom font
+        .foregroundColor(.white)
+        .background(color)
+        .clipShape(Capsule())
     }
   }
 }
@@ -98,10 +98,10 @@ struct SurveyNextButton: View {
       Image(systemName: "arrow.right")
         .font(.system(size: 35, weight: .bold))
         .foregroundColor(.white)
+        .frame(width: 60, height: 60)
+        .background(color)
+        .clipShape(Circle())
     }
-    .frame(width: 60, height: 60)
-    .background(color)
-    .clipShape(Circle())
   }
 }
 
@@ -138,10 +138,10 @@ struct CheckButton: View {
       Image(systemName: "checkmark")
         .font(.system(size: 25, weight: .bold))
         .foregroundColor(.white)
+        .frame(width: 35, height: 35)
+        .background(.green)
+        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
     }
-    .frame(width: 35, height: 35)
-    .background(.green)
-    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
   }
 }
 
@@ -153,10 +153,10 @@ struct XButton: View {
       Image(systemName: "xmark")
         .font(.system(size: 25, weight: .bold))
         .foregroundColor(.white)
+        .frame(width: 35, height: 35)
+        .background(.red)
+        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
     }
-    .frame(width: 35, height: 35)
-    .background(.red)
-    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
   }
 }
 
@@ -168,11 +168,11 @@ struct QuestionMarkButton: View {
       Image(systemName: "questionmark")
         .font(.system(size: 15, weight: .bold))
         .foregroundColor(.white)
+        .frame(width: 25, height: 25)
+        .background(.clear)
+        .overlay(Circle().stroke(.white, lineWidth: 2))
+        .clipShape(Circle())
     }
-    .frame(width: 25, height: 25)
-    .background(.clear)
-    .overlay(Circle().stroke(.white, lineWidth: 2))
-    .clipShape(Circle())
   }
 }
 
@@ -184,11 +184,11 @@ struct XButtonQuestionMarkStyle: View {
       Image(systemName: "xmark")
         .font(.system(size: 15, weight: .bold))
         .foregroundColor(.white)
+        .frame(width: 25, height: 25)
+        .background(.clear)
+        .overlay(Circle().stroke(.white, lineWidth: 2))
+        .clipShape(Circle())
     }
-    .frame(width: 25, height: 25)
-    .background(.clear)
-    .overlay(Circle().stroke(.white, lineWidth: 2))
-    .clipShape(Circle())
   }
 }
 

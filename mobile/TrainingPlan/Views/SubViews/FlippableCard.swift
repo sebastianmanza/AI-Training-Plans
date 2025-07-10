@@ -15,9 +15,6 @@ struct FlippableCardView: View {
     ZStack {
       // background
       BlurEffect(style: .regular)
-        .frame(width: cardWidth, height: cardHeight)
-        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-        .shadow(color: .black.opacity(0.6), radius: 60, x: 0, y: 0)
         .overlay(
           // foreground
           VStack(spacing: 25) {
@@ -81,6 +78,7 @@ struct FlippableCardView: View {
 
           }
           .opacity(showInfo ? 0 : 1))
+          .allowsHitTesting(!showInfo)
 
       VStack {
         Text("Info")
@@ -91,8 +89,19 @@ struct FlippableCardView: View {
           .padding()
           .foregroundColor(.white)
       }
+      .rotation3DEffect(
+        .degrees(180),
+        axis: (x: 0, y: 1, z: 0)
+      )
+
       .opacity(showInfo ? 1 : 0)
+      .allowsHitTesting(showInfo)
     }
+    .rotation3DEffect(
+      .degrees(showInfo ? 180 : 0),
+      axis: (x: 0, y: 1, z: 0),
+      perspective: 0.5
+    )
     .overlay(
       Group {
         if !showInfo {
@@ -109,11 +118,9 @@ struct FlippableCardView: View {
       .padding(.trailing, 15),
       alignment: .topTrailing
     )
-    .rotation3DEffect(
-      .degrees(showInfo ? 180 : 0),
-      axis: (x: 0, y: 1, z: 0),
-      perspective: 0.5
-    )
+    .frame(width: cardWidth, height: cardHeight)
+    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+    .shadow(color: .black.opacity(0.6), radius: 60, x: 0, y: 0)
 
   }
 }
