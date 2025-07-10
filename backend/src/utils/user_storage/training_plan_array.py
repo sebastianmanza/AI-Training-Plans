@@ -1,6 +1,6 @@
+from backend.src.main import test_user_cycle 
+
 class training_plan_array:
-    
-    training_plans = []
     #NAMING CONVENTION:
     #age_sex_level_injury_injuryHistory_injuryRecent_longestLongRun
     #u before if you want under o after if you want over
@@ -1023,5 +1023,23 @@ class training_plan_array:
     FIFTYFIVEO_FEMALE_ADVANCED_3O_U24_11 = 988
     FIFTYFIVEO_FEMALE_ADVANCED_3O_U24_11O = 989
 
+    training_plans = [0] * 989
 
+    UTWENTYFIVE_MALE_ADVANCED_NO_7_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_male_advanced_no_11_training_plan.txt")
+    training_plans[UTWENTYFIVE_MALE_ADVANCED_NO_7] = UTWENTYFIVE_MALE_ADVANCED_NO_7_DATABASE
+
+    for i in range(len(training_plans)):
+        training_plans[i] = UTWENTYFIVE_MALE_ADVANCED_NO_7_DATABASE
+
+    UTWENTYFIVE_MALE_ADVANCED_NO_9_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_male_advanced_no_11_training_plan.txt")
+    training_plans[UTWENTYFIVE_MALE_ADVANCED_NO_9] = UTWENTYFIVE_MALE_ADVANCED_NO_9_DATABASE
+    UTWENTYFIVE_MALE_ADVANCED_NO_11_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_male_advanced_no_11_training_plan.txt")
+    training_plans[UTWENTYFIVE_MALE_ADVANCED_NO_11] = UTWENTYFIVE_MALE_ADVANCED_NO_11_DATABASE
+    UTWENTYFIVE_MALE_ADVANCED_NO_11O_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_male_advanced_no_11_training_plan.txt")
+    training_plans[UTWENTYFIVE_MALE_ADVANCED_NO_11O] = UTWENTYFIVE_MALE_ADVANCED_NO_11O_DATABASE
+
+    print(training_plans[10])    
+    
+
+ 
 
