@@ -11,7 +11,6 @@ while not os.path.exists(os.path.join(current_dir, "backend")):
 
 # Add the root directory to the Python path
 sys.path.append(current_dir)
-
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.scripts.txt_to_database import txt_to_database
 from backend.src.main.survey import main
