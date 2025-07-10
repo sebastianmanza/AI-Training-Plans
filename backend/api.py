@@ -2,8 +2,10 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from datetime import datetime, date
+from typing import Optional
 
 from backend.scripts.txt_to_database import txt_to_database
+from backend.src.utils import user_creation
 from backend.src.utils.workout.workout_database import workout_database
 from backend.src.main.frontend_compatible_survey import main as SurveyMain
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
@@ -26,15 +28,18 @@ app.add_middleware(
 class SurveyIn(BaseModel):
     """SurveyIn is a Pydantic model that represents the input for the preliminary survey.
     """
+    user_id: int
     date_of_birth: str
     sex: str
     running_experience: str
+    major_injuries: int
+    most_recent_injury: int
+    longest_run: int
+    goal_date: str
     days_per_week: int
     days_of_week: list
     most_time_day: str
     current_5k_fitness: int
-    major_injuries: str
-    most_recent_injury: str
 
 # Endpoint for preliminary survey
     
@@ -54,7 +59,6 @@ class SignupIn(BaseModel):
     email: str
     username: str
     password: str
-    survey: dict  
     
 class LoginIn(BaseModel):
     """LoginIn is a Pydantic model that represents the input for user login.
@@ -65,7 +69,8 @@ class LoginIn(BaseModel):
 class AuthOut(BaseModel):
     """AuthOut is a Pydantic model that represents the output for user authentication (login and signup)
     """
-    user_id: int
+    Optional[user_id]: int
+    Optional[error_code]: int
 
 @app.post("/survey/prelim")
 async def survey_prelim(payload: SurveyIn):
@@ -154,25 +159,23 @@ async def signup(payload: SignupIn):
     """ signup is an endpoint that handles user signup.
 
     Args:
-        payload (SignupIn): A Pydantic model that contains the user's signup information, including email, username, password, and survey data.
+        payload (SignupIn): A Pydantic model that contains the user's signup information, including email, username, and password.
 
     Raises:
         HTTPException: If an error occurs during the signup process, an HTTPException is raised with a status code of 500 and the error message.
 
     Returns:
-        AuthOut: A Pydantic model containing the user ID of the newly created user.
+        AuthOut: An authorization output model containing the user ID if the signup is successful, or an error code if the username/email already exists.
     """
     try:
-        new_user = user_creation.user_create(
-            email=payload.email,
-            username=payload.username,
-            password=payload.password,
-            survey=payload.survey
-        )
+        bool, username_or_error_code = user_creation.user_exists(payload)
+        if bool:
+            return AuthOut(user_id = username_or_error_code)
+        else:
+            return AuthOut(error_code = username_or_error_code)
+        # Error code 0 indicates the username exists
+        # Error code 1 indicates the email exists
         
-        send_user_info(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-        
-        return AuthOut(user_id=new_user.user_id)
     except Exception as e:
         # surface errors as HTTP 500
         raise HTTPException(status_code=500, detail=str(e))

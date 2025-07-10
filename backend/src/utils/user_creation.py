@@ -122,40 +122,37 @@ def credential_check(username: str, password: str) -> bool:
         curr.close()
         # close connection
         conn.close()
-        
+   
         
 def user_exists(user_credentials):
-    """ A function that checks if the email exists in the database.
-    Returns True if it exists. In the case where the user does not exists, a generated user id is returned.
+    """Checks if the user exists in the database.
+    Returns True if the user exists.
+    If not, returns a randomly generated user ID and False.
     """
-    
-    # initialize the database connection
     conn = init_db()
-    
-    # open cursor to perform sql queries
     curr = conn.cursor()
-
-    # write query
-    query = """ SELECT username FROM public.user_credentials WHERE email = %s; """
     
-    record_to_insert = (user_credentials['email'])
+    # write query to check if user exists by email or username
+    query = """SELECT email FROM public.user_credentials WHERE email = %s OR username = %s;"""
+    record_to_insert = (user_credentials['email'], user_credentials['username'])
     
     try:
-        # execute query with filled parameters
         curr.execute(query, record_to_insert)
+        result = curr.fetchone()
         
-        return True  # Return True if user exists, False otherwise
+        if result:
+            return 0  # User exists, return 0 to indicate the email is already registered in the database
+        else:
+            user_id = secrets.randbelow(100000000 - 10000000)
+            return user_id, 1 # User does not exist, return user_id and 1 to indicate failure
+
     except Exception as e:
-        user_id = secrets.randbelow(100000000 - 10000000)
-        return user_id
-    
+        print("Error during query execution:", e)
+
     finally:
-        # close cursor
         curr.close()
-        # close connection
         conn.close()
-        
-    
+
       
         
 def forgot_password(username: str, new_password: str, email: str) -> bool:
