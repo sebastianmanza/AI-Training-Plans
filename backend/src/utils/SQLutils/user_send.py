@@ -350,9 +350,9 @@ def testing_cycle(username, password):
 
 
 # # testing     
-storage = storage_stacks_and_queues()
+# storage = storage_stacks_and_queues()
 
-new_user = user(19, "male", "advanced", "17:45", 3, 5, 7)
+# new_user = user(19, "male", "advanced", "17:45", 3, 5, 7)
 
 
 # send_user_info(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
