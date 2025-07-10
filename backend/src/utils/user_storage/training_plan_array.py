@@ -1025,11 +1025,18 @@ class training_plan_array:
 
     training_plans = [0] * 989
 
-    UTWENTYFIVE_MALE_ADVANCED_NO_11_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/training_plan_test.txt")
+    UTWENTYFIVE_MALE_ADVANCED_NO_7_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_male_advanced_no_11_training_plan.txt")
+    training_plans[UTWENTYFIVE_MALE_ADVANCED_NO_7] = UTWENTYFIVE_MALE_ADVANCED_NO_7_DATABASE
 
     for i in range(len(training_plans)):
-        training_plans[i] = UTWENTYFIVE_MALE_ADVANCED_NO_11_DATABASE
-        #training_plans[i] = i
+        training_plans[i] = UTWENTYFIVE_MALE_ADVANCED_NO_7_DATABASE
+
+    UTWENTYFIVE_MALE_ADVANCED_NO_9_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_male_advanced_no_11_training_plan.txt")
+    training_plans[UTWENTYFIVE_MALE_ADVANCED_NO_9] = UTWENTYFIVE_MALE_ADVANCED_NO_9_DATABASE
+    UTWENTYFIVE_MALE_ADVANCED_NO_11_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_male_advanced_no_11_training_plan.txt")
+    training_plans[UTWENTYFIVE_MALE_ADVANCED_NO_11] = UTWENTYFIVE_MALE_ADVANCED_NO_11_DATABASE
+    UTWENTYFIVE_MALE_ADVANCED_NO_11O_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_male_advanced_no_11_training_plan.txt")
+    training_plans[UTWENTYFIVE_MALE_ADVANCED_NO_11O] = UTWENTYFIVE_MALE_ADVANCED_NO_11O_DATABASE
 
     print(training_plans[10])    
     
