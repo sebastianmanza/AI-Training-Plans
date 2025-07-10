@@ -8,7 +8,7 @@ enum APIError: Error {
 }
 
 class APIClient {
-  static let baseURL = "http://localhost:8000"
+  static let baseURL = "http://10.161.117.159:8000"
   
   /// Sends the survey and returns the raw JSON as a dictionary.
   static func submitPrelim(_ survey: SurveyIn) async throws -> [String: Any] {

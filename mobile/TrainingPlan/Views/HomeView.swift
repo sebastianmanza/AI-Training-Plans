@@ -15,9 +15,11 @@ struct HomeView: View {
   /* The current options for clickable objects */
   var onCompleted: () -> Void
   var onDidNotComplete: () -> Void
-  var onQuestionMark: () -> Void
+  // var onQuestionMark: () -> Void
   var onCalendarTapped: () -> Void
   var onProfileTapped: () -> Void
+
+  @State private var showInfoOnQuestionMarkTapped = false
 
   var body: some View {
     GeometryReader { geo in
@@ -65,82 +67,15 @@ struct HomeView: View {
           Spacer()
 
           // todays card
-          ZStack {
-            // background
-            BlurEffect(style: .regular)
-              .frame(width: geo.size.width * 0.8, height: geo.size.height * 0.55)
-              .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-              .shadow(color: .black.opacity(0.6), radius: 60, x: 0, y: 0)
-              .overlay(
-                QuestionMarkButton(action: onQuestionMark)
-                  .padding(.top, 15)
-                  .padding(.trailing, 15),
+          FlippableCardView(
+            showInfo: $showInfoOnQuestionMarkTapped,
+            vm: vm,
+            onDidNotComplete: onDidNotComplete,
+            onCompleted: onCompleted,
+            cardWidth: geo.size.width * 0.8,
+            cardHeight: geo.size.height * 0.55
+          )
 
-                alignment: .topTrailing
-              )
-              .overlay(
-                // foreground
-                VStack(spacing: 25) {
-                  if let data = vm.homeData {
-                    Text(data.day.uppercased())
-                      .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 24))
-                      .foregroundColor(.white)
-                      .multilineTextAlignment(.center)
-
-                    Rectangle()
-                      .fill(.white)
-                      .frame(width: geo.size.width * 0.65, height: 1.5)
-                      .padding(.bottom, 20)
-
-                    Text("\(data.mileage.formattedMileage) MILES")
-                      .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
-                      .foregroundColor(.white)
-                      .multilineTextAlignment(.center)
-
-                    VStack(alignment: .leading, spacing: 20) {
-                      HStack(spacing: 20) {
-                        Text("PACE:")
-                          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
-                          .foregroundColor(.white)
-
-                        Text(data.pace)
-                          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
-                          .foregroundColor(.white)
-                      }
-                      HStack(spacing: 20) {
-                        Text("WORKOUT:")
-                          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
-                          .foregroundColor(.white)
-
-                        Text(data.stimuli.uppercased())
-                          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
-                          .foregroundColor(.white)
-                      }
-
-                      HStack(spacing: 20) {
-                        Text("GOAL RPE:")
-                          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
-                          .foregroundColor(.white)
-
-                        Text(data.goalRPE)
-                          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))
-                          .foregroundColor(.white)
-                      }
-                    }
-
-                    HStack(spacing: 15) {
-                      Spacer()
-                      XButton(action: onDidNotComplete)
-                      CheckButton(action: onCompleted)
-                        .padding(.trailing, 25)
-                    }
-                  }
-                  else {
-                    ProgressView()
-                  }
-                })
-
-          }
           BlurEffect(style: .regular)
             .frame(width: geo.size.width * 0.8, height: geo.size.height * 0.15)
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
@@ -162,9 +97,9 @@ struct HomeView: View {
                     .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 16))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
-                }
-                else {
+                } else {
                   ProgressView()
+                    .foregroundColor(.white)
                 }
               })
         }

@@ -62,9 +62,6 @@ struct TrainingPlanApp: App {
             onDidNotComplete: {
               appState.currentScreen = .home
             },
-            onQuestionMark: {
-              appState.currentScreen = .home
-            },
             onCalendarTapped: {
               appState.currentScreen = .start  // Placeholder for calendar action
             },

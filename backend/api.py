@@ -8,7 +8,7 @@ from backend.src.utils.workout.workout_database import workout_database
 from backend.src.main.frontend_compatible_survey import main as SurveyMain
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.user_send import send_user_info
-from backend.src.utils import user_creation
+# from backend.src.utils import user_creation
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.time_conversion import to_str
@@ -118,7 +118,7 @@ async def get_home_data(user_id: int = 0):
         
     # For now, we will use a placeholder for our training plans
     database = txt_to_database("backend/data/raw/training_plan_test.txt")
-    test_user = user("3/17/2005", sex = "Male", running_ex="Advanced", five_km_estimate="16:30", goal_date=date(2024, 5, 1), mean_RPE=5, STD_RPE=2)
+    test_user = user("3/17/2005", sex = "Male", running_ex="Advanced", five_km_estimate="15:10", goal_date=date(2024, 5, 1), mean_RPE=5, STD_RPE=2)
     test_user.day_future = database.day
     test_user.week_future = database.week
     test_user.month_future = database.month
@@ -135,20 +135,9 @@ async def get_home_data(user_id: int = 0):
     workout_next = workout_database.get_workout_type_trio(next_day.workouts[0]) if (len(next_day.workouts) == 1) else workout_database.get_workout_type_trio(next_day.workouts[0]) + " + " + workout_database.get_workout_type_trio(next_day.workouts[1])
     
     workout_check = workout_database.get_workout_type_trio(current_day.workouts[0])
-    if workout_check == "Rest":
-        pace_str = ""
-    elif workout_check == "Easy Run":
-        pace = test_user.predict_pace(distance = 80000)
-    elif workout_check == "Progression":
-        pace = test_user.predict_pace(distance = 40000)
-    elif workout_check == "Recovery Run":
-        pace = test_user.predict_pace(distance = 120000)
-    elif workout_check == "Threshold":
-        pace = test_user.predict_pace(distance = 20000)
-    elif workout_check == "Long Run":
-        pace = test_user.predict_pace(distance = 70000)
+    pace = test_user.get_training_pace(workout_check)
         
-    pace_str = to_str(pace - 15) + "-" + to_str(pace + 15) if pace != 0 else ""
+    pace_str = to_str(pace) + "-" + to_str(pace + 30) if pace != 0 else ""
     
     return HomeData(
         day = day_of_week,
