@@ -6,8 +6,12 @@
 	<string>MAP.Endorphin</string>
 	<key>CFBundleName</key>
 	<string>Endorphin</string>
+	<key>\</key>
+	<string></string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>“This app needs to connect to the local development server.”</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>
@@ -16,6 +20,18 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>10.161.117.159</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemproaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
 	<key>UIAppFonts</key>
 	<array>

@@ -38,8 +38,9 @@ class user:
         self.pace_times_dict = {}
         self.five_km_estimate_seconds = tc.mile_pace(
             tc.from_str(five_km_estimate), FIVEKDIST)
-        self.set_pace(FIVEKDIST, self.five_km_estimate_seconds)
-        self.make_predictions()
+        # self.set_pace(FIVEKDIST, self.five_km_estimate_seconds)
+        # self.make_predictions()
+        # self.five_km_estimate_seconds = five_km_estimate
 
         self.mean_RPE = mean_RPE
         self.STD_RPE = STD_RPE
