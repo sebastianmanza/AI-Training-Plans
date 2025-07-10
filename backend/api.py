@@ -118,7 +118,7 @@ async def get_home_data(user_id: int = 0):
         
     # For now, we will use a placeholder for our training plans
     database = txt_to_database("backend/data/raw/training_plan_test.txt")
-    test_user = user("3/17/2005", sex = "Male", running_ex="Advanced", five_km_estimate="16:30", goal_date=date(2024, 5, 1), mean_RPE=5, STD_RPE=2)
+    test_user = user("3/17/2005", sex = "Male", running_ex="Advanced", five_km_estimate="15:10", goal_date=date(2024, 5, 1), mean_RPE=5, STD_RPE=2)
     test_user.day_future = database.day
     test_user.week_future = database.week
     test_user.month_future = database.month
