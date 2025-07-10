@@ -18,55 +18,56 @@ DEFAULT_WORKOUT_NUMS = {
 
 
 class user:
-    # __slots__ = ("age", "dob", "sex", "five_km_estimate", "when-to-run", "injury", "mileage", "wo_history", "goal_date")
+    # __slots__ = ("dob", "sex", "running_ex", "injury", "most_recent_injury", "longest_run", "goal_date", "pace_estimates", "available_days", "number_of_days", "user_id", "workout_RPE")
 
-    def __init__(self, dob, sex: str, running_ex, five_km_estimate: str, goal_date, mean_RPE: float,
-                 STD_RPE: float, user_id=secrets.randbelow(100000000 - 10000000), longest_run: int = 0,
-                 workout_nums=DEFAULT_WORKOUT_NUMS):
+    def __init__(self, dob: str, sex: str, running_ex: str, injury: int, most_recent_injury: int, longest_run: int,  goal_date: str, 
+                pace_estimates: dict, available_days: list, number_of_days: int, user_id: int = secrets.randbelow(100000000 - 10000000), workout_RPE=DEFAULT_WORKOUT_NUMS):
+        """Creates a user from the given arguments and initializes storage which is the series of stacks and queues necessary for 
+        storing all past and future workouts from a training plan for the user.
+        Args:
+            self: The user
+            dob: --string: The users date of birth
+            sex: --string: The users sex
+            running_ex: --string: The users running level
+            injury: --int: How many injuries a user has had in the last 2 years
+            most_recent_injury: --int: The number of months ago the users most recent injury occured
+            longest_run: --int: The users longest average weekly long run
+            goal_date: --string: The date of the users most important race
+            pace_estimates: --dict: The expected pace of different run types for the user
+            available_dats: --list: The days of the week the user can run in the form of:
+                                    0 - unavailable
+                                    1 - available
+                                    2 - long run
+            number_of_days: --int: The number of days a user wants to run per week
+            user_id: --int The user's id
+            workout_RPE: --dict: Users mean RPE for each type of run
+        """
+        #training storage
         storage = storage_stacks_and_queues()
-        self.user_id = user_id
+        #inputs
         self.dob = dob
-        # self.age = self.get_age()
         self.sex = sex
-
-        self.when_to_run = None
-        self.injury = 0
-        self.most_recent_injury = 0
-
-        self.goal_date = goal_date
-
-        self.longest_run = longest_run
         self.running_ex = running_ex
-        self.pace_times_dict = {}
-<<<<<<< HEAD
-        # self.five_km_estimate_seconds = tc.mile_pace(
-        #     tc.from_str(five_km_estimate), FIVEKDIST)
-        # self.set_pace(FIVEKDIST, self.five_km_estimate_seconds)
-        # self.make_predictions()
-        self.five_km_estimate_seconds = five_km_estimate
-=======
-        self.five_km_estimate_seconds = tc.mile_pace(
-            tc.from_str(five_km_estimate), FIVEKDIST)
-        # self.set_pace(FIVEKDIST, self.five_km_estimate_seconds)
-        # self.make_predictions()
-        # self.five_km_estimate_seconds = five_km_estimate
->>>>>>> 15b89316ba5e461379bbca3c4a554a5cd240fb74
-
-        self.mean_RPE = mean_RPE
-        self.STD_RPE = STD_RPE
-
+        self.injury = injury
+        self.most_recent_injury = most_recent_injury
+        self.longest_run = longest_run
+        self.goal_date = goal_date
+        self.pace_estimates = pace_estimates
+        self.available_days = available_days
+        self.number_of_days = number_of_days
+        self.user_id = user_id
+        self.workout_RPE = workout_RPE
+        #workout storage
         self.month_history = storage.month_history
         self.week_history = storage.week_history
         self.day_history = storage.day_history
         self.month_future = storage.month_future
         self.week_future = storage.week_future
         self.day_future = storage.day_future
+        #additional information
+        self.age = self.get_age()
 
-        # The key is the type of run. The first number in the value is the mean RPE
-        # and the second is the number of these workouts run.
-        # the third number is the average deviation
-        # i.e.(5,2,1) implies the mean RPE is 5 after 2 workouts with an average deviation of 1
-        self.workout_mean_RPE = workout_nums
+        
 
     # Update the mean_RPE using the workout type and the RPE
 
@@ -116,13 +117,13 @@ class user:
     def generate_new_id(self) -> None:
         self.user_id = secrets.randbelow(100000000 - 10000000)
 
-    # def get_age(self) -> int:
-    #     """Returns the number of years the user has been alive as an int"""
-    #     today = datetime.date.today()
-    #     dob = datetime.datetime.strptime(self.dob, "%m/%d/%Y").date()
-    #     age = today.year - dob.year - \
-    #         ((today.month, today.day) < (dob.month, dob.day))
-    #     return age
+    def get_age(self) -> int:
+        """Returns the number of years the user has been alive as an int"""
+        today = datetime.date.today()
+        dob = datetime.datetime.strptime(self.dob, "%m/%d/%Y").date()
+        age = today.year - dob.year - \
+            ((today.month, today.day) < (dob.month, dob.day))
+        return age
 
     # update training
 
