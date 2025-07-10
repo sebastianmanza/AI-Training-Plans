@@ -7,6 +7,8 @@ USERNAME_LOC, PASSWORD_LOC = 0, 1
 PASS_LEN_REQ = 8
 
 
+# Add pace estimator so that it only runs once when the user is created.
+
 """ This function creates a new user based on user input.
 Full population of the SQL database is performed from the the referenced user object and login information is sent to a seperate table for
 long term storage and security. In an the event an SQL query fails, the function will return an error message."""
