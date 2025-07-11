@@ -100,7 +100,7 @@ struct SurveyViews: View {
         MajorInjuriesPage(
           label: "Major injuries",
           selection: $vm.majorInjuries,
-          options: ["0", "1-2", "3+"]
+          options: [0, 1, 3]
         ) {
           onSurveyComplete()
           // currentStep = .recentInjury
@@ -125,15 +125,18 @@ struct IntroPage: View {
 
   var body: some View {
     ZStack {
-        
+
       Color(red: 20 / 255, green: 18 / 255, blue: 50 / 255)
-            .ignoresSafeArea()
-        
+        .ignoresSafeArea()
+
       LinearGradient(
         gradient: Gradient(stops: [
-            .init(color: Color(red:   0/255, green: 106/255, blue: 255/255), location: 0.0),
-            .init(color: Color(red:   0/255, green: 226/255, blue: 188/255).opacity(0.2), location: 0.55),
-            .init(color: Color(red:   0/255, green: 226/255, blue: 188/255).opacity(0), location: 0.7)
+          .init(color: Color(red: 0 / 255, green: 106 / 255, blue: 255 / 255), location: 0.0),
+          .init(
+            color: Color(red: 0 / 255, green: 226 / 255, blue: 188 / 255).opacity(0.2),
+            location: 0.55),
+          .init(
+            color: Color(red: 0 / 255, green: 226 / 255, blue: 188 / 255).opacity(0), location: 0.7),
         ]),
         startPoint: .top,
         endPoint: .bottom
@@ -714,9 +717,17 @@ struct Current5KPage: View {
 
 struct MajorInjuriesPage: View {
   let label: String
-  @Binding var selection: String
-  let options: [String]
+  @Binding var selection: Int
+  let options: [Int]
   let onNext: () -> Void
+
+  private func title(for option: Int) -> String {
+    switch option {
+    case 1: return "1-2"
+    case 3: return "3+"
+    default: return "0"
+    }
+  }
 
   private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
 
