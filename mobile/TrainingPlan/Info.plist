@@ -26,8 +26,10 @@
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<true/>
-				<key>NSTemproaryExceptionAllowsInsecureHTTPLoads</key>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
+				<key>New item</key>
+				<string></string>
 			</dict>
 		</dict>
 	</dict>
