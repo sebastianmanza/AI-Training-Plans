@@ -6,8 +6,6 @@
 	<string>MAP.Endorphin</string>
 	<key>CFBundleName</key>
 	<string>Endorphin</string>
-	<key>\</key>
-	<string></string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSLocalNetworkUsageDescription</key>
@@ -24,7 +22,7 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>10.161.117.159</key>
+			<key>100.113.243.28</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<true/>

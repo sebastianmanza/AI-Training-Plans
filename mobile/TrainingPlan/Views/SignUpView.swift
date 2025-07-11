@@ -95,6 +95,7 @@ struct SignUpView: View {
 
   var onSignUpDone: () -> Void
   var onLogInTapped: () -> Void
+  var onDebugger: () -> Void
 
   var body: some View {
     GeometryReader { geo in
@@ -190,6 +191,7 @@ struct SignUpView: View {
                   ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
                     .frame(maxWidth: .infinity)
+                    .foregroundColor(.black)
                 } else {
                   Text("Sign up")
                     .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 16))
@@ -243,6 +245,17 @@ struct SignUpView: View {
         .contentShape(Rectangle())
         .onTapGesture { focusedField = nil }
       }
+      .overlay(alignment: .topLeading) {
+        Button {
+          onDebugger()
+        } label: {
+          Color.black.opacity(0.001)
+        }
+        .frame(width: 50, height: 50)
+        .contentShape(Rectangle())
+        .buttonStyle(.plain)
+      }
+
     }
   }
 }
