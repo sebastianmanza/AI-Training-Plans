@@ -27,39 +27,46 @@ from collections import namedtuple
 
 
 
-
-
 # Sends user information to the database.
 def send_user_info(new_user, username, password):
-    
+
     try:
-        # Initialize the connection with the database
-        tryconn = init_db(username, password)
-        # open cursor to perform sql queries
-        curr = tryconn.cursor()
-        #check to see that the user does not already exist
-        db_query = """ SELECT * FROM public.userlistai WHERE userid = %s """
-        record_to_insert = (new_user.user_id)
-        
-        # execute query with filled parameters
-        curr.execute(db_query, record_to_insert)
-        
-        # now update the information of the existing user within the SQL database
-        db_update(username, password, new_user.dob, new_user.sex, new_user.five_km_estimate_seconds, new_user.goal_date, 
-                    new_user.running_ex, new_user.mean_RPE, new_user.STD_RPE)
-        
-        # make changes in database persistent
-        tryconn.commit()
-        # close cursor
+        conn = init_db(username, password)
+        curr = conn.cursor()
+
+        # Check if user already exists
+        check_query = """SELECT 1 FROM public.userlistai WHERE userid = %s;"""
+        curr.execute(check_query, (new_user.user_id,))
+        exists = curr.fetchone()
+
+        if exists:
+            # Update existing user
+            db_update(
+                username, password,
+                new_user.dob, new_user.sex, new_user.injury, new_user.pace_estimates, 
+                new_user.goal_date, new_user.running_ex, new_user.available_days, 
+                new_user.number_of_days, new_user.workout_RPE, new_user.longest_run, 
+                new_user.most_recent_injury, new_user.user_id
+            )
+        else:
+            # Insert new user
+            db_insert(
+                username, password,
+                new_user.dob, new_user.sex, new_user.injury, new_user.pace_estimates, 
+                new_user.goal_date, new_user.running_ex, new_user.available_days, 
+                new_user.number_of_days, new_user.workout_RPE, new_user.longest_run, 
+                new_user.most_recent_injury, new_user.user_id
+            )
+
+        conn.commit()
+
+    except Exception as e:
+        print("Database operation failed:", e)
+
+    finally:
         curr.close()
-        # close connection
-        tryconn.close()
-        
-    except Exception:
-        
-        # inserts as a new row in the database if user does not exist already
-        db_insert(username, password, new_user.user_id, new_user.dob, new_user.sex, new_user.five_km_estimate_seconds, new_user.goal_date, new_user.running_ex,
-                    new_user.mean_RPE, new_user.STD_RPE)
+        conn.close()
+
   
 
 # populate past month cycle user infomation within SQL database
@@ -75,13 +82,16 @@ def send_month_history(new_user, username, password):
      
         # write query
         query = """ INSERT INTO public.month_cycle(
-            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, complete_score, month_id, past_month, complete_mileage)
+            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
+            complete_score, month_id, past_month, complete_mileage)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """    
         # fill query with appropriate user ID
     
         # 1 is a placeholder (too lazy to change shit)
-        record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli, pres.cycle, pres.expected_rpe, pres.real_rpe,
-                            pres.percent_completion, pres.month_id, True, pres.completed_mileage)
+        record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli, 
+                            pres.cycle, pres.expected_rpe, pres.real_rpe,
+                            pres.percent_completion, pres.month_id, True, 
+                            pres.completed_mileage)
 
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -110,11 +120,14 @@ def send_month_future(new_user, username, password):
     
         # write query
         query = """ INSERT INTO public.month_cycle(
-            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, complete_score, month_id, past_month, complete_mileage)
+            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
+            complete_score, month_id, past_month, complete_mileage)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """  
         # 1 is a placeholder (too lazy to change shit)
-        record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli, fut.cycle, fut.expected_rpe, fut.real_rpe,
-                            fut.percent_completion, fut.month_id, False, fut.completed_mileage)
+        record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli, 
+                            fut.cycle, fut.expected_rpe, fut.real_rpe,
+                            fut.percent_completion, fut.month_id, False, 
+                            fut.completed_mileage)
         
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -142,13 +155,16 @@ def send_week_cycle(new_user, username, password):
         
         # write query
         query = """ INSERT INTO public.week_cycle(
-            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, complete_score, week_id, past_week, complete_mileage, month_id)
+            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
+            complete_score, week_id, past_week, complete_mileage, month_id)
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """   
         # fill query with appropriate user ID
     
         # 1 is a placeholder (too lazy to change shit)
-        record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli, pres.cycle, pres.expected_rpe, pres.real_rpe, 
-                            pres.percent_completion, pres.week_id, True, pres.completed_mileage, pres.month_id)
+        record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli, 
+                            pres.cycle, pres.expected_rpe, pres.real_rpe, 
+                            pres.percent_completion, pres.week_id, True, 
+                            pres.completed_mileage, pres.month_id)
 
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -165,11 +181,14 @@ def send_week_cycle(new_user, username, password):
         
         # write query
         query = """ INSERT INTO public.week_cycle(
-            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, complete_score, week_id, past_week, complete_mileage, month_id)
+            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
+            complete_score, week_id, past_week, complete_mileage, month_id)
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """   
         # 1 is a placeholder (too lazy to change shit)
-        record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli, fut.cycle, fut.expected_rpe, fut.real_rpe, 
-                            fut.percent_completion, fut.week_id, False, fut.completed_mileage, fut.month_id)
+        record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli, 
+                            fut.cycle, fut.expected_rpe, fut.real_rpe, 
+                            fut.percent_completion, fut.week_id, False, 
+                            fut.completed_mileage, fut.month_id)
         
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -203,13 +222,16 @@ def send_day_cycle(new_user, username, password):
         
         # write query
         query = """ INSERT INTO public.day_cycle(
-            user_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, complete_score, past_day, complete_mileage, week_id, workouts)
+            user_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, 
+            complete_score, past_day, complete_mileage, week_id, workouts)
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s::trio[]); """   
         # fill query with appropriate user ID
     
         # 1 is a placeholder (too lazy to change shit)
-        record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli, pres.lift, pres.expected_rpe, pres.real_rpe,
-                            pres.percent_completion, True, pres.completed_mileage, pres.week_id, workouts)
+        record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli, 
+                            pres.lift, pres.expected_rpe, pres.real_rpe,
+                            pres.percent_completion, True, 
+                            pres.completed_mileage, pres.week_id, workouts)
 
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -230,11 +252,14 @@ def send_day_cycle(new_user, username, password):
         
         # write query
         query = """ INSERT INTO public.day_cycle(
-            user_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, complete_score, past_day, complete_mileage, week_id, workouts)
+            user_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, 
+            complete_score, past_day, complete_mileage, week_id, workouts)
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s::trio[]); """     
         # 1 is a placeholder (too lazy to change shit)
-        record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli, fut.lift, fut.expected_rpe, fut.real_rpe,
-                            fut.percent_completion, False, fut.completed_mileage, fut.week_id, workouts)
+        record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli, 
+                            fut.lift, fut.expected_rpe, fut.real_rpe,
+                            fut.percent_completion, False, fut.completed_mileage, 
+                            fut.week_id, workouts)
         
         # execute query with filled parameters
         curr.execute(query, record_to_insert)
@@ -247,64 +272,45 @@ def send_day_cycle(new_user, username, password):
     conn.close()
     
     
-""" To do: update method to check for existing user_id and handle appropriate updating without repeated user inputs"""  
-# sends username, password, email, and userid into the database
-
+""" To do: update method to check for existing user_id and handle appropriate 
+    updating without repeated user inputs"""  
 def send_user_creds(new_user, username, password, login_info):
-    
+    conn = init_db(username, password)
+    curr = conn.cursor()
+
     try:
-        
-        conn = init_db(username, password)
-        # open cursor to perform sql queries
-        curr = conn.cursor()
-    
-        # prepare query to find or new user credential fields 
-        query = """ INSERT INTO public.user_credentials(user_id, email, username, password)
-                VALUES (%s, %s, %s, %s); """   
-        
-        record_to_insert = (new_user.user_id, login_info[0], login_info[1], login_info[2]) 
-            
-        # execute query with filled parameters
-        curr.execute(query, record_to_insert)
-        
-        # make changes in database persistent
+        check_query = """
+            SELECT 1 FROM public.user_credentials WHERE user_id = %s;
+        """
+        curr.execute(check_query, (new_user.user_id,))
+        exists = curr.fetchone()
+
+        if exists:
+            update_query = """
+                UPDATE public.user_credentials
+                SET email = %s, username = %s, password = %s
+                WHERE user_id = %s;
+            """
+            record = (login_info.user_email, login_info.user_username, 
+                      login_info.user_password, new_user.user_id)
+            curr.execute(update_query, record)
+        else:
+            insert_query = """
+                INSERT INTO public.user_credentials(user_id, email, username, password)
+                VALUES (%s, %s, %s, %s);
+            """
+            record = (new_user.user_id, login_info[0], login_info[1], login_info[2])
+            curr.execute(insert_query, record)
+
         conn.commit()
-        
-        # close cursor
+
+    except Exception as e:
+        print("Database error:", e)
+
+    finally:
         curr.close()
-        # close connection
         conn.close()
-    
-    except Exception:
-        
-        try:
-            
-            conn = init_db(username, password)
-            # open cursor to perform sql queries
-            curr = conn.cursor()
-        
-            query = """ UPDATE public.user_credentials email=%s, username=%s, password=%s
-                        WHERE user_id=%s; """
-            
-            record_to_insert = (new_user.user_id, login_info.user_email, login_info.user_username, login_info.user_password) 
-                
-            # execute query with filled parameters
-            curr.execute(query, record_to_insert)
-            
-            # make changes in database persistent
-            conn.commit()
-            
-            # close cursor
-            curr.close()
-            # close connection
-            conn.close()
-        
-        except Exception as e:
-            print("Error updating user credentials:", e)
-            # Handle the error as needed, e.g., log it or raise an exception
-            
-        
-    
+
     
     
 def send_user_all(user_id, username, password):
@@ -357,7 +363,8 @@ def testing_cycle(username, password):
 
 # send_user_info(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 
-# #  user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, complete_score, month_id, past_month, complete_mileage
+# #  user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
+# complete_score, month_id, past_month, complete_mileage
 
 
 # #testing month population
