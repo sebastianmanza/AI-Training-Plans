@@ -16,12 +16,13 @@ DEFAULT_WORKOUT_NUMS = {
     "Threshold": (0, 0, 0), "Fartlek": (0, 0, 0), "Race Pace Interval": (0, 0, 0), "Strides": (0, 0, 0),
     "Hill Sprints": (0, 0, 0), "Flat Sprints": (0, 0, 0), "Time Trial": (0, 0, 0), "Warmup and Cooldown": (0, 0, 0), "Off": (0, 0, 0)}
 
+THREEK, FIVEK, TENK, RECOVERY, EASY, TEMPO, PROGRESSION, THRESHOLD, LONGRUN, VO2MAX = range(10)
 
 class user:
     # __slots__ = ("dob", "sex", "running_ex", "injury", "most_recent_injury", "longest_run", "goal_date", "pace_estimates", "available_days", "number_of_days", "user_id", "workout_RPE")
 
     def __init__(self, dob: str, sex: str, running_ex: str, injury: int, most_recent_injury: int, longest_run: int,  goal_date: str, 
-                pace_estimates: dict, available_days: list, number_of_days: int, user_id: int = secrets.randbelow(100000000 - 10000000), workout_RPE=DEFAULT_WORKOUT_NUMS):
+                available_days: list, number_of_days: int, pace_estimates: list = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], user_id: int = secrets.randbelow(100000000 - 10000000), workout_RPE=DEFAULT_WORKOUT_NUMS):
         """Creates a user from the given arguments and initializes storage which is the series of stacks and queues necessary for 
         storing all past and future workouts from a training plan for the user.
         Args:
@@ -33,12 +34,13 @@ class user:
             most_recent_injury: --int: The number of months ago the users most recent injury occured
             longest_run: --int: The users longest average weekly long run
             goal_date: --string: The date of the users most important race
-            pace_estimates: --dict: The expected pace of different run types for the user
             available_dats: --list: The days of the week the user can run in the form of:
                                     0 - unavailable
                                     1 - available
                                     2 - long run
             number_of_days: --int: The number of days a user wants to run per week
+            pace_estimates: --list: The users pace estimates for each distance in the form of: please just type it out using the defined variables above. 
+                Also initialize all your lists to -1 so we can check if they are set.
             user_id: --int The user's id
             workout_RPE: --dict: Users mean RPE for each type of run
         """
