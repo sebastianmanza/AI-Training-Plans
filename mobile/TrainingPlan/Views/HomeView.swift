@@ -119,16 +119,16 @@ struct HomeView: View {
           alignment: .topTrailing
         )
       }
-      .overlay(alignment: .topLeading) {
-        Button {
-          onDebugger()
-        } label: {
-          Color.black.opacity(0.001)
-        }
-        .frame(width: 50, height: 50)
-        .contentShape(Rectangle())
-        .buttonStyle(.plain)
-      }
+//      .overlay(alignment: .topLeading) {
+//        Button {
+//          onDebugger()
+//        } label: {
+//          Color.black.opacity(0.001)
+//        }
+//        .frame(width: 50, height: 50)
+//        .contentShape(Rectangle())
+//        .buttonStyle(.plain)
+//      }
 
       .ignoresSafeArea()
 

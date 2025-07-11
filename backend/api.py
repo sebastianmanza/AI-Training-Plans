@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from datetime import datetime, date
+from datetime import datetime
 from typing import Optional
 
 from backend.scripts.txt_to_database import txt_to_database
@@ -10,7 +10,6 @@ from backend.src.utils.workout.workout_database import workout_database
 from backend.src.main.frontend_compatible_survey import main as SurveyMain
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.user_send import send_user_info
-# from backend.src.utils import user_creation
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.utils.user_storage.user import FIVEK, user
 from backend.src.utils.time_conversion import to_str
@@ -123,8 +122,8 @@ async def get_home_data(user_id: int = 0):
         
     # For now, we will use a placeholder for our training plans
     database = txt_to_database("backend/data/raw/training_plan_test.txt")
-    test_user = user("3/17/2005", sex = "Male", running_ex="Advanced", injury = 0, most_recent_injury= 0, longest_run = 10, goal_date = "10/18/24", list = [1, 1, 1, 1, 1, 1, 1], number_of_days = 5, mean_RPE=5, STD_RPE=2)
-    test_user.pace_estimates[FIVEK] = 307
+    test_user = user("3/17/2005", sex = "Male", running_ex="Advanced", injury = 0, most_recent_injury= 0, longest_run = 10, goal_date = "10/18/24", available_days = [1, 1, 1, 1, 1, 1, 1], number_of_days = 5)
+    test_user.pace_estimates[FIVEK] = 307  # 5k pace in seconds
     test_user.day_future = database.day
     test_user.week_future = database.week 
     test_user.month_future = database.month
