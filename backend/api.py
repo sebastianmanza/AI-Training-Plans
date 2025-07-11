@@ -12,7 +12,7 @@ from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.user_send import send_user_info
 # from backend.src.utils import user_creation
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
-from backend.src.utils.user_storage.user import user
+from backend.src.utils.user_storage.user import FIVEK, user
 from backend.src.utils.time_conversion import to_str
 
 app = FastAPI()
@@ -123,9 +123,10 @@ async def get_home_data(user_id: int = 0):
         
     # For now, we will use a placeholder for our training plans
     database = txt_to_database("backend/data/raw/training_plan_test.txt")
-    test_user = user("3/17/2005", sex = "Male", running_ex="Advanced", five_km_estimate="15:10", goal_date=date(2024, 5, 1), mean_RPE=5, STD_RPE=2)
+    test_user = user("3/17/2005", sex = "Male", running_ex="Advanced", injury = 0, most_recent_injury= 0, longest_run = 10, goal_date = "10/18/24", list = [1, 1, 1, 1, 1, 1, 1], number_of_days = 5, mean_RPE=5, STD_RPE=2)
+    test_user.pace_estimates[FIVEK] = 307
     test_user.day_future = database.day
-    test_user.week_future = database.week
+    test_user.week_future = database.week 
     test_user.month_future = database.month
     
     current_day = test_user.day_future.get()
@@ -199,16 +200,16 @@ async def login(payload: LoginIn):
         AuthOut: A Pydantic model containing the user ID of the logged-in user.
     """
     try:
-        user = user_creation.user_login(
-            username=payload.username,
-            password=payload.password
-        )
-        
-        if not user:
-            raise HTTPException(status_code=401, detail="Invalid credentials")
-        
-        return AuthOut(user_id=user.user_id)
+        dict = payload.model_dump()
+        userid = user_creation.credential_check(dict["username"], dict["password"])
+        if userid == 0:
+            return AuthOut(error_code=1)  # Error code 1 indicates invalid credentials
+
+        return AuthOut(user_id=userid)
     except Exception as e:
         # surface errors as HTTP 500
         raise HTTPException(status_code=500, detail=str(e))
     
+@app.get("/ping")
+async def ping():
+    return {"ok": True}

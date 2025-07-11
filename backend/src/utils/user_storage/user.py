@@ -39,7 +39,7 @@ class user:
                                     1 - available
                                     2 - long run
             number_of_days: --int: The number of days a user wants to run per week
-            pace_estimates: --list: The users pace estimates for each distance in the form of: please just type it out using the defined variables above. 
+            pace_estimates: --list: The users pace estimates (in sec/mile) for each distance: please just type it out using the defined variables above. 
                 Also initialize all your lists to -1 so we can check if they are set.
             user_id: --int The user's id
             workout_RPE: --dict: Users mean RPE for each type of run
@@ -177,21 +177,21 @@ class user:
         return tc.alter_pace(seconds, increase)
 
     def get_training_pace(self, type) -> int:
-        """Returns the training pace for a given type of workout."""
+        """Returns the training pace for a given type of workout based on the users 5k prediction time."""
         if type == "Easy Run":
-            return get_training_pace_helper(5000, self.five_km_estimate_seconds * 3.1, 0.67)
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.65)
         elif type == "Progression":
-            return get_training_pace_helper(5000, self.five_km_estimate_seconds * 3.1, 0.82)
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
         elif type == "Recovery Run":
-            return get_training_pace_helper(5000, self.five_km_estimate_seconds * 3.1, 0.64)
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.62)
         elif type == "Threshold":
-            return get_training_pace_helper(5000, self.five_km_estimate_seconds * 3.1, 0.87)
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.87)
         elif type == "Long Run":
-            return get_training_pace_helper(5000, self.five_km_estimate_seconds * 3.1, 0.7)
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.7)
         elif type == "VO2Max":
-            return get_training_pace_helper(5000, self.five_km_estimate_seconds * 3.1, 0.95)
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.95)
         elif type == "Tempo":
-            return get_training_pace_helper(5000, self.five_km_estimate_seconds * 3.1, 0.82)
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
         else:
             return 0
 
