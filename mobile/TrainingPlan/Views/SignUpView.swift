@@ -91,6 +91,8 @@ struct SignUpView: View {
   @State private var isLoading = false
   @State private var signupError: String?
 
+  @EnvironmentObject var session: Session
+
   var onSignUpDone: () -> Void
   var onLogInTapped: () -> Void
 
@@ -167,7 +169,7 @@ struct SignUpView: View {
 
                     if let userId = result.user_id {
                       // Save userID to the session
-                      setUserID(userId)
+                      session.setUserID(userId)
                       onSignUpDone()
                     } else if let code = result.error_code {
                       // map your backend error codes to messages:

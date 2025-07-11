@@ -69,8 +69,8 @@ class LoginIn(BaseModel):
 class AuthOut(BaseModel):
     """AuthOut is a Pydantic model that represents the output for user authentication (login and signup)
     """
-    Optional[user_id]: int
-    Optional[error_code]: int
+    user_id: Optional[int]
+    error_code: Optional[int]
 
 @app.post("/survey/prelim")
 async def survey_prelim(payload: SurveyIn):
@@ -168,11 +168,15 @@ async def signup(payload: SignupIn):
         AuthOut: An authorization output model containing the user ID if the signup is successful, or an error code if the username/email already exists.
     """
     try:
-        bool, username_or_error_code = user_creation.user_exists(payload)
+        dict = payload.model_dump()
+        bool, userid_or_error_code = user_creation.user_exists(dict)
         if bool:
-            return AuthOut(user_id = username_or_error_code)
+            user_creation.send_user_creds(userid_or_error_code, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], dict)
+            # return the userid to the session
+            return AuthOut(user_id = userid_or_error_code)
+        
         else:
-            return AuthOut(error_code = username_or_error_code)
+            return AuthOut(error_code = userid_or_error_code)
         # Error code 0 indicates the username exists
         # Error code 1 indicates the email exists
         

@@ -310,8 +310,6 @@ def send_user_creds(new_user, username, password, login_info):
     finally:
         curr.close()
         conn.close()
-
-    
     
 def send_user_all(user_id, username, password):
     
