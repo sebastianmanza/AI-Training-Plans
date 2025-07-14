@@ -42,7 +42,7 @@ struct SurveyViews: View {
 
       case .dateOfBirth:
         DatePage(label: "Date of Birth", date: $dobDate) {
-          vm.dateOfBirth = dobFormatter.string(from: dobDate)  // convert to string
+          vm.dateOfBirth = dateFormat.string(from: dobDate)
           currentStep = .sex
         }
 
@@ -120,182 +120,303 @@ struct SurveyViews: View {
 
       case .longestRun:
         LongestRunPage(
-          label: "Longest run", 
+          label: "Longest run",
           runLength: $vm.longestRun
         ) {
-          //Task { await vm.submit() }  
-          onSurveyComplete()
+          //Task { await vm.submit() }
+          currentStep = .goalDate
         }
       case .goalDate:
         GoalDatePage(
           label: "Goal date",
-          goalDate: $goalDate
+          date: $goalDate
         ) {
           vm.goalDate = dateFormat.string(from: goalDate)
           Task { await vm.submit() }
           onSurveyComplete()
 
+        }
       }
     }
   }
-}
 
-struct IntroPage: View {
+  struct IntroPage: View {
 
-  let onStartTapped: () -> Void
+    let onStartTapped: () -> Void
 
-  var body: some View {
-    ZStack {
+    var body: some View {
+      ZStack {
 
-      Color(red: 20 / 255, green: 18 / 255, blue: 50 / 255)
+        Color(red: 20 / 255, green: 18 / 255, blue: 50 / 255)
+          .ignoresSafeArea()
+
+        LinearGradient(
+          gradient: Gradient(stops: [
+            .init(color: Color(red: 0 / 255, green: 106 / 255, blue: 255 / 255), location: 0.0),
+            .init(
+              color: Color(red: 0 / 255, green: 226 / 255, blue: 188 / 255).opacity(0.2),
+              location: 0.55),
+            .init(
+              color: Color(red: 0 / 255, green: 226 / 255, blue: 188 / 255).opacity(0),
+              location: 0.7),
+          ]),
+          startPoint: .top,
+          endPoint: .bottom
+        )
         .ignoresSafeArea()
 
-      LinearGradient(
-        gradient: Gradient(stops: [
-          .init(color: Color(red: 0 / 255, green: 106 / 255, blue: 255 / 255), location: 0.0),
-          .init(
-            color: Color(red: 0 / 255, green: 226 / 255, blue: 188 / 255).opacity(0.2),
-            location: 0.55),
-          .init(
-            color: Color(red: 0 / 255, green: 226 / 255, blue: 188 / 255).opacity(0), location: 0.7),
-        ]),
-        startPoint: .top,
-        endPoint: .bottom
-      )
-      .ignoresSafeArea()
-
-      // Overlay with content
-      Spacer()
-      VStack(alignment: .leading, spacing: 45) {
-        // Top text
-        VStack(alignment: .leading, spacing: -15) {
-          Text("READY TO").font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
-            .foregroundColor(.white)
-          Text("START").font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
-            .foregroundColor(.white)
-          Text("YOUR").font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 48))
-            .foregroundColor(.white)
-          Text("RUNNING").font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
-            .foregroundColor(.white)
-          Text("JOURNEY?").font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
-            .foregroundColor(.white)
-        }
-
-        Rectangle()
-          .fill(Color.white)
-          .frame(height: 1.5)
-          .frame(maxWidth: .infinity)
-          .padding(.trailing, 35)
-
-        Text(
-          """
-          Help us get a sense of 
-          where you're at. Take 
-          the survey to start your
-          personalized training
-          plan.
-          """
-        )
-        .font(.custom("MADEOkineSansPERSONALUSE-Regular", size: 24))
-        .foregroundColor(.white)
-
-        LogInButton(
-          buttonTitle: "START", action: onStartTapped,
-          color: Color(red: 0, green: 54 / 255, blue: 104 / 255)
-        )
-        .padding(.leading, 35)
-        .padding(.top, 25)
-
-      }
-      .padding(.leading, 35)
-      .padding(.bottom, 10)
-      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-      Spacer()
-    }
-  }
-}
-
-struct DatePage: View {
-  let label: String
-  @Binding var date: Date
-  let onNext: () -> Void
-
-  var body: some View {
-    ZStack {
-      Image("surveyQuestionBackground")
-        .resizable()
-        .scaledToFill()
-        .edgesIgnoringSafeArea(.all)
-
-      // foreground
-      VStack(spacing: 40) {
-        Text("When were \nyou born?")
-          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
-          .foregroundColor(.white)
-          .multilineTextAlignment(.leading)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.leading, 30)
-
-        Rectangle()
-          .fill(.white)
-          .frame(height: 1.5)
-          .frame(maxWidth: .infinity)
-          .padding(.horizontal, 30)
-
-        DatePicker("", selection: $date, displayedComponents: .date)
-          .datePickerStyle(WheelDatePickerStyle())
-          .labelsHidden()
-          .colorScheme(.dark)
-          .cornerRadius(8)
-
-        SurveyNextButton(
-          action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
-        )
-        .padding(.top, 30)
-        CompletionBar(
-          background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
-          height: 15, percentComplete: 1 / (numQuestions)
-        )
-        .padding(.top, 10)
-
-      }
-      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-      .padding(.bottom, 80)
-    }
-  }
-}
-
-struct SexPage: View {
-  let label: String
-  @Binding var selection: String
-  let options: [String]
-  let onNext: () -> Void
-
-  @State private var isEditingOther = false
-  @State private var otherText = ""
-  @FocusState private var otherFieldFocused: Bool
-  @State private var keyboardHeight: CGFloat = 0
-
-  private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
-
-  var body: some View {
-    ZStack {
-      Image("surveyQuestionBackground")
-        .resizable()
-        .scaledToFill()
-        .edgesIgnoringSafeArea(.all)
-        .onTapGesture {
-          if isEditingOther {
-            selection = otherText
+        // Overlay with content
+        Spacer()
+        VStack(alignment: .leading, spacing: 45) {
+          // Top text
+          VStack(alignment: .leading, spacing: -15) {
+            Text("READY TO").font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
+              .foregroundColor(.white)
+            Text("START").font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
+              .foregroundColor(.white)
+            Text("YOUR").font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 48))
+              .foregroundColor(.white)
+            Text("RUNNING").font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
+              .foregroundColor(.white)
+            Text("JOURNEY?").font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
+              .foregroundColor(.white)
           }
-          otherFieldFocused = false
-          isEditingOther = false
-        }
 
-      VStack(spacing: 40) {
-        /* If other is not being edited, show the fields */
-        if !isEditingOther {
-          Text("How do you identify?")
+          Rectangle()
+            .fill(Color.white)
+            .frame(height: 1.5)
+            .frame(maxWidth: .infinity)
+            .padding(.trailing, 35)
+
+          Text(
+            """
+            Help us get a sense of 
+            where you're at. Take 
+            the survey to start your
+            personalized training
+            plan.
+            """
+          )
+          .font(.custom("MADEOkineSansPERSONALUSE-Regular", size: 24))
+          .foregroundColor(.white)
+
+          LogInButton(
+            buttonTitle: "START", action: onStartTapped,
+            color: Color(red: 0, green: 54 / 255, blue: 104 / 255)
+          )
+          .padding(.leading, 35)
+          .padding(.top, 25)
+
+        }
+        .padding(.leading, 35)
+        .padding(.bottom, 10)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        Spacer()
+      }
+    }
+  }
+
+  struct DatePage: View {
+    let label: String
+    @Binding var date: Date
+    let onNext: () -> Void
+
+    var body: some View {
+      ZStack {
+        Image("surveyQuestionBackground")
+          .resizable()
+          .scaledToFill()
+          .edgesIgnoringSafeArea(.all)
+
+        // foreground
+        VStack(spacing: 40) {
+          Text("When were \nyou born?")
+            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
+            .foregroundColor(.white)
+            .multilineTextAlignment(.leading)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 30)
+
+          Rectangle()
+            .fill(.white)
+            .frame(height: 1.5)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 30)
+
+          DatePicker("", selection: $date, displayedComponents: .date)
+            .datePickerStyle(WheelDatePickerStyle())
+            .labelsHidden()
+            .colorScheme(.dark)
+            .cornerRadius(8)
+
+          SurveyNextButton(
+            action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
+          )
+          .padding(.top, 30)
+          CompletionBar(
+            background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
+            height: 15, percentComplete: 1 / (numQuestions)
+          )
+          .padding(.top, 10)
+
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .padding(.bottom, 80)
+      }
+    }
+  }
+
+  struct SexPage: View {
+    let label: String
+    @Binding var selection: String
+    let options: [String]
+    let onNext: () -> Void
+
+    @State private var isEditingOther = false
+    @State private var otherText = ""
+    @FocusState private var otherFieldFocused: Bool
+    @State private var keyboardHeight: CGFloat = 0
+
+    private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
+
+    var body: some View {
+      ZStack {
+        Image("surveyQuestionBackground")
+          .resizable()
+          .scaledToFill()
+          .edgesIgnoringSafeArea(.all)
+          .onTapGesture {
+            if isEditingOther {
+              selection = otherText
+            }
+            otherFieldFocused = false
+            isEditingOther = false
+          }
+
+        VStack(spacing: 40) {
+          /* If other is not being edited, show the fields */
+          if !isEditingOther {
+            Text("How do you identify?")
+              .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
+              .foregroundColor(.white)
+              .frame(maxWidth: .infinity, alignment: .leading)
+              .padding(.leading, 30)
+
+            Rectangle()
+              .fill(Color.white)
+              .frame(height: 1.5)
+              .frame(maxWidth: .infinity)
+              .padding(.horizontal, 30)
+          }
+
+          VStack(spacing: 10) {
+            if isEditingOther {
+              // inline text field, styled just like the selected button
+              TextField("Please specify:", text: $otherText)
+                .focused($otherFieldFocused)
+                .multilineTextAlignment(.center)
+                .font(.custom("MADEOkineSansPERSONALUSE-Regular", size: 20))
+                .foregroundColor(.white)
+                .frame(minWidth: 300, minHeight: 70)
+                .background(
+                  RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(themeColor)
+                )
+                .overlay(
+                  RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .stroke(Color.white, lineWidth: 2)
+                )
+                // slide up when keyboard appears
+                .padding(.bottom, keyboardHeight)
+
+            } else {
+              // show only Male/Female/Other buttons
+              ForEach(options, id: \.self) { option in
+                if option == "Other" {
+                  let isCustom =
+                    (!selection.isEmpty && selection != "Male" && selection != "Female")
+                  let title = isCustom ? selection : "Other"
+                  SurveySelectionButton(
+                    title: title,
+                    isSelected: isCustom,
+                    height: 70
+                  ) {
+                    isEditingOther = true
+                    otherText = isCustom ? selection : ""
+                  }
+                } else {
+                  SurveySelectionButton(
+                    title: option,
+                    isSelected: selection == option,
+                    height: 70
+                  ) {
+                    selection = option
+                    otherText = ""
+                  }
+                }
+              }
+            }
+          }
+
+          SurveyNextButton(
+            action: {
+              // when Next tapped, if in Other-mode commit the text
+              if isEditingOther {
+                selection = otherText
+              }
+              onNext()
+            }, color: Color(red: 0, green: 54 / 255, blue: 104 / 255)
+          )
+          .padding(.top, 30)
+
+          CompletionBar(
+            background: .white,
+            fill: Color(red: 0, green: 54 / 255, blue: 104 / 255),
+            width: 350,
+            height: 15,
+            percentComplete: 2 / numQuestions
+          )
+          .padding(.top, 10)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .padding(.bottom, 80)
+
+        // keyboard height listeners
+        .onReceive(
+          NotificationCenter.default
+            .publisher(for: UIResponder.keyboardWillShowNotification)
+        ) { note in
+          if let r = note.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            keyboardHeight = r.height - 50
+          }
+        }
+        .onReceive(
+          NotificationCenter.default
+            .publisher(for: UIResponder.keyboardWillHideNotification)
+        ) { _ in
+          keyboardHeight = 0
+        }
+      }
+    }
+  }
+
+  struct ExperiencePage: View {
+    let label: String
+    @Binding var selection: String
+    let options: [String]
+    let onNext: () -> Void
+
+    private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
+
+    var body: some View {
+      ZStack {
+        Image("surveyQuestionBackground")
+          .resizable()
+          .scaledToFill()
+          .edgesIgnoringSafeArea(.all)
+
+        VStack(spacing: 40) {
+          Text("What is your \ncurrent level \nof running \nexperience?")
             .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
             .foregroundColor(.white)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -306,692 +427,571 @@ struct SexPage: View {
             .frame(height: 1.5)
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 30)
-        }
 
-        VStack(spacing: 10) {
-          if isEditingOther {
-            // inline text field, styled just like the selected button
-            TextField("Please specify:", text: $otherText)
-              .focused($otherFieldFocused)
-              .multilineTextAlignment(.center)
-              .font(.custom("MADEOkineSansPERSONALUSE-Regular", size: 20))
-              .foregroundColor(.white)
-              .frame(minWidth: 300, minHeight: 70)
-              .background(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                  .fill(themeColor)
-              )
-              .overlay(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                  .stroke(Color.white, lineWidth: 2)
-              )
-              // slide up when keyboard appears
-              .padding(.bottom, keyboardHeight)
-
-          } else {
-            // show only Male/Female/Other buttons
+          VStack(spacing: 10) {
             ForEach(options, id: \.self) { option in
-              if option == "Other" {
-                let isCustom = (!selection.isEmpty && selection != "Male" && selection != "Female")
-                let title = isCustom ? selection : "Other"
-                SurveySelectionButton(
-                  title: title,
-                  isSelected: isCustom,
-                  height: 70
-                ) {
-                  isEditingOther = true
-                  otherText = isCustom ? selection : ""
-                }
-              } else {
-                SurveySelectionButton(
-                  title: option,
-                  isSelected: selection == option,
-                  height: 70
-                ) {
-                  selection = option
-                  otherText = ""
+              SurveySelectionButton(
+                title: option,
+                isSelected: selection == option,
+                height: 80
+              ) {
+                selection = option
+              }
+            }
+          }
+          SurveyNextButton(
+            action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
+          )
+          .padding(.top, 30)
+          CompletionBar(
+            background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
+            height: 15, percentComplete: 3 / (numQuestions)
+          )
+          .padding(.top, 10)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .padding(.bottom, 80)
+      }
+    }
+  }
+
+  struct DaysPerWeekPage: View {
+    let label: String
+    @Binding var selection: Int
+    let options: [Int]
+    let onNext: () -> Void
+
+    private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
+
+    var body: some View {
+      ZStack {
+        Image("surveyQuestionBackground")
+          .resizable()
+          .scaledToFill()
+          .edgesIgnoringSafeArea(.all)
+
+        VStack(spacing: 40) {
+          Text("How many \ndays per week \nwould you like \n to run?")
+            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 30)
+
+          Rectangle()
+            .fill(Color.white)
+            .frame(height: 1.5)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 30)
+
+          VStack(spacing: 10) {
+            ForEach(options, id: \.self) { option in
+              SurveySelectionButton(
+                title: String(option),
+                isSelected: selection == option,
+                height: 70
+              ) {
+                selection = option
+              }
+            }
+          }
+          SurveyNextButton(
+            action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
+          )
+          .padding(.top, 20)
+          CompletionBar(
+            background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
+            height: 15, percentComplete: 4 / (numQuestions)
+          )
+          .padding(.top, 10)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .padding(.bottom, 80)
+      }
+    }
+  }
+
+  struct DaysOfWeekPage: View {
+    let label: String
+    @Binding var selection: [String]
+    let options: [String]
+    let onNext: () -> Void
+
+    private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
+
+    var body: some View {
+      ZStack {
+        Image("surveyQuestionBackground")
+          .resizable()
+          .scaledToFill()
+          .edgesIgnoringSafeArea(.all)
+
+        VStack(spacing: 40) {
+          Text("What days of the \nweek can you \ncommit at least \nan hour for a run?")
+            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 36))
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 30)
+
+          Rectangle()
+            .fill(Color.white)
+            .frame(height: 1.5)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 30)
+
+          VStack(spacing: 10) {
+            ForEach(options, id: \.self) { option in
+              SurveySelectionButton(
+                title: String(option),
+                isSelected: selection.contains(option),
+                height: 35
+              ) {
+                if let i = selection.firstIndex(of: option) {
+                  selection.remove(at: i)
+                } else {
+                  selection.append(option)
                 }
               }
             }
           }
+          SurveyNextButton(
+            action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
+          )
+          // .padding(.top, 10)
+          CompletionBar(
+            background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
+            height: 15, percentComplete: 5 / (numQuestions)
+          )
+          .padding(.top, 10)
         }
-
-        SurveyNextButton(
-          action: {
-            // when Next tapped, if in Other-mode commit the text
-            if isEditingOther {
-              selection = otherText
-            }
-            onNext()
-          }, color: Color(red: 0, green: 54 / 255, blue: 104 / 255)
-        )
-        .padding(.top, 30)
-
-        CompletionBar(
-          background: .white,
-          fill: Color(red: 0, green: 54 / 255, blue: 104 / 255),
-          width: 350,
-          height: 15,
-          percentComplete: 2 / numQuestions
-        )
-        .padding(.top, 10)
-      }
-      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-      .padding(.bottom, 80)
-
-      // keyboard height listeners
-      .onReceive(
-        NotificationCenter.default
-          .publisher(for: UIResponder.keyboardWillShowNotification)
-      ) { note in
-        if let r = note.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-          keyboardHeight = r.height - 50
-        }
-      }
-      .onReceive(
-        NotificationCenter.default
-          .publisher(for: UIResponder.keyboardWillHideNotification)
-      ) { _ in
-        keyboardHeight = 0
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .padding(.bottom, 80)
       }
     }
   }
-}
 
-struct ExperiencePage: View {
-  let label: String
-  @Binding var selection: String
-  let options: [String]
-  let onNext: () -> Void
+  struct MostTimeDayPage: View {
+    let label: String
+    @Binding var selection: String
+    let options: [String]
+    let onNext: () -> Void
 
-  private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
+    private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
 
-  var body: some View {
-    ZStack {
-      Image("surveyQuestionBackground")
-        .resizable()
-        .scaledToFill()
-        .edgesIgnoringSafeArea(.all)
+    var body: some View {
+      ZStack {
+        Image("surveyQuestionBackground")
+          .resizable()
+          .scaledToFill()
+          .edgesIgnoringSafeArea(.all)
 
-      VStack(spacing: 40) {
-        Text("What is your \ncurrent level \nof running \nexperience?")
-          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
-          .foregroundColor(.white)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.leading, 30)
+        VStack(spacing: 40) {
+          Text("What day do\nyou have the\nmost time for\na run?")
+            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 36))
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 30)
 
-        Rectangle()
-          .fill(Color.white)
-          .frame(height: 1.5)
-          .frame(maxWidth: .infinity)
-          .padding(.horizontal, 30)
+          Rectangle()
+            .fill(Color.white)
+            .frame(height: 1.5)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 30)
 
-        VStack(spacing: 10) {
-          ForEach(options, id: \.self) { option in
-            SurveySelectionButton(
-              title: option,
-              isSelected: selection == option,
-              height: 80
-            ) {
-              selection = option
-            }
-          }
-        }
-        SurveyNextButton(
-          action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
-        )
-        .padding(.top, 30)
-        CompletionBar(
-          background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
-          height: 15, percentComplete: 3 / (numQuestions)
-        )
-        .padding(.top, 10)
-      }
-      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-      .padding(.bottom, 80)
-    }
-  }
-}
-
-struct DaysPerWeekPage: View {
-  let label: String
-  @Binding var selection: Int
-  let options: [Int]
-  let onNext: () -> Void
-
-  private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
-
-  var body: some View {
-    ZStack {
-      Image("surveyQuestionBackground")
-        .resizable()
-        .scaledToFill()
-        .edgesIgnoringSafeArea(.all)
-
-      VStack(spacing: 40) {
-        Text("How many \ndays per week \nwould you like \n to run?")
-          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
-          .foregroundColor(.white)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.leading, 30)
-
-        Rectangle()
-          .fill(Color.white)
-          .frame(height: 1.5)
-          .frame(maxWidth: .infinity)
-          .padding(.horizontal, 30)
-
-        VStack(spacing: 10) {
-          ForEach(options, id: \.self) { option in
-            SurveySelectionButton(
-              title: String(option),
-              isSelected: selection == option,
-              height: 70
-            ) {
-              selection = option
-            }
-          }
-        }
-        SurveyNextButton(
-          action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
-        )
-        .padding(.top, 20)
-        CompletionBar(
-          background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
-          height: 15, percentComplete: 4 / (numQuestions)
-        )
-        .padding(.top, 10)
-      }
-      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-      .padding(.bottom, 80)
-    }
-  }
-}
-
-struct DaysOfWeekPage: View {
-  let label: String
-  @Binding var selection: [String]
-  let options: [String]
-  let onNext: () -> Void
-
-  private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
-
-  var body: some View {
-    ZStack {
-      Image("surveyQuestionBackground")
-        .resizable()
-        .scaledToFill()
-        .edgesIgnoringSafeArea(.all)
-
-      VStack(spacing: 40) {
-        Text("What days of the \nweek can you \ncommit at least \nan hour for a run?")
-          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 36))
-          .foregroundColor(.white)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.leading, 30)
-
-        Rectangle()
-          .fill(Color.white)
-          .frame(height: 1.5)
-          .frame(maxWidth: .infinity)
-          .padding(.horizontal, 30)
-
-        VStack(spacing: 10) {
-          ForEach(options, id: \.self) { option in
-            SurveySelectionButton(
-              title: String(option),
-              isSelected: selection.contains(option),
-              height: 35
-            ) {
-              if let i = selection.firstIndex(of: option) {
-                selection.remove(at: i)
-              } else {
-                selection.append(option)
+          VStack(spacing: 10) {
+            ForEach(options, id: \.self) { option in
+              SurveySelectionButton(
+                title: String(option),
+                isSelected: selection == option,
+                height: 35
+              ) {
+                selection = option
               }
             }
           }
+          SurveyNextButton(
+            action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
+          )
+          // .padding(.top, 10)
+          CompletionBar(
+            background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
+            height: 15, percentComplete: 6 / (numQuestions)
+          )
+          .padding(.top, 10)
         }
-        SurveyNextButton(
-          action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
-        )
-        // .padding(.top, 10)
-        CompletionBar(
-          background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
-          height: 15, percentComplete: 5 / (numQuestions)
-        )
-        .padding(.top, 10)
-      }
-      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-      .padding(.bottom, 80)
-    }
-  }
-}
-
-struct MostTimeDayPage: View {
-  let label: String
-  @Binding var selection: String
-  let options: [String]
-  let onNext: () -> Void
-
-  private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
-
-  var body: some View {
-    ZStack {
-      Image("surveyQuestionBackground")
-        .resizable()
-        .scaledToFill()
-        .edgesIgnoringSafeArea(.all)
-
-      VStack(spacing: 40) {
-        Text("What day do\nyou have the\nmost time for\na run?")
-          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 36))
-          .foregroundColor(.white)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.leading, 30)
-
-        Rectangle()
-          .fill(Color.white)
-          .frame(height: 1.5)
-          .frame(maxWidth: .infinity)
-          .padding(.horizontal, 30)
-
-        VStack(spacing: 10) {
-          ForEach(options, id: \.self) { option in
-            SurveySelectionButton(
-              title: String(option),
-              isSelected: selection == option,
-              height: 35
-            ) {
-              selection = option
-            }
-          }
-        }
-        SurveyNextButton(
-          action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
-        )
-        // .padding(.top, 10)
-        CompletionBar(
-          background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
-          height: 15, percentComplete: 6 / (numQuestions)
-        )
-        .padding(.top, 10)
-      }
-      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-      .padding(.bottom, 80)
-    }
-  }
-}
-
-struct Current5KPage: View {
-
-  let label: String
-  // the total number of seconds of the 5k
-  @Binding var totalSeconds: Int
-  let onNext: () -> Void
-
-  /// Local state for the two wheels
-  @State private var minutes: Int = 0
-  @State private var seconds: Int = 0
-
-  private let maxMinutes = 59
-  private let maxSeconds = 59
-
-  private var minuteWheel: some View {
-    Picker("", selection: $minutes) {
-      ForEach(12...maxMinutes, id: \.self) { v in
-        Text(String(format: "%02d", v))
-          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 25))
-          .foregroundColor(.white)
-          .tag(v)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .padding(.bottom, 80)
       }
     }
-    .pickerStyle(.wheel)
-    .buttonStyle(.borderless)
-    .scaleEffect(2)
-    .frame(width: 100, height: 60)
-    .clipped()
   }
 
-  // 2) And the second‐wheel too
-  private var secondWheel: some View {
-    Picker("", selection: $seconds) {
-      ForEach(0...maxSeconds, id: \.self) { v in
-        Text(String(format: "%02d", v))
-          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 25))
-          .foregroundColor(.white)
-          .tag(v)
-      }
-    }
-    .background(.gray.opacity(0))
-    .pickerStyle(.wheel)
-    .buttonStyle(.borderless)
-    .scaleEffect(2)
-    .frame(width: 100, height: 60)
-    .clipped()
-  }
+  struct Current5KPage: View {
 
-  var body: some View {
-    ZStack {
-      Image("surveyQuestionBackground")
-        .resizable()
-        .scaledToFill()
-        .edgesIgnoringSafeArea(.all)
+    let label: String
+    // the total number of seconds of the 5k
+    @Binding var totalSeconds: Int
+    let onNext: () -> Void
 
-      // foreground
-      VStack(spacing: 40) {
-        Text("What is your \ncurrent \nestimated 5k \nfitness?")
-          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
-          .foregroundColor(.white)
-          .multilineTextAlignment(.leading)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.leading, 30)
+    /// Local state for the two wheels
+    @State private var minutes: Int = 0
+    @State private var seconds: Int = 0
 
-        Rectangle()
-          .fill(.white)
-          .frame(height: 1.5)
-          .frame(maxWidth: .infinity)
-          .padding(.horizontal, 30)
+    private let maxMinutes = 59
+    private let maxSeconds = 59
 
-        HStack(spacing: 0) {
-          minuteWheel
-
-          Text(":")
-            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 60))
+    private var minuteWheel: some View {
+      Picker("", selection: $minutes) {
+        ForEach(12...maxMinutes, id: \.self) { v in
+          Text(String(format: "%02d", v))
+            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 25))
             .foregroundColor(.white)
-            .frame(width: 30)
-          secondWheel
+            .tag(v)
         }
-        .frame(maxWidth: .infinity)
-
-        SurveyNextButton(
-          action: {
-            totalSeconds = minutes * 60 + seconds
-            onNext()
-          },
-          color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
-        )
-        .padding(.top, 75)
-        CompletionBar(
-          background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
-          height: 15, percentComplete: 7 / (numQuestions)
-        )
-        .padding(.top, 10)
-
       }
-      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-      .padding(.bottom, 80)
-
-      .onAppear {
-        minutes = totalSeconds / 60
-        seconds = totalSeconds % 60
-      }
-      // 6) Keep binding live if wheel spins before Next
-      .onChange(of: minutes) { newMin in
-        totalSeconds = newMin * 60 + seconds
-      }
-      .onChange(of: seconds) { newSec in
-        totalSeconds = minutes * 60 + newSec
-      }
+      .pickerStyle(.wheel)
+      .buttonStyle(.borderless)
+      .scaleEffect(2)
+      .frame(width: 100, height: 60)
+      .clipped()
     }
-  }
-}
 
-struct MajorInjuriesPage: View {
-  let label: String
-  @Binding var selection: Int
-  let options: [Int]
-  let onNext: () -> Void
-
-  private func title(for option: Int) -> String {
-    switch option {
-    case 1: return "1-2"
-    case 3: return "3+"
-    default: return "0"
-    }
-  }
-
-  private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
-
-  var body: some View {
-    ZStack {
-      Image("surveyQuestionBackground")
-        .resizable()
-        .scaledToFill()
-        .edgesIgnoringSafeArea(.all)
-
-      VStack(spacing: 40) {
-        Text("How many major \ninjuries have you \nhad in the past 2 \nyears?")
-          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 36))
-          .foregroundColor(.white)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.leading, 30)
-
-        Rectangle()
-          .fill(Color.white)
-          .frame(height: 1.5)
-          .frame(maxWidth: .infinity)
-          .padding(.horizontal, 30)
-
-        VStack(spacing: 10) {
-          ForEach(options, id: \.self) { option in
-            SurveySelectionButton(
-              title: title(for: option),
-              isSelected: selection == option,
-              height: 70
-            ) {
-              selection = option
-            }
-          }
-        }
-        SurveyNextButton(
-          action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
-        )
-        .padding(.top, 20)
-        CompletionBar(
-          background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
-          height: 15, percentComplete: 8 / (numQuestions)
-        )
-        .padding(.top, 10)
-      }
-      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-      .padding(.bottom, 80)
-    }
-  }
-}
-
-struct RecentInjuryPage: View {
-  let label: String
-  @Binding var selection: Int
-  let options: [Int]
-  let onNext: () -> Void
-
-
-  // Remember to ask about what the actual options should be
-  private func title(for option: Int) -> String {
-    switch option {
-    case 0: return "<2"
-    case 3: return "2-4"
-    case 6: return "4+"
-    default: return "0"
-    }
-  }
-
-  private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
-
-  var body: some View {
-    ZStack {
-      Image("surveyQuestionBackground")
-        .resizable()
-        .scaledToFill()
-        .edgesIgnoringSafeArea(.all)
-
-      VStack(spacing: 40) {
-        Text("How many months \nhas it been since \nyour most recent \ninjury?")
-          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 36))
-          .foregroundColor(.white)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.leading, 30)
-
-        Rectangle()
-          .fill(Color.white)
-          .frame(height: 1.5)
-          .frame(maxWidth: .infinity)
-          .padding(.horizontal, 30)
-
-        VStack(spacing: 10) {
-          ForEach(options, id: \.self) { option in
-            SurveySelectionButton(
-              title: title(for: option),
-              isSelected: selection == option,
-              height: 70
-            ) {
-              selection = option
-            }
-          }
-        }
-        SurveyNextButton(
-          action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
-        )
-        .padding(.top, 20)
-        CompletionBar(
-          background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
-          height: 15, percentComplete: 9 / (numQuestions)
-        )
-        .padding(.top, 10)
-      }
-      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-      .padding(.bottom, 80)
-    }
-  }
-}
-
-struct LongestRunPage: View {
-
-  let label: String
-  // the total length of the run
-  @Binding var runLength: Int
-  let onNext: () -> Void
-
-  /// Local state for the two wheels
-  @State private var miles: Int = 0
-
-  private let maxMiles = 25
-
-  private var lengthWheel: some View {
-    Picker("", selection: $miles) {
-      ForEach(0...maxMiles, id: \.self) { v in
-        Text(String(format: "%d", v))
-          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 25))
-          .foregroundColor(.white)
-          .tag(v)
-      }
-    }
-    .pickerStyle(.wheel)
-    .buttonStyle(.borderless)
-    .scaleEffect(2)
-    .frame(width: 100, height: 60)
-    .clipped()
-  }
-
-  var body: some View {
-    ZStack {
-      Image("surveyQuestionBackground")
-        .resizable()
-        .scaledToFill()
-        .edgesIgnoringSafeArea(.all)
-
-      // foreground
-      VStack(spacing: 40) {
-        Text("What is the length\n of your longest \nconsistent run of the week?")
-          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 36))
-          .foregroundColor(.white)
-          .multilineTextAlignment(.leading)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.leading, 30)
-
-        Rectangle()
-          .fill(.white)
-          .frame(height: 1.5)
-          .frame(maxWidth: .infinity)
-          .padding(.horizontal, 30)
-
-        HStack (spacing: 0) {
-          lengthWheel
-
-          Text("miles")
-            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 60))
+    // 2) And the second‐wheel too
+    private var secondWheel: some View {
+      Picker("", selection: $seconds) {
+        ForEach(0...maxSeconds, id: \.self) { v in
+          Text(String(format: "%02d", v))
+            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 25))
             .foregroundColor(.white)
+            .tag(v)
         }
-        .frame(maxWidth: .infinity)
-
-        SurveyNextButton(
-          action: {
-            onNext()
-          },
-          color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
-        )
-        .padding(.top, 75)
-        CompletionBar(
-          background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
-          height: 15, percentComplete: 10 / (numQuestions)
-        )
-        .padding(.top, 10)
-
       }
-      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-      .padding(.bottom, 80)
+      .background(.gray.opacity(0))
+      .pickerStyle(.wheel)
+      .buttonStyle(.borderless)
+      .scaleEffect(2)
+      .frame(width: 100, height: 60)
+      .clipped()
     }
-  }
-}
 
-struct GoalDatePage: View {
-  let label: String
-  @Binding var date: Date
-  let onNext: () -> Void
+    var body: some View {
+      ZStack {
+        Image("surveyQuestionBackground")
+          .resizable()
+          .scaledToFill()
+          .edgesIgnoringSafeArea(.all)
 
-  var body: some View {
-    ZStack {
-      Image("surveyQuestionBackground")
-        .resizable()
-        .scaledToFill()
-        .edgesIgnoringSafeArea(.all)
+        // foreground
+        VStack(spacing: 40) {
+          Text("What is your \ncurrent \nestimated 5k \nfitness?")
+            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
+            .foregroundColor(.white)
+            .multilineTextAlignment(.leading)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 30)
 
-      // foreground
-      VStack(spacing: 40) {
-        Text("What is \nthe date of your \nmost important race?")
-          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
-          .foregroundColor(.white)
-          .multilineTextAlignment(.leading)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.leading, 30)
+          Rectangle()
+            .fill(.white)
+            .frame(height: 1.5)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 30)
 
-        Rectangle()
-          .fill(.white)
-          .frame(height: 1.5)
+          HStack(spacing: 0) {
+            minuteWheel
+
+            Text(":")
+              .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 60))
+              .foregroundColor(.white)
+              .frame(width: 30)
+            secondWheel
+          }
           .frame(maxWidth: .infinity)
-          .padding(.horizontal, 30)
 
-        DatePicker("", selection: $date, displayedComponents: .date)
-          .datePickerStyle(WheelDatePickerStyle())
-          .labelsHidden()
-          .colorScheme(.dark)
-          .cornerRadius(8)
+          SurveyNextButton(
+            action: {
+              totalSeconds = minutes * 60 + seconds
+              onNext()
+            },
+            color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
+          )
+          .padding(.top, 75)
+          CompletionBar(
+            background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
+            height: 15, percentComplete: 7 / (numQuestions)
+          )
+          .padding(.top, 10)
 
-        SurveyNextButton(
-          action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
-        )
-        .padding(.top, 30)
-        CompletionBar(
-          background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
-          height: 15, percentComplete: 11 / (numQuestions)
-        )
-        .padding(.top, 10)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .padding(.bottom, 80)
 
+        .onAppear {
+          minutes = totalSeconds / 60
+          seconds = totalSeconds % 60
+        }
+        // 6) Keep binding live if wheel spins before Next
+        .onChange(of: minutes) { newMin in
+          totalSeconds = newMin * 60 + seconds
+        }
+        .onChange(of: seconds) { newSec in
+          totalSeconds = minutes * 60 + newSec
+        }
       }
-      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-      .padding(.bottom, 80)
+    }
+  }
+
+  struct MajorInjuriesPage: View {
+    let label: String
+    @Binding var selection: Int
+    let options: [Int]
+    let onNext: () -> Void
+
+    private func title(for option: Int) -> String {
+      switch option {
+      case 1: return "1-2"
+      case 3: return "3+"
+      default: return "0"
+      }
+    }
+
+    private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
+
+    var body: some View {
+      ZStack {
+        Image("surveyQuestionBackground")
+          .resizable()
+          .scaledToFill()
+          .edgesIgnoringSafeArea(.all)
+
+        VStack(spacing: 40) {
+          Text("How many major \ninjuries have you \nhad in the past 2 \nyears?")
+            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 36))
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 30)
+
+          Rectangle()
+            .fill(Color.white)
+            .frame(height: 1.5)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 30)
+
+          VStack(spacing: 10) {
+            ForEach(options, id: \.self) { option in
+              SurveySelectionButton(
+                title: title(for: option),
+                isSelected: selection == option,
+                height: 70
+              ) {
+                selection = option
+              }
+            }
+          }
+          SurveyNextButton(
+            action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
+          )
+          .padding(.top, 20)
+          CompletionBar(
+            background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
+            height: 15, percentComplete: 8 / (numQuestions)
+          )
+          .padding(.top, 10)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .padding(.bottom, 80)
+      }
+    }
+  }
+
+  struct RecentInjuryPage: View {
+    let label: String
+    @Binding var selection: Int
+    let options: [Int]
+    let onNext: () -> Void
+
+    // Remember to ask about what the actual options should be
+    private func title(for option: Int) -> String {
+      switch option {
+      case 0: return "<2"
+      case 3: return "2-4"
+      case 6: return "4+"
+      default: return "0"
+      }
+    }
+
+    private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
+
+    var body: some View {
+      ZStack {
+        Image("surveyQuestionBackground")
+          .resizable()
+          .scaledToFill()
+          .edgesIgnoringSafeArea(.all)
+
+        VStack(spacing: 40) {
+          Text("How many months \nhas it been since \nyour most recent \ninjury?")
+            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 36))
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 30)
+
+          Rectangle()
+            .fill(Color.white)
+            .frame(height: 1.5)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 30)
+
+          VStack(spacing: 10) {
+            ForEach(options, id: \.self) { option in
+              SurveySelectionButton(
+                title: title(for: option),
+                isSelected: selection == option,
+                height: 70
+              ) {
+                selection = option
+              }
+            }
+          }
+          SurveyNextButton(
+            action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
+          )
+          .padding(.top, 20)
+          CompletionBar(
+            background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
+            height: 15, percentComplete: 9 / (numQuestions)
+          )
+          .padding(.top, 10)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .padding(.bottom, 80)
+      }
+    }
+  }
+
+  struct LongestRunPage: View {
+
+    let label: String
+    // the total length of the run
+    @Binding var runLength: Int
+    let onNext: () -> Void
+
+    /// Local state for the two wheels
+    @State private var miles: Int = 0
+
+    private let maxMiles = 25
+
+    private var lengthWheel: some View {
+      Picker("", selection: $miles) {
+        ForEach(0...maxMiles, id: \.self) { v in
+          Text(String(format: "%d", v))
+            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 25))
+            .foregroundColor(.white)
+            .tag(v)
+        }
+      }
+      .pickerStyle(.wheel)
+      .buttonStyle(.borderless)
+      .scaleEffect(2)
+      .frame(width: 100, height: 60)
+      .clipped()
+    }
+
+    var body: some View {
+      ZStack {
+        Image("surveyQuestionBackground")
+          .resizable()
+          .scaledToFill()
+          .edgesIgnoringSafeArea(.all)
+
+        // foreground
+        VStack(spacing: 40) {
+          Text("What is the length\n of your longest \nconsistent run of the week?")
+            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 36))
+            .foregroundColor(.white)
+            .multilineTextAlignment(.leading)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 30)
+
+          Rectangle()
+            .fill(.white)
+            .frame(height: 1.5)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 30)
+
+          HStack(spacing: 0) {
+            lengthWheel
+
+            Text("miles")
+              .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 60))
+              .foregroundColor(.white)
+          }
+          .frame(maxWidth: .infinity)
+
+          SurveyNextButton(
+            action: {
+              onNext()
+            },
+            color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
+          )
+          .padding(.top, 75)
+          CompletionBar(
+            background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
+            height: 15, percentComplete: 10 / (numQuestions)
+          )
+          .padding(.top, 10)
+
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .padding(.bottom, 80)
+      }
+    }
+  }
+
+  struct GoalDatePage: View {
+    let label: String
+    @Binding var date: Date
+    let onNext: () -> Void
+
+    var body: some View {
+      ZStack {
+        Image("surveyQuestionBackground")
+          .resizable()
+          .scaledToFill()
+          .edgesIgnoringSafeArea(.all)
+
+        // foreground
+        VStack(spacing: 40) {
+          Text("What is \nthe date of your \nmost important race?")
+            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
+            .foregroundColor(.white)
+            .multilineTextAlignment(.leading)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 30)
+
+          Rectangle()
+            .fill(.white)
+            .frame(height: 1.5)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 30)
+
+          DatePicker("", selection: $date, displayedComponents: .date)
+            .datePickerStyle(WheelDatePickerStyle())
+            .labelsHidden()
+            .colorScheme(.dark)
+            .cornerRadius(8)
+
+          SurveyNextButton(
+            action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
+          )
+          .padding(.top, 30)
+          CompletionBar(
+            background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
+            height: 15, percentComplete: 11 / (numQuestions)
+          )
+          .padding(.top, 10)
+
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .padding(.bottom, 80)
+      }
     }
   }
 }
-
-

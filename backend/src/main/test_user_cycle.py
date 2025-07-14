@@ -52,3 +52,5 @@ def test_user_cycle():
     print(return_user.user_id)
     
     print(return_user.sex)
+    
+test_user_cycle()
