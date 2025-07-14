@@ -5,7 +5,7 @@ import datetime
 from backend.src.utils.user_storage.storage_stacks_and_queues import storage_stacks_and_queues
 import backend.src.utils.time_conversion as tc
 import backend.src.utils.user_storage.training_database as training_database
-#from backend.src.utils.pace_calculations import get_training_pace_helper
+from backend.src.utils.pace_calculations import get_training_pace_helper
 
 
 FIVEKDIST, METERS_PER_MILE = 5000, 1600  # Distance conversions
