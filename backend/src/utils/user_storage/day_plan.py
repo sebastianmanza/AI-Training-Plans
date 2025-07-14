@@ -21,27 +21,30 @@ class day_plan:
         self.percent_completion = percent_completion
         self.goal_stimuli = goal_stimuli
 
-        if len(workouts) < 1:  # If there are no workouts the stimuli is for an off day
-            self.goal_stimuli = workouts[0]
-        else:  # Otherwise
-            # Initialize values representing the days trio
-            tot_stim, tot_rpe, tot_dist = 0, 0, 0
-            for trios in workouts:
-                # Only consider the stimuli if the distance > 1 (Ignore warmup/cooldown)
-                if (trios[TRIO_STIM] > tot_stim and trios[TRIO_DIST] > 1):
-                    tot_stim = trios[TRIO_STIM]
-                if (trios[TRIO_RPE] > tot_rpe):
-                    tot_rpe = trios[TRIO_RPE]
-                tot_dist += trios[TRIO_DIST]
-            self.goal_stimuli = workout_database.create_trio(
-                tot_stim, tot_rpe, tot_dist)  # Use the values to create the day trio
-
         self.lift = lift
         self.expected_rpe = expected_rpe
         self.real_rpe = real_rpe
         self.workouts = workouts
 
         self.week_id = week_id  # Reference to the week plan this day belongs to
+
+        if len(workouts) < 1:  # If there are no workouts the stimuli is for an off day
+            self.goal_stimuli = workouts[0]
+            return
+        
+        # Initialize values representing the days trio
+        tot_stim, tot_rpe, tot_dist = 0, 0, 0
+        for trios in workouts:
+            # Only consider the stimuli if the distance > 1 (Ignore warmup/cooldown)
+            if (trios[TRIO_STIM] > tot_stim and trios[TRIO_DIST] > 1):
+                tot_stim = trios[TRIO_STIM]
+            if (trios[TRIO_RPE] > tot_rpe):
+                tot_rpe = trios[TRIO_RPE]
+            tot_dist += trios[TRIO_DIST]
+        self.goal_stimuli = workout_database.create_trio(
+            tot_stim, tot_rpe, tot_dist)  # Use the values to create the day trio
+
+        
 
     # May not be used if initialized workouts are final
     def add_workouts(self, *workouts) -> None:

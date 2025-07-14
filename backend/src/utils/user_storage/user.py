@@ -88,13 +88,13 @@ class user:
 
     def set_pace(self, distance: int, new_pace) -> None:
         if isinstance(new_pace, str):
-            self.pace_times_dict[distance] = tc.mile_pace(new_pace, distance)
+            self.pace_estimates[distance] = tc.mile_pace(new_pace, distance)
         else:
-            self.pace_times_dict[distance] = new_pace
+            self.pace_estimates[distance] = new_pace
 
     # Returns the mile pace for a given distance in seconds.
     def get_pace(self, distance: int) -> int:
-        return self.pace_times_dict[distance]
+        return self.pace_estimates[distance]
 
     # Makes the predictions for every distance in DISTANCES.
     def make_predictions(self) -> None:
@@ -109,7 +109,7 @@ class user:
     # Returns the mile pace for each distance.
     def get_times(self) -> str:
         toReturn = ""
-        for k, v in self.pace_times_dict.items():
+        for k, v in self.pace_estimates.items():
             toReturn += f"{k}:{tc.to_str(v)}\n"
         return toReturn
 

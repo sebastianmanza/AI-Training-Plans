@@ -8,6 +8,12 @@ class month_plan:
 
     def __init__(self, month_id: int = -1, total_mileage: int = 0, goal_stimuli=workout_database.create_trio(0, 0, 0), cycle: str = "", expected_rpe: int = 0, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, weeks: list = []):
 
+        self.weeks = weeks
+        for week in self.weeks:
+            # Ensure that each week is of type week_plan
+            if not isinstance(week, week_plan.week_plan):
+                raise TypeError(
+                    "All weeks must be instances of week_plan.week_plan")
         self.month_id = month_id
         self.total_mileage = total_mileage
         self.completed_mileage = completed_mileage
@@ -16,12 +22,6 @@ class month_plan:
         self.goal_stimuli = goal_stimuli
         self.cycle = cycle
 
-        self.weeks = weeks
-        for week in self.weeks:
-            # Ensure that each week is of type week_plan
-            if not isinstance(week, week_plan.week_plan):
-                raise TypeError(
-                    "All weeks must be instances of week_plan.week_plan")
         self.expected_rpe = expected_rpe
         self.real_rpe = real_rpe
 
