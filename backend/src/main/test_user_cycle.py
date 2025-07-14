@@ -24,7 +24,12 @@ database = txt_to_database("backend/data/raw/training_plan_test.txt")
 # print(database._instance_)
 
 
-test_user = user(12345, "male", "advanced", "17:45", 4, 5, 2)
+my_dict = {'a': 1, 'b': 2, 'c': 3}
+available_days = ["mon", "fri", "sat"]
+workout_RPE = my_dict
+list_of_workout_RPE = list(workout_RPE.items())
+
+test_user = user("06/27/2004", "M", "Advanced", 1, 1, 12, "Aug", my_dict, available_days, 3, 1, list_of_workout_RPE)
 test_user.day_future = database.day
 test_user.week_future = database.week
 test_user.month_future = database.month
@@ -37,11 +42,7 @@ def test_user_cycle():
 # test_user = main.prelim_survey()
     send_user_all(test_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 
-<<<<<<< HEAD
-#     return_user = populate_user_info(test_user.user_id)
-=======
     return_user = populate_user_info(test_user.user_id)
->>>>>>> 15b89316ba5e461379bbca3c4a554a5cd240fb74
 #     print("User information retrieved")
 
 #     # print(database.day.get().expected_rpe)
@@ -57,8 +58,4 @@ def test_user_cycle():
 #     print(return_user.day_future.get().workouts)
 
 
-<<<<<<< HEAD
 test_user_cycle()
-=======
-test_user_cycle()
->>>>>>> 15b89316ba5e461379bbca3c4a554a5cd240fb74
