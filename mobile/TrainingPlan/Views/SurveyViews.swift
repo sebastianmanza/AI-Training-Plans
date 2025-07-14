@@ -17,7 +17,9 @@ struct SurveyViews: View {
     case mostTimeDay
     case current5k
     case majorInjuries
-    //    case recentInjury
+    case recentInjury
+    // case longest longRun
+    // case goalDate
   }
 
   private let dobFormatter: DateFormatter = {
@@ -100,19 +102,20 @@ struct SurveyViews: View {
         MajorInjuriesPage(
           label: "Major injuries",
           selection: $vm.majorInjuries,
-          options: ["0", "1-2", "3+"]
+          options: [0, 1, 3]
         ) {
           onSurveyComplete()
           // currentStep = .recentInjury
         }
 
-      // case .recentInjury:
-      //   RecentInjuryPage(
-      //     label: "Most recent injury",
-      //     text: $vm.recentInjury
-      //   ) {
-      //     Task { await vm.submit() }
-      //   }
+      case .recentInjury:
+        RecentInjuryPage(
+          label: "Most recent injury",
+          selection: $vm.recentInjury,
+          options: [0, 1, 2, 3]
+        ) {
+          Task { await vm.submit() }
+        }
 
       }
     }
@@ -125,15 +128,18 @@ struct IntroPage: View {
 
   var body: some View {
     ZStack {
-        
+
       Color(red: 20 / 255, green: 18 / 255, blue: 50 / 255)
-            .ignoresSafeArea()
-        
+        .ignoresSafeArea()
+
       LinearGradient(
         gradient: Gradient(stops: [
-            .init(color: Color(red:   0/255, green: 106/255, blue: 255/255), location: 0.0),
-            .init(color: Color(red:   0/255, green: 226/255, blue: 188/255).opacity(0.2), location: 0.55),
-            .init(color: Color(red:   0/255, green: 226/255, blue: 188/255).opacity(0), location: 0.7)
+          .init(color: Color(red: 0 / 255, green: 106 / 255, blue: 255 / 255), location: 0.0),
+          .init(
+            color: Color(red: 0 / 255, green: 226 / 255, blue: 188 / 255).opacity(0.2),
+            location: 0.55),
+          .init(
+            color: Color(red: 0 / 255, green: 226 / 255, blue: 188 / 255).opacity(0), location: 0.7),
         ]),
         startPoint: .top,
         endPoint: .bottom
@@ -714,9 +720,17 @@ struct Current5KPage: View {
 
 struct MajorInjuriesPage: View {
   let label: String
-  @Binding var selection: String
-  let options: [String]
+  @Binding var selection: Int
+  let options: [Int]
   let onNext: () -> Void
+
+  private func title(for option: Int) -> String {
+    switch option {
+    case 1: return "1-2"
+    case 3: return "3+"
+    default: return "0"
+    }
+  }
 
   private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
 
@@ -766,3 +780,72 @@ struct MajorInjuriesPage: View {
     }
   }
 }
+
+struct RecentInjuryPage: View {
+  let label: String
+  @Binding var selection: Int
+  let options: [Int]
+  let onNext: () -> Void
+
+
+  // Remember to ask about what the actual options should be
+  private func title(for option: Int) -> String {
+    switch option {
+    case 1: return "< 2"
+    case 2: return "2-4"
+    case 3: return "4+"
+    default: return "0"
+    }
+  }
+
+  private let themeColor = Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
+
+  var body: some View {
+    ZStack {
+      Image("surveyQuestionBackground")
+        .resizable()
+        .scaledToFill()
+        .edgesIgnoringSafeArea(.all)
+
+      VStack(spacing: 40) {
+        Text("How many months \nhas it been since \nyour most recent \ninjury?")
+          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 36))
+          .foregroundColor(.white)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.leading, 30)
+
+        Rectangle()
+          .fill(Color.white)
+          .frame(height: 1.5)
+          .frame(maxWidth: .infinity)
+          .padding(.horizontal, 30)
+
+        VStack(spacing: 10) {
+          ForEach(options, id: \.self) { option in
+            SurveySelectionButton(
+              title: String(option),
+              isSelected: selection == option,
+              height: 70
+            ) {
+              selection = option
+            }
+          }
+        }
+        SurveyNextButton(
+          action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
+        )
+        .padding(.top, 20)
+        CompletionBar(
+          background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
+          height: 15, percentComplete: 8 / (numQuestions)
+        )
+        .padding(.top, 10)
+      }
+      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+      .padding(.bottom, 80)
+    }
+  }
+}
+
+
+

@@ -42,7 +42,12 @@ def test_user_cycle():
 # test_user = main.prelim_survey()
     send_user_all(test_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 
+<<<<<<< HEAD
     return_user = populate_user_info(test_user.user_id)
+=======
+#     return_user = populate_user_info(test_user.user_id)
+
+>>>>>>> 88823295eed6cb4bb7730d3b38f4edbc162ddf87
 #     print("User information retrieved")
 
 #     # print(database.day.get().expected_rpe)
@@ -58,4 +63,10 @@ def test_user_cycle():
 #     print(return_user.day_future.get().workouts)
 
 
+<<<<<<< HEAD
 test_user_cycle()
+=======
+#test_user_cycle()
+
+ 
+>>>>>>> 88823295eed6cb4bb7730d3b38f4edbc162ddf87

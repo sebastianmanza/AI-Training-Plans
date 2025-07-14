@@ -1,16 +1,17 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from datetime import datetime, date
+from datetime import datetime
+from typing import Optional
 
 from backend.scripts.txt_to_database import txt_to_database
+from backend.src.utils import user_creation
 from backend.src.utils.workout.workout_database import workout_database
 from backend.src.main.frontend_compatible_survey import main as SurveyMain
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.user_send import send_user_info
-# from backend.src.utils import user_creation
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
-from backend.src.utils.user_storage.user import user
+from backend.src.utils.user_storage.user import FIVEK, user
 from backend.src.utils.time_conversion import to_str
 
 app = FastAPI()
@@ -26,15 +27,18 @@ app.add_middleware(
 class SurveyIn(BaseModel):
     """SurveyIn is a Pydantic model that represents the input for the preliminary survey.
     """
+    user_id: int
     date_of_birth: str
     sex: str
     running_experience: str
+    major_injuries: int
+    most_recent_injury: int
+    longest_run: int
+    goal_date: str
     days_per_week: int
     days_of_week: list
     most_time_day: str
     current_5k_fitness: int
-    major_injuries: str
-    most_recent_injury: str
 
 # Endpoint for preliminary survey
     
@@ -54,7 +58,6 @@ class SignupIn(BaseModel):
     email: str
     username: str
     password: str
-    survey: dict  
     
 class LoginIn(BaseModel):
     """LoginIn is a Pydantic model that represents the input for user login.
@@ -65,7 +68,8 @@ class LoginIn(BaseModel):
 class AuthOut(BaseModel):
     """AuthOut is a Pydantic model that represents the output for user authentication (login and signup)
     """
-    user_id: int
+    user_id: Optional[int]
+    error_code: Optional[int]
 
 @app.post("/survey/prelim")
 async def survey_prelim(payload: SurveyIn):
@@ -118,9 +122,10 @@ async def get_home_data(user_id: int = 0):
         
     # For now, we will use a placeholder for our training plans
     database = txt_to_database("backend/data/raw/training_plan_test.txt")
-    test_user = user("3/17/2005", sex = "Male", running_ex="Advanced", five_km_estimate="15:10", goal_date=date(2024, 5, 1), mean_RPE=5, STD_RPE=2)
+    test_user = user("3/17/2005", sex = "Male", running_ex="Advanced", injury = 0, most_recent_injury= 0, longest_run = 10, goal_date = "10/18/24", available_days = [1, 1, 1, 1, 1, 1, 1], number_of_days = 5)
+    test_user.pace_estimates[FIVEK] = 307  # 5k pace in seconds
     test_user.day_future = database.day
-    test_user.week_future = database.week
+    test_user.week_future = database.week 
     test_user.month_future = database.month
     
     current_day = test_user.day_future.get()
@@ -154,25 +159,27 @@ async def signup(payload: SignupIn):
     """ signup is an endpoint that handles user signup.
 
     Args:
-        payload (SignupIn): A Pydantic model that contains the user's signup information, including email, username, password, and survey data.
+        payload (SignupIn): A Pydantic model that contains the user's signup information, including email, username, and password.
 
     Raises:
         HTTPException: If an error occurs during the signup process, an HTTPException is raised with a status code of 500 and the error message.
 
     Returns:
-        AuthOut: A Pydantic model containing the user ID of the newly created user.
+        AuthOut: An authorization output model containing the user ID if the signup is successful, or an error code if the username/email already exists.
     """
     try:
-        new_user = user_creation.user_create(
-            email=payload.email,
-            username=payload.username,
-            password=payload.password,
-            survey=payload.survey
-        )
+        dict = payload.model_dump()
+        bool, userid_or_error_code = user_creation.user_exists(dict)
+        if bool:
+            user_creation.send_user_creds(userid_or_error_code, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], dict)
+            # return the userid to the session
+            return AuthOut(user_id = userid_or_error_code)
         
-        send_user_info(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+        else:
+            return AuthOut(error_code = userid_or_error_code)
+        # Error code 0 indicates the username exists
+        # Error code 1 indicates the email exists
         
-        return AuthOut(user_id=new_user.user_id)
     except Exception as e:
         # surface errors as HTTP 500
         raise HTTPException(status_code=500, detail=str(e))
@@ -192,16 +199,16 @@ async def login(payload: LoginIn):
         AuthOut: A Pydantic model containing the user ID of the logged-in user.
     """
     try:
-        user = user_creation.user_login(
-            username=payload.username,
-            password=payload.password
-        )
-        
-        if not user:
-            raise HTTPException(status_code=401, detail="Invalid credentials")
-        
-        return AuthOut(user_id=user.user_id)
+        dict = payload.model_dump()
+        userid = user_creation.credential_check(dict["username"], dict["password"])
+        if userid == 0:
+            return AuthOut(error_code=1)  # Error code 1 indicates invalid credentials
+
+        return AuthOut(user_id=userid)
     except Exception as e:
         # surface errors as HTTP 500
         raise HTTPException(status_code=500, detail=str(e))
     
+@app.get("/ping")
+async def ping():
+    return {"ok": True}

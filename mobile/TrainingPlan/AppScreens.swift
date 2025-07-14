@@ -7,8 +7,9 @@ enum currentView {
     case signup
     case login
     case home
+    case debugger
 }
 
 class AppScreens: ObservableObject {
-    @Published var currentScreen: currentView = .start
+    @Published var currentScreen: currentView = .debugger
 }
