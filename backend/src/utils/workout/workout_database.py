@@ -19,19 +19,19 @@ class workout_database:
     # x range is 1 - 7 stimulus, y range is 1 -10 RPE, z range is 1 - 10 Distance
     # Dictionary that maps trios of (x, y, z) coordinates to workout types.
     workout_dictionary = {
-        create_trio(2.5, 4, 5.5): "Easy Run",
-        create_trio(2, 3, 4.5): "Recovery Run",
-        create_trio(4, 6, 6): "Progression",
-        create_trio(2.5, 5, 10): "Long Run",
-        create_trio(4.5, 7, 7.5): "Threshold",
-        create_trio(5, 6, 7): "Fartlek",
-        create_trio(5.5, 8, 6.5): "Race Pace Interval",
-        create_trio(6.5, 2, .5): "Strides",
-        create_trio(7, 3, .5): "Hill Sprints",
-        create_trio(7, 6, .5): "Flat Sprints",
-        create_trio(6, 10, 3): "Time Trial",
-        create_trio(1, 2, 3): "Warmup and Cooldown",
-        create_trio(0, 0, 0,): "Off"
+        create_trio.__func__(2.5, 4, 5.5): "Easy Run",
+        create_trio.__func__(2, 3, 4.5): "Recovery Run",
+        create_trio.__func__(4, 6, 6): "Progression",
+        create_trio.__func__(2.5, 5, 10): "Long Run",
+        create_trio.__func__(4.5, 7, 7.5): "Threshold",
+        create_trio.__func__(5, 6, 7): "Fartlek",
+        create_trio.__func__(5.5, 8, 6.5): "Race Pace Interval",
+        create_trio.__func__(6.5, 2, .5): "Strides",
+        create_trio.__func__(7, 3, .5): "Hill Sprints",
+        create_trio.__func__(7, 6, .5): "Flat Sprints",
+        create_trio.__func__(6, 10, 3): "Time Trial",
+        create_trio.__func__(1, 2, 3): "Warmup and Cooldown",
+        create_trio.__func__(0, 0, 0,): "Off"
     }
 
     def __init__(self, et=list, recovery=list, kenyan=list,

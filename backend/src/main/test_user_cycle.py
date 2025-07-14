@@ -22,14 +22,12 @@ from backend.src.utils.user_storage.user import user
 
 database = txt_to_database("backend/data/raw/training_plan_test.txt")
 # print(database._instance_)
+my_dict = [12, 34, 45]
+available_days = ["Mon", "Fri", "Sat"]
+list_of_workouts = [1.1, 2.2, 3.3]
+login_info = ["conballs@gmail.com", "concon", "secure_password"]
 
-
-my_dict = {'a': 1, 'b': 2, 'c': 3}
-available_days = ["mon", "fri", "sat"]
-workout_RPE = my_dict
-list_of_workout_RPE = list(workout_RPE.items())
-
-test_user = user("06/27/2004", "M", "Advanced", 1, 1, 12, "Aug", my_dict, available_days, 3, 1, list_of_workout_RPE)
+test_user = user("Aug", "M", "Advanced", 1, 2, 12, "Nov", my_dict, available_days, 7, 100, list_of_workouts)
 test_user.day_future = database.day
 test_user.week_future = database.week
 test_user.month_future = database.month
@@ -40,25 +38,17 @@ def test_user_cycle():
     Test the user cycle functionality.
     """
 # test_user = main.prelim_survey()
-    send_user_all(test_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+    send_user_all(test_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], login_info)
 
-#     return_user = populate_user_info(test_user.user_id)
+    return_user = populate_user_info(test_user.user_id)
+# #     print("User information retrieved")
 
-#     print("User information retrieved")
-
-#     # print(database.day.get().expected_rpe)
-#     # print("Day future expected RPE")
-#     # print(test_user.day_future.get().expected_rpe)
-#     # print("working")
-#     # return
-#     # print(test_user.user_id)
-#     print(return_user.user_id)
-#     print(return_user.age)
-#     print(return_user.sex)
-
-#     print(return_user.day_future.get().workouts)
-
-
-#test_user_cycle()
-
- 
+# #     # print(database.day.get().expected_rpe)
+# #     # print("Day future expected RPE")
+# #     # print(test_user.day_future.get().expected_rpe)
+# #     # print("working")
+# #     # return
+    print(test_user.user_id)
+    print(return_user.user_id)
+    
+    print(return_user.sex)

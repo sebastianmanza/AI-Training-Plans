@@ -5,7 +5,8 @@ import datetime
 from backend.src.utils.user_storage.storage_stacks_and_queues import storage_stacks_and_queues
 import backend.src.utils.time_conversion as tc
 import backend.src.utils.user_storage.training_database as training_database
-from backend.src.utils.pace_calculations import get_training_pace_helper
+#from backend.src.utils.pace_calculations import get_training_pace_helper
+
 
 FIVEKDIST, METERS_PER_MILE = 5000, 1600  # Distance conversions
 CALCNUM = 1.06  # Exponent for pace prediction
@@ -34,13 +35,13 @@ class user:
             most_recent_injury: --int: The number of months ago the users most recent injury occured
             longest_run: --int: The users longest average weekly long run
             goal_date: --string: The date of the users most important race
+            pace_estimates: --list: The users pace estimates (in sec/mile) for each distance: please just type it out using the defined variables above. 
+                Also initialize all your lists to -1 so we can check if they are set.
             available_dats: --list: The days of the week the user can run in the form of:
                                     0 - unavailable
                                     1 - available
                                     2 - long run
             number_of_days: --int: The number of days a user wants to run per week
-            pace_estimates: --list: The users pace estimates (in sec/mile) for each distance: please just type it out using the defined variables above. 
-                Also initialize all your lists to -1 so we can check if they are set.
             user_id: --int The user's id
             workout_RPE: --dict: Users mean RPE for each type of run
         """
@@ -67,7 +68,8 @@ class user:
         self.week_future = storage.week_future
         self.day_future = storage.day_future
         #additional information
-        self.age = self.get_age()
+        #self.age = self.get_age()
+
 
         
 
@@ -119,13 +121,15 @@ class user:
     def generate_new_id(self) -> None:
         self.user_id = secrets.randbelow(100000000 - 10000000)
 
-    def get_age(self) -> int:
-        """Returns the number of years the user has been alive as an int"""
-        today = datetime.date.today()
-        dob = datetime.datetime.strptime(self.dob, "%m/%d/%Y").date()
-        age = today.year - dob.year - \
-            ((today.month, today.day) < (dob.month, dob.day))
-        return age
+
+    # def get_age(self) -> int:
+    #     """Returns the number of years the user has been alive as an int"""
+    #     today = datetime.date.today()
+    #     dob = datetime.datetime.strptime(self.dob, "%m/%d/%Y").date()
+    #     age = today.year - dob.year - \
+    #         ((today.month, today.day) < (dob.month, dob.day))
+    #     return age
+
 
     # update training
 
@@ -177,6 +181,7 @@ class user:
         return tc.alter_pace(seconds, increase)
 
     def get_training_pace(self, type) -> int:
+
         """Returns the training pace for a given type of workout based on the users 5k prediction time."""
         if type == "Easy Run":
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.65)

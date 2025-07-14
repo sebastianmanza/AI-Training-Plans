@@ -42,7 +42,7 @@ def retrieve_user_info(user_id: int, username, pwd, col_names=False):
 
     # Prepare the queries
     user_query = """
-        SELECT user_id, dob, sex, runningex, fivekm, goaldate, mean_rpe, std_rpe
+        SELECT user_id, dob, sex, runningex, injury, goaldate, most_recent_injury, longest_run, pace_estimate, workout_rpe, available_days, number_of_days
         FROM userlistai
         WHERE user_id = %s;
         """
@@ -169,14 +169,18 @@ def populate_user_info(user_id):
 
     # Create a new user object
     new_user = user(
-        user_id=user_data_dict[0].get('user_id'),
-        age=user_data_dict[0].get('dob'),
+        dob=user_data_dict[0].get('dob'),
         sex=user_data_dict[0].get('sex'),
         running_ex=user_data_dict[0].get('runningex'),
-        five_km_estimate=user_data_dict[0].get('fivekm'),
+        injury=user_data_dict[0].get('injury'),
+        most_recent_injury=user_data_dict[0].get('most_recent_injury'),
+        longest_run=user_data_dict[0].get('longest_run'),
         goal_date=user_data_dict[0].get('goaldate'),
-        mean_RPE=user_data_dict[0].get('mean_rpe'),
-        STD_RPE=user_data_dict[0].get('std_rpe')
+        pace_estimates=user_data_dict[0].get('pace_estimates'),
+        available_days=user_data_dict[0].get('available_days'),
+        number_of_days=user_data_dict[0].get('number_of_days'),
+        user_id=user_data_dict[0].get('user_id'),
+        workout_RPE=user_data_dict[0].get('workout_rpe')
     )
 
     # Populate the months objects
