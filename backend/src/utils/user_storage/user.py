@@ -5,7 +5,7 @@ import datetime
 from backend.src.utils.user_storage.storage_stacks_and_queues import storage_stacks_and_queues
 import backend.src.utils.time_conversion as tc
 import backend.src.utils.user_storage.training_database as training_database
-#from backend.src.utils.pace_calculations import get_training_pace_helper
+from backend.src.utils.pace_calculations import get_training_pace_helper
 
 
 FIVEKDIST, METERS_PER_MILE = 5000, 1600  # Distance conversions
@@ -17,13 +17,15 @@ DEFAULT_WORKOUT_NUMS = {
     "Threshold": (0, 0, 0), "Fartlek": (0, 0, 0), "Race Pace Interval": (0, 0, 0), "Strides": (0, 0, 0),
     "Hill Sprints": (0, 0, 0), "Flat Sprints": (0, 0, 0), "Time Trial": (0, 0, 0), "Warmup and Cooldown": (0, 0, 0), "Off": (0, 0, 0)}
 
-THREEK, FIVEK, TENK, RECOVERY, EASY, TEMPO, PROGRESSION, THRESHOLD, LONGRUN, VO2MAX = range(10)
+THREEK, FIVEK, TENK, RECOVERY, EASY, TEMPO, PROGRESSION, THRESHOLD, LONGRUN, VO2MAX = range(
+    10)
+
 
 class user:
     # __slots__ = ("dob", "sex", "running_ex", "injury", "most_recent_injury", "longest_run", "goal_date", "pace_estimates", "available_days", "number_of_days", "user_id", "workout_RPE")
 
-    def __init__(self, dob: str, sex: str, running_ex: str, injury: int, most_recent_injury: int, longest_run: int,  goal_date: str, 
-                available_days: list, number_of_days: int, pace_estimates: list = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], user_id: int = secrets.randbelow(100000000 - 10000000), workout_RPE=DEFAULT_WORKOUT_NUMS):
+    def __init__(self, dob: str, sex: str, running_ex: str, injury: int, most_recent_injury: int, longest_run: int,  goal_date: str,
+                 available_days: list, number_of_days: int, pace_estimates: list = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], user_id: int = secrets.randbelow(100000000 - 10000000), workout_RPE=DEFAULT_WORKOUT_NUMS):
         """Creates a user from the given arguments and initializes storage which is the series of stacks and queues necessary for 
         storing all past and future workouts from a training plan for the user.
         Args:
@@ -45,9 +47,9 @@ class user:
             user_id: --int The user's id
             workout_RPE: --dict: Users mean RPE for each type of run
         """
-        #training storage
+        # training storage
         storage = storage_stacks_and_queues()
-        #inputs
+        # inputs
         self.dob = dob
         self.sex = sex
         self.running_ex = running_ex
@@ -60,18 +62,15 @@ class user:
         self.number_of_days = number_of_days
         self.user_id = user_id
         self.workout_RPE = workout_RPE
-        #workout storage
+        # workout storage
         self.month_history = storage.month_history
         self.week_history = storage.week_history
         self.day_history = storage.day_history
         self.month_future = storage.month_future
         self.week_future = storage.week_future
         self.day_future = storage.day_future
-        #additional information
-        #self.age = self.get_age()
-
-
-        
+        # additional information
+        # self.age = self.get_age()
 
     # Update the mean_RPE using the workout type and the RPE
 
@@ -84,7 +83,8 @@ class user:
         new_deviation = ((info[DEVIATION]*info[DAYS]) +
                          abs(given_RPE-expected_RPE)) / (info[DAYS]+1)
         self.workout_mean_RPE.update(
-            type, (new_mean, (info[DAYS]+1), new_deviation))  # Update the information
+            # Update the information
+            type, (new_mean, (info[DAYS]+1), new_deviation))
 
     # Takes in a distance and assigns the mile pace to it.
 
@@ -121,7 +121,6 @@ class user:
     def generate_new_id(self) -> None:
         self.user_id = secrets.randbelow(100000000 - 10000000)
 
-
     # def get_age(self) -> int:
     #     """Returns the number of years the user has been alive as an int"""
     #     today = datetime.date.today()
@@ -129,7 +128,6 @@ class user:
     #     age = today.year - dob.year - \
     #         ((today.month, today.day) < (dob.month, dob.day))
     #     return age
-
 
     # update training
 
@@ -180,25 +178,27 @@ class user:
         seconds = self.get_pace(int(distance))
         return tc.alter_pace(seconds, increase)
 
-    def get_training_pace(self, type) -> int:
-
+    def get_training_pace(self, run_type: str) -> int:
         """Returns the training pace for a given type of workout based on the users 5k prediction time."""
-        if type == "Easy Run":
-            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.65)
-        elif type == "Progression":
-            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
-        elif type == "Recovery Run":
-            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.62)
-        elif type == "Threshold":
-            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.87)
-        elif type == "Long Run":
-            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.7)
-        elif type == "VO2Max":
-            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.95)
-        elif type == "Tempo":
-            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
-        else:
-            return 0
+        # Based on the VDOT calculator used by Jack Daniels
+        
+        match run_type:
+            case "Easy Run":
+                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.65)
+            case "Progression":
+                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
+            case "Recovery Run":
+                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.62)
+            case "Threshold":
+                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.87)
+            case "Long Run":
+                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.7)
+            case "VO2MAX":
+                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.95)
+            case "Tempo":
+                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
+            case _:
+                return 0
 
 # alex = user("8/22/2005", "male", "advanced", "17:30", "5", "7", "1")
 # # print(alex.get_pace(10000))
