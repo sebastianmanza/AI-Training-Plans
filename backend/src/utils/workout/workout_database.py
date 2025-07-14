@@ -183,4 +183,3 @@ class workout_database:
     def get_distance(trio, stim: float, rpe: float, dist: float) -> float:
         return (trio[TRIO_STIM] - stim) ** 2 + (trio[TRIO_RPE] - rpe) ** 2 + (trio[TRIO_DIST] - dist) ** 2
 
-

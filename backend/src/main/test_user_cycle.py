@@ -52,6 +52,3 @@ def test_user_cycle():
     print(return_user.user_id)
     
     print(return_user.sex)
-#     print(return_user.day_future.get().workouts)
-
-test_user_cycle()
