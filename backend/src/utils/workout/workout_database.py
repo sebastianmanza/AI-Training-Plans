@@ -54,7 +54,7 @@ class workout_database:
 
     # This function is finicky but a god send. Make sure to reference it when you would write if/else statements
     def match_execute(self, workout_type: str, func, *args):
-        """Execute a function on all workouts of a specific type"""
+        """Match the workout type to the corresponding list and execute the function with args"""
         match workout_type:
             case "Easy Run":
                 return func(self.et, *args)
@@ -83,11 +83,12 @@ class workout_database:
 
     def add_workout(self, workout: single_workout) -> None:
         """Add a workout to the matching workout database"""
-        if not isinstance(workout, single_workout):
-            raise TypeError("Input must be a single_workout instance")
-        workout_type = workout_database.get_workout_type(
-            workout.trio[TRIO_STIM], workout.trio[TRIO_RPE], workout.trio[TRIO_DIST])
-        self.match_execute(workout_type, list.append, workout)
+        if isinstance(workout, single_workout):
+            workout_type = workout_database.get_workout_type(
+                workout.trio[TRIO_STIM], workout.trio[TRIO_RPE], workout.trio[TRIO_DIST])
+            self.match_execute(workout_type, list.append, workout)
+            return # Successfully added the workout
+        raise TypeError("Input must be a single_workout instance")
 
     def mass_add_workouts(self, workouts) -> None:
         """"Add a list of workouts to the database"""
@@ -123,7 +124,6 @@ class workout_database:
         if final_trio == (0, 0, 0) and not dist == 0:
             raise ValueError(
                 "No matching workout type found for the given coordinates.")
-
         return workout_database.workout_dictionary[final_trio]
 
     @staticmethod
@@ -134,7 +134,7 @@ class workout_database:
 
     def get_workout_storage_type(self, workout_type: str) -> list:
         """Returns the list of workouts of a specific type"""
-        return self.match_execute(workout_type, lambda lst: lst)
+        return self.match_execute(workout_type, lambda lst: lst)  # Identity lambda function.
 
     def get_individual_workout_helper(self, stim: float, rpe: float, dist: float, workout_type: str) -> single_workout:
         """Returns the workout closest to the stim,rpe and dist from within the type"""
