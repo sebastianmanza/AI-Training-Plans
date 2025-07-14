@@ -34,16 +34,16 @@ class main:
 
         # Preliminary questions that will make up the users initial info.
         questions = [
-            "Date of birth:",
-            "Sex:",
-            "Running Experience:",
-            "How many days would you like to run? (At most 2 more days than you currently run):",
-            "What days of the week can you commit at least an hour for a run?:",
-            "What day do you have the most time for a run?:",
-            "Current estimated 5k fitness? (how fast can you run a 5k or 3.1 miles in mm:ss):",
-            "Format Numerically: How many major injuries have you had in the past 2 years? (injuries that prevented you from running for more than two weeks):",
-            "How long ago was your most recent injury:",
-            "What is the date of your most important race?:"
+            "Date of birth:",       #0
+            "Sex:",                 #1
+            "Running Experience:",  #2
+            "How many days would you like to run? (At most 2 more days than you currently run):",   #3
+            "What days of the week can you commit at least an hour for a run?:",                    #4
+            "What day do you have the most time for a run?:",                                       #5
+            "Current estimated 5k fitness? (how fast can you run a 5k or 3.1 miles in mm:ss):",     #6
+            "Format Numerically: How many major injuries have you had in the past 2 years? (injuries that prevented you from running for more than two weeks):",    #7
+            "How long ago was your most recent injury:",                                            #8
+            "What is the date of your most important race?:"                                        #9
         ]
 
         answers = []
@@ -54,10 +54,9 @@ class main:
             response = input(question + " ")
             answers.append(response)
 
-        new_user = user.user(answers[0], answers[1], answers[3], answers[4],
-                             answers[8], 4, 5, user_id=secrets.randbelow(100000000 - 10000000))
+        # new_user = user.user(answers[0],answers[1], answers[2], answers[7], answers[8], )
 
-        return new_user
+        # return new_user
 
     # testing
     # user_send.send_user_info(prelim_survey(), "postgres", "Control1500#")

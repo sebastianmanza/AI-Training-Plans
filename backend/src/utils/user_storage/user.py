@@ -84,7 +84,7 @@ class user:
         new_deviation = ((info[DEVIATION]*info[DAYS]) +
                          abs(given_RPE-expected_RPE)) / (info[DAYS]+1)
         self.workout_mean_RPE.update(
-            type, (new_mean, (info[DAYS]+1)))  # Update the information
+            type, (new_mean, (info[DAYS]+1), new_deviation))  # Update the information
 
     # Takes in a distance and assigns the mile pace to it.
 
