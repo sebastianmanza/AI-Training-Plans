@@ -8,6 +8,7 @@ struct StartView: View {
 
     var onSignUpTapped: () -> Void
     var onLogInTapped: () -> Void
+    var onDebugger: () -> Void
 
     var body: some View {
         GeometryReader { geo in
@@ -44,6 +45,16 @@ struct StartView: View {
                     LogInButton(buttonTitle: "LOG IN", action: onLogInTapped, color: Color(red: 153/255, green: 208/255, blue: 208/255))
                 }
                 .position(x: geo.size.width / 2, y: 3 * geo.size.height / 4)
+            }
+            .overlay(alignment: .topLeading) {
+              Button {
+                onDebugger()
+              } label: {
+                  Color.black.opacity(0.001)
+              }
+              .frame(width: 50, height: 50)
+              .contentShape(Rectangle())
+              .buttonStyle(.plain)
             }
         }
     }

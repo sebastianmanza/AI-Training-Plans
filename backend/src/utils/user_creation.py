@@ -85,8 +85,8 @@ def login(username: str, password: str, users: dict) -> user:
 
 
 def credential_check(username: str, password: str) -> bool:
-    """ A function that checks if the username and password are valid.
-    Returns True if valid, False otherwise.
+    """ A function that checks if the username and password combination exists in the database.
+    Returns the user_id if the credentials are valid, 0 if no user is found with that username
     """
     
     # initialize the database connection
@@ -96,7 +96,7 @@ def credential_check(username: str, password: str) -> bool:
     curr = conn.cursor()
 
     # write query
-    query = """ SELECT password
+    query = """ SELECT password, user_id
 	                FROM public.user_credentials WHERE username = %s; """
     # fill query with appropriate user ID
     record_to_insert = (username)
@@ -108,14 +108,15 @@ def credential_check(username: str, password: str) -> bool:
         result = curr.fetchone()
         
         if result is None:
-            return False  # No user found with that username
+            return 0  # No user found with that username
         
         # Check if the provided password matches the stored password
-        return result[0] == hash(password)
+        if result[0] == hash(password):
+            return result[1]  # Return user_id if credentials are valid
     except Exception as e:
         
         print(f"Error executing query: {e}")
-        return False
+        return 0
     
     finally:
         # close cursor
@@ -133,18 +134,25 @@ def user_exists(user_credentials):
     curr = conn.cursor()
     
     # write query to check if user exists by email or username
-    query = """SELECT email FROM public.user_credentials WHERE email = %s OR username = %s;"""
+    query = """SELECT email, username FROM public.user_credentials WHERE email = %s OR username = %s;"""
     record_to_insert = (user_credentials['email'], user_credentials['username'])
     
     try:
         curr.execute(query, record_to_insert)
         result = curr.fetchone()
         
-        if result:
-            return 0  # User exists, return 0 to indicate the email is already registered in the database
-        else:
+        email_match = result[0] == user_credentials['email'] if result else False
+        username_match = result[1] == user_credentials['username'] if result else False
+        
+        if not email_match:
+            return False, 1
+        
+        if not username_match:
+            return False, 0
+        
+        if email_match and username_match:    
             user_id = secrets.randbelow(100000000 - 10000000)
-            return user_id, 1 # User does not exist, return user_id and 1 to indicate failure
+            return True, user_id # User does not exist, return user_id
 
     except Exception as e:
         print("Error during query execution:", e)

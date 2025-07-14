@@ -18,6 +18,7 @@ struct HomeView: View {
   // var onQuestionMark: () -> Void
   var onCalendarTapped: () -> Void
   var onProfileTapped: () -> Void
+  var onDebugger: () -> Void
 
   @State private var showInfoOnQuestionMarkTapped = false
 
@@ -118,6 +119,17 @@ struct HomeView: View {
           alignment: .topTrailing
         )
       }
+//      .overlay(alignment: .topLeading) {
+//        Button {
+//          onDebugger()
+//        } label: {
+//          Color.black.opacity(0.001)
+//        }
+//        .frame(width: 50, height: 50)
+//        .contentShape(Rectangle())
+//        .buttonStyle(.plain)
+//      }
+
       .ignoresSafeArea()
 
     }
