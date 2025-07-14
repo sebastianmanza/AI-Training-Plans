@@ -33,10 +33,10 @@ class workout_database:
         create_trio.__func__(0, 0, 0,): "Off"
     }
 
-    def __init__(self, et=list, recovery=list, kenyan=list,
-                 long=list, threshold=list, fartlek=list,
-                 race_pace_interval=list, strides=list, hill_sprints=list,
-                 flat_sprints=list, time_trial=list, warmup_and_cooldown=list):
+    def __init__(self, et: list = [], recovery: list = [], kenyan: list = [],
+                 long: list = [], threshold: list = [], fartlek: list = [],
+                 race_pace_interval: list = [], strides: list = [], hill_sprints: list = [],
+                 flat_sprints: list = [], time_trial: list = [], warmup_and_cooldown: list = []):
 
         # Set up the collection of workouts of each type
         self.et = workout_database.storage.et
@@ -87,7 +87,7 @@ class workout_database:
             workout_type = workout_database.get_workout_type(
                 workout.trio[TRIO_STIM], workout.trio[TRIO_RPE], workout.trio[TRIO_DIST])
             self.match_execute(workout_type, list.append, workout)
-            return # Successfully added the workout
+            return  # Successfully added the workout
         raise TypeError("Input must be a single_workout instance")
 
     def mass_add_workouts(self, workouts) -> None:
@@ -139,8 +139,8 @@ class workout_database:
     def get_individual_workout_helper(self, stim: float, rpe: float, dist: float, workout_type: str) -> single_workout:
         """Returns the workout closest to the stim,rpe and dist from within the type"""
         distance = LARGE_NUM  # A value large enough to not be the min
-        final_workout = workout_database.storage.workout_type[0]
-        for workout in workout_database.storage.workout_type:
+        final_workout = self.get_workout_storage_type(workout_type)[0]
+        for workout in self.get_workout_storage_type(workout_type):
             new_distance = workout_database.get_distance(
                 workout.get_trio(), stim, dist, rpe)
             if new_distance < distance:
@@ -150,12 +150,10 @@ class workout_database:
         return final_workout
 
     def get_individual_workout(self, stim: float, rpe: float, dist: float) -> single_workout:
-        workout_type = workout_database.get_workout_type(
+        workout_type = self.get_workout_type(
             stim, rpe, dist)  # Get the workout type based on the trio
         # Find the closest workout within the particular database
-        workout_type = workout_database.get_workout_storage_type(
-            self, workout_database.get_workout_type(stim, rpe, dist))
-        return workout_database.get_individual_workout_helper(self, stim, rpe, dist, workout_type)
+        return self.get_individual_workout_helper(stim, rpe, dist, workout_type)
 
     def get_workout_type_coordinates(stim: float, rpe: float, dist: float):
         """Given stim, rpe, and dist return the coordinates associated with the workout type"""
