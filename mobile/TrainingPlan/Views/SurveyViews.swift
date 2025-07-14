@@ -18,17 +18,18 @@ struct SurveyViews: View {
     case current5k
     case majorInjuries
     case recentInjury
-    // case longest longRun
-    // case goalDate
+    case longestRun
+    case goalDate
   }
 
-  private let dobFormatter: DateFormatter = {
+  private let dateFormat: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy-MM-dd"
     return formatter
   }()
 
   @State private var dobDate: Date = Date()
+  @State private var goalDate: Date = Date()
 
   var body: some View {
     VStack {
@@ -37,7 +38,6 @@ struct SurveyViews: View {
         IntroPage {
           /* Advance to next page */
           currentStep = .dateOfBirth
-          //Task { await vm.submit() }
         }
 
       case .dateOfBirth:
@@ -104,18 +104,36 @@ struct SurveyViews: View {
           selection: $vm.majorInjuries,
           options: [0, 1, 3]
         ) {
-          onSurveyComplete()
-          // currentStep = .recentInjury
+          // onSurveyComplete()
+          currentStep = .recentInjury
         }
 
       case .recentInjury:
         RecentInjuryPage(
           label: "Most recent injury",
           selection: $vm.recentInjury,
-          options: [0, 1, 2, 3]
+          options: [0, 3, 6]
         ) {
-          Task { await vm.submit() }
+          currentStep = .longestRun
+          // onSurveyComplete()
         }
+
+      case .longestRun:
+        LongestRunPage(
+          label: "Longest run", 
+          runLength: $vm.longestRun
+        ) {
+          //Task { await vm.submit() }  
+          onSurveyComplete()
+        }
+      case .goalDate:
+        GoalDatePage(
+          label: "Goal date",
+          goalDate: $goalDate
+        ) {
+          vm.goalDate = dateFormat.string(from: goalDate)
+          Task { await vm.submit() }
+          onSurveyComplete()
 
       }
     }
@@ -757,7 +775,7 @@ struct MajorInjuriesPage: View {
         VStack(spacing: 10) {
           ForEach(options, id: \.self) { option in
             SurveySelectionButton(
-              title: String(option),
+              title: title(for: option),
               isSelected: selection == option,
               height: 70
             ) {
@@ -791,9 +809,9 @@ struct RecentInjuryPage: View {
   // Remember to ask about what the actual options should be
   private func title(for option: Int) -> String {
     switch option {
-    case 1: return "< 2"
-    case 2: return "2-4"
-    case 3: return "4+"
+    case 0: return "<2"
+    case 3: return "2-4"
+    case 6: return "4+"
     default: return "0"
     }
   }
@@ -823,7 +841,7 @@ struct RecentInjuryPage: View {
         VStack(spacing: 10) {
           ForEach(options, id: \.self) { option in
             SurveySelectionButton(
-              title: String(option),
+              title: title(for: option),
               isSelected: selection == option,
               height: 70
             ) {
@@ -837,7 +855,7 @@ struct RecentInjuryPage: View {
         .padding(.top, 20)
         CompletionBar(
           background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
-          height: 15, percentComplete: 8 / (numQuestions)
+          height: 15, percentComplete: 9 / (numQuestions)
         )
         .padding(.top, 10)
       }
@@ -847,5 +865,133 @@ struct RecentInjuryPage: View {
   }
 }
 
+struct LongestRunPage: View {
+
+  let label: String
+  // the total length of the run
+  @Binding var runLength: Int
+  let onNext: () -> Void
+
+  /// Local state for the two wheels
+  @State private var miles: Int = 0
+
+  private let maxMiles = 25
+
+  private var lengthWheel: some View {
+    Picker("", selection: $miles) {
+      ForEach(0...maxMiles, id: \.self) { v in
+        Text(String(format: "%d", v))
+          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 25))
+          .foregroundColor(.white)
+          .tag(v)
+      }
+    }
+    .pickerStyle(.wheel)
+    .buttonStyle(.borderless)
+    .scaleEffect(2)
+    .frame(width: 100, height: 60)
+    .clipped()
+  }
+
+  var body: some View {
+    ZStack {
+      Image("surveyQuestionBackground")
+        .resizable()
+        .scaledToFill()
+        .edgesIgnoringSafeArea(.all)
+
+      // foreground
+      VStack(spacing: 40) {
+        Text("What is the length\n of your longest \nconsistent run of the week?")
+          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 36))
+          .foregroundColor(.white)
+          .multilineTextAlignment(.leading)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.leading, 30)
+
+        Rectangle()
+          .fill(.white)
+          .frame(height: 1.5)
+          .frame(maxWidth: .infinity)
+          .padding(.horizontal, 30)
+
+        HStack (spacing: 0) {
+          lengthWheel
+
+          Text("miles")
+            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 60))
+            .foregroundColor(.white)
+        }
+        .frame(maxWidth: .infinity)
+
+        SurveyNextButton(
+          action: {
+            onNext()
+          },
+          color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
+        )
+        .padding(.top, 75)
+        CompletionBar(
+          background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
+          height: 15, percentComplete: 10 / (numQuestions)
+        )
+        .padding(.top, 10)
+
+      }
+      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+      .padding(.bottom, 80)
+    }
+  }
+}
+
+struct GoalDatePage: View {
+  let label: String
+  @Binding var date: Date
+  let onNext: () -> Void
+
+  var body: some View {
+    ZStack {
+      Image("surveyQuestionBackground")
+        .resizable()
+        .scaledToFill()
+        .edgesIgnoringSafeArea(.all)
+
+      // foreground
+      VStack(spacing: 40) {
+        Text("What is \nthe date of your \nmost important race?")
+          .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 48))
+          .foregroundColor(.white)
+          .multilineTextAlignment(.leading)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.leading, 30)
+
+        Rectangle()
+          .fill(.white)
+          .frame(height: 1.5)
+          .frame(maxWidth: .infinity)
+          .padding(.horizontal, 30)
+
+        DatePicker("", selection: $date, displayedComponents: .date)
+          .datePickerStyle(WheelDatePickerStyle())
+          .labelsHidden()
+          .colorScheme(.dark)
+          .cornerRadius(8)
+
+        SurveyNextButton(
+          action: onNext, color: Color(red: 0 / 255, green: 54 / 255, blue: 104 / 255)
+        )
+        .padding(.top, 30)
+        CompletionBar(
+          background: .white, fill: Color(red: 0, green: 54 / 255, blue: 104 / 255), width: 350,
+          height: 15, percentComplete: 11 / (numQuestions)
+        )
+        .padding(.top, 10)
+
+      }
+      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+      .padding(.bottom, 80)
+    }
+  }
+}
 
 
