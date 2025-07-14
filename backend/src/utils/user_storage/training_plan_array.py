@@ -1086,7 +1086,7 @@ class training_plan_array:
     UFIFTYFIVE_MALE_ADVANCED_NO_11_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/ufiftyfive_male_advanced_no_11_training_plan.txt")
     training_plans[UFIFTYFIVE_MALE_ADVANCED_NO_11] = UFIFTYFIVE_MALE_ADVANCED_NO_11_DATABASE
     UFIFTYFIVE_MALE_ADVANCED_NO_11O_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/ufiftyfive_male_advanced_no_11_training_plan.txt")
-    training_plans[UFIFTYFIVE_MALE_ADVANCED_NO_11O] = UFORTY_MALE_ADVANCED_NO_11O_DATABASE
+    training_plans[UFIFTYFIVE_MALE_ADVANCED_NO_11O] = UFIFTYFIVE_MALE_ADVANCED_NO_11O_DATABASE
     #under fiftyfive female advanced no injury training plans
     UFIFTYFIVE_FEMALE_ADVANCED_NO_7_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/ufiftyfive_female_advanced_no_11_training_plan.txt")
     training_plans[UFIFTYFIVE_FEMALE_ADVANCED_NO_7] = UFIFTYFIVE_FEMALE_ADVANCED_NO_7_DATABASE
@@ -1095,8 +1095,25 @@ class training_plan_array:
     UFIFTYFIVE_FEMALE_ADVANCED_NO_11_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/ufiftyfive_female_advanced_no_11_training_plan.txt")
     training_plans[UFIFTYFIVE_FEMALE_ADVANCED_NO_11] = UFIFTYFIVE_FEMALE_ADVANCED_NO_11_DATABASE
     UFIFTYFIVE_FEMALE_ADVANCED_NO_11O_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/ufiftyfive_female_advanced_no_11_training_plan.txt")
-    training_plans[UFIFTYFIVE_FEMALE_ADVANCED_NO_11O] = UFORTY_FEMALE_ADVANCED_NO_11O_DATABASE
-
+    training_plans[UFIFTYFIVE_FEMALE_ADVANCED_NO_11O] = UFIFTYFIVE_FEMALE_ADVANCED_NO_11O_DATABASE
+    #over fiftyfive male advanced no injury training plans
+    FIFTYFIVEO_MALE_ADVANCED_NO_7_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/fiftyfiveo_male_advanced_no_11_training_plan.txt")
+    training_plans[FIFTYFIVEO_MALE_ADVANCED_NO_7] = FIFTYFIVEO_MALE_ADVANCED_NO_7_DATABASE
+    FIFTYFIVEO_MALE_ADVANCED_NO_9_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/fiftyfiveo_male_advanced_no_11_training_plan.txt")
+    training_plans[FIFTYFIVEO_MALE_ADVANCED_NO_9] = FIFTYFIVEO_MALE_ADVANCED_NO_9_DATABASE
+    FIFTYFIVEO_MALE_ADVANCED_NO_11_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/fiftyfiveo_male_advanced_no_11_training_plan.txt")
+    training_plans[FIFTYFIVEO_MALE_ADVANCED_NO_11] = FIFTYFIVEO_MALE_ADVANCED_NO_11_DATABASE
+    FIFTYFIVEO_MALE_ADVANCED_NO_11O_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/fiftyfiveo_male_advanced_no_11_training_plan.txt")
+    training_plans[FIFTYFIVEO_MALE_ADVANCED_NO_11O] = FIFTYFIVEO_MALE_ADVANCED_NO_11O_DATABASE
+    #over fiftyfive female advanced no injury training plans
+    FIFTYFIVEO_FEMALE_ADVANCED_NO_7_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/fiftyfiveo_female_advanced_no_11_training_plan.txt")
+    training_plans[FIFTYFIVEO_FEMALE_ADVANCED_NO_7] = FIFTYFIVEO_FEMALE_ADVANCED_NO_7_DATABASE
+    FIFTYFIVEO_FEMALE_ADVANCED_NO_9_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/fiftyfiveo_female_advanced_no_11_training_plan.txt")
+    training_plans[FIFTYFIVEO_FEMALE_ADVANCED_NO_9] = FIFTYFIVEO_FEMALE_ADVANCED_NO_9_DATABASE
+    FIFTYFIVEO_FEMALE_ADVANCED_NO_11_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/fiftyfiveo_female_advanced_no_11_training_plan.txt")
+    training_plans[FIFTYFIVEO_FEMALE_ADVANCED_NO_11] = FIFTYFIVEO_FEMALE_ADVANCED_NO_11_DATABASE
+    FIFTYFIVEO_FEMALE_ADVANCED_NO_11O_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/fiftyfiveo_female_advanced_no_11_training_plan.txt")
+    training_plans[FIFTYFIVEO_FEMALE_ADVANCED_NO_11O] = FIFTYFIVEO_FEMALE_ADVANCED_NO_11O_DATABASE
     #print(training_plans[10])    
     
 
