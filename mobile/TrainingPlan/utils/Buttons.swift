@@ -77,12 +77,14 @@ struct LogInButton: View {
   let color: Color
 
   var body: some View {
-    Button(buttonTitle, action: action)
-      .frame(width: 275, height: 40)
-      .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))  // Custom font
-      .foregroundColor(.white)  // Text color
-      .background(color)  // Background color
-      .clipShape(Capsule())  // Capsule shape
+    Button(action: action) {
+      Text(buttonTitle)
+        .frame(width: 275, height: 40)
+        .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 20))  // Custom font
+        .foregroundColor(.white)
+        .background(color)
+        .clipShape(Capsule())
+    }
   }
 }
 
@@ -96,13 +98,14 @@ struct SurveyNextButton: View {
       Image(systemName: "arrow.right")
         .font(.system(size: 35, weight: .bold))
         .foregroundColor(.white)
+        .frame(width: 60, height: 60)
+        .background(color)
+        .clipShape(Circle())
     }
-    .frame(width: 60, height: 60)
-    .background(color)
-    .clipShape(Circle())
   }
 }
 
+/* A clear button with a drop shadow, used for survey selection. Highlights with a white stroke when selected */
 struct SurveySelectionButton: View {
   let title: String
   let isSelected: Bool
@@ -124,5 +127,97 @@ struct SurveySelectionButton: View {
         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
     }
     .shadow(color: Color.black.opacity(0.6), radius: 60, x: 0, y: 0)
+  }
+}
+
+struct CheckButton: View {
+  let action: () -> Void
+
+  var body: some View {
+    Button(action: action) {
+      Image(systemName: "checkmark")
+        .font(.system(size: 25, weight: .bold))
+        .foregroundColor(.white)
+        .frame(width: 35, height: 35)
+        .background(.green)
+        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+    }
+  }
+}
+
+struct XButton: View {
+  let action: () -> Void
+
+  var body: some View {
+    Button(action: action) {
+      Image(systemName: "xmark")
+        .font(.system(size: 25, weight: .bold))
+        .foregroundColor(.white)
+        .frame(width: 35, height: 35)
+        .background(.red)
+        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+    }
+  }
+}
+
+struct QuestionMarkButton: View {
+  let action: () -> Void
+
+  var body: some View {
+    Button(action: action) {
+      Image(systemName: "questionmark")
+        .font(.system(size: 15, weight: .bold))
+        .foregroundColor(.white)
+        .frame(width: 25, height: 25)
+        .background(.clear)
+        .overlay(Circle().stroke(.white, lineWidth: 2))
+        .clipShape(Circle())
+    }
+  }
+}
+
+struct XButtonQuestionMarkStyle: View {
+  let action: () -> Void
+
+  var body: some View {
+    Button(action: action) {
+      Image(systemName: "xmark")
+        .font(.system(size: 15, weight: .bold))
+        .foregroundColor(.white)
+        .frame(width: 25, height: 25)
+        .background(.clear)
+        .overlay(Circle().stroke(.white, lineWidth: 2))
+        .clipShape(Circle())
+    }
+  }
+}
+
+struct CalendarButton: View {
+  let action: () -> Void
+
+  var body: some View {
+    Button(action: action) {
+      Image(systemName: "calendar")
+        .font(.system(size: 40, weight: .bold))
+        .foregroundColor(.white)
+    }
+    .frame(width: 45, height: 45)
+    .background(.clear)
+    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+  }
+}
+
+struct ProfileButton: View {
+  let action: () -> Void
+
+  var body: some View {
+    Button(action: action) {
+      Image(systemName: "person")
+        .font(.system(size: 40, weight: .bold))
+        .foregroundColor(.white)
+    }
+    .frame(width: 45, height: 45)
+    .background(.clear)
+    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
   }
 }

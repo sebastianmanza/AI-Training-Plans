@@ -17,7 +17,7 @@ def to_str(sec: int) -> str:
         toReturn += f"{hours}:"
     if minutes != 0:  # Check to add minutes
         toReturn += f"{minutes}:"
-    toReturn += f"{remainingSec}"  # Always add seconds
+    toReturn += f"{remainingSec:02d}"  # Always add seconds
     return toReturn
 
 
@@ -57,14 +57,14 @@ def total_time(pace, distance: int) -> int:
     return math.floor((pace * distance) / METERS_PER_MILE)
 
 
-def alter_pace(pace, increase: int):
+def alter_pace(pace, increase: int) -> int:
     """ Alter the pace by a given increase in seconds."""
     if isinstance(pace, str):  # If pace is a string, convert it to seconds
         pace = from_str(pace)
     return pace + increase
 
 
-def mile_pace(pace, distance: int):
+def mile_pace(pace, distance: int) -> int:
     if distance == 0:  # If distance is 0, return 0 to avoid division by zero
         return 0
     if isinstance(pace, str):  # If pace is a string, convert it to seconds

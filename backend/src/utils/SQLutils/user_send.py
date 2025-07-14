@@ -28,6 +28,8 @@ from collections import namedtuple
 
 
 
+
+
 # Sends user information to the database.
 def send_user_info(new_user, username, password):
 
@@ -291,6 +293,7 @@ def send_user_creds(new_user, username, password, login_info):
                 SET email = %s, username = %s, password = %s
                 WHERE user_id = %s;
             """
+            
             record = (login_info[0], login_info[1], 
                       login_info[2], new_user.user_id)
             curr.execute(update_query, record)
@@ -314,6 +317,7 @@ def send_user_creds(new_user, username, password, login_info):
     
     
 def send_user_all(user_id, username, password, login_info):
+
     
     send_user_info(user_id, username, password)
     
