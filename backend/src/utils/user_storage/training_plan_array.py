@@ -1061,6 +1061,14 @@ class training_plan_array:
     UTWENTYFIVE_FEMALE_ADVANCED_NO_11O_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_female_advanced_no_11_training_plan.txt")
     training_plans[UTWENTYFIVE_FEMALE_ADVANCED_NO_11O] = UTWENTYFIVE_FEMALE_ADVANCED_NO_11O_DATABASE
     #under forty male advanced no injury training plans
+    UFORTY_MALE_ADVANCED_NO_7_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/uforty_male_advanced_no_11_training_plan.txt")
+    training_plans[UFORTY_MALE_ADVANCED_NO_7] = UFORTY_MALE_ADVANCED_NO_7_DATABASE
+    UFORTY_MALE_ADVANCED_NO_9_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/uforty_male_advanced_no_11_training_plan.txt")
+    training_plans[UFORTY_MALE_ADVANCED_NO_9] = UFORTY_MALE_ADVANCED_NO_9_DATABASE
+    UFORTY_MALE_ADVANCED_NO_11_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/uforty_male_advanced_no_11_training_plan.txt")
+    training_plans[UFORTY_MALE_ADVANCED_NO_11] = UFORTY_MALE_ADVANCED_NO_11_DATABASE
+    UFORTY_MALE_ADVANCED_NO_11O_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/uforty_male_advanced_no_11_training_plan.txt")
+    training_plans[UFORTY_MALE_ADVANCED_NO_11O] = UFORTY_MALE_ADVANCED_NO_11O_DATABASE
     #under forty female advanced no injury training plans
     UFORTY_FEMALE_ADVANCED_NO_7_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/uforty_female_advanced_no_11_training_plan.txt")
     training_plans[UFORTY_FEMALE_ADVANCED_NO_7] = UFORTY_FEMALE_ADVANCED_NO_7_DATABASE
