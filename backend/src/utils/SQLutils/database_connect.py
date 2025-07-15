@@ -80,7 +80,7 @@ def db_insert(username, pwd, user_id, dob, sex, runningex, injury,
     # write query
     query = """ INSERT INTO public.userlistai(
         user_id, dob, sex, runningex, injury, most_recent_injury, longest_run, 
-        goal_date, pace_estimate, available_days, number_of_days, workout_RPE)
+        goaldate, pace_estimate, available_days, number_of_days, workout_RPE)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """
     # fill query with appropriate user ID
     record_to_insert = (user_id, dob, sex, runningex, injury, most_recent_injury, 
@@ -108,13 +108,13 @@ def db_update(username, pwd, user_id, dob, sex, runningex, injury,
     # write query
     query = """ UPDATE public.userlistai
         SET dob= %s, sex= %s, runningex= %s, injury= %s, most_recent_injury= %s, 
-            longest_run= %s, goal_date= %s, pace_estimate= %s, available_days= %s, 
+            longest_run= %s, goaldate= %s, pace_estimate= %s, available_days= %s, 
             number_of_days= %s, workout_RPE= %s
-            WHERE userid = %s; """
+            WHERE user_id = %s; """
     # fill query with appropriate user ID
-    record_to_insert = (user_id, dob, sex, runningex, injury, most_recent_injury, 
+    record_to_insert = (dob, sex, runningex, injury, most_recent_injury, 
                         longest_run, goal_date, pace_estimate, available_days, 
-                        number_of_days, workout_RPE)
+                        number_of_days, workout_RPE, user_id)
 
 
     # execute query with filled parameters
