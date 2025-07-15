@@ -27,7 +27,7 @@ available_days = ["Mon", "Fri", "Sat"]
 list_of_workouts = [1.1, 2.2, 3.3]
 login_info = ["conballs@gmail.com", "concon", "secure_password"]
 pace_estimate = [1, 2, 3]
-
+'''
 test_user = user(
                     dob="Aug", 
                     sex="M", 
@@ -43,16 +43,16 @@ test_user = user(
 test_user.day_future = database.day
 test_user.week_future = database.week
 test_user.month_future = database.month
-
+'''
 
 def test_user_cycle():
     """
     Test the user cycle functionality.
     """
 # test_user = main.prelim_survey()
-    send_user_all(test_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], login_info)
+    ''' send_user_all(test_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], login_info)
 
-    return_user = populate_user_info(test_user.user_id)
+    return_user = populate_user_info(test_user.user_id) '''
 # #     print("User information retrieved")
 
 # #     # print(database.day.get().expected_rpe)
@@ -60,9 +60,9 @@ def test_user_cycle():
 # #     # print(test_user.day_future.get().expected_rpe)
 # #     # print("working")
 # #     # return
-    print(test_user.user_id)
-    print(return_user.user_id)
+#    print(test_user.user_id)
+ #   print(return_user.user_id)
     
-    print(return_user.sex)
+ #   print(return_user.sex)
     
-test_user_cycle()
+#test_user_cycle()

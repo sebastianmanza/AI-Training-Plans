@@ -68,7 +68,7 @@ class user:
         self.week_future = storage.week_future
         self.day_future = storage.day_future
         #additional information
-        #self.age = self.get_age()
+        self.age = self.get_age()
 
 
         
@@ -121,14 +121,13 @@ class user:
     def generate_new_id(self) -> None:
         self.user_id = secrets.randbelow(100000000 - 10000000)
 
-
-    # def get_age(self) -> int:
-    #     """Returns the number of years the user has been alive as an int"""
-    #     today = datetime.date.today()
-    #     dob = datetime.datetime.strptime(self.dob, "%m/%d/%Y").date()
-    #     age = today.year - dob.year - \
-    #         ((today.month, today.day) < (dob.month, dob.day))
-    #     return age
+    def get_age(self) -> int:
+        """Returns the number of years the user has been alive as an int"""
+        today = datetime.date.today()
+        dob = datetime.datetime.strptime(self.dob, "%Y-%m-%d").date()
+        age = today.year - dob.year - \
+            ((today.month, today.day) < (dob.month, dob.day))
+        return age
 
 
     # update training

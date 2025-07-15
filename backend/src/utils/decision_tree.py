@@ -8699,7 +8699,7 @@ class decision_tree:
                         ###user is an intermediate runner
                         ####user has been injured 1 - 2 times
                         #####checks if user most recent injury is 0 - 3 months ago
-                        if selfmost_recent_injury < 3:
+                        if self.most_recent_injury < 3:
                             #user is between 40 and 55
                             ##user is female or other
                             ###user is an intermediate runner
@@ -9718,7 +9718,7 @@ class decision_tree:
                             ####user has 3+ injuries
                             #####user most recent injury is 3 - 6 months ago
                             ######checks if user longest long run is 6 - 7 miles
-                            elif selflongest_run <= 7:
+                            elif self.longest_run <= 7:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_MALE_BEGINNER_3O_U6_7]
                             #user is over 55
@@ -11753,6 +11753,9 @@ class decision_tree:
                                 #return training_plan
                                 return plans.training_plans[FIFTYFIVEO_FEMALE_ADVANCED_3O_U24_11O]
     
-    test_user = user("06/27/2020", "male", "beginner", "15:00", 10, 7.5, 7.5, 1, 2)
+    test_user = user(dob = "2020-01-01", sex = "male", running_ex = "beginner", injury = 0,
+                     most_recent_injury=None, longest_run = 1, goal_date = "01/01/2026", available_days = [], 
+                     number_of_days = 5)
 
     print(get_decision_tree(test_user))
+    print(training_plan_array.UFIFTEEN_MALE_INTERMEDIATEADVANCED_NO_4_DATABASE)

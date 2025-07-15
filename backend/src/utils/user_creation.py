@@ -59,7 +59,6 @@ def user_create(SQL_username, SQL_password, surveyanswers: list, signup_answers:
     # Note: The user object is created with a user_id that is generated in the user class.
     # When a new user is created user.py handles creating a user id.
 
-
 """ Testing function for user creation."""
 suveryanswers = [
     12345, "male", "advanced", "17:45", 4, 5, 2  # Example survey answers
