@@ -26,8 +26,20 @@ my_dict = [12, 34, 45]
 available_days = ["Mon", "Fri", "Sat"]
 list_of_workouts = [1.1, 2.2, 3.3]
 login_info = ["conballs@gmail.com", "concon", "secure_password"]
+pace_estimate = [1, 2, 3]
 
-test_user = user("Aug", "M", "Advanced", 1, 2, 12, "Nov", my_dict, available_days, 7, 100, list_of_workouts)
+test_user = user(
+                    dob="Aug", 
+                    sex="M", 
+                    running_ex="Advanced", 
+                    injury=1, 
+                    most_recent_injury=2, 
+                    longest_run=12, 
+                    goal_date="Nov", 
+                    available_days=available_days, 
+                    number_of_days= 5
+                )
+
 test_user.day_future = database.day
 test_user.week_future = database.week
 test_user.month_future = database.month
@@ -52,3 +64,5 @@ def test_user_cycle():
     print(return_user.user_id)
     
     print(return_user.sex)
+    
+test_user_cycle()

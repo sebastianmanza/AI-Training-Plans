@@ -1,3 +1,4 @@
+import json
 import sys
 import os
 
@@ -41,6 +42,10 @@ def send_user_info(new_user, username, password):
         check_query = """SELECT 1 FROM public.userlistai WHERE user_id = %s;"""
         curr.execute(check_query, (new_user.user_id,))
         exists = curr.fetchone()
+        
+        # convert workout_RPE dictionary to JSON to allow SQL to handle data properly
+        workout_RPE_JSON = json.dumps(new_user.workout_RPE)
+
 
         if exists:
             # Update existing user
@@ -49,7 +54,7 @@ def send_user_info(new_user, username, password):
                 new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury, 
                 new_user.most_recent_injury, new_user.longest_run, new_user.goal_date, 
                 new_user.pace_estimates, new_user.available_days, new_user.number_of_days, 
-                new_user.workout_RPE 
+                workout_RPE_JSON 
             )
         else:
             # Insert new user
@@ -58,7 +63,7 @@ def send_user_info(new_user, username, password):
                 new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury, 
                 new_user.most_recent_injury, new_user.longest_run, new_user.goal_date, 
                 new_user.pace_estimates, new_user.available_days, new_user.number_of_days, 
-                new_user.workout_RPE 
+                workout_RPE_JSON
             )
 
         conn.commit()
