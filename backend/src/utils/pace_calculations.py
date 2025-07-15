@@ -28,4 +28,4 @@ def get_training_pace_helper(race_dist: float, race_time: float, pct_pace: float
     return target
 
 
-print(get_training_pace_helper(5000, 17 * 60 + 30, RECOVERY_PCT))
+#print(get_training_pace_helper(5000, 17 * 60 + 30, RECOVERY_PCT))
