@@ -23,11 +23,12 @@ from backend.src.utils.user_storage.user import user
 database = txt_to_database("backend/data/raw/training_plan_test.txt")
 # print(database._instance_)
 my_dict = [12, 34, 45]
-available_days = ["Mon", "Fri", "Sat"]
+#available_days = ["Mon", "Fri", "Sat"]
+available_days = [1, 0, 0, 0, 1, 2, 0]
 list_of_workouts = [1.1, 2.2, 3.3]
 login_info = ["conballs@gmail.com", "concon", "secure_password"]
 
-test_user = user("Aug", "M", "Advanced", 1, 2, 12, "Nov", my_dict, available_days, 7, 100, list_of_workouts)
+test_user = user(dob="05/12/2005", sex="M", running_ex="Advanced", injury=1, most_recent_injury=2, longest_run=12, goal_date="11/18/2025", available_days=available_days, number_of_days=3)
 test_user.day_future = database.day
 test_user.week_future = database.week
 test_user.month_future = database.month

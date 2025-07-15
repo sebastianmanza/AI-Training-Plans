@@ -132,6 +132,7 @@ struct SurveyViews: View {
           date: $goalDate
         ) {
           vm.goalDate = dateFormat.string(from: goalDate)
+          vm.userID = UserDefaults.standard.integer(forKey: "userID")
           Task { await vm.submit() }
           onSurveyComplete()
 

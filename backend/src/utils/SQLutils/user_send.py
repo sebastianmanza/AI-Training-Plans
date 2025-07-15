@@ -1,5 +1,6 @@
 import sys
 import os
+import logging
 
 # Dynamically find the root directory containing the 'backend' folder
 current_dir = os.path.dirname(__file__)
@@ -48,8 +49,7 @@ def send_user_info(new_user, username, password):
                 username, password,
                 new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury, 
                 new_user.most_recent_injury, new_user.longest_run, new_user.goal_date, 
-                new_user.pace_estimates, new_user.available_days, new_user.number_of_days, 
-                new_user.workout_RPE 
+                new_user.pace_estimates, new_user.available_days, new_user.number_of_days
             )
         else:
             # Insert new user
@@ -57,8 +57,7 @@ def send_user_info(new_user, username, password):
                 username, password,
                 new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury, 
                 new_user.most_recent_injury, new_user.longest_run, new_user.goal_date, 
-                new_user.pace_estimates, new_user.available_days, new_user.number_of_days, 
-                new_user.workout_RPE 
+                new_user.pace_estimates, new_user.available_days, new_user.number_of_days
             )
 
         conn.commit()
@@ -276,7 +275,7 @@ def send_day_cycle(new_user, username, password):
     
 """ To do: update method to check for existing user_id and handle appropriate 
     updating without repeated user inputs"""  
-def send_user_creds(new_user, username, password, login_info):
+def send_user_creds(user_id, username, password, login_info):
     conn = init_db(username, password)
     curr = conn.cursor()
 
@@ -284,7 +283,7 @@ def send_user_creds(new_user, username, password, login_info):
         check_query = """
             SELECT 1 FROM public.user_credentials WHERE user_id = %s;
         """
-        curr.execute(check_query, (new_user.user_id,))
+        curr.execute(check_query, (user_id,))
         exists = curr.fetchone()
 
         if exists:
@@ -295,19 +294,20 @@ def send_user_creds(new_user, username, password, login_info):
             """
             
             record = (login_info[0], login_info[1], 
-                      login_info[2], new_user.user_id)
+                      login_info[2], user_id)
             curr.execute(update_query, record)
         else:
             insert_query = """
                 INSERT INTO public.user_credentials(user_id, email, username, password)
                 VALUES (%s, %s, %s, %s);
             """
-            record = (new_user.user_id, login_info[0], login_info[1], login_info[2])
+            record = (user_id, login_info[0], login_info[1], login_info[2])
             curr.execute(insert_query, record)
 
         conn.commit()
 
     except Exception as e:
+        logging.exception("Failed to insert credentials for user_id=%s", user_id)
         print("Database error:", e)
 
     finally:
@@ -316,12 +316,12 @@ def send_user_creds(new_user, username, password, login_info):
 
     
     
-def send_user_all(user_id, username, password, login_info):
+def send_user_all(user_id, username, password):
 
     
     send_user_info(user_id, username, password)
     
-    send_user_creds(user_id, username, password, login_info)
+    # send_user_creds(user_id, username, password, login_info)
     
     send_month_history(user_id, username, password)
     
