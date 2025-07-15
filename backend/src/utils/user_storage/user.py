@@ -123,13 +123,12 @@ class user:
 
     def get_age(self) -> int:
         """Returns the number of years the user has been alive as an int"""
-        print(self.dob)
-        # today = datetime.date.today()
-        # dob = datetime.datetime.strptime(self.dob, "%Y-%m-%d").date()
-        # age = today.year - dob.year - \
-        #     ((today.month, today.day) < (dob.month, dob.day))
-        # return age
-        return 10
+        today = datetime.date.today()
+        dob = datetime.datetime.strptime(self.dob, "%Y-%m-%d").date()
+        age = today.year - dob.year - \
+            ((today.month, today.day) < (dob.month, dob.day))
+        return age
+
 
     # update training
 
