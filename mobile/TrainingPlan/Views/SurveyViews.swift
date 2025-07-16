@@ -123,7 +123,6 @@ struct SurveyViews: View {
           label: "Longest run",
           runLength: $vm.longestRun
         ) {
-          //Task { await vm.submit() }
           currentStep = .goalDate
         }
       case .goalDate:

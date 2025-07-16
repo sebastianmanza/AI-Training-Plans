@@ -273,9 +273,21 @@ def send_day_cycle(new_user, username, password):
     conn.close()
     
     
-""" To do: update method to check for existing user_id and handle appropriate 
-    updating without repeated user inputs"""  
 def send_user_creds(user_id, username, password, login_info):
+    """
+    Sends user credentials to the database. If the user already exists, 
+    updates their credentials; otherwise, inserts a new record.
+
+    Args:
+        user_id (int): The unique identifier for the user.
+        username (str): The username of the user.
+        password (str): The password of the user.
+        login_info (dict): A dictionary containing 'email', 'username', and 'password' keys.
+
+    Raises:
+        Exception: If there is an error during the database operation.
+    """
+    
     conn = init_db(username, password)
     curr = conn.cursor()
 
@@ -293,15 +305,15 @@ def send_user_creds(user_id, username, password, login_info):
                 WHERE user_id = %s;
             """
             
-            record = (login_info[0], login_info[1], 
-                      login_info[2], user_id)
+            record = (login_info['email'], login_info['username'], 
+                      login_info['password'], user_id)
             curr.execute(update_query, record)
         else:
             insert_query = """
                 INSERT INTO public.user_credentials(user_id, email, username, password)
                 VALUES (%s, %s, %s, %s);
             """
-            record = (user_id, login_info[0], login_info[1], login_info[2])
+            record = (user_id, login_info['email'], login_info['username'], login_info['password'])
             curr.execute(insert_query, record)
 
         conn.commit()

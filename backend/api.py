@@ -13,7 +13,7 @@ from backend.src.main.frontend_compatible_survey import main as SurveyMain
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.user_send import send_user_info
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
-from backend.src.utils.user_storage.user import FIVEK, user
+from backend.src.utils.user_storage.user import user
 from backend.src.utils.time_conversion import to_str
 
 handler = RotatingFileHandler(
@@ -31,7 +31,6 @@ handler.setFormatter(formatter)
 root_logger = logging.getLogger()
 root_logger.setLevel(logging.DEBUG)
 root_logger.addHandler(handler)
-
 
 
 app = FastAPI()
@@ -131,12 +130,14 @@ async def get_home_data(user_id: int = 0):
     Returns:
         HomeData: A Pydantic model containing the home page data, including the current day, mileage, pace, stimuli, goal RPE, and upcoming workout.
     """
-    day_of_week = datetime.now().strftime("%A")
+    try:
+        day_of_week = datetime.now().strftime("%A")
 
-    # user = populate_user_info(user_id)
+        retrieved_user = populate_user_info(user_id)
 
-    # current_day = user.day_future.get() if user.day_future else None
-    # next_day = user.day_future.queue[0] if user.day_future and len(user.day_future) > 1 else None
+        current_day = retrieved_user.day_future.get() if retrieved_user.day_future else None
+        next_day = retrieved_user.day_future.queue[0] if retrieved_user.day_future and retrieved_user.day_future.qsize(
+        ) > 1 else None
 
     # TODO Replace with actual retrieval using user_id in the SQL database
     # Logic should go something like this:
@@ -147,40 +148,45 @@ async def get_home_data(user_id: int = 0):
     # 5. send info back to the database
 
     # For now, we will use a placeholder for our training plans
-    database = txt_to_database("backend/data/raw/training_plan_test.txt")
-    test_user = user("3/17/2005", sex="Male", running_ex="Advanced", injury=0, most_recent_injury=0,
-                     longest_run=10, goal_date="10/18/24", available_days=[1, 1, 1, 1, 1, 1, 1], number_of_days=5)
-    test_user.pace_estimates[FIVEK] = 307  # 5k pace in seconds
-    test_user.day_future = database.day
-    test_user.week_future = database.week
-    test_user.month_future = database.month
+    # database = txt_to_database("backend/data/raw/training_plan_test.txt")
+    # test_user = user("3/17/2005", sex="Male", running_ex="Advanced", injury=0, most_recent_injury=0,
+        # longest_run=10, goal_date="10/18/24", available_days=[1, 1, 1, 1, 1, 1, 1], number_of_days=5)
+    # test_user.pace_estimates[FIVEK] = 307  # 5k pace in seconds
+    # test_user.day_future = database.day
+    # test_user.week_future = database.week
+    # test_user.month_future = database.month
 
-    current_day = test_user.day_future.get()
-    next_day = test_user.day_future.queue[0]
+    # current_day = test_user.day_future.get()
+    # next_day = test_user.day_future.queue[0]
 
-    pace = 0
-    pace_str = ""
+        pace_str = ""
 
-    # Create a string representation of the current day and next day workouts
-    workout_cur = workout_database.get_workout_type_trio(current_day.workouts[0]) if (len(current_day.workouts) == 1) else workout_database.get_workout_type_trio(
-        current_day.workouts[0]) + " + \n" + workout_database.get_workout_type_trio(current_day.workouts[1])
-    workout_next = workout_database.get_workout_type_trio(next_day.workouts[0]) if (len(next_day.workouts) == 1) else workout_database.get_workout_type_trio(
-        next_day.workouts[0]) + " + " + workout_database.get_workout_type_trio(next_day.workouts[1])
+        # Create a string representation of the current day and next day workouts
+        workout_cur = workout_database.get_workout_type_trio(current_day.workouts[0]) if (len(current_day.workouts) == 1) else workout_database.get_workout_type_trio(
+            current_day.workouts[0]) + " + \n" + workout_database.get_workout_type_trio(current_day.workouts[1])
+        workout_next = workout_database.get_workout_type_trio(next_day.workouts[0]) if (len(next_day.workouts) == 1) else workout_database.get_workout_type_trio(
+            next_day.workouts[0]) + " + " + workout_database.get_workout_type_trio(next_day.workouts[1])
 
-    workout_check = workout_database.get_workout_type_trio(
-        current_day.workouts[0])
-    pace = test_user.get_training_pace(workout_check)
+        workout_check = workout_database.get_workout_type_trio(
+            current_day.workouts[0])
+        pace = retrieved_user.pace_estimates[user.txt_to_workout_type(
+            workout_check)] if workout_check in retrieved_user.pace_estimates else 0
 
-    pace_str = to_str(pace) + "-" + to_str(pace + 30) if pace != 0 else ""
+        pace_str = to_str(pace) + "-" + to_str(pace + 30) if pace != 0 else ""
 
-    return HomeData(
-        day=day_of_week,
-        mileage=current_day.total_mileage,
-        pace=pace_str,  # Placeholder pace, should be replaced with actual logic based on the user
-        stimuli=workout_cur,
-        goal_rpe=str(current_day.expected_rpe) + "/10",
-        upcoming=workout_next
-    )
+        return HomeData(
+            day=day_of_week,
+            mileage=current_day.total_mileage,
+            pace=pace_str,  # Placeholder pace, should be replaced with actual logic based on the user
+            stimuli=workout_cur,
+            goal_rpe=str(current_day.expected_rpe) + "/10",
+            upcoming=workout_next
+        )
+    except Exception as e:
+        # surface errors as HTTP 500
+        logging.exception(
+            "Unexpected error in /home/data with user_id=%r", user_id)
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/auth/signup", response_model=AuthOut)
@@ -200,6 +206,9 @@ async def signup(payload: SignupIn):
         dict = payload.model_dump()
         bool, userid_or_error_code = user_creation.user_exists(dict)
         print(userid_or_error_code)
+        # Hash the password before sending it to the database
+        dict['password'] = hash(dict['password'])
+
         if not bool:
             user_creation.send_user_creds(
                 userid_or_error_code, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], dict)
@@ -212,8 +221,9 @@ async def signup(payload: SignupIn):
         # Error code 1 indicates the email exists
 
     except Exception as e:
-        # surface errors as HTTP 500
-        logging.exception("Unexpected error in /auth/signup with payload=%r", payload)
+        # surface errors as HTTP 500, but log the goddamn errors somewhere
+        logging.exception(
+            "Unexpected error in /auth/signup with payload=%r", payload)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -241,7 +251,8 @@ async def login(payload: LoginIn):
         return AuthOut(user_id=userid)
     except Exception as e:
         # surface errors as HTTP 500
-        logging.exception("Unexpected error in /auth/login with payload=%r", payload)
+        logging.exception(
+            "Unexpected error in /auth/login with payload=%r", payload)
         raise HTTPException(status_code=500, detail=str(e))
 
 

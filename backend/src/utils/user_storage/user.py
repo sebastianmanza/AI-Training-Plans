@@ -180,25 +180,45 @@ class user:
         seconds = self.get_pace(int(distance))
         return tc.alter_pace(seconds, increase)
 
-    def get_training_pace(self, type) -> int:
-
+    def get_training_pace(self, workout_type) -> int:
         """Returns the training pace for a given type of workout based on the users 5k prediction time."""
-        if type == "Easy Run":
+        if self.pace_estimates[FIVEK] == -1:
+            raise ValueError("5k prediction time is not assigned.")
+            
+        if workout_type == EASY:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.65)
-        elif type == "Progression":
+        elif workout_type == PROGRESSION:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
-        elif type == "Recovery Run":
+        elif workout_type == RECOVERY:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.62)
-        elif type == "Threshold":
+        elif workout_type == THRESHOLD:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.87)
-        elif type == "Long Run":
+        elif workout_type == LONGRUN:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.7)
-        elif type == "VO2Max":
+        elif workout_type == VO2MAX:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.95)
-        elif type == "Tempo":
+        elif workout_type == TEMPO:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
         else:
             return 0
+        
+    def txt_to_workout_type(txt: str) -> int:
+        """Converts a string to the corresponding workout type index."""
+        workout_types = {
+            "Three K": THREEK,
+            "Five K": FIVEK,
+            "Ten K": TENK,
+            "Recovery Run": RECOVERY,
+            "Easy Run": EASY,
+            "Tempo Run": TEMPO,
+            "Progression Run": PROGRESSION,
+            "Threshold Run": THRESHOLD,
+            "Long Run": LONGRUN,
+            "VO2 Max Run": VO2MAX
+        }
+        return workout_types.get(txt, -1)
+        
+    
 
 # alex = user("8/22/2005", "male", "advanced", "17:30", "5", "7", "1")
 # # print(alex.get_pace(10000))
