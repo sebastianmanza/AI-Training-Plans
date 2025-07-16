@@ -182,7 +182,7 @@ def populate_user_info(user_id):
         most_recent_injury=user_data_dict[0].get('most_recent_injury'),
         longest_run=user_data_dict[0].get('longest_run'),
         goal_date=user_data_dict[0].get('goaldate'),
-        pace_estimates=user_data_dict[0].get('pace_estimates'),
+        pace_estimates=user_data_dict[0].get('pace_estimate'),
         available_days=user_data_dict[0].get('available_days'),
         number_of_days=user_data_dict[0].get('number_of_days'),
         user_id=user_data_dict[0].get('user_id'),

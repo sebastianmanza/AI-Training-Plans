@@ -51,7 +51,7 @@ def send_user_info(new_user, username, password):
 
     except Exception as e:
         logging.exception("Failed to insert user_info for user_id=%s", new_user.user_id)
-        logging.error("Database operation failed:", e)
+        # logging.error("Database operation failed:", e)
 
     finally:
         curr.close()
