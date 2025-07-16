@@ -9,8 +9,7 @@ class month_plan:
     def __init__(self, month_id: int = -1, total_mileage: int = 0, goal_stimuli=workout_database.create_trio(0, 0, 0), cycle: str = "", expected_rpe: int = 0, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, weeks: list = []):
 
         self.weeks = weeks
-        for week in self.weeks:
-            # Ensure that each week is of type week_plan
+        for week in self.weeks:  # Ensure that each week is of type week_plan
             if not isinstance(week, week_plan.week_plan):
                 raise TypeError(
                     "All weeks must be instances of week_plan.week_plan")
@@ -44,14 +43,12 @@ class month_plan:
         total = 0  # Total the weekly mileage
         for week in self.weeks:
             total += week.completed_mileage  # Sum the completed mileage for each week
-        self.completed_mileage = total
+        self.completed_mileage = total  # Update the completed mileage
         # Update the percentage after updating completed mileage
         self.update_monthly_percent()
 
     def update_monthly_percent(self) -> None:
-        """
-        Update the monthly completion percentage based on the total and completed mileage.
-        """
+        """Update the monthly completion percentage based on the total and completed mileage."""
         self.percent_completion = self.completed_mileage / \
             self.total_mileage if self.total_mileage > 0 else 1
 
