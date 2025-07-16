@@ -23,9 +23,10 @@ def get_VDOT(dist: float, time: float) -> float:
     return vdot
 
 def get_training_pace_helper(race_dist: float, race_time: float, pct_pace: float) -> float:
-    vdot = get_VDOT(race_dist, race_time)
-    target = round((MILE * 2 * 0.000104)/(-0.182258 + math.sqrt(0.182258**2 - 4 * 0.000104*(-4.6 - pct_pace * vdot))) * 60)
-    return target
+        vdot = get_VDOT(race_dist, race_time)
+        target = round((MILE * 2 * 0.000104)/(-0.182258 + math.sqrt(0.182258**2 - 4 * 0.000104*(-4.6 - pct_pace * vdot))) * 60)
+        return target
+    
 
 
-print(get_training_pace_helper(5000, 17 * 60 + 30, RECOVERY_PCT))
+#print(get_training_pace_helper(5000, 17 * 60 + 30, RECOVERY_PCT))

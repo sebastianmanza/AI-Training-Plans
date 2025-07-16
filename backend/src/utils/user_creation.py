@@ -67,7 +67,6 @@ def user_create(SQL_username, SQL_password, surveyanswers: list, signup_answers:
     # Note: The user object is created with a user_id that is generated in the user class.
     # When a new user is created user.py handles creating a user id.
 
-
 """ Testing function for user creation."""
 suveryanswers = [
     12345, "male", "advanced", "17:45", 4, 5, 2  # Example survey answers
@@ -138,10 +137,10 @@ def credential_check(username: str, password: str) -> bool:
 
 def user_exists(user_credentials) -> tuple:
     """Checks if the user exists in the database.
-    Returns True if the user exists.
-    If not, returns a randomly generated user ID and False.
+    If the user exists, returns True and an error code (1 for email, 0 for username).
+    If the user does not exist, returns False and a user_id.
     """
-    conn = init_db()
+    conn = init_db(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
     curr = conn.cursor()
 
     # write query to check if user exists by email or username
@@ -153,18 +152,21 @@ def user_exists(user_credentials) -> tuple:
         curr.execute(query, record_to_insert)
         result = curr.fetchone()
 
+        # Check if the result matches the email and username, return true if they do
         email_match = result[0] == user_credentials['email'] if result else False
         username_match = result[1] == user_credentials['username'] if result else False
 
-        if not email_match:
-            return False, 1
 
-        if not username_match:
-            return False, 0
+        # if the email matches, return True (the user exists, and an error code)
+        if email_match:
+            return True, 1
 
-        if email_match and username_match:
+        if username_match:
+            return True, 0
+
+        if not (email_match or username_match):
             user_id = secrets.randbelow(100000000 - 10000000)
-            return True, user_id  # User does not exist, return user_id
+            return False, user_id  # User does not exist, return user_id
 
     except Exception as e:
         print("Error during query execution:", e)
