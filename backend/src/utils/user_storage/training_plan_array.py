@@ -1,10 +1,13 @@
 from backend.src.main import test_user_cycle 
 
 class training_plan_array:
-    #NAMING CONVENTION:
-    #age_sex_level_injury_injuryHistory_injuryRecent_longestLongRun
-    #u before if you want under o after if you want over
-        #UFIFTEEN MALE BEGINNER
+    """NAMING CONVENTION:
+
+        age_sex_level_injury_injuryHistory_injuryRecent_longestLongRun
+    
+        u before if you want under o after if you want over
+        
+        UFIFTEEN MALE BEGINNER"""
     UFIFTEEN_MALE_BEGINNER_NO_2 = 0
     UFIFTEEN_MALE_BEGINNER_NO_4 = 1
     UFIFTEEN_MALE_BEGINNER_NO_6 = 2
