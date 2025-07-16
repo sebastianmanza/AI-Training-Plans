@@ -1,3 +1,4 @@
+import json
 import sys
 import os
 import logging
@@ -42,6 +43,10 @@ def send_user_info(new_user, username, password):
         check_query = """SELECT 1 FROM public.userlistai WHERE user_id = %s;"""
         curr.execute(check_query, (new_user.user_id,))
         exists = curr.fetchone()
+        
+        # convert workout_RPE dictionary to JSON to allow SQL to handle data properly
+        workout_RPE_JSON = json.dumps(new_user.workout_RPE)
+
 
         if exists:
             # Update existing user

@@ -112,7 +112,7 @@ def db_update(username, pwd, user_id, dob, sex, runningex, injury,
             number_of_days= %s
             WHERE userid = %s; """
     # fill query with appropriate user ID
-    record_to_insert = (user_id, dob, sex, runningex, injury, most_recent_injury, 
+    record_to_insert = (dob, sex, runningex, injury, most_recent_injury, 
                         longest_run, goal_date, pace_estimate, available_days, 
                         number_of_days)
 
