@@ -28,6 +28,9 @@ class month_plan:
     def add_weeks(self, weeks) -> None:
         """ Add multiple weeks to the month plan."""
         for week in weeks:
+            if not isinstance(week, week_plan.week_plan):
+                raise TypeError(
+                    "All weeks must be instances of week_plan.week_plan")
             self.weeks.append(week)
 
     def update_monthly_real_rpe(self) -> None:

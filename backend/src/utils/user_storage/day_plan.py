@@ -31,8 +31,15 @@ class day_plan:
         if len(workouts) < 1:  # If there are no workouts the stimuli is for an off day
             self.goal_stimuli = workouts[0]
             return
-        
-        # Initialize values representing the days trio
+
+        self.goal_stimuli = self.__make_stimuli_trio(
+            workouts)  # Use the days workouts to create a day trio
+
+    # May not be used if initialized workouts are final
+
+    @staticmethod
+    def __make_stimuli_trio(workouts: list) -> tuple:
+        """ Create a trio used to define the week using the trios from workouts"""
         tot_stim, tot_rpe, tot_dist = 0, 0, 0
         for trios in workouts:
             # Only consider the stimuli if the distance > 1 (Ignore warmup/cooldown)
@@ -41,55 +48,33 @@ class day_plan:
             if (trios[TRIO_RPE] > tot_rpe):
                 tot_rpe = trios[TRIO_RPE]
             tot_dist += trios[TRIO_DIST]
-        self.goal_stimuli = workout_database.create_trio(
-            tot_stim, tot_rpe, tot_dist)  # Use the values to create the day trio
+        # Use the values to create the day trio
+        return workout_database.create_trio(tot_stim, tot_rpe, tot_dist)
 
-        
-
-    # May not be used if initialized workouts are final
     def add_workouts(self, *workouts) -> None:
-        """ Add multiple workouts to the day plan."""
+        """ Add multiple workouts to the day plan"""
         for workout in workouts:
             self.workouts.append(workout)
 
     def update__real_rpe(self, real_rpe: int) -> None:
-        """
-        Update the real RPE for the day.
-
-        Args:
-            real_rpe (int): The real RPE value for the day.
-        """
+        """ Update the real RPE for the day"""
         self.real_rpe = real_rpe
 
     def update_daily_mileage(self, mileage: int) -> None:
-        """
-        Update the completed mileage for the day.
-
-        Args:
-            mileage (int): The mileage completed for the day.
-        """
+        """ Update the completed mileage for the day"""
         self.completed_mileage = mileage
         self.update_daily_percentage()  # Update the completion percentage
 
     def update_daily_percentage(self) -> None:
-        """
-        Update the completion percentage based on the total and completed mileage.
-        """
+        """ Update the completion percentage based on the total and completed mileage"""
         self.percent_completion = self.completed_mileage / \
             self.total_mileage if self.total_mileage > 0 else 1
 
     # Note that updating mileage also updates the percentage
     def update_day(self, mileage: int, real_rpe: int) -> None:
-        """
-        Update the daily mileage and RPE.
-
-        Args:
-            mileage (int): The mileage completed for the day.
-            real_rpe (int): The real RPE value for the day.
-        """
+        """ Update the daily mileage and RPE"""
         self.update_daily_mileage(mileage)
         self.update__real_rpe(real_rpe)
-
 
         # self.week_id.update_week()
 # testing code

@@ -24,12 +24,12 @@ class week_plan:
 
         self.month_id = month_id  # Reference to the month plan this week belongs to
 
-    # Once we have the days add them to the week
     def add_days(self, days) -> None:
         """ Add multiple days to the week plan."""
         for day in days:
             self.days.append(day)
 
+    # Update methods which includes the ability to set values
     def update_weekly_real_rpe(self) -> None:
         """Update the real RPE for the week based on the expected and real RPE values."""
         total = 0  # Total the RPE
