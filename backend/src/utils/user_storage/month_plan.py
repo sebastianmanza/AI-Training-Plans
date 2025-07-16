@@ -33,20 +33,21 @@ class month_plan:
                     "All weeks must be instances of week_plan.week_plan")
             self.weeks.append(week)
 
+    def average_property(list_to_average: list,  property_name: str) -> float:
+        """Calculate the average of a specific property from a list of objects."""
+        total = 0
+        for item in list_to_average:
+            total += getattr(item, property_name)
+        return total / len(list_to_average) if list_to_average else 0
+
     def update_monthly_real_rpe(self) -> None:
         """Update the real RPE for the month based on the expected and real RPE values."""
-        total = 0  # Total the RPE
-        for week in self.weeks:
-            total += week.calc_weekly_real_rpe()
-        # Divide by the number of weeks
-        self.real_rpe = total / len(self.weeks) if self.weeks else 0
+        self.real_rpe = self.average_property(self.weeks, 'real_rpe')
 
     def update_monthly_mileage(self) -> None:
         """Update the monthly completion based on the weekly completion."""
-        total = 0  # Total the weekly mileage
-        for week in self.weeks:
-            total += week.completed_mileage  # Sum the completed mileage for each week
-        self.completed_mileage = total  # Update the completed mileage
+        self.completed_mileage = self.average_property(
+            self.weeks, 'completed_mileage')
         # Update the percentage after updating completed mileage
         self.update_monthly_percent()
 
