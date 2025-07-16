@@ -25,7 +25,7 @@ class user:
     # __slots__ = ("dob", "sex", "running_ex", "injury", "most_recent_injury", "longest_run", "goal_date", "pace_estimates", "available_days", "number_of_days", "user_id", "workout_RPE")
 
     def __init__(self, dob: str, sex: str, running_ex: str, injury: int, most_recent_injury: int, longest_run: int,  goal_date: str,
-                 available_days: list, number_of_days: int, pace_estimates: list = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], user_id: int = secrets.randbelow(100000000 - 10000000), workout_RPE=DEFAULT_WORKOUT_NUMS):
+                 available_days: list, number_of_days: int, pace_estimates: list = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], user_id: int = secrets.randbelow(100000000 - 10000000), workout_RPE: dict = DEFAULT_WORKOUT_NUMS):
         """Creates a user from the given arguments and initializes storage which is the series of stacks and queues necessary for 
         storing all past and future workouts from a training plan for the user.
         Args:
@@ -69,36 +69,40 @@ class user:
         self.month_future = storage.month_future
         self.week_future = storage.week_future
         self.day_future = storage.day_future
-        #additional information
+        # additional information
         self.age = self.get_age()
-
-
-        
 
     # Update the mean_RPE using the workout type and the RPE
 
     def update_mean_RPE(self, type: str, given_RPE: float, expected_RPE: float) -> None:
-        # Get the info for the workout type
-        info = self.workout_mean_RPE.get(type)
+        """Update the values associated with a given workout type"""
+        info = self.workout_RPE.get(type)  # Get the info for the workout type
         new_mean = ((info[RPE]*info[DAYS]) + given_RPE) / \
             (info[DAYS]+1)  # Calculate the new mean
         # Calculate the new average deviation
         new_deviation = ((info[DEVIATION]*info[DAYS]) +
                          abs(given_RPE-expected_RPE)) / (info[DAYS]+1)
-        self.workout_mean_RPE.update(
+        self.workout_RPE.update(
             # Update the information
             type, (new_mean, (info[DAYS]+1), new_deviation))
-
-    # Takes in a distance and assigns the mile pace to it.
+        
+    def get_type_mean_RPE(self, type: str) -> float:
+        """Returns the mean RPE for a given workout type"""
+        return self.workout_RPE[type][RPE]
+    
+    def get_type_deviation_RPE(self, type: str) -> float:
+        """Returns the deviation of the RPE for a given workout type"""
+        return self.workout_RPE[type][DEVIATION]
 
     def set_pace(self, distance: int, new_pace) -> None:
+        """Set the pace for a distance in seconds. This updates the pace"""
         if isinstance(new_pace, str):
             self.pace_estimates[distance] = tc.mile_pace(new_pace, distance)
         else:
             self.pace_estimates[distance] = new_pace
 
-    # Returns the mile pace for a given distance in seconds.
     def get_pace(self, distance: int) -> int:
+        """Returns the pace for a distance in seconds"""
         return self.pace_estimates[distance]
 
     # Makes the predictions for every distance in DISTANCES.
@@ -129,7 +133,8 @@ class user:
         today = datetime.date.today()
         dob = datetime.datetime.strptime(self.dob, "%Y-%m-%d").date()
         age = today.year - dob.year - \
-            ((today.month, today.day) < (dob.month, dob.day))
+            ((today.month, today.day) < (dob.month, dob.day)
+             )  # Adjust for whether the birthday has occurred this year
         return age
 
     # update training
@@ -184,7 +189,7 @@ class user:
     def get_training_pace(self, run_type: str) -> int:
         """Returns the training pace for a given type of workout based on the users 5k prediction time."""
         # Based on the VDOT calculator used by Jack Daniels
-        
+
         match run_type:
             case "Easy Run":
                 return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.65)
