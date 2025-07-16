@@ -1,7 +1,7 @@
 from backend.src.utils.workout.workout_storage import workout_storage
-from backend.src.utils.workout.single_workout import single_workout
+from backend.src.utils.workout.single_workout import single_workout, TRIO_STIM, TRIO_RPE, TRIO_DIST
 
-TRIO_STIM, TRIO_RPE, TRIO_DIST = 0, 1, 2
+
 LARGE_NUM = 4000
 
 
@@ -127,7 +127,7 @@ class workout_database:
         return workout_database.workout_dictionary[final_trio]
 
     @staticmethod
-    def get_workout_type_trio(trio) -> str:
+    def get_workout_type_trio(trio: tuple) -> str:
         """Returns the workout type based on the trio"""
         stim, rpe, dist = trio[TRIO_STIM], trio[TRIO_RPE], trio[TRIO_DIST]
         return workout_database.get_workout_type(stim, rpe, dist)
@@ -139,6 +139,7 @@ class workout_database:
     def get_individual_workout_helper(self, stim: float, rpe: float, dist: float, workout_type: str) -> single_workout:
         """Returns the workout closest to the stim,rpe and dist from within the type"""
         distance = LARGE_NUM  # A value large enough to not be the min
+        # Default to the first workout in specific storage
         final_workout = self.get_workout_storage_type(workout_type)[0]
         for workout in self.get_workout_storage_type(workout_type):
             new_distance = workout_database.get_distance(
@@ -182,4 +183,3 @@ class workout_database:
 
     def get_distance(trio, stim: float, rpe: float, dist: float) -> float:
         return (trio[TRIO_STIM] - stim) ** 2 + (trio[TRIO_RPE] - rpe) ** 2 + (trio[TRIO_DIST] - dist) ** 2
-
