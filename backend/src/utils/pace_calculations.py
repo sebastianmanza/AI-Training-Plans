@@ -10,6 +10,7 @@ THRESH_PCT = 0.87
 VO2MAX_PCT = 0.95
 TIME_CONVERSION_NUM = 60
 
+# Pace calculation functions:
 
 def get_VDOT(dist: float, time: float) -> float:
     """return the VDOT value of a runner given the distance in meters and time in seconds."""
@@ -33,7 +34,7 @@ def get_training_pace_helper(race_dist: float, race_time: float, pct_pace: float
 #print(get_training_pace_helper(5000, 17 * 60 + 30, RECOVERY_PCT))
 
 
-
+# Time conversion functions:
 
 def to_str(sec: int) -> str:
     """ Convert seconds to a string in the format H:MM:SS."""
@@ -101,5 +102,14 @@ def mile_pace(pace, distance: int) -> int:
         pace = from_str(pace)
     return math.floor((pace * MILE) / distance)
 
+
+# Addtional functions:
+
+def average_property(list_to_average: list,  property_name: str) -> float:
+        """Calculate the average of a specific property from a list of objects."""
+        total = 0
+        for item in list_to_average:
+            total += getattr(item, property_name)
+        return total / len(list_to_average) if list_to_average else 0
 
 # print(parse_pace("5000-10", "17:30 5k runner"))  # Example (to use replace seconds = user.get_pace(int(distance)) with seconds = "17:30")
