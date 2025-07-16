@@ -23,7 +23,8 @@ from backend.src.utils.user_storage.user import user
 database = txt_to_database("backend/data/raw/training_plan_test.txt")
 # print(database._instance_)
 my_dict = [12, 34, 45]
-available_days = ["Mon", "Fri", "Sat"]
+#available_days = ["Mon", "Fri", "Sat"]
+available_days = [1, 0, 0, 0, 1, 2, 0]
 list_of_workouts = [1.1, 2.2, 3.3]
 login_info = ["conballs@gmail.com", "concon", "secure_password"]
 pace_estimate = [1, 2, 3]
