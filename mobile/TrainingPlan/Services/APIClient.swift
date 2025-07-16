@@ -44,8 +44,12 @@ class APIClient {
     }
   }
 
-  static func fetchHomeData() async throws -> HomeData {
-    guard let url = URL(string: "\(baseURL)/home/data") else {
+    static func fetchHomeData(session: Session) async throws -> HomeData {
+    guard let userID = session.userID else {
+        throw APIError.http(-1, Data("No userID in session".utf8))
+        }
+        
+    guard let url = URL(string: "\(baseURL)/home/data?user_id=\(userID)") else {
       throw APIError.badURL
     }
     let (data, resp) = try await URLSession.shared.data(from: url)

@@ -10,7 +10,8 @@ extension Float {
 }
 
 struct HomeView: View {
-  @StateObject private var vm = HomeViewModel()
+    @EnvironmentObject private var session: Session
+    @StateObject private var vm = HomeViewModel()
 
   /* The current options for clickable objects */
   var onCompleted: () -> Void
@@ -104,7 +105,7 @@ struct HomeView: View {
                 }
               })
         }
-        .onAppear { Task { await vm.load() } }
+        .onAppear { Task { await vm.load(session: session) } }
         .padding(.bottom, 50)
         .overlay(
           CalendarButton(action: onCalendarTapped)

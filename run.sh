@@ -58,8 +58,8 @@
 set -e
 
 # 1) Spin up your FastAPI backend
-LOGFILE="$(pwd)/backend/uvicorn.log"
-pkill -f "uvicorn.*backend\.api:app" 2>/dev/null || true
+LOGFILE="$(pwd)/uvicorn.log"
+pkill -f "uvicorn" || true
 echo "Starting FastAPI backend…"
 nohup python3 -u -m uvicorn backend.api:app \
     --reload --host 0.0.0.0 --port 8000 \
