@@ -3,9 +3,8 @@ import math
 import secrets
 import datetime
 from backend.src.utils.user_storage.storage_stacks_and_queues import storage_stacks_and_queues
-import backend.src.utils.time_conversion as tc
 import backend.src.utils.user_storage.training_database as training_database
-from backend.src.utils.pace_calculations import get_training_pace_helper
+from backend.src.utils.pace_calculations import get_training_pace_helper, alter_pace, to_str, mile_pace
 
 
 FIVEKDIST, METERS_PER_MILE = 5000, 1600  # Distance conversions
@@ -85,11 +84,11 @@ class user:
         self.workout_RPE.update(
             # Update the information
             type, (new_mean, (info[DAYS]+1), new_deviation))
-        
+
     def get_type_mean_RPE(self, type: str) -> float:
         """Returns the mean RPE for a given workout type"""
         return self.workout_RPE[type][RPE]
-    
+
     def get_type_deviation_RPE(self, type: str) -> float:
         """Returns the deviation of the RPE for a given workout type"""
         return self.workout_RPE[type][DEVIATION]
@@ -97,7 +96,7 @@ class user:
     def set_pace(self, distance: int, new_pace) -> None:
         """Set the pace for a distance in seconds. This updates the pace"""
         if isinstance(new_pace, str):
-            self.pace_estimates[distance] = tc.mile_pace(new_pace, distance)
+            self.pace_estimates[distance] = mile_pace(new_pace, distance)
         else:
             self.pace_estimates[distance] = new_pace
 
@@ -119,7 +118,7 @@ class user:
     def get_times(self) -> str:
         toReturn = ""
         for k, v in self.pace_estimates.items():
-            toReturn += f"{k}:{tc.to_str(v)}\n"
+            toReturn += f"{k}:{to_str(v)}\n"
         return toReturn
 
     def get_user_id(self) -> int:
@@ -184,7 +183,7 @@ class user:
             distance, increase = pace, 0
         pace = pace.strip()
         seconds = self.get_pace(int(distance))
-        return tc.alter_pace(seconds, increase)
+        return alter_pace(seconds, increase)
 
     def get_training_pace(self, run_type: str) -> int:
         """Returns the training pace for a given type of workout based on the users 5k prediction time."""

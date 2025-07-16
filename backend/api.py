@@ -12,7 +12,7 @@ from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.user_send import send_user_info
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.utils.user_storage.user import FIVEK, user
-from backend.src.utils.time_conversion import to_str
+from backend.src.utils.pace_calculations import to_str
 
 app = FastAPI()
 
