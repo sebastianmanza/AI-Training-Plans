@@ -30,11 +30,11 @@ for idx, row in sheet1.iterrows():  # For each row
         else:
             distance = row[col]
 
-workouts.append(single_workout
+    workouts.append(single_workout
                     (workout_database.create_trio(trio[TRIO_STIM], trio[TRIO_RPE], trio[TRIO_DIST]), reps, pace, distance))
 workouts = sorted(workouts, key=lambda x: (
     x.get_stim(), x.get_rpe(), x.get_distance()))
 
 new_workout_database.mass_add_workouts(workouts)
 new_workout_database.print_workouts("Warmup and Cooldown")
-new_workout_database.print_workouts("Kenyan")
+new_workout_database.print_workouts("Progression")
