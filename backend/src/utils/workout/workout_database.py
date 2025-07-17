@@ -1,7 +1,7 @@
 from backend.src.utils.workout.workout_storage import workout_storage
-from backend.src.utils.workout.single_workout import single_workout
+from backend.src.utils.workout.single_workout import single_workout, TRIO_STIM, TRIO_RPE, TRIO_DIST
 
-TRIO_STIM, TRIO_RPE, TRIO_DIST = 0, 1, 2
+
 LARGE_NUM = 4000
 
 
@@ -11,14 +11,14 @@ class workout_database:
 
     # Creates a trio that can be used as a key in the workout dictionary.
     @staticmethod
-    def create_trio(stim, rpe, dist):
+    def create_trio(stim, rpe, dist) -> tuple:
         stim, rpe, dist = float(stim), float(rpe), float(dist)
         return (stim, rpe, dist)
 
     # x range is 1 - 7 stimulus, y range is 1 -10 RPE, z range is 1 - 10 Distance
     # Dictionary that maps trios of (x, y, z) coordinates to workout types.
     workout_dictionary = {
-        create_trio.__func__(2.5, 4, 5.5): "Easy Run",
+        create_trio.__func__(2.5, 4, 5.5): "Easy Tempo",
         create_trio.__func__(2, 3, 4.5): "Recovery Run",
         create_trio.__func__(4, 6, 6): "Progression",
         create_trio.__func__(2.5, 5, 10): "Long Run",
@@ -56,7 +56,7 @@ class workout_database:
     def match_execute(self, workout_type: str, func, *args):
         """Match the workout type to the corresponding list and execute the function with args"""
         match workout_type:
-            case "Easy Run":
+            case "Easy Tempo":
                 return func(self.et, *args)
             case "Recovery Run":
                 return func(self.recovery, *args)
@@ -83,12 +83,8 @@ class workout_database:
 
     def add_workout(self, workout: single_workout) -> None:
         """Add a workout to the matching workout database"""
-        if isinstance(workout, single_workout):
-            workout_type = workout_database.get_workout_type(
-                workout.trio[TRIO_STIM], workout.trio[TRIO_RPE], workout.trio[TRIO_DIST])
-            self.match_execute(workout_type, list.append, workout)
-            return  # Successfully added the workout
-        raise TypeError("Input must be a single_workout instance")
+        self.match_execute(workout_database.get_workout_type(workout.get_stim, workout.get_rpe, workout.get_distance),
+                           list.append, workout)
 
     def mass_add_workouts(self, workouts) -> None:
         """"Add a list of workouts to the database"""
@@ -112,13 +108,12 @@ class workout_database:
     @staticmethod
     def get_workout_type(stim: float, rpe: float, dist: float) -> str:
         """Returns the workout type based on stim, rpe, and dist"""
-        distance = LARGE_NUM
-        final_trio = workout_database.create_trio(0, 0, 0)
+        distance, final_trio = LARGE_NUM, workout_database.create_trio(
+            0, 0, 0)  # Set initial values
         for trio in workout_database.workout_dictionary:
             new_distance = workout_database.get_distance(trio, stim, rpe, dist)
             if new_distance < distance:
-                distance = new_distance
-                final_trio = trio
+                distance, final_trio = new_distance, trio  # Update the closest workout type
 
         # If the distance isn't 0 then a workout type hasn't been found.
         if final_trio == (0, 0, 0) and not dist == 0:
@@ -127,10 +122,10 @@ class workout_database:
         return workout_database.workout_dictionary[final_trio]
 
     @staticmethod
-    def get_workout_type_trio(trio) -> str:
+    def get_workout_type_trio(trio: tuple) -> str:
         """Returns the workout type based on the trio"""
-        stim, rpe, dist = trio[TRIO_STIM], trio[TRIO_RPE], trio[TRIO_DIST]
-        return workout_database.get_workout_type(stim, rpe, dist)
+        # Similar to a get_workout_type but with different input
+        return workout_database.get_workout_type(trio[TRIO_STIM], trio[TRIO_RPE], trio[TRIO_DIST])
 
     def get_workout_storage_type(self, workout_type: str) -> list:
         """Returns the list of workouts of a specific type"""
@@ -138,14 +133,14 @@ class workout_database:
 
     def get_individual_workout_helper(self, stim: float, rpe: float, dist: float, workout_type: str) -> single_workout:
         """Returns the workout closest to the stim,rpe and dist from within the type"""
-        distance = LARGE_NUM  # A value large enough to not be the min
-        final_workout = self.get_workout_storage_type(workout_type)[0]
+        distance, final_workout = LARGE_NUM, self.get_workout_storage_type(
+            workout_type)[0]  # Set inital values that work as a default
+        # Search throught the workouts of this type
         for workout in self.get_workout_storage_type(workout_type):
             new_distance = workout_database.get_distance(
-                workout.get_trio(), stim, dist, rpe)
-            if new_distance < distance:
-                distance = new_distance
-                final_workout = workout
+                workout.get_trio(), stim, dist, rpe)  # Find the distance
+            if new_distance < distance:  # Adjust values
+                distance, final_workout = new_distance, workout
 
         return final_workout
 
@@ -155,23 +150,25 @@ class workout_database:
         # Find the closest workout within the particular database
         return self.get_individual_workout_helper(stim, rpe, dist, workout_type)
 
-    def get_workout_type_coordinates(stim: float, rpe: float, dist: float):
+    def get_workout_type_coordinates(stim: float, rpe: float, dist: float) -> tuple:
         """Given stim, rpe, and dist return the coordinates associated with the workout type"""
-        distance = LARGE_NUM
-        final_trio = workout_database.create_trio(0, 0, 0)
+        if dist == 0:  # If the distance is 0 then return the off workout
+            return workout_database.create_trio(0, 0, 0)
+        final_trio, distance = workout_database.create_trio(
+            0, 0, 0), LARGE_NUM  # Inital values
         for trio in workout_database.workout_dictionary:
             new_distance = workout_database.get_distance(trio, stim, rpe, dist)
-            if new_distance < distance:
-                distance = new_distance
-                final_trio = trio
+            if new_distance < distance:  # If the workout is closer set it as the closest workout
+                distance, final_trio = new_distance, trio
 
-        if final_trio == (0, 0, 0) and not dist == 0:
-            raise ValueError(
-                "No matching workout type found for the given coordinates.")
+        # Check to see that a workout was found
+        if not final_trio == (0, 0, 0):
+            return final_trio
+        # If no workout was found then raise an error
+        raise ValueError(
+            "No matching workout type found for the given coordinates.")
 
-        return final_trio
-
-    def get_workout_difference(stim: float, rpe: float, dist: float):
+    def get_workout_difference(stim: float, rpe: float, dist: float) -> tuple:
         """Return the difference between the inputted stim, rpe, and dist and the workout type it is associated with"""
         workout_trio = workout_database.get_workout_type_coordinates(
             stim, rpe, dist)
@@ -180,6 +177,5 @@ class workout_database:
             (rpe - workout_trio[TRIO_RPE]),
             (dist - workout_trio[TRIO_DIST]))
 
-    def get_distance(trio, stim: float, rpe: float, dist: float) -> float:
+    def get_distance(trio: tuple, stim: float, rpe: float, dist: float) -> float:
         return (trio[TRIO_STIM] - stim) ** 2 + (trio[TRIO_RPE] - rpe) ** 2 + (trio[TRIO_DIST] - dist) ** 2
-

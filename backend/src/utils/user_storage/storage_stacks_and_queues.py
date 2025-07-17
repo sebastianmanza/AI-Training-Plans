@@ -3,10 +3,11 @@ from queue import Queue
 
 
 class storage_stacks_and_queues:
+    """This class is used to store stacks and queues for month, week, and day"""
+
     __slots__ = ("month_history", "week_history", "day_history",
                  "month_future", "week_future", "day_future")
 
-    # This class is used to store stacks and queues for month, week, and day
     def __init__(self):
         # Initialize the storage class
         # stacks

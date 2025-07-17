@@ -4,10 +4,9 @@ import math
 import secrets
 import datetime
 from backend.src.utils.user_storage.storage_stacks_and_queues import storage_stacks_and_queues
-import backend.src.utils.time_conversion as tc
 import backend.src.utils.user_storage.training_database as training_database
-from backend.src.utils.pace_calculations import get_training_pace_helper
 from backend.src.utils.SQLutils.database_connect import init_db
+from backend.src.utils.pace_calculations import get_training_pace_helper, alter_pace, to_str, mile_pace
 
 
 FIVEKDIST, METERS_PER_MILE = 5000, 1600  # Distance conversions
@@ -15,11 +14,13 @@ CALCNUM = 1.06  # Exponent for pace prediction
 DISTANCES = [3000, 5000, 10000]  # Distances for which we will make predictions
 RPE, DAYS, DEVIATION = 0, 1, 2  # Indexes used for mean RPE
 DEFAULT_WORKOUT_NUMS = {
-    "Easy Run": (0, 0, 0), "Recovery Run": (0, 0, 0), "Progression": (0, 0, 0), "Long Run": (0, 0, 0),
+    "Easy Tempo": (0, 0, 0), "Recovery Run": (0, 0, 0), "Progression": (0, 0, 0), "Long Run": (0, 0, 0),
     "Threshold": (0, 0, 0), "Fartlek": (0, 0, 0), "Race Pace Interval": (0, 0, 0), "Strides": (0, 0, 0),
     "Hill Sprints": (0, 0, 0), "Flat Sprints": (0, 0, 0), "Time Trial": (0, 0, 0), "Warmup and Cooldown": (0, 0, 0), "Off": (0, 0, 0)}
 
-THREEK, FIVEK, TENK, RECOVERY, EASY, TEMPO, PROGRESSION, THRESHOLD, LONGRUN, VO2MAX = range(10)
+THREEK, FIVEK, TENK, RECOVERY, EASY, TEMPO, PROGRESSION, THRESHOLD, LONGRUN, VO2MAX = range(
+    10)
+
 
 class user:
     # __slots__ = ("dob", "sex", "running_ex", "injury", "most_recent_injury", "longest_run", "goal_date", "pace_estimates", "available_days", "number_of_days", "user_id", "workout_RPE")
@@ -47,9 +48,9 @@ class user:
             user_id: --int The user's id
             workout_RPE: --dict: Users mean RPE for each type of run
         """
-        #training storage
+        # training storage
         storage = storage_stacks_and_queues()
-        #inputs
+        # inputs
         self.dob = dob
         self.sex = sex
         self.running_ex = running_ex
@@ -62,43 +63,48 @@ class user:
         self.number_of_days = number_of_days
         self.user_id = user_id
         self.workout_RPE = workout_RPE
-        #workout storage
+        # workout storage
         self.month_history = storage.month_history
         self.week_history = storage.week_history
         self.day_history = storage.day_history
         self.month_future = storage.month_future
         self.week_future = storage.week_future
         self.day_future = storage.day_future
-        #additional information
+        # additional information
         self.age = self.get_age()
-
-
-        
 
     # Update the mean_RPE using the workout type and the RPE
 
     def update_mean_RPE(self, type: str, given_RPE: float, expected_RPE: float) -> None:
-        # Get the info for the workout type
-        info = self.workout_mean_RPE.get(type)
+        """Update the values associated with a given workout type"""
+        info = self.workout_RPE.get(type)  # Get the info for the workout type
         new_mean = ((info[RPE]*info[DAYS]) + given_RPE) / \
             (info[DAYS]+1)  # Calculate the new mean
         # Calculate the new average deviation
         new_deviation = ((info[DEVIATION]*info[DAYS]) +
                          abs(given_RPE-expected_RPE)) / (info[DAYS]+1)
-        self.workout_mean_RPE.update(
-            type, (new_mean, (info[DAYS]+1), new_deviation))  # Update the information
+        self.workout_RPE.update(
+            # Update the information
+            type, (new_mean, (info[DAYS]+1), new_deviation))
 
-    # Takes in a distance and assigns the mile pace to it.
+    def get_type_mean_RPE(self, type: str) -> float:
+        """Returns the mean RPE for a given workout type"""
+        return self.workout_RPE[type][RPE]
+
+    def get_type_deviation_RPE(self, type: str) -> float:
+        """Returns the deviation of the RPE for a given workout type"""
+        return self.workout_RPE[type][DEVIATION]
 
     def set_pace(self, distance: int, new_pace) -> None:
+        """Set the pace for a distance in seconds. This updates the pace"""
         if isinstance(new_pace, str):
-            self.pace_times_dict[distance] = tc.mile_pace(new_pace, distance)
+            self.pace_estimates[distance] = mile_pace(new_pace, distance)
         else:
-            self.pace_times_dict[distance] = new_pace
+            self.pace_estimates[distance] = new_pace
 
-    # Returns the mile pace for a given distance in seconds.
     def get_pace(self, distance: int) -> int:
-        return self.pace_times_dict[distance]
+        """Returns the pace for a distance in seconds"""
+        return self.pace_estimates[distance]
 
     # Makes the predictions for every distance in DISTANCES.
     def make_predictions(self) -> None:
@@ -113,8 +119,8 @@ class user:
     # Returns the mile pace for each distance.
     def get_times(self) -> str:
         toReturn = ""
-        for k, v in self.pace_times_dict.items():
-            toReturn += f"{k}:{tc.to_str(v)}\n"
+        for k, v in self.pace_estimates.items():
+            toReturn += f"{k}:{to_str(v)}\n"
         return toReturn
 
     def get_user_id(self) -> int:
@@ -162,9 +168,9 @@ class user:
         today = datetime.date.today()
         dob = datetime.datetime.strptime(self.dob, "%Y-%m-%d").date()
         age = today.year - dob.year - \
-            ((today.month, today.day) < (dob.month, dob.day))
+            ((today.month, today.day) < (dob.month, dob.day)
+             )  # Adjust for whether the birthday has occurred this year
         return age
-
 
     # update training
 
@@ -213,7 +219,7 @@ class user:
             distance, increase = pace, 0
         pace = pace.strip()
         seconds = self.get_pace(int(distance))
-        return tc.alter_pace(seconds, increase)
+        return alter_pace(seconds, increase)
 
     def get_training_pace(self, workout_type) -> int:
         """Returns the training pace for a given type of workout based on the users 5k prediction time."""
@@ -244,7 +250,7 @@ class user:
             "Five K": FIVEK,
             "Ten K": TENK,
             "Recovery Run": RECOVERY,
-            "Easy Run": EASY,
+            "Easy Tempo": EASY,
             "Tempo Run": TEMPO,
             "Progression Run": PROGRESSION,
             "Threshold Run": THRESHOLD,
