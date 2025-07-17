@@ -12,7 +12,7 @@ CALCNUM = 1.06  # Exponent for pace prediction
 DISTANCES = [3000, 5000, 10000]  # Distances for which we will make predictions
 RPE, DAYS, DEVIATION = 0, 1, 2  # Indexes used for mean RPE
 DEFAULT_WORKOUT_NUMS = {
-    "Easy Run": (0, 0, 0), "Recovery Run": (0, 0, 0), "Progression": (0, 0, 0), "Long Run": (0, 0, 0),
+    "Easy Tempo": (0, 0, 0), "Recovery Run": (0, 0, 0), "Progression": (0, 0, 0), "Long Run": (0, 0, 0),
     "Threshold": (0, 0, 0), "Fartlek": (0, 0, 0), "Race Pace Interval": (0, 0, 0), "Strides": (0, 0, 0),
     "Hill Sprints": (0, 0, 0), "Flat Sprints": (0, 0, 0), "Time Trial": (0, 0, 0), "Warmup and Cooldown": (0, 0, 0), "Off": (0, 0, 0)}
 
@@ -214,7 +214,7 @@ class user:
             "Five K": FIVEK,
             "Ten K": TENK,
             "Recovery Run": RECOVERY,
-            "Easy Run": EASY,
+            "Easy Tempo": EASY,
             "Tempo Run": TEMPO,
             "Progression Run": PROGRESSION,
             "Threshold Run": THRESHOLD,
