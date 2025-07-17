@@ -168,7 +168,7 @@ class workout_database:
         raise ValueError(
             "No matching workout type found for the given coordinates.")
 
-    def get_workout_difference(stim: float, rpe: float, dist: float):
+    def get_workout_difference(stim: float, rpe: float, dist: float) -> tuple:
         """Return the difference between the inputted stim, rpe, and dist and the workout type it is associated with"""
         workout_trio = workout_database.get_workout_type_coordinates(
             stim, rpe, dist)
