@@ -873,13 +873,10 @@ struct SurveyViews: View {
     @Binding var runLength: Int
     let onNext: () -> Void
 
-    /// Local state for the two wheels
-    @State private var miles: Int = 0
-
     private let maxMiles = 25
 
     private var lengthWheel: some View {
-      Picker("", selection: $miles) {
+      Picker("", selection: $runLength) {
         ForEach(0...maxMiles, id: \.self) { v in
           Text(String(format: "%d", v))
             .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 25))
