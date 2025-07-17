@@ -3,17 +3,25 @@ from backend.src.utils.user_storage.user import user
 from backend.src.utils.SQLutils.user_send import send_user_creds, send_user_all
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.database_connect import init_db
+from email_validator import validate_email, EmailNotValidError
 
 USERNAME_LOC, PASSWORD_LOC = 0, 1
 PASS_LEN_REQ = 8
 
+
+""" this function takes in the email string and checks for correct formatting """
+def validate_address(email: str):
+    try:
+        validate_email(email)
+        return True
+    except EmailNotValidError:
+        return False
 
 # Add pace estimator so that it only runs once when the user is created.
 
 """ This function creates a new user based on user input.
 Full population of the SQL database is performed from the the referenced user object and login information is sent to a seperate table for
 long term storage and security. In an the event an SQL query fails, the function will return an error message."""
-
 
 def user_create(SQL_username, SQL_password, surveyanswers: list, signup_answers: list):
 

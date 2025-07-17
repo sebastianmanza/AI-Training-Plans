@@ -1,4 +1,5 @@
 # import training
+import logging
 import math
 import secrets
 import datetime
@@ -6,6 +7,7 @@ from backend.src.utils.user_storage.storage_stacks_and_queues import storage_sta
 import backend.src.utils.time_conversion as tc
 import backend.src.utils.user_storage.training_database as training_database
 from backend.src.utils.pace_calculations import get_training_pace_helper
+from backend.src.utils.SQLutils.database_connect import init_db
 
 
 FIVEKDIST, METERS_PER_MILE = 5000, 1600  # Distance conversions
@@ -23,7 +25,7 @@ class user:
     # __slots__ = ("dob", "sex", "running_ex", "injury", "most_recent_injury", "longest_run", "goal_date", "pace_estimates", "available_days", "number_of_days", "user_id", "workout_RPE")
 
     def __init__(self, dob: str, sex: str, running_ex: str, injury: int, most_recent_injury: int, longest_run: int,  goal_date: str, 
-                available_days: list, number_of_days: int, pace_estimates: list = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1], user_id: int = secrets.randbelow(100000000 - 10000000), workout_RPE=DEFAULT_WORKOUT_NUMS):
+                available_days: list, number_of_days: int, pace_estimates: list = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1], user_id: int = secrets.randbelow(90000000) + 10000000, workout_RPE=DEFAULT_WORKOUT_NUMS):
         """Creates a user from the given arguments and initializes storage which is the series of stacks and queues necessary for 
         storing all past and future workouts from a training plan for the user.
         Args:
@@ -118,8 +120,42 @@ class user:
     def get_user_id(self) -> int:
         return self.user_id
 
+    
+    def user_id_exists(user_id: int) -> bool:
+        """" Checks if a user_id exists in the database."""
+        
+        conn = init_db()
+        curr = conn.cursor()
+        
+        try:
+            # Check if the user_id exists in the user_credentials table
+            query = """
+                SELECT 1 FROM public.user_credentials WHERE user_id = %s;
+            """
+            curr.execute(query, (user_id,))
+            exists = curr.fetchone()
+            return bool(exists)
+
+        finally:
+            # Close the cursor and connection
+            curr.close()
+            conn.close() 
+            
+            
     def generate_new_id(self) -> None:
-        self.user_id = secrets.randbelow(100000000 - 10000000)
+        """ Generates a new user ID for the user.
+        This function generates a new user ID that is not already in use by checking the database."""
+        
+        # Generate a new user ID
+        new_user_id = secrets.randbelow(900000000) + 10000000
+        
+        # Check if the user ID already exists in the database
+        if (user.user_id_exists(new_user_id)):
+            logging.warning("User ID already exists, generating a new one.")
+            self.generate_new_id() 
+        
+        self.user_id = new_user_id
+        
 
     def get_age(self) -> int:
         """Returns the number of years the user has been alive as an int"""
