@@ -165,7 +165,7 @@ def user_exists(user_credentials) -> tuple:
             return True, 0
 
         if not (email_match or username_match):
-            user_id = secrets.randbelow(100000000 - 10000000)
+            user_id = user.generate_new_id()  # Generate a new user_id if the user does not exist
             return False, user_id  # User does not exist, return user_id
 
     except Exception as e:

@@ -6,12 +6,10 @@ from typing import Optional
 import logging
 from logging.handlers import RotatingFileHandler
 
-from backend.scripts.txt_to_database import txt_to_database
 from backend.src.utils import user_creation
 from backend.src.utils.workout.workout_database import workout_database
-from backend.src.main.frontend_compatible_survey import main as SurveyMain
+from backend.src.main.API.initial_user_to_sql import main as SurveyMain
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
-from backend.src.utils.SQLutils.user_send import send_user_info
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.pace_calculations import to_str
@@ -113,10 +111,11 @@ async def survey_prelim(payload: SurveyIn):
     try:
         # dispatch to your pure‐function—no input(), no print()
         result = SurveyMain.prelim_survey(payload.model_dump())
-        print(result)
+        # print(result)
         return result
     except Exception as e:
         # surface errors as HTTP 500
+        logging.exception("Error in /survey/prelim with payload=%r", payload)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -139,26 +138,6 @@ async def get_home_data(user_id: int = 0):
         next_day = retrieved_user.day_future.queue[0] if retrieved_user.day_future and retrieved_user.day_future.qsize(
         ) > 1 else None
 
-    # TODO Replace with actual retrieval using user_id in the SQL database
-    # Logic should go something like this:
-    # 1. Retrieve user_id from session (either logged in user or when user logs in)
-    # 2. Use user_id to retrieve the whole user from the database
-    # 3. For now use the assumption that the user is filling out post run everyday, update the stack with the info entered
-    # 4. put that on the stack, pop the top of the stack and shift everything into their places
-    # 5. send info back to the database
-
-    # For now, we will use a placeholder for our training plans
-    # database = txt_to_database("backend/data/raw/training_plan_test.txt")
-    # test_user = user("3/17/2005", sex="Male", running_ex="Advanced", injury=0, most_recent_injury=0,
-        # longest_run=10, goal_date="10/18/24", available_days=[1, 1, 1, 1, 1, 1, 1], number_of_days=5)
-    # test_user.pace_estimates[FIVEK] = 307  # 5k pace in seconds
-    # test_user.day_future = database.day
-    # test_user.week_future = database.week
-    # test_user.month_future = database.month
-
-    # current_day = test_user.day_future.get()
-    # next_day = test_user.day_future.queue[0]
-
         pace_str = ""
 
         # Create a string representation of the current day and next day workouts
@@ -169,8 +148,9 @@ async def get_home_data(user_id: int = 0):
 
         workout_check = workout_database.get_workout_type_trio(
             current_day.workouts[0])
+        pace = 0
         pace = retrieved_user.pace_estimates[user.txt_to_workout_type(
-            workout_check)] if workout_check in retrieved_user.pace_estimates else 0
+            workout_check)]
 
         pace_str = to_str(pace) + "-" + to_str(pace + 30) if pace != 0 else ""
 
@@ -205,7 +185,7 @@ async def signup(payload: SignupIn):
     try:
         dict = payload.model_dump()
         bool, userid_or_error_code = user_creation.user_exists(dict)
-        print(userid_or_error_code)
+        # print(userid_or_error_code)
         # Hash the password before sending it to the database
         dict['password'] = hash(dict['password'])
 
