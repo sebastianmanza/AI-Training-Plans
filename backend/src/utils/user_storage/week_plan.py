@@ -1,6 +1,8 @@
 import backend.src.utils.user_storage.day_plan as day_plan
 import backend.src.utils.user_storage.month_plan as month_plan
 from backend.src.utils.workout.workout_database import workout_database
+from backend.src.utils.pace_calculations import average_property
+
 
 DAYS_IN_WEEK = 7  # Default number of days in a week
 
@@ -24,25 +26,20 @@ class week_plan:
 
         self.month_id = month_id  # Reference to the month plan this week belongs to
 
-    # Once we have the days add them to the week
     def add_days(self, days) -> None:
         """ Add multiple days to the week plan."""
         for day in days:
             self.days.append(day)
 
+    # Update methods which includes the ability to set values
     def update_weekly_real_rpe(self) -> None:
         """Update the real RPE for the week based on the expected and real RPE values."""
-        total = 0  # Total the RPE
-        for day in self.days:
-            total += day.real_rpe
-        self.real_rpe = total / DAYS_IN_WEEK
+        self.real_rpe = average_property(self.days, 'real_rpe')
 
     def update_weekly_mileage(self) -> None:
         """Update the weekly completion based on the daily completion."""
-        total = 0  # Total the completion scores
-        for day in self.days:  # Sum the completed mileage for each day
-            total += day.completed_mileage
-        self.completed_mileage = total
+        self.completed_mileage = average_property(
+            self.days, 'completed_mileage')
         self.update_weekly_percent()
 
     def update_weekly_percent(self) -> None:
