@@ -34,12 +34,7 @@ class main:
         
         # Need to convert available days
         available_days = main.convert_days_of_week(payload["days_of_week"], payload["most_time_day"])
-        
-                
-        
-        
-        
-        
+
         new_user = user(
             dob = payload["date_of_birth"],
             sex = payload["sex"],
