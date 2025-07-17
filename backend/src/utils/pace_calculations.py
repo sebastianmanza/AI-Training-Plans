@@ -25,10 +25,6 @@ def get_VDOT(dist: float, time: float) -> float:
         math.exp(-0.012778 * time_min) + 0.2989558 * \
         math.exp(-0.1932605 * time_min)
 
-    percent_max = 0.8 + 0.1894393 * \
-        math.exp(-0.012778 * time_min) + 0.2989558 * \
-        math.exp(-0.1932605 * time_min)
-
     vdot = vo2 / percent_max
     return vdot
 
@@ -36,8 +32,6 @@ def get_VDOT(dist: float, time: float) -> float:
 @staticmethod
 def get_training_pace_helper(race_dist: float, race_time: float, pct_pace: float) -> float:
     vdot = get_VDOT(race_dist, race_time)
-    target = round((MILE * 2 * 0.000104)/(-0.182258 + math.sqrt(0.182258 **
-                   2 - 4 * 0.000104*(-4.6 - pct_pace * vdot))) * 60)
     target = round((MILE * 2 * 0.000104)/(-0.182258 + math.sqrt(0.182258 **
                    2 - 4 * 0.000104*(-4.6 - pct_pace * vdot))) * 60)
     return target
