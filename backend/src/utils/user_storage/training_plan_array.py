@@ -1055,9 +1055,22 @@ class training_plan_array:
     UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_NO_6O_DATABASE = test_user_cycle.txt_to_database(
         "backend/data/raw/ufifteen_female_intermediateadvanced_no_6_training_plan.txt")
     training_plans[UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_NO_6O] = UFIFTEEN_FEMALE_INTERMEDIATEADVANCED_NO_6O_DATABASE
-    # under twentyfive male advanced no injury training plans
-    UTWENTYFIVE_MALE_ADVANCED_NO_9_DATABASE = test_user_cycle.txt_to_database(
-        "backend/data/raw/utwentyfive_male_advanced_no_11_training_plan.txt")
+    #under twentyfive male intermediate no injury training plans
+    UTWENTYFIVE_MALE_INTERMEDIATE_NO_8_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_male_intermediate_no_11_training_plan.txt")
+    training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_NO_8] = UTWENTYFIVE_MALE_INTERMEDIATE_NO_8_DATABASE
+    UTWENTYFIVE_MALE_INTERMEDIATE_NO_10_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_male_intermediate_no_11_training_plan.txt")
+    training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_NO_10] = UTWENTYFIVE_MALE_INTERMEDIATE_NO_10_DATABASE
+    UTWENTYFIVE_MALE_INTERMEDIATE_NO_10O_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_male_intermediate_no_11_training_plan.txt")
+    training_plans[UTWENTYFIVE_MALE_INTERMEDIATE_NO_10O] = UTWENTYFIVE_MALE_INTERMEDIATE_NO_10O_DATABASE
+    #under twentyfive female intermediate no injury training plans
+    UTWENTYFIVE_FEMALE_INTERMEDIATE_NO_8_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_female_intermediate_no_11_training_plan.txt")
+    training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_NO_8] = UTWENTYFIVE_FEMALE_INTERMEDIATE_NO_8_DATABASE
+    UTWENTYFIVE_FEMALE_INTERMEDIATE_NO_10_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_female_intermediate_no_11_training_plan.txt")
+    training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_NO_10] = UTWENTYFIVE_FEMALE_INTERMEDIATE_NO_10_DATABASE
+    UTWENTYFIVE_FEMALE_INTERMEDIATE_NO_10O_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_female_intermediate_no_11_training_plan.txt")
+    training_plans[UTWENTYFIVE_FEMALE_INTERMEDIATE_NO_10O] = UTWENTYFIVE_FEMALE_INTERMEDIATE_NO_10O_DATABASE
+    #under twentyfive male advanced no injury training plans
+    UTWENTYFIVE_MALE_ADVANCED_NO_9_DATABASE = test_user_cycle.txt_to_database("backend/data/raw/utwentyfive_male_advanced_no_11_training_plan.txt")
     training_plans[UTWENTYFIVE_MALE_ADVANCED_NO_9] = UTWENTYFIVE_MALE_ADVANCED_NO_9_DATABASE
     UTWENTYFIVE_MALE_ADVANCED_NO_11_DATABASE = test_user_cycle.txt_to_database(
         "backend/data/raw/utwentyfive_male_advanced_no_11_training_plan.txt")

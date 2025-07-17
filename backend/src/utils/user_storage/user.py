@@ -23,8 +23,8 @@ THREEK, FIVEK, TENK, RECOVERY, EASY, TEMPO, PROGRESSION, THRESHOLD, LONGRUN, VO2
 class user:
     # __slots__ = ("dob", "sex", "running_ex", "injury", "most_recent_injury", "longest_run", "goal_date", "pace_estimates", "available_days", "number_of_days", "user_id", "workout_RPE")
 
-    def __init__(self, dob: str, sex: str, running_ex: str, injury: int, most_recent_injury: int, longest_run: int,  goal_date: str,
-                 available_days: list, number_of_days: int, pace_estimates: list = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], user_id: int = secrets.randbelow(100000000 - 10000000), workout_RPE: dict = DEFAULT_WORKOUT_NUMS):
+    def __init__(self, dob: str, sex: str, running_ex: str, injury: int, most_recent_injury: int, longest_run: int,  goal_date: str, 
+                available_days: list, number_of_days: int, pace_estimates: list = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], user_id: int = secrets.randbelow(90000000) + 10000000, workout_RPE=DEFAULT_WORKOUT_NUMS):
         """Creates a user from the given arguments and initializes storage which is the series of stacks and queues necessary for 
         storing all past and future workouts from a training plan for the user.
         Args:
@@ -125,7 +125,7 @@ class user:
         return self.user_id
 
     def generate_new_id(self) -> None:
-        self.user_id = secrets.randbelow(100000000 - 10000000)
+        self.user_id = secrets.randbelow(900000000) + 10000000
 
     def get_age(self) -> int:
         """Returns the number of years the user has been alive as an int"""
