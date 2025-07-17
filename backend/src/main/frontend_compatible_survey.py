@@ -7,6 +7,19 @@ from backend.src.utils.user_storage.user import THREEK, FIVEK, TENK, RECOVERY, E
 from backend.src.utils.pace_calculations import get_training_pace_helper
 
 class main:
+    
+    def convert_days_of_week(available_days: list, most_time_day: str) -> list:
+        """
+        Converts a list of available days of the week into a list of integers.
+        0 for unavailable, 1 for available.
+        """
+        days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        
+        converted_days = [
+            2 if day == most_time_day else
+            1 if day in available_days else 0 for day in days]
+        
+        return converted_days
 
     def prelim_survey(payload: dict) -> dict:
         """
@@ -20,7 +33,11 @@ class main:
             
         
         # Need to convert available days
-        avaliable_days = payload["days_of_week"]
+        available_days = main.convert_days_of_week(payload["days_of_week"], payload["most_time_day"])
+        
+                
+        
+        
         
         
         new_user = user(
@@ -31,21 +48,21 @@ class main:
             most_recent_injury = payload["most_recent_injury"],
             longest_run= payload["longest_run"],
             goal_date = payload["goal_date"],
-            available_days = [0, 0, 0, 0, 0, 0, 0],  # Placeholder for available days
+            available_days = available_days,  # Placeholder for available days
             number_of_days = payload["days_per_week"],
             user_id= payload["user_id"]     
         )
-        # new_user.pace_estimates = {FIVEK: predicted_5k} # Assuming 5k is the only distance for now
+        new_user.pace_estimates[FIVEK] = round(predicted_5k / 3.1) # Assuming 5k is the only distance for now
             
-        # new_user.pace_estimates[THREEK] = get_training_pace_helper(5000, predicted_5k, 1.05) # might need adjustment
-        # new_user.pace_estimates[TENK] = get_training_pace_helper(5000, predicted_5k, 0.95) # might need adjustment
-        # new_user.pace_estimates[RECOVERY] = new_user.get_training_pace(RECOVERY)
-        # new_user.pace_estimates[EASY] = new_user.get_training_pace(EASY)
-        # new_user.pace_estimates[TEMPO] = new_user.get_training_pace(TEMPO)
-        # new_user.pace_estimates[PROGRESSION] = new_user.get_training_pace(PROGRESSION)
-        # new_user.pace_estimates[THRESHOLD] = new_user.get_training_pace(THRESHOLD)
-        # new_user.pace_estimates[LONGRUN] = new_user.get_training_pace(LONGRUN)
-        # new_user.pace_estimates[VO2MAX] = new_user.get_training_pace(VO2MAX)
+        new_user.pace_estimates[THREEK] = get_training_pace_helper(5000, new_user.pace_estimates[FIVEK] * 3.1, 1.05) # might need adjustment
+        new_user.pace_estimates[TENK] = get_training_pace_helper(5000, new_user.pace_estimates[FIVEK] * 3.1, 0.95) # might need adjustment
+        new_user.pace_estimates[RECOVERY] = new_user.get_training_pace(RECOVERY)
+        new_user.pace_estimates[EASY] = new_user.get_training_pace(EASY)
+        new_user.pace_estimates[TEMPO] = new_user.get_training_pace(TEMPO)
+        new_user.pace_estimates[PROGRESSION] = new_user.get_training_pace(PROGRESSION)
+        new_user.pace_estimates[THRESHOLD] = new_user.get_training_pace(THRESHOLD)
+        new_user.pace_estimates[LONGRUN] = new_user.get_training_pace(LONGRUN)
+        new_user.pace_estimates[VO2MAX] = new_user.get_training_pace(VO2MAX)
         
         # Convert available days to a list of integers
         

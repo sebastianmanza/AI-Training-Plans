@@ -169,8 +169,9 @@ async def get_home_data(user_id: int = 0):
 
         workout_check = workout_database.get_workout_type_trio(
             current_day.workouts[0])
+        pace = 0
         pace = retrieved_user.pace_estimates[user.txt_to_workout_type(
-            workout_check)] if workout_check in retrieved_user.pace_estimates else 0
+            workout_check)]
 
         pace_str = to_str(pace) + "-" + to_str(pace + 30) if pace != 0 else ""
 

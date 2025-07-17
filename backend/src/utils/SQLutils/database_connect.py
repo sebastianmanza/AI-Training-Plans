@@ -1,4 +1,5 @@
 import psycopg2
+import logging
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 
 # takes in the host name (localhost for database owner).
@@ -21,10 +22,11 @@ def init_db(username, pwd):
 
         return conn
     except psycopg2.Error as e:
-        print(f"Database connection error: {e}")
+        logging.exception("Database connection error")
+        #print(f"Database connection error: {e}")
         return None
 
-
+ 
 # Takes in a user ID and retreives their information from the SQL database.
 def db_select(username, pwd, user_id, query, return_cursor=False):
 
@@ -62,7 +64,8 @@ def db_select(username, pwd, user_id, query, return_cursor=False):
         return result
 
     except psycopg2.Error as e:
-        print(f"Error executing query: {e}")
+        logging.exception("Error executing query")
+        # print(f"Error executing query: {e}")
         if conn:
             conn.close()
         return None
