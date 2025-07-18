@@ -25,8 +25,8 @@ THREEK, FIVEK, TENK, RECOVERY, EASY, TEMPO, PROGRESSION, THRESHOLD, LONGRUN, VO2
 class user:
     # __slots__ = ("dob", "sex", "running_ex", "injury", "most_recent_injury", "longest_run", "goal_date", "pace_estimates", "available_days", "number_of_days", "user_id", "workout_RPE")
 
-    def __init__(self, dob: str, sex: str, running_ex: str, injury: int, most_recent_injury: int, longest_run: int,  goal_date: str, 
-                available_days: list, number_of_days: int, pace_estimates: list = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1], user_id: int = secrets.randbelow(90000000) + 10000000, workout_RPE=DEFAULT_WORKOUT_NUMS):
+    def __init__(self, dob: str, sex: str, running_ex: str, injury: int, most_recent_injury: int, longest_run: int,  goal_date: str,
+                 available_days: list, number_of_days: int, pace_estimates: list = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1], user_id: int = secrets.randbelow(90000000) + 10000000, workout_RPE=DEFAULT_WORKOUT_NUMS):
         """Creates a user from the given arguments and initializes storage which is the series of stacks and queues necessary for 
         storing all past and future workouts from a training plan for the user.
         Args:
@@ -108,6 +108,7 @@ class user:
 
     # Makes the predictions for every distance in DISTANCES.
     def make_predictions(self) -> None:
+        """"""
         for distance in DISTANCES:
             self.set_pace(distance, self.predict_pace(distance))
 
@@ -126,13 +127,12 @@ class user:
     def get_user_id(self) -> int:
         return self.user_id
 
-    
     def user_id_exists(user_id: int) -> bool:
         """" Checks if a user_id exists in the database."""
-        
+
         conn = init_db()
         curr = conn.cursor()
-        
+
         try:
             # Check if the user_id exists in the user_credentials table
             query = """
@@ -145,23 +145,21 @@ class user:
         finally:
             # Close the cursor and connection
             curr.close()
-            conn.close() 
-            
-            
+            conn.close()
+
     def generate_new_id(self) -> None:
         """ Generates a new user ID for the user.
         This function generates a new user ID that is not already in use by checking the database."""
-        
+
         # Generate a new user ID
         new_user_id = secrets.randbelow(900000000) + 10000000
-        
+
         # Check if the user ID already exists in the database
         if (user.user_id_exists(new_user_id)):
             logging.warning("User ID already exists, generating a new one.")
-            self.generate_new_id() 
-        
+            self.generate_new_id()
+
         self.user_id = new_user_id
-        
 
     def get_age(self) -> int:
         """Returns the number of years the user has been alive as an int"""
@@ -221,28 +219,29 @@ class user:
         seconds = self.get_pace(int(distance))
         return alter_pace(seconds, increase)
 
-    def get_training_pace(self, workout_type) -> int:
+    def get_training_pace(self, workout_type: int) -> int:
         """Returns the training pace for a given type of workout based on the users 5k prediction time."""
         if self.pace_estimates[FIVEK] == -1:
             raise ValueError("5k prediction time is not assigned.")
-            
-        if workout_type == EASY:
-            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.65)
-        elif workout_type == PROGRESSION:
-            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
-        elif workout_type == RECOVERY:
-            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.62)
-        elif workout_type == THRESHOLD:
-            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.87)
-        elif workout_type == LONGRUN:
-            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.7)
-        elif workout_type == VO2MAX:
-            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.95)
-        elif workout_type == TEMPO:
-            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
-        else:
-            return 0
-        
+
+        match workout_type:
+            case EASY(int):
+                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.65)
+            case PROGRESSION(int):
+                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
+            case RECOVERY(int):
+                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.62)
+            case THRESHOLD(int):
+                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.87)
+            case LONGRUN(int):
+                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.7)
+            case VO2MAX(int):
+                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.95)
+            case TEMPO(int):
+                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
+            case _:
+                return 0
+
     def txt_to_workout_type(txt: str) -> int:
         """Converts a string to the corresponding workout type index."""
         workout_types = {
@@ -258,10 +257,11 @@ class user:
             "VO2 Max Run": VO2MAX
         }
         return workout_types.get(txt, -1)
-        
-    
 
-# alex = user("8/22/2005", "male", "advanced", "17:30", "5", "7", "1")
+
+alex = user("2005-08-22", "male", "advanced", "17:30", "5", "7", "1", [], 5)
+alex.make_predictions()
+print(alex.get_training_pace(RECOVERY))
 # # print(alex.get_pace(10000))
 # # print(alex.parse_pace("10000"))
 
