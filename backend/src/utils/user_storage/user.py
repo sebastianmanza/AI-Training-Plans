@@ -148,7 +148,7 @@ class user:
             conn.close() 
             
             
-    def generate_new_id(self) -> None:
+    def generate_new_id() -> int:
         """ Generates a new user ID for the user.
         This function generates a new user ID that is not already in use by checking the database."""
         
@@ -158,9 +158,9 @@ class user:
         # Check if the user ID already exists in the database
         if (user.user_id_exists(new_user_id)):
             logging.warning("User ID already exists, generating a new one.")
-            self.generate_new_id() 
+            user.generate_new_id() 
         
-        self.user_id = new_user_id
+        return new_user_id
         
 
     def get_age(self) -> int:
