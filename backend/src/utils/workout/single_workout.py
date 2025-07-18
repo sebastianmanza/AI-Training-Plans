@@ -29,6 +29,10 @@ class single_workout:
     def get_distance(self) -> float:
         """"Return the distance"""
         return self.trio[TRIO_DIST]
+    
+    def get_pace(self) -> list:
+        """Return the pace"""
+        return self.pace
 
     def __str__(self) -> str:
         return f"Workout: {self.trio}, Reps: {self.reps}, Pace: {self.pace}, Distance: {self.distance}"
