@@ -65,7 +65,6 @@ def db_select(username, pwd, user_id, query, return_cursor=False):
 
     except psycopg2.Error as e:
         logging.exception("Error executing query")
-        # print(f"Error executing query: {e}")
         if conn:
             conn.close()
         return None
@@ -74,7 +73,7 @@ def db_select(username, pwd, user_id, query, return_cursor=False):
 # Takes in prelim survey datapoints and inserts them into the SQL database
 def db_insert(username, pwd, user_id, dob, sex, runningex, injury, 
               most_recent_injury, longest_run, goal_date, pace_estimate, 
-              available_days, number_of_days):
+              available_days, number_of_days, workout_rpe):
 
     conn = init_db(username, pwd)
     # open cursor to perform sql queries
@@ -83,12 +82,12 @@ def db_insert(username, pwd, user_id, dob, sex, runningex, injury,
     # write query
     query = """ INSERT INTO public.userlistai(
         user_id, dob, sex, runningex, injury, most_recent_injury, longest_run, 
-        goaldate, pace_estimate, available_days, number_of_days)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """
+        goaldate, pace_estimate, available_days, number_of_days, workout_rpe)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """
     # fill query with appropriate user ID
     record_to_insert = (user_id, dob, sex, runningex, injury, most_recent_injury, 
                         longest_run, goal_date, pace_estimate, available_days, 
-                        number_of_days)
+                        number_of_days, workout_rpe)
 
     # execute query with filled parameters
     curr.execute(query, record_to_insert)
@@ -102,7 +101,7 @@ def db_insert(username, pwd, user_id, dob, sex, runningex, injury,
 
 def db_update(username, pwd, user_id, dob, sex, runningex, injury, 
               most_recent_injury, longest_run, goal_date, pace_estimate, 
-              available_days, number_of_days):
+              available_days, number_of_days, workout_rpe):
 
     conn = init_db(username, pwd)
     # open cursor to perform sql queries
@@ -112,12 +111,12 @@ def db_update(username, pwd, user_id, dob, sex, runningex, injury,
     query = """ UPDATE public.userlistai
         SET dob= %s, sex= %s, runningex= %s, injury= %s, most_recent_injury= %s, 
             longest_run= %s, goaldate= %s, pace_estimate= %s, available_days= %s, 
-            number_of_days= %s
+            number_of_days= %s, workout_rpe = %s
             WHERE userid = %s; """
     # fill query with appropriate user ID
     record_to_insert = (dob, sex, runningex, injury, most_recent_injury, 
                         longest_run, goal_date, pace_estimate, available_days, 
-                        number_of_days)
+                        number_of_days, workout_rpe)
 
 
     # execute query with filled parameters

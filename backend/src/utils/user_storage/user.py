@@ -7,7 +7,7 @@ from backend.src.utils.user_storage.storage_stacks_and_queues import storage_sta
 import backend.src.utils.user_storage.training_database as training_database
 from backend.src.utils.SQLutils.database_connect import init_db
 from backend.src.utils.pace_calculations import get_training_pace_helper, alter_pace, to_str, mile_pace
-
+from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 
 FIVEKDIST, METERS_PER_MILE = 5000, 1600  # Distance conversions
 CALCNUM = 1.06  # Exponent for pace prediction
@@ -130,7 +130,7 @@ class user:
     def user_id_exists(user_id: int) -> bool:
         """" Checks if a user_id exists in the database."""
         
-        conn = init_db()
+        conn = init_db(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
         curr = conn.cursor()
         
         try:
@@ -148,7 +148,7 @@ class user:
             conn.close() 
             
             
-    def generate_new_id(self) -> None:
+    def generate_new_id() -> int:
         """ Generates a new user ID for the user.
         This function generates a new user ID that is not already in use by checking the database."""
         
@@ -158,9 +158,9 @@ class user:
         # Check if the user ID already exists in the database
         if (user.user_id_exists(new_user_id)):
             logging.warning("User ID already exists, generating a new one.")
-            self.generate_new_id() 
+            user.generate_new_id() 
         
-        self.user_id = new_user_id
+        return new_user_id
         
 
     def get_age(self) -> int:
@@ -171,22 +171,6 @@ class user:
             ((today.month, today.day) < (dob.month, dob.day)
              )  # Adjust for whether the birthday has occurred this year
         return age
-
-    # update training
-
-    # def update_training(self):
-    #     self.day_future = training_database.day
-    #     self.week_future = training_database.week
-    #     self.month_future = training_database.month
-
-    # def update_day(self):
-    #     self.day_future = training_database.day
-
-    # def update_week(self):
-    #     self.week_future = training_database.week
-
-    # def update_month(self):
-    #     self.month_future = training_database.month
 
     def append_month(self, month):
         self.month_history.append(month)
