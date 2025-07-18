@@ -1,4 +1,6 @@
+import json
 from backend.src.utils.SQLutils import user_send
+from backend.src.utils.SQLutils import user_retrieve
 from backend.src.utils.user_storage.storage_stacks_and_queues import *
 from backend.src.utils.user_storage.user import user
 from backend.scripts.txt_to_database import txt_to_database
@@ -6,6 +8,9 @@ from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.user_storage.user import THREEK, FIVEK, TENK, RECOVERY, EASY, TEMPO, PROGRESSION, THRESHOLD, LONGRUN, VO2MAX
 from backend.src.utils.pace_calculations import get_training_pace_helper
 from backend.src.utils.decision_tree import decision_tree
+from backend.src.utils.RPEutils import completion_score
+from backend.src.utils.workout import workout_database
+from backend.src.utils.workout.single_workout import get_pace
 
 class main:
     
@@ -81,4 +86,30 @@ class main:
 
     def post_run_survey(payload: dict) -> dict:
         '''Payload is a dictionary of questions and answers for the post run survey'''
+        print(payload)
+
+        user_id = payload["user_id"]
+        workout_rpe = payload["workout_rpe"]
+        completion = payload ["completion"]
+        mileage = payload["mileage"]
+        reps = payload["reps"]
+        pace = payload["pace"]
+        
+
+        current_user = user_retrieve.populate_user_info(user_id)
+        json_string = current_user.workout_RPE
+        data_dict = json.loads(json_string)
+        workout_rpe = data_dict
+        wd = workout_database()
+
+        current_day = current_user.day_future[0]
+        for workout in current_day.workouts:
+            workout_type = wd.get_workout_type(workout)
+            current_user.workout_RPE.workout_type.append(workout_rpe)
+        if(completion == False):
+            current_user.current_day.completed_mileage = mileage
+            current_user.percent_completion = completion_score(expected_reps=wd.get_individual_workout(current_day.workouts[0]), 
+                                                               observed_reps=reps, expected_pace=get_pace(wd.get_individual_workout(current_day.workouts[0]))[0],
+                                                               observed_pace= pace)
+        user_send.send_user_all(user_id, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
       

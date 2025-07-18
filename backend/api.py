@@ -62,6 +62,15 @@ class SurveyIn(BaseModel):
 
 # Endpoint for preliminary survey
 
+class Post_Run_SurveyIn(BaseModel):
+    """Post_Run_SurveyIn is a Pydantic model that represents the input for the post run survey.
+    """
+    workout_rpe: dict
+    completion: bool
+    mileage: int
+    reps: int
+    pace: int
+
 
 class HomeData(BaseModel):
     """HomeData is a Pydantic model that represents the data returned for the home page.
@@ -120,8 +129,31 @@ async def survey_prelim(payload: SurveyIn):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.get("/post_run_survey")
+async def post_run_survey(payload: Post_Run_SurveyIn):
+    """post_run_survey is an endpoint that handles the post run survey of a user
+
+    Args:
+        payload (Post_Run_SurveyIn): A Pydantic model that contains the user's responses to the preliminary survey.
+    
+    Raises:
+        HTTPException: If an error occurs during the processing of the survey, an HTTPException is raised with a status code of 500 and the error message.
+
+    Returns:
+        str: A string containing the status of the survey submission, typically an acknowledgment of successful processing.
+    """
+    try:
+        result = SurveyMain.post_run_survey(payload.model_dump())
+        # dispatch to your pure‐function—no input(), no print()
+        print(result)
+        return result
+    except Exception as e:
+         # surface errors as HTTP 500
+        raise HTTPException(status_cdoe=500, detail=str(e))
+
 @app.get("/home/data", response_model=HomeData)
 async def get_home_data(user_id: int = 0):
+
     """get_home_data is an endpoint that retrieves the home page data for a user.
 
     Args:
