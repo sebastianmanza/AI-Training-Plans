@@ -13,7 +13,7 @@ FIVEKDIST, METERS_PER_MILE = 5000, 1600  # Distance conversions
 CALCNUM = 1.06  # Exponent for pace prediction
 RPE, DAYS, DEVIATION = 0, 1, 2  # Indexes used for mean RPE
 DEFAULT_WORKOUT_NUMS = {
-    "Easy Tempo": (0, 0, 0), "Recovery Run": (0, 0, 0), "Progression": (0, 0, 0), "Long Run": (0, 0, 0),
+    "Easy Run": (0, 0, 0), "Recovery Run": (0, 0, 0), "Progression": (0, 0, 0), "Long Run": (0, 0, 0),
     "Threshold": (0, 0, 0), "Fartlek": (0, 0, 0), "Race Pace Interval": (0, 0, 0), "Strides": (0, 0, 0),
     "Hill Sprints": (0, 0, 0), "Flat Sprints": (0, 0, 0), "Time Trial": (0, 0, 0), "Warmup and Cooldown": (0, 0, 0), "Off": (0, 0, 0)}
 
@@ -217,7 +217,7 @@ class user:
             "Five K": FIVEK,
             "Ten K": TENK,
             "Recovery Run": RECOVERY,
-            "Easy Tempo": EASY,
+            "Easy Run": EASY,
             "Tempo Run": TEMPO,
             "Progression Run": PROGRESSION,
             "Threshold Run": THRESHOLD,
@@ -227,7 +227,7 @@ class user:
         return workout_types.get(txt, -1)
 
 
-alex = user("2005-08-22", "male", "advanced", 0, 0, 26,
-            "2026-08-22", [1, 1, 1, 1, 1, 1, 1], 6)
-alex.set_5k_pace("17:30")
-print(to_str(alex.pace_estimates[FIVEK]))
+# alex = user("2005-08-22", "male", "advanced", 0, 0, 26,
+#            "2026-08-22", [1, 1, 1, 1, 1, 1, 1], 6)
+# alex.set_5k_pace("17:30")
+# print(to_str(alex.pace_estimates[FIVEK]))
