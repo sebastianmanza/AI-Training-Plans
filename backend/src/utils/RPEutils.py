@@ -4,7 +4,7 @@ POW = 3  # Power for pace rating normalization in completion score calculation
 DIVISOR = 125  # Divisor for pace rating normalization in completion score calculation
 
 
-def completion_score(expected_reps: int, observed_reps: int, pace_rating: int) -> float:
+def completion_score(expected_reps: int, observed_reps: int, expected_pace: int, observed_pace: int) -> float:
     """
     Calculate the completion score based on expected and observed repetitions and pace.
 
@@ -17,9 +17,9 @@ def completion_score(expected_reps: int, observed_reps: int, pace_rating: int) -
     """
 
     rep_score = float((observed_reps / expected_reps) - 1)
-    pace_score = pow(pace_rating, POW)/DIVISOR
+    pace_score = float((observed_pace / expected_pace) - 1)
 
-    return rep_score + pace_score
+    return rep_score + pace_score / 2
 
 
 def delta_RPE(expected_RPE: int, observed_RPE: int) -> int:
