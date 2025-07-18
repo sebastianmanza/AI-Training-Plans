@@ -5,6 +5,7 @@ from backend.scripts.txt_to_database import txt_to_database
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.user_storage.user import THREEK, FIVEK, TENK, RECOVERY, EASY, TEMPO, PROGRESSION, THRESHOLD, LONGRUN, VO2MAX
 from backend.src.utils.pace_calculations import get_training_pace_helper
+from backend.src.utils.decision_tree import decision_tree
 
 class main:
     
@@ -64,7 +65,7 @@ class main:
         
         # Static database at the moment: 
         # TODO: Make this the decision tree
-        database = txt_to_database("backend/data/raw/training_plan_test.txt")
+        database = decision_tree.get_decision_tree(new_user)
         new_user.day_future = database.day
         new_user.week_future = database.week
         new_user.month_future = database.month
@@ -77,4 +78,7 @@ class main:
             }
     # testing 
     # user_send.send_user_info(prelim_survey(), "postgres", "Control1500#")
+
+    def post_run_survey(payload: dict) -> dict:
+        '''Payload is a dictionary of questions and answers for the post run survey'''
       
