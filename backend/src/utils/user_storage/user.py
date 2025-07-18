@@ -6,12 +6,11 @@ import datetime
 from backend.src.utils.user_storage.storage_stacks_and_queues import storage_stacks_and_queues
 import backend.src.utils.user_storage.training_database as training_database
 from backend.src.utils.SQLutils.database_connect import init_db
-from backend.src.utils.pace_calculations import get_training_pace_helper, alter_pace, to_str, mile_pace
+from backend.src.utils.pace_calculations import get_training_pace_helper, to_str, mile_pace
 
 
 FIVEKDIST, METERS_PER_MILE = 5000, 1600  # Distance conversions
 CALCNUM = 1.06  # Exponent for pace prediction
-DISTANCES = [3000, 5000, 10000]  # Distances for which we will make predictions
 RPE, DAYS, DEVIATION = 0, 1, 2  # Indexes used for mean RPE
 DEFAULT_WORKOUT_NUMS = {
     "Easy Tempo": (0, 0, 0), "Recovery Run": (0, 0, 0), "Progression": (0, 0, 0), "Long Run": (0, 0, 0),
@@ -95,12 +94,12 @@ class user:
         """Returns the deviation of the RPE for a given workout type"""
         return self.workout_RPE[type][DEVIATION]
 
-    def set_pace(self, distance: int, new_pace) -> None:
+    def set_5k_pace(self, new_pace) -> None:
         """Set the pace for a distance in seconds. This updates the pace"""
         if isinstance(new_pace, str):
-            self.pace_estimates[distance] = mile_pace(new_pace, distance)
+            self.pace_estimates[FIVEK] = mile_pace(new_pace, 5000)
         else:
-            self.pace_estimates[distance] = new_pace
+            self.pace_estimates[FIVEK] = new_pace
 
     def get_pace(self, distance: int) -> int:
         """Returns the pace for a distance in seconds"""
@@ -109,19 +108,15 @@ class user:
     # Makes the predictions for every distance in DISTANCES.
     def make_predictions(self) -> None:
         """"""
-        for distance in DISTANCES:
-            self.set_pace(distance, self.predict_pace(distance))
-
-    # Predicts the mile pace for a given distance based on the 5k pace.
-    def predict_pace(self, distance) -> int:
-        fivekpace = self.get_pace(FIVEKDIST)
-        return math.floor((fivekpace)*pow((distance/FIVEKDIST), CALCNUM)*(FIVEKDIST / distance))
+        for distance in range(self.pace_estimates.__len__()):
+            self.pace_estimates[distance] = self.get_training_pace(distance)
 
     # Returns the mile pace for each distance.
+
     def get_times(self) -> str:
         toReturn = ""
-        for k, v in self.pace_estimates.items():
-            toReturn += f"{k}:{to_str(v)}\n"
+        for pace in self.pace_estimates:
+            toReturn += f"{to_str(pace)}\n"
         return toReturn
 
     def get_user_id(self) -> int:
@@ -170,22 +165,6 @@ class user:
              )  # Adjust for whether the birthday has occurred this year
         return age
 
-    # update training
-
-    # def update_training(self):
-    #     self.day_future = training_database.day
-    #     self.week_future = training_database.week
-    #     self.month_future = training_database.month
-
-    # def update_day(self):
-    #     self.day_future = training_database.day
-
-    # def update_week(self):
-    #     self.week_future = training_database.week
-
-    # def update_month(self):
-    #     self.month_future = training_database.month
-
     def append_month(self, month):
         self.month_history.append(month)
 
@@ -206,41 +185,30 @@ class user:
 
         # Takes in a string and a user i.e. (5000+10, 17:30 5k runner) and returns the pace associated with it.
 
-    def parse_pace(self, pace: str) -> int:
-        if pace.find("+") != -1:  # See if a value is being added
-            distance, increase = pace.split("+")
-            increase = int(increase)
-        elif pace.find("-") != -1:  # See if a value is being subtracted
-            distance, increase = pace.split("-")
-            increase = -int(increase)
-        else:  # No increase
-            distance, increase = pace, 0
-        pace = pace.strip()
-        seconds = self.get_pace(int(distance))
-        return alter_pace(seconds, increase)
+    def modify_pace(self, change: int, distance: int) -> int:
+        return self.pace_estimates[distance] + change
 
     def get_training_pace(self, workout_type: int) -> int:
         """Returns the training pace for a given type of workout based on the users 5k prediction time."""
         if self.pace_estimates[FIVEK] == -1:
             raise ValueError("5k prediction time is not assigned.")
 
-        match workout_type:
-            case EASY(int):
-                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.65)
-            case PROGRESSION(int):
-                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
-            case RECOVERY(int):
-                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.62)
-            case THRESHOLD(int):
-                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.87)
-            case LONGRUN(int):
-                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.7)
-            case VO2MAX(int):
-                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.95)
-            case TEMPO(int):
-                return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
-            case _:
-                return 0
+        if workout_type == FIVEK:
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.65)
+        elif workout_type == PROGRESSION:
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
+        elif workout_type == RECOVERY:
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.62)
+        elif workout_type == THRESHOLD:
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.87)
+        elif workout_type == LONGRUN:
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.7)
+        elif workout_type == VO2MAX:
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.95)
+        elif workout_type == TEMPO:
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
+        else:
+            return 0
 
     def txt_to_workout_type(txt: str) -> int:
         """Converts a string to the corresponding workout type index."""
@@ -259,26 +227,7 @@ class user:
         return workout_types.get(txt, -1)
 
 
-alex = user("2005-08-22", "male", "advanced", "17:30", "5", "7", "1", [], 5)
-alex.make_predictions()
-print(alex.get_training_pace(RECOVERY))
-# # print(alex.get_pace(10000))
-# # print(alex.parse_pace("10000"))
-
-# print(alex.five_km_estimate_seconds)
-# print(alex.get_training_pace("Recovery Run"))
-
-# alex.set_pace(5000, "17:30")
-# alex.make_predictions()
-# print(alex.get_times())
-# print(alex.get_user_id())
-# print(len(alex.times))
-# print(alex.get_times())
-# print(alex.month_history)
-# alex.generate_new_id()
-# print(alex.get_user_id())
-
-# month = month_plan(100, "Endurance", "Base", 5, 6, 100, 100, None)
-
-# alex.append_month(month)
-# alex.append_fut_month(month)
+alex = user("2005-08-22", "male", "advanced", 0, 0, 26,
+            "2026-08-22", [1, 1, 1, 1, 1, 1, 1], 6)
+alex.set_5k_pace("17:30")
+print(to_str(alex.pace_estimates[FIVEK]))

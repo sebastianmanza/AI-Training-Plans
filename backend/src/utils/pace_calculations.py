@@ -98,13 +98,6 @@ def total_time(pace, distance: int) -> int:
     return math.floor((pace * distance) / MILE)
 
 
-@staticmethod
-def alter_pace(pace, increase: int) -> int:
-    """ Alter the pace by a given increase in seconds."""
-    if isinstance(pace, str):  # If pace is a string, convert it to seconds
-        pace = from_str(pace)
-    return pace + increase
-
 
 @staticmethod
 def mile_pace(pace, distance: int) -> int:
