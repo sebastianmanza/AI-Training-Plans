@@ -1,5 +1,3 @@
-
-
 class workout_storage:
     # all the workout types
     # These lists will store different types of workouts.
