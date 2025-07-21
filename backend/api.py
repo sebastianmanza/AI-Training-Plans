@@ -9,12 +9,12 @@ from logging.handlers import RotatingFileHandler
 from backend.scripts.txt_to_database import txt_to_database
 from backend.src.utils import user_creation
 from backend.src.utils.workout.workout_database import workout_database
-from backend.src.main.frontend_compatible_survey import main as SurveyMain
+from backend.src.main.survey import main as SurveyMain
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.user_send import send_user_info
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.utils.user_storage.user import user
-from backend.src.utils.time_conversion import to_str
+from backend.src.utils.pace_calculations import to_str
 
 handler = RotatingFileHandler(
     filename="app_errors.log",
