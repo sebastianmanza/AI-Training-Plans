@@ -9,6 +9,7 @@ z_start = ([3, 4, 8, 3, 3, 4, 3, 2, 0, 0, 0])
 z_end = ([7, 8, 10, 5, 5, 6, 6, 6, 1, 1, 1])  
 
 labels = ['Recovery', 'Easy', 'Long', 'Progression', 'Threshold', 'Fartlek', 'RP Intervals', 'Time Trial', 'Flat Sprints', 'Hill Sprints', 'Strides']
+#labels = ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*']
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
@@ -17,12 +18,13 @@ colors = ['blue', 'green', 'orange', 'purple', 'red', 'cyan', 'magenta', 'yellow
 for xi, yi, zi_start, zi_end, label, color in zip(x, y, z_start, z_end, labels, colors):
 
     # Add arrow from start to end
-    ax.quiver(xi, yi, zi_start, 0, 0, zi_end - zi_start, color=color, arrow_length_ratio=0.2)
+    #ax.quiver(xi, yi, zi_end, 0, 0, zi_start - zi_end, color=color, arrow_length_ratio=0.2)
+    ax.plot(xi, yi, zi_start)
     # Add arrow from end to start
-    ax.quiver(xi, yi, zi_end, 0, 0, zi_start - zi_end, color=color, arrow_length_ratio=0.2)
+    #ax.quiver(xi, yi, zi_end, 0, 0, zi_start - zi_end, color=color, arrow_length_ratio=0.2)
     
     # Add text labels for individual points
-    ax.text(xi, yi, zi_start, label, color='black', fontsize=10, weight='bold')
+    ax.text(xi, yi, zi_start, label, color=color, fontsize=10, weight='bold')
 
 ax.set_xlabel('Stimulus')
 ax.set_ylabel('RPE')
