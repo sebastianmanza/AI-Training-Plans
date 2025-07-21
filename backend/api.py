@@ -62,8 +62,8 @@ class SurveyIn(BaseModel):
 
 # Endpoint for preliminary survey
 
-class Post_Run_SurveyIn(BaseModel):
-    """Post_Run_SurveyIn is a Pydantic model that represents the input for the post run survey.
+class PostRunSurveyIn(BaseModel):
+    """PostRunSurveyIn is a Pydantic model that represents the input for the post run survey.
     """
     workout_rpe: dict
     completion: bool
@@ -130,7 +130,7 @@ async def survey_prelim(payload: SurveyIn):
 
 
 @app.get("/post_run_survey")
-async def post_run_survey(payload: Post_Run_SurveyIn):
+async def post_run_survey(payload: PostRunSurveyIn):
     """post_run_survey is an endpoint that handles the post run survey of a user
 
     Args:
