@@ -14,7 +14,7 @@ struct HomeView: View {
     @StateObject private var vm = HomeViewModel()
 
   /* The current options for clickable objects */
-  var onCompleted: () -> Void
+  // var onCompleted: () -> Void
   var onDidNotComplete: () -> Void
   // var onQuestionMark: () -> Void
   var onCalendarTapped: () -> Void
@@ -22,6 +22,8 @@ struct HomeView: View {
   var onDebugger: () -> Void
 
   @State private var showInfoOnQuestionMarkTapped = false
+  @State private var showPostRunSurvey = false
+  @State private var currentRPE: Double = 5.0
 
   var body: some View {
     GeometryReader { geo in
@@ -73,7 +75,7 @@ struct HomeView: View {
             showInfo: $showInfoOnQuestionMarkTapped,
             vm: vm,
             onDidNotComplete: onDidNotComplete,
-            onCompleted: onCompleted,
+            onCompleted: {showPostRunSurvey = true},
             cardWidth: geo.size.width * 0.8,
             cardHeight: geo.size.height * 0.55
           )
@@ -120,19 +122,13 @@ struct HomeView: View {
           alignment: .topTrailing
         )
       }
-//      .overlay(alignment: .topLeading) {
-//        Button {
-//          onDebugger()
-//        } label: {
-//          Color.black.opacity(0.001)
-//        }
-//        .frame(width: 50, height: 50)
-//        .contentShape(Rectangle())
-//        .buttonStyle(.plain)
-//      }
-
       .ignoresSafeArea()
-
     }
+    .sheet(isPresented: $showPostRunSurvey) {
+        PostRunSurvey(rpeval: $currentRPE)
+        .presentationDetents([.fraction(0.6)])
+        .presentationDragIndicator(.visible)
+        .presentationCornerRadius(40)
+  }
   }
 }
