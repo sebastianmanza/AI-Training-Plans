@@ -1169,4 +1169,4 @@ class training_plan_array:
     FIFTYFIVEO_FEMALE_ADVANCED_NO_11O_DATABASE =  txt_to_database(
         "backend/data/raw/fiftyfiveo_female_advanced_no_11_training_plan.txt")
     training_plans[FIFTYFIVEO_FEMALE_ADVANCED_NO_11O] = FIFTYFIVEO_FEMALE_ADVANCED_NO_11O_DATABASE
-    print(training_plans[10].day.get().expected_rpe)
+    #print(training_plans[10].day.get().expected_rpe)
