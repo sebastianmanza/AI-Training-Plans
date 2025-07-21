@@ -11,6 +11,7 @@ from backend.src.utils.decision_tree import decision_tree
 from backend.src.utils.RPEutils import completion_score
 from backend.src.utils.workout import workout_database
 from backend.src.utils.workout.single_workout import get_pace
+from backend.src.utils.user_storage import day_plan
 
 class main:
     
@@ -109,7 +110,23 @@ class main:
         if(completion == False):
             current_user.current_day.completed_mileage = mileage
             current_user.percent_completion = completion_score(expected_reps=wd.get_individual_workout(current_day.workouts[0]), 
-                                                               observed_reps=reps, expected_pace=get_pace(wd.get_individual_workout(current_day.workouts[0]))[0],
+                                                               observed_reps=reps, expected_pace=wd.get_individual_workout(current_day.workouts[0]).get_pace()[0],
                                                                observed_pace= pace)
         user_send.send_user_all(user_id, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
       
+    user_test = user(dob="06/27/2004",
+                     sex="male",
+                     running_ex="advanced",
+                     injury=0,
+                     most_recent_injury=-1,
+                     longest_run=11,
+                     goal_date="01/01/2026",
+                     available_days=[1, 1, 0, 1, 1, 2, 1],
+                     )
+    test_day = user_test.day_future.get()
+    print(test_day.workout_RPE)
+    print(test_day.completion)
+    print(test_day.mileage)
+    print(test_day.reps)
+    print(test_day.pace)
+    
