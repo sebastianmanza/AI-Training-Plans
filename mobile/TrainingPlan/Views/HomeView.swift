@@ -23,6 +23,7 @@ struct HomeView: View {
 
   @State private var showInfoOnQuestionMarkTapped = false
   @State private var showPostRunSurvey = false
+  @State private var currentRPE: Double = 5.0
 
   var body: some View {
     GeometryReader { geo in
@@ -124,7 +125,7 @@ struct HomeView: View {
       .ignoresSafeArea()
     }
     .sheet(isPresented: $showPostRunSurvey) {
-        PostRunSurvey()
+        PostRunSurvey(rpeval: $currentRPE)
         .presentationDetents([.fraction(0.6)])
         .presentationDragIndicator(.visible)
         .presentationCornerRadius(40)
