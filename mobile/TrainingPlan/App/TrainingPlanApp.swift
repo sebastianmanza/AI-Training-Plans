@@ -83,9 +83,6 @@ struct TrainingPlanApp: App {
 
         case .home:
           HomeView(
-            onCompleted: {
-              appState.currentScreen = .home  // Placeholder for next action
-            },
             onDidNotComplete: {
               appState.currentScreen = .home
             },

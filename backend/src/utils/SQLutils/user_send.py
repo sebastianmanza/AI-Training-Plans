@@ -8,13 +8,13 @@ from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.database_connect import init_db
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.SQLutils.database_connect import db_insert, db_update
+import logging
 import psycopg2
 from queue import Empty
 import json
-import sys
-import os
-
 # Sends user information to the database.
+
+
 def send_user_info(new_user, username, password):
 
     try:
@@ -33,37 +33,25 @@ def send_user_info(new_user, username, password):
             # Update existing user
             db_update(
                 username, password,
-<<<<<<< HEAD
-                new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury, 
-                new_user.most_recent_injury, new_user.longest_run, new_user.goal_date, 
-                new_user.pace_estimates, new_user.available_days, new_user.number_of_days, 
-                workout_RPE_JSON 
-=======
                 new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury,
                 new_user.most_recent_injury, new_user.longest_run, new_user.goal_date,
-                new_user.pace_estimates, new_user.available_days, new_user.number_of_days
->>>>>>> 92857ebbba700e53012f314075562fad27b04df8
+                new_user.pace_estimates, new_user.available_days, new_user.number_of_days, workout_RPE_JSON
             )
         else:
             # Insert new user
             db_insert(
                 username, password,
-<<<<<<< HEAD
-                new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury, 
-                new_user.most_recent_injury, new_user.longest_run, new_user.goal_date, 
-                new_user.pace_estimates, new_user.available_days, new_user.number_of_days, 
-                workout_RPE_JSON
-=======
                 new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury,
                 new_user.most_recent_injury, new_user.longest_run, new_user.goal_date,
-                new_user.pace_estimates, new_user.available_days, new_user.number_of_days
->>>>>>> 92857ebbba700e53012f314075562fad27b04df8
+                new_user.pace_estimates, new_user.available_days, new_user.number_of_days,
+                workout_RPE_JSON
             )
 
         conn.commit()
 
     except Exception as e:
-        logging.exception("Failed to insert user_info for user_id=%s", new_user.user_id)
+        logging.exception(
+            "Failed to insert user_info for user_id=%s", new_user.user_id)
         # logging.error("Database operation failed:", e)
 
     finally:
@@ -115,7 +103,7 @@ def send_month_future(new_user, username, password):
     while new_user.month_future:
 
         if (new_user.month_future.qsize() == 0):
-            #print("Queue is now empty")
+            # print("Queue is now empty")
             break
 
         fut = new_user.month_future.get()
@@ -140,7 +128,7 @@ def send_month_future(new_user, username, password):
     curr.close()
     # close connection
     conn.close()
-    #print("Connection closed. Script complete.")
+    # print("Connection closed. Script complete.")
 
 
 # populate past week cycle user infomation within SQL database
@@ -269,13 +257,6 @@ def send_day_cycle(new_user, username, password):
     curr.close()
     # close connection
     conn.close()
-<<<<<<< HEAD
-    
-    
-""" To do: update method to check for existing user_id and handle appropriate 
-    updating without repeated user inputs"""  
-def send_user_creds(new_user, username, password, login_info):
-=======
 
 
 def send_user_creds(user_id, username, password, login_info):
@@ -292,8 +273,6 @@ def send_user_creds(user_id, username, password, login_info):
     Raises:
         Exception: If there is an error during the database operation.
     """
-
->>>>>>> 92857ebbba700e53012f314075562fad27b04df8
     conn = init_db(username, password)
     curr = conn.cursor()
 
@@ -301,7 +280,7 @@ def send_user_creds(user_id, username, password, login_info):
         check_query = """
             SELECT 1 FROM public.user_credentials WHERE user_id = %s;
         """
-        curr.execute(check_query, (new_user.user_id,))
+        curr.execute(check_query, (user_id,))
         exists = curr.fetchone()
 
         if exists:
@@ -310,63 +289,34 @@ def send_user_creds(user_id, username, password, login_info):
                 SET email = %s, username = %s, password = %s
                 WHERE user_id = %s;
             """
-<<<<<<< HEAD
-            
-            record = (login_info[0], login_info[1], 
-                      login_info[2], new_user.user_id)
-=======
 
             record = (login_info['email'], login_info['username'],
                       login_info['password'], user_id)
->>>>>>> 92857ebbba700e53012f314075562fad27b04df8
             curr.execute(update_query, record)
         else:
             insert_query = """
                 INSERT INTO public.user_credentials(user_id, email, username, password)
                 VALUES (%s, %s, %s, %s);
             """
-<<<<<<< HEAD
-            record = (new_user.user_id, login_info[0], login_info[1], login_info[2])
-=======
             record = (
                 user_id, login_info['email'], login_info['username'], login_info['password'])
->>>>>>> 92857ebbba700e53012f314075562fad27b04df8
             curr.execute(insert_query, record)
 
         conn.commit()
 
     except Exception as e:
-<<<<<<< HEAD
-        print("Database error:", e)
-=======
         logging.exception(
             "Failed to insert credentials for user_id=%s", user_id)
-        #print("Database error:", e)
->>>>>>> 92857ebbba700e53012f314075562fad27b04df8
+        # print("Database error:", e)
 
     finally:
         curr.close()
         conn.close()
 
-<<<<<<< HEAD
-    
-    
+
 def send_user_all(user_id, username, password, login_info):
-=======
-
-def send_user_all(user_id, username, password):
->>>>>>> 92857ebbba700e53012f314075562fad27b04df8
-
-    send_user_info(user_id, username, password)
-<<<<<<< HEAD
-    
     send_user_creds(user_id, username, password, login_info)
-    
-=======
 
-    # send_user_creds(user_id, username, password, login_info)
-
->>>>>>> 92857ebbba700e53012f314075562fad27b04df8
     send_month_history(user_id, username, password)
 
     send_month_future(user_id, username, password)

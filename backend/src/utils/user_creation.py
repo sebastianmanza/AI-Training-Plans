@@ -1,3 +1,4 @@
+import logging
 import secrets
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.SQLutils.user_send import send_user_creds, send_user_all
@@ -169,6 +170,7 @@ def user_exists(user_credentials) -> tuple:
             return False, user_id  # User does not exist, return user_id
 
     except Exception as e:
+        logging.exception("Error executing query")
         print("Error during query execution:", e)
 
     finally:
