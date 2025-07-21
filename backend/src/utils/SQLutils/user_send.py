@@ -8,6 +8,7 @@ from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.database_connect import init_db
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.SQLutils.database_connect import db_insert, db_update
+import logging
 import psycopg2
 from queue import Empty
 import json
@@ -278,7 +279,7 @@ def send_user_creds(user_id, username, password, login_info):
         check_query = """
             SELECT 1 FROM public.user_credentials WHERE user_id = %s;
         """
-        curr.execute(check_query, (new_user.user_id,))
+        curr.execute(check_query, (user_id,))
         exists = curr.fetchone()
 
         if exists:
@@ -289,7 +290,7 @@ def send_user_creds(user_id, username, password, login_info):
             """
             
             record = (login_info[0], login_info[1], 
-                      login_info[2], new_user.user_id)
+                      login_info[2], user_id)
 
             record = (login_info['email'], login_info['username'],
                       login_info['password'], user_id)
@@ -315,7 +316,7 @@ def send_user_creds(user_id, username, password, login_info):
         conn.close()
 
 
-def send_user_all(user_id, username, password):
+def send_user_all(user_id, username, password, login_info):
     send_user_creds(user_id, username, password, login_info)
   
     send_month_history(user_id, username, password)
