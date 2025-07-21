@@ -12,10 +12,9 @@ import logging
 import psycopg2
 from queue import Empty
 import json
-import sys
-import os
-
 # Sends user information to the database.
+
+
 def send_user_info(new_user, username, password):
 
     try:
@@ -42,16 +41,17 @@ def send_user_info(new_user, username, password):
             # Insert new user
             db_insert(
                 username, password,
-                new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury, 
-                new_user.most_recent_injury, new_user.longest_run, new_user.goal_date, 
-                new_user.pace_estimates, new_user.available_days, new_user.number_of_days, 
+                new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury,
+                new_user.most_recent_injury, new_user.longest_run, new_user.goal_date,
+                new_user.pace_estimates, new_user.available_days, new_user.number_of_days,
                 workout_RPE_JSON
             )
 
         conn.commit()
 
     except Exception as e:
-        logging.exception("Failed to insert user_info for user_id=%s", new_user.user_id)
+        logging.exception(
+            "Failed to insert user_info for user_id=%s", new_user.user_id)
         # logging.error("Database operation failed:", e)
 
     finally:
@@ -103,7 +103,7 @@ def send_month_future(new_user, username, password):
     while new_user.month_future:
 
         if (new_user.month_future.qsize() == 0):
-            #print("Queue is now empty")
+            # print("Queue is now empty")
             break
 
         fut = new_user.month_future.get()
@@ -128,7 +128,7 @@ def send_month_future(new_user, username, password):
     curr.close()
     # close connection
     conn.close()
-    #print("Connection closed. Script complete.")
+    # print("Connection closed. Script complete.")
 
 
 # populate past week cycle user infomation within SQL database
@@ -258,6 +258,7 @@ def send_day_cycle(new_user, username, password):
     # close connection
     conn.close()
 
+
 def send_user_creds(user_id, username, password, login_info):
     """
     Sends user credentials to the database. If the user already exists, 
@@ -288,9 +289,6 @@ def send_user_creds(user_id, username, password, login_info):
                 SET email = %s, username = %s, password = %s
                 WHERE user_id = %s;
             """
-            
-            record = (login_info[0], login_info[1], 
-                      login_info[2], user_id)
 
             record = (login_info['email'], login_info['username'],
                       login_info['password'], user_id)
@@ -309,7 +307,7 @@ def send_user_creds(user_id, username, password, login_info):
     except Exception as e:
         logging.exception(
             "Failed to insert credentials for user_id=%s", user_id)
-        #print("Database error:", e)
+        # print("Database error:", e)
 
     finally:
         curr.close()
@@ -318,7 +316,7 @@ def send_user_creds(user_id, username, password, login_info):
 
 def send_user_all(user_id, username, password, login_info):
     send_user_creds(user_id, username, password, login_info)
-  
+
     send_month_history(user_id, username, password)
 
     send_month_future(user_id, username, password)
