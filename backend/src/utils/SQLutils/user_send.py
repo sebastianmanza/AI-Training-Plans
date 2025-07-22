@@ -9,11 +9,9 @@ from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.database_connect import init_db
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.SQLutils.database_connect import db_insert, db_update
-import psycopg2
 from queue import Empty
 import json
-import sys
-import os
+
 
 # Sends user information to the database.
 def send_user_info(new_user, username, password):
@@ -76,7 +74,7 @@ def send_month_history(new_user, username, password):
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """
         # fill query with appropriate user ID
 
-        # 1 is a placeholder (too lazy to change shit)
+        
         record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli,
                             pres.cycle, pres.expected_rpe, pres.real_rpe,
                             pres.percent_completion, pres.month_id, True,
@@ -112,7 +110,7 @@ def send_month_future(new_user, username, password):
             user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
             complete_score, month_id, past_month, complete_mileage)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """
-        # 1 is a placeholder (too lazy to change shit)
+        
         record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli,
                             fut.cycle, fut.expected_rpe, fut.real_rpe,
                             fut.percent_completion, fut.month_id, False,
@@ -148,7 +146,7 @@ def send_week_cycle(new_user, username, password):
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
         # fill query with appropriate user ID
 
-        # 1 is a placeholder (too lazy to change shit)
+        
         record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli,
                             pres.cycle, pres.expected_rpe, pres.real_rpe,
                             pres.percent_completion, pres.week_id, True,
@@ -172,7 +170,7 @@ def send_week_cycle(new_user, username, password):
             user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
             complete_score, week_id, past_week, complete_mileage, month_id)
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
-        # 1 is a placeholder (too lazy to change shit)
+        
         record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli,
                             fut.cycle, fut.expected_rpe, fut.real_rpe,
                             fut.percent_completion, fut.week_id, False,
@@ -213,7 +211,7 @@ def send_day_cycle(new_user, username, password):
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s::trio[]); """
         # fill query with appropriate user ID
 
-        # 1 is a placeholder (too lazy to change shit)
+        
         record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli,
                             pres.lift, pres.expected_rpe, pres.real_rpe,
                             pres.percent_completion, True,
