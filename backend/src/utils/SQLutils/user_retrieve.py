@@ -160,6 +160,7 @@ def populate_user_info(user_id):
         user_id, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], True)
 
     if not user_info:
+        logging.exception(f"No user found with ID {user_id}.")
         raise UserNotFoundError(user_id)
 
     # Extract column names and data
@@ -265,20 +266,3 @@ def populate_user_info(user_id):
                 day_id=day_data_dict.get('day_id')))
 
     return new_user
-
-
-
-# Testing
-# user = populate_user_info(51025805)
-
-# print("Age:", user.age)
-# print("Sex:", user.sex)
-# print("Month 1 expected RPE:", user.month_history.pop().expected_rpe)
-# print("Age:", user.age)
-# print("Age:", user.age)
-# print("Age:", user.age)
-# print("Age:", user.age)
-# print("Age:", user.age)
-# print("Age:", user.age)
-# print("Age:", user.age)
-# Column names: 'userid', 'dob', 'sex', 'runningex', 'fivekm', 'goaldate', 'mean_rpe', 'std_rpe', 'user_id', 'total_mileage', 'goal_stimuli', 'cycle', 'expected_rpe', 'real_rpe', 'complete_score', 'month_id', 'month_id', 'total_mileage', 'goal_stimuli', 'cycle', 'expected_rpe', 'real_rpe', 'complete_score', 'week_id', 'week_id', 'total_mileage', 'goal_stimuli', 'cycle', 'expected_rpe', 'real_rpe', 'complete_score'

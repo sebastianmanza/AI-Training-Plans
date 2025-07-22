@@ -12,6 +12,20 @@ class week_plan:
                  "goal_stimuli", "cycle", "days", "expected_rpe", "real_rpe", "month_id", "week_id")
 
     def __init__(self, total_mileage: int = -1, goal_stimuli=workout_database.create_trio(-1, -1, -1), cycle: str = "", expected_rpe=-1, month_id: int = -1, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, days: list = [], week_id=-1):
+        """Creates a week plan object autofilled with placeholders
+
+        Args:
+            total_mileage (int, optional): The total mileage of the week. Defaults to -1.
+            goal_stimuli (trio, optional): The goal stimuli trio of the week. Defaults to workout_database.create_trio(-1, -1, -1).
+            cycle (str, optional): The cycle of the week (Build, hold, etc). Defaults to "".
+            expected_rpe (int, optional): The expected RPE of the week. Defaults to -1.
+            month_id (int, optional): The ID of the week. Defaults to -1.
+            real_rpe (int, optional): The RPE of the week. Defaults to 0.
+            completed_mileage (int, optional): The total finished mileage of the week. Defaults to 0.
+            percent_completion (int, optional): A completion score. Defaults to 0.
+            days (list, optional): A list of the days contained in the week. Defaults to [].
+            week_id (int, optional): The ID of the week (unique). Defaults to -1.
+        """
         self.week_id = week_id
         self.total_mileage = total_mileage
         self.completed_mileage = completed_mileage
@@ -53,3 +67,18 @@ class week_plan:
         self.update_weekly_mileage()
         self.update_weekly_real_rpe()
         self.month_id.update_monthly_mileage()
+
+    def __eq__(self, other) -> bool:
+        """Check if two week_plan objects are equal based on their attributes."""
+        if not isinstance(other, week_plan):
+            return False
+
+        return (self.total_mileage == other.total_mileage and
+                self.goal_stimuli == other.goal_stimuli and
+                self.cycle == other.cycle and
+                self.expected_rpe == other.expected_rpe and
+                self.month_id == other.month_id and
+                self.real_rpe == other.real_rpe and
+                self.completed_mileage == other.completed_mileage and
+                self.percent_completion == other.percent_completion and
+                self.week_id == other.week_id)
