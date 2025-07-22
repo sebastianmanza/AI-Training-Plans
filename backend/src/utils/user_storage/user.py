@@ -11,10 +11,9 @@ from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 
 FIVEKDIST, METERS_PER_MILE = 5000, 1600  # Distance conversions
 CALCNUM = 1.06  # Exponent for pace prediction
-DISTANCES = [3000, 5000, 10000]  # Distances for which we will make predictions
 RPE, DAYS, DEVIATION = 0, 1, 2  # Indexes used for mean RPE
 DEFAULT_WORKOUT_NUMS = {
-    "Easy Tempo": (0, 0, 0), "Recovery Run": (0, 0, 0), "Progression": (0, 0, 0), "Long Run": (0, 0, 0),
+    "Easy Run": (0, 0, 0), "Recovery Run": (0, 0, 0), "Progression": (0, 0, 0), "Long Run": (0, 0, 0),
     "Threshold": (0, 0, 0), "Fartlek": (0, 0, 0), "Race Pace Interval": (0, 0, 0), "Strides": (0, 0, 0),
     "Hill Sprints": (0, 0, 0), "Flat Sprints": (0, 0, 0), "Time Trial": (0, 0, 0), "Warmup and Cooldown": (0, 0, 0), "Off": (0, 0, 0)}
 
@@ -25,8 +24,8 @@ THREEK, FIVEK, TENK, RECOVERY, EASY, TEMPO, PROGRESSION, THRESHOLD, LONGRUN, VO2
 class user:
     # __slots__ = ("dob", "sex", "running_ex", "injury", "most_recent_injury", "longest_run", "goal_date", "pace_estimates", "available_days", "number_of_days", "user_id", "workout_RPE")
 
-    def __init__(self, dob: str, sex: str, running_ex: str, injury: int, most_recent_injury: int, longest_run: int,  goal_date: str, 
-                available_days: list, number_of_days: int, pace_estimates: list = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1], user_id: int = secrets.randbelow(90000000) + 10000000, workout_RPE=DEFAULT_WORKOUT_NUMS):
+    def __init__(self, dob: str, sex: str, running_ex: str, injury: int, most_recent_injury: int, longest_run: int,  goal_date: str,
+                 available_days: list, number_of_days: int, pace_estimates: list = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1], user_id: int = secrets.randbelow(90000000) + 10000000, workout_RPE=DEFAULT_WORKOUT_NUMS):
         """Creates a user from the given arguments and initializes storage which is the series of stacks and queues necessary for 
         storing all past and future workouts from a training plan for the user.
         Args:
@@ -95,12 +94,12 @@ class user:
         """Returns the deviation of the RPE for a given workout type"""
         return self.workout_RPE[type][DEVIATION]
 
-    def set_pace(self, distance: int, new_pace) -> None:
+    def set_5k_pace(self, new_pace) -> None:
         """Set the pace for a distance in seconds. This updates the pace"""
         if isinstance(new_pace, str):
-            self.pace_estimates[distance] = mile_pace(new_pace, distance)
+            self.pace_estimates[FIVEK] = mile_pace(new_pace, 5000)
         else:
-            self.pace_estimates[distance] = new_pace
+            self.pace_estimates[FIVEK] = new_pace
 
     def get_pace(self, distance: int) -> int:
         """Returns the pace for a distance in seconds"""
@@ -108,31 +107,27 @@ class user:
 
     # Makes the predictions for every distance in DISTANCES.
     def make_predictions(self) -> None:
-        for distance in DISTANCES:
-            self.set_pace(distance, self.predict_pace(distance))
-
-    # Predicts the mile pace for a given distance based on the 5k pace.
-    def predict_pace(self, distance) -> int:
-        fivekpace = self.get_pace(FIVEKDIST)
-        return math.floor((fivekpace)*pow((distance/FIVEKDIST), CALCNUM)*(FIVEKDIST / distance))
+        """"""
+        for distance in range(self.pace_estimates.__len__()):
+            self.pace_estimates[distance] = self.get_training_pace(distance)
 
     # Returns the mile pace for each distance.
+
     def get_times(self) -> str:
         toReturn = ""
-        for k, v in self.pace_estimates.items():
-            toReturn += f"{k}:{to_str(v)}\n"
+        for pace in self.pace_estimates:
+            toReturn += f"{to_str(pace)}\n"
         return toReturn
 
     def get_user_id(self) -> int:
         return self.user_id
 
-    
     def user_id_exists(user_id: int) -> bool:
         """" Checks if a user_id exists in the database."""
         
         conn = init_db(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
         curr = conn.cursor()
-        
+
         try:
             # Check if the user_id exists in the user_credentials table
             query = """
@@ -145,23 +140,21 @@ class user:
         finally:
             # Close the cursor and connection
             curr.close()
-            conn.close() 
-            
-            
+            conn.close()
+
     def generate_new_id() -> int:
         """ Generates a new user ID for the user.
         This function generates a new user ID that is not already in use by checking the database."""
-        
+
         # Generate a new user ID
         new_user_id = secrets.randbelow(90000000) + 10000000
         
         # Check if the user ID already exists in the database
         if (user.user_id_exists(new_user_id)):
             logging.warning("User ID already exists, generating a new one.")
-            user.generate_new_id() 
-        
+            user.generate_new_id()
+
         return new_user_id
-        
 
     def get_age(self) -> int:
         """Returns the number of years the user has been alive as an int"""
@@ -192,25 +185,15 @@ class user:
 
         # Takes in a string and a user i.e. (5000+10, 17:30 5k runner) and returns the pace associated with it.
 
-    def parse_pace(self, pace: str) -> int:
-        if pace.find("+") != -1:  # See if a value is being added
-            distance, increase = pace.split("+")
-            increase = int(increase)
-        elif pace.find("-") != -1:  # See if a value is being subtracted
-            distance, increase = pace.split("-")
-            increase = -int(increase)
-        else:  # No increase
-            distance, increase = pace, 0
-        pace = pace.strip()
-        seconds = self.get_pace(int(distance))
-        return alter_pace(seconds, increase)
+    def modify_pace(self, change: int, distance: int) -> int:
+        return self.pace_estimates[distance] + change
 
-    def get_training_pace(self, workout_type) -> int:
+    def get_training_pace(self, workout_type: int) -> int:
         """Returns the training pace for a given type of workout based on the users 5k prediction time."""
         if self.pace_estimates[FIVEK] == -1:
             raise ValueError("5k prediction time is not assigned.")
-            
-        if workout_type == EASY:
+
+        if workout_type == FIVEK:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.65)
         elif workout_type == PROGRESSION:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
@@ -226,7 +209,7 @@ class user:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
         else:
             return 0
-        
+
     def txt_to_workout_type(txt: str) -> int:
         """Converts a string to the corresponding workout type index."""
         workout_types = {
@@ -234,7 +217,7 @@ class user:
             "Five K": FIVEK,
             "Ten K": TENK,
             "Recovery Run": RECOVERY,
-            "Easy Tempo": EASY,
+            "Easy Run": EASY,
             "Tempo Run": TEMPO,
             "Progression Run": PROGRESSION,
             "Threshold Run": THRESHOLD,
@@ -242,27 +225,9 @@ class user:
             "VO2 Max Run": VO2MAX
         }
         return workout_types.get(txt, -1)
-        
-    
 
-# alex = user("8/22/2005", "male", "advanced", "17:30", "5", "7", "1")
-# # print(alex.get_pace(10000))
-# # print(alex.parse_pace("10000"))
 
-# print(alex.five_km_estimate_seconds)
-# print(alex.get_training_pace("Recovery Run"))
-
-# alex.set_pace(5000, "17:30")
-# alex.make_predictions()
-# print(alex.get_times())
-# print(alex.get_user_id())
-# print(len(alex.times))
-# print(alex.get_times())
-# print(alex.month_history)
-# alex.generate_new_id()
-# print(alex.get_user_id())
-
-# month = month_plan(100, "Endurance", "Base", 5, 6, 100, 100, None)
-
-# alex.append_month(month)
-# alex.append_fut_month(month)
+# alex = user("2005-08-22", "male", "advanced", 0, 0, 26,
+#            "2026-08-22", [1, 1, 1, 1, 1, 1, 1], 6)
+# alex.set_5k_pace("17:30")
+# print(to_str(alex.pace_estimates[FIVEK]))
