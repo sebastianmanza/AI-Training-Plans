@@ -316,17 +316,20 @@ def send_user_creds(user_id, username, password, login_info):
 
 def send_user_all(user_id, username, password):
 
-    send_user_info(user_id, username, password)
+    try: 
+        send_user_info(user_id, username, password)
 
-    # send_user_creds(user_id, username, password, login_info)
+        # send_user_creds(user_id, username, password, login_info)
 
-    send_month_history(user_id, username, password)
+        send_month_history(user_id, username, password)
 
-    send_month_future(user_id, username, password)
+        send_month_future(user_id, username, password)
 
-    send_week_cycle(user_id, username, password)
+        send_week_cycle(user_id, username, password)
 
-    send_day_cycle(user_id, username, password)
+        send_day_cycle(user_id, username, password)
+    except Exception as e:
+        logging.error("Failed to send all user data for user_id=%s", user_id)
 
 
 # Trio = namedtuple('Trio', ['x', 'y', 'z'])

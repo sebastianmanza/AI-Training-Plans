@@ -32,8 +32,9 @@ class day_plan:
             self.goal_stimuli = workouts[0]
             return
 
-        self.goal_stimuli = self.__make_stimuli_trio(
-            workouts)  # Use the days workouts to create a day trio
+        if goal_stimuli == workout_database.create_trio(-1, -1, -1):
+            self.goal_stimuli = self.__make_stimuli_trio(
+                workouts)  # Use the days workouts to create a day trio
 
     # May not be used if initialized workouts are final
 

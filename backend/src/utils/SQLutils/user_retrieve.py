@@ -36,6 +36,9 @@ def retrieve_user_info(user_id: int, username, pwd, col_names=False):
 
     Returns:
         user: An instance of the user class containing user details.
+        
+    Raises:
+        UserNotFoundError: If no user is found with the given user_id.
     """
     try:
         # Prepare the queries
@@ -80,7 +83,7 @@ def retrieve_user_info(user_id: int, username, pwd, col_names=False):
             day_info, day_cursor = db_select(
                 username, pwd, user_id, day_query, return_cursor=True)
 
-            print(month_info)
+            # print(month_info)
             # Retrieve column names
             user_columns = [desc[0] for desc in user_cursor.description]
             month_columns = [desc[0] for desc in month_cursor.description]
@@ -98,6 +101,9 @@ def retrieve_user_info(user_id: int, username, pwd, col_names=False):
         month_info = db_select(username, pwd, user_id, month_query)
         week_info = db_select(username, pwd, user_id, week_query)
         day_info = db_select(username, pwd, user_id, day_query)
+        
+        if not user_info:
+            raise UserNotFoundError(user_id)
 
         return {
             "user_info": user_info,
@@ -109,6 +115,9 @@ def retrieve_user_info(user_id: int, username, pwd, col_names=False):
     except psycopg2.Error as e:
         logging.error(f"Database error: {e}")
         raise DatabaseConnectionError("Failed to connect to the database.")
+    except UserNotFoundError:
+        logging.error(f"User with ID {user_id} not found.")
+        raise
     except Exception as e:
         logging.error(f"An error occurred: {e}")
         raise QueryExecutionError(
@@ -256,6 +265,7 @@ def populate_user_info(user_id):
                 day_id=day_data_dict.get('day_id')))
 
     return new_user
+
 
 
 # Testing
