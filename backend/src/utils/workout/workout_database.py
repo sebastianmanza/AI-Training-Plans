@@ -83,7 +83,7 @@ class workout_database:
 
     def add_workout(self, workout: single_workout) -> None:
         """Add a workout to the matching workout database"""
-        self.match_execute(workout_database.get_workout_type(workout.get_stim, workout.get_rpe, workout.get_distance),
+        self.match_execute(workout_database.get_workout_type(workout.get_stim(), workout.get_rpe(), workout.get_distance()),
                            list.append, workout)
 
     def mass_add_workouts(self, workouts) -> None:
