@@ -225,9 +225,40 @@ class user:
             "VO2 Max Run": VO2MAX
         }
         return workout_types.get(txt, -1)
-
-
-# alex = user("2005-08-22", "male", "advanced", 0, 0, 26,
-#            "2026-08-22", [1, 1, 1, 1, 1, 1, 1], 6)
-# alex.set_5k_pace("17:30")
-# print(to_str(alex.pace_estimates[FIVEK]))
+        
+        
+    def __eq__(self, other) -> bool:
+        """Check if two user objects are equal based on their attributes."""
+        if not isinstance(other, user):
+            return False
+        
+        return (self.user_id == other.user_id and
+                self.dob == other.dob and
+                self.sex == other.sex and
+                self.running_ex == other.running_ex and
+                self.injury == other.injury and
+                self.most_recent_injury == other.most_recent_injury and
+                self.longest_run == other.longest_run and
+                self.goal_date == other.goal_date and
+                self.pace_estimates == other.pace_estimates and
+                self.available_days == other.available_days and
+                self.number_of_days == other.number_of_days) # Should add workoutRPE check and possibly storage
+        
+        
+    def __repr__(self) -> str:
+        return (
+            f"user("
+            f"user_id={self.user_id!r}, dob={self.dob!r}, sex={self.sex!r}, running_ex={self.running_ex!r},\n"
+            f"     injury={self.injury!r}, most_recent_injury={self.most_recent_injury!r}, longest_run={self.longest_run!r},\n"
+            f"     goal_date={self.goal_date!r}, age={self.age!r},\n"
+            f"     pace_estimates={self.pace_estimates!r},\n"
+            f"     available_days={self.available_days!r}, number_of_days={self.number_of_days!r},\n"
+            f"     workout_RPE={self.workout_RPE!r},\n"
+            f"     month_history={list(self.month_history)!r},\n"
+            f"     week_history={list(self.week_history)!r},\n"
+            f"     day_history={list(self.day_history)!r},\n"
+            f"     month_future={list(self.month_future.queue)!r},\n"
+            f"     week_future={list(self.week_future.queue)!r},\n"
+            f"     day_future={list(self.day_future.queue)!r}"
+            f")"
+        )

@@ -6,10 +6,12 @@ from typing import Optional
 import logging
 from logging.handlers import RotatingFileHandler
 
+from backend.scripts.txt_to_database import txt_to_database
 from backend.src.utils import user_creation
 from backend.src.utils.workout.workout_database import workout_database
 from backend.src.main.API.initial_user_to_sql import main as SurveyMain
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
+from backend.src.utils.SQLutils.user_send import send_user_info
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.pace_calculations import to_str
@@ -59,6 +61,15 @@ class SurveyIn(BaseModel):
     current_5k_fitness: int
 
 # Endpoint for preliminary survey
+
+class Post_Run_SurveyIn(BaseModel):
+    """Post_Run_SurveyIn is a Pydantic model that represents the input for the post run survey.
+    """
+    workout_rpe: dict
+    completion: bool
+    mileage: int
+    reps: int
+    pace: int
 
 
 class HomeData(BaseModel):
@@ -111,16 +122,39 @@ async def survey_prelim(payload: SurveyIn):
     try:
         # dispatch to your pure‐function—no input(), no print()
         result = SurveyMain.prelim_survey(payload.model_dump())
-        # print(result)
+        print(result)
         return result
     except Exception as e:
-        # surface errors as HTTP 500
-        logging.exception("Error in /survey/prelim with payload=%r", payload)
+        # surface errors as HTTP 500 and log to the log file
+        logging.exception("Unexpected error in /survey/prelim with payload=%r", payload)
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.get("/post_run_survey")
+async def post_run_survey(payload: Post_Run_SurveyIn):
+    """post_run_survey is an endpoint that handles the post run survey of a user
+
+    Args:
+        payload (Post_Run_SurveyIn): A Pydantic model that contains the user's responses to the preliminary survey.
+    
+    Raises:
+        HTTPException: If an error occurs during the processing of the survey, an HTTPException is raised with a status code of 500 and the error message.
+
+    Returns:
+        str: A string containing the status of the survey submission, typically an acknowledgment of successful processing.
+    """
+    try:
+        result = SurveyMain.post_run_survey(payload.model_dump())
+        # dispatch to your pure‐function—no input(), no print()
+        print(result)
+        return result
+    except Exception as e:
+         # surface errors as HTTP 500
+        raise HTTPException(status_cdoe=500, detail=str(e))
+
 @app.get("/home/data", response_model=HomeData)
 async def get_home_data(user_id: int = 0):
+
     """get_home_data is an endpoint that retrieves the home page data for a user.
 
     Args:
@@ -141,6 +175,8 @@ async def get_home_data(user_id: int = 0):
         pace_str = ""
 
         # Create a string representation of the current day and next day workouts
+        print(current_day.workouts)
+        print(current_day.workouts[3])
         workout_cur = workout_database.get_workout_type_trio(current_day.workouts[0]) if (len(current_day.workouts) == 1) else workout_database.get_workout_type_trio(
             current_day.workouts[0]) + " + \n" + workout_database.get_workout_type_trio(current_day.workouts[1])
         workout_next = workout_database.get_workout_type_trio(next_day.workouts[0]) if (len(next_day.workouts) == 1) else workout_database.get_workout_type_trio(
@@ -148,9 +184,8 @@ async def get_home_data(user_id: int = 0):
 
         workout_check = workout_database.get_workout_type_trio(
             current_day.workouts[0])
-        pace = 0
         pace = retrieved_user.pace_estimates[user.txt_to_workout_type(
-            workout_check)]
+            workout_check)] if workout_check in retrieved_user.pace_estimates else 0
 
         pace_str = to_str(pace) + "-" + to_str(pace + 30) if pace != 0 else ""
 
@@ -185,7 +220,6 @@ async def signup(payload: SignupIn):
     try:
         dict = payload.model_dump()
         bool, userid_or_error_code = user_creation.user_exists(dict)
-        # print(userid_or_error_code)
         # Hash the password before sending it to the database
         dict['password'] = hash(dict['password'])
 
@@ -193,7 +227,8 @@ async def signup(payload: SignupIn):
             user_creation.send_user_creds(
                 userid_or_error_code, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], dict)
             # return the userid to the session
-            return AuthOut(user_id=userid_or_error_code)
+            print(userid_or_error_code)
+            return AuthOut(user_id = userid_or_error_code)
 
         else:
             return AuthOut(error_code=userid_or_error_code)

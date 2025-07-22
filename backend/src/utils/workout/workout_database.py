@@ -120,12 +120,20 @@ class workout_database:
             raise ValueError(
                 "No matching workout type found for the given coordinates.")
         return workout_database.workout_dictionary[final_trio]
+    
+    def equalTrio(trio, other_trio):
+        """Check if two trios are equal"""
+        return trio[TRIO_STIM] == other_trio[TRIO_STIM] and trio[TRIO_RPE] == other_trio[TRIO_RPE] and trio[TRIO_DIST] == other_trio[TRIO_DIST]
 
     @staticmethod
     def get_workout_type_trio(trio: tuple) -> str:
         """Returns the workout type based on the trio"""
         # Similar to a get_workout_type but with different input
-        return workout_database.get_workout_type(trio[TRIO_STIM], trio[TRIO_RPE], trio[TRIO_DIST])
+        print(trio)
+        stim = float(trio[TRIO_STIM])
+        rpe = float(trio[TRIO_RPE])
+        dist = float(trio[TRIO_DIST])
+        return workout_database.get_workout_type(stim, rpe, dist)
 
     def get_workout_storage_type(self, workout_type: str) -> list:
         """Returns the list of workouts of a specific type"""
