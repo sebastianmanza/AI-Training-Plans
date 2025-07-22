@@ -1,4 +1,5 @@
 from collections import namedtuple
+import logging
 from psycopg2.extras import register_composite
 from backend.src.utils.user_storage.storage_stacks_and_queues import *
 from backend.src.utils.user_storage.day_plan import *
@@ -8,13 +9,13 @@ from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.database_connect import init_db
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.SQLutils.database_connect import db_insert, db_update
-import logging
 import psycopg2
 from queue import Empty
 import json
+import sys
+import os
+
 # Sends user information to the database.
-
-
 def send_user_info(new_user, username, password):
 
     try:
@@ -43,15 +44,13 @@ def send_user_info(new_user, username, password):
                 username, password,
                 new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury,
                 new_user.most_recent_injury, new_user.longest_run, new_user.goal_date,
-                new_user.pace_estimates, new_user.available_days, new_user.number_of_days,
-                workout_RPE_JSON
+                new_user.pace_estimates, new_user.available_days, new_user.number_of_days, workout_RPE_JSON
             )
 
         conn.commit()
 
     except Exception as e:
-        logging.exception(
-            "Failed to insert user_info for user_id=%s", new_user.user_id)
+        logging.exception("Failed to insert user_info for user_id=%s", new_user.user_id)
         # logging.error("Database operation failed:", e)
 
     finally:
@@ -103,7 +102,7 @@ def send_month_future(new_user, username, password):
     while new_user.month_future:
 
         if (new_user.month_future.qsize() == 0):
-            # print("Queue is now empty")
+            #print("Queue is now empty")
             break
 
         fut = new_user.month_future.get()
@@ -128,7 +127,7 @@ def send_month_future(new_user, username, password):
     curr.close()
     # close connection
     conn.close()
-    # print("Connection closed. Script complete.")
+    #print("Connection closed. Script complete.")
 
 
 # populate past week cycle user infomation within SQL database
@@ -273,6 +272,7 @@ def send_user_creds(user_id, username, password, login_info):
     Raises:
         Exception: If there is an error during the database operation.
     """
+
     conn = init_db(username, password)
     curr = conn.cursor()
 
@@ -307,15 +307,18 @@ def send_user_creds(user_id, username, password, login_info):
     except Exception as e:
         logging.exception(
             "Failed to insert credentials for user_id=%s", user_id)
-        # print("Database error:", e)
+        #print("Database error:", e)
 
     finally:
         curr.close()
         conn.close()
 
 
-def send_user_all(user_id, username, password, login_info):
-    send_user_creds(user_id, username, password, login_info)
+def send_user_all(user_id, username, password):
+
+    send_user_info(user_id, username, password)
+
+    # send_user_creds(user_id, username, password, login_info)
 
     send_month_history(user_id, username, password)
 

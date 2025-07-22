@@ -122,16 +122,19 @@ class main:
                                                                observed_pace= pace)
         user_send.send_user_all(user_id, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
       
-user_test = user(dob="2004-06-27",
-                     sex="male",
-                     running_ex="advanced",
-                     injury=0,
-                     most_recent_injury=-1,
-                     longest_run=11,
-                     goal_date="2026-01-01",
-                     available_days=[1, 1, 0, 1, 1, 2, 1],
-                     number_of_days=7
-                     )
+# user_test = user(dob="2004-06-27",
+#                      sex="male",
+#                      running_ex="advanced",
+#                      injury=0,
+#                      most_recent_injury=-1,
+#                      longest_run=11,
+#                      goal_date="2026-01-01",
+#                      available_days=[1, 1, 0, 1, 1, 2, 1],
+#                      number_of_days=7
+#                      )
+
+user_test = user_retrieve.populate_user_info(83982381)
+
 test_day = user_test.day_future.get()
 print(1)
 print(test_day.workout_RPE)

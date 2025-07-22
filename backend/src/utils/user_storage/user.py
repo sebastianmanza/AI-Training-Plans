@@ -147,8 +147,8 @@ class user:
         This function generates a new user ID that is not already in use by checking the database."""
 
         # Generate a new user ID
-        new_user_id = secrets.randbelow(900000000) + 10000000
-
+        new_user_id = secrets.randbelow(90000000) + 10000000
+        
         # Check if the user ID already exists in the database
         if (user.user_id_exists(new_user_id)):
             logging.warning("User ID already exists, generating a new one.")
