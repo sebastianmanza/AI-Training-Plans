@@ -16,6 +16,8 @@ import sys
 import os
 
 # Sends user information to the database.
+
+
 def send_user_info(new_user, username, password):
 
     try:
@@ -50,7 +52,8 @@ def send_user_info(new_user, username, password):
         conn.commit()
 
     except Exception as e:
-        logging.exception("Failed to insert user_info for user_id=%s", new_user.user_id)
+        logging.exception(
+            "Failed to insert user_info for user_id=%s", new_user.user_id)
         # logging.error("Database operation failed:", e)
 
     finally:
@@ -59,23 +62,21 @@ def send_user_info(new_user, username, password):
 
 
 # populate past month cycle user infomation within SQL database
-def send_month_history(new_user, username, password):
+def send_month_history(new_user: user, username, password) -> None:
 
     conn = init_db(username, password)
     # open cursor to perform sql queries
     curr = conn.cursor()
 
+    # Prep the query
+    query = """ INSERT INTO public.month_cycle(
+        user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
+        complete_score, month_id, past_month, complete_mileage)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """
+
     while new_user.month_history:
-
         pres = new_user.month_history.pop()
-
-        # write query
-        query = """ INSERT INTO public.month_cycle(
-            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
-            complete_score, month_id, past_month, complete_mileage)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """
         # fill query with appropriate user ID
-
         # 1 is a placeholder (too lazy to change shit)
         record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli,
                             pres.cycle, pres.expected_rpe, pres.real_rpe,
@@ -93,25 +94,24 @@ def send_month_history(new_user, username, password):
 
 
 # populate future month cycle user infomation within SQL database
-def send_month_future(new_user, username, password):
-
+def send_month_future(new_user: user, username, password) -> None:
     conn = init_db(username, password)
     # open cursor to perform sql queries
     curr = conn.cursor()
+    # Prep the query
+    query = """ INSERT INTO public.month_cycle(
+        user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
+        complete_score, month_id, past_month, complete_mileage)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """
 
     while new_user.month_future:
 
         if (new_user.month_future.qsize() == 0):
-            #print("Queue is now empty")
+            # print("Queue is now empty")
             break
 
         fut = new_user.month_future.get()
 
-        # write query
-        query = """ INSERT INTO public.month_cycle(
-            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
-            complete_score, month_id, past_month, complete_mileage)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """
         # 1 is a placeholder (too lazy to change shit)
         record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli,
                             fut.cycle, fut.expected_rpe, fut.real_rpe,
@@ -127,25 +127,25 @@ def send_month_future(new_user, username, password):
     curr.close()
     # close connection
     conn.close()
-    #print("Connection closed. Script complete.")
+    # print("Connection closed. Script complete.")
 
 
 # populate past week cycle user infomation within SQL database
-def send_week_cycle(new_user, username, password):
-
+def send_week_cycle(new_user: user, username, password) -> None:
     conn = init_db(username, password)
     # open cursor to perform sql queries
     curr = conn.cursor()
+    # Prep the query
+    query = """ INSERT INTO public.week_cycle(
+            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
+            complete_score, week_id, past_week, complete_mileage, month_id)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
 
     while new_user.week_history:
 
         pres = new_user.week_history.pop()
 
-        # write query
-        query = """ INSERT INTO public.week_cycle(
-            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
-            complete_score, week_id, past_week, complete_mileage, month_id)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
+        
         # fill query with appropriate user ID
 
         # 1 is a placeholder (too lazy to change shit)
@@ -165,13 +165,7 @@ def send_week_cycle(new_user, username, password):
             print("Queue is now empty")
             break
 
-        fut = new_user.week_future.get()
-
-        # write query
-        query = """ INSERT INTO public.week_cycle(
-            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
-            complete_score, week_id, past_week, complete_mileage, month_id)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
+        fut = new_user.week_future.get()        
         # 1 is a placeholder (too lazy to change shit)
         record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli,
                             fut.cycle, fut.expected_rpe, fut.real_rpe,
@@ -190,13 +184,18 @@ def send_week_cycle(new_user, username, password):
 
 
 # populate day cycle user infomation within SQL database
-def send_day_cycle(new_user, username, password):
+def send_day_cycle(new_user: user, username, password) -> None:
 
     conn = init_db(username, password)
     register_composite('trio', conn)  # No errors = good
 
     # open cursor to perform sql queries
     curr = conn.cursor()
+    # Prep the query
+    query = """ INSERT INTO public.day_cycle(
+        user_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, 
+        complete_score, past_day, complete_mileage, week_id, workouts)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s::trio[]); """
 
     while new_user.day_history:
 
@@ -206,11 +205,7 @@ def send_day_cycle(new_user, username, password):
         TrioType = register_composite('trio', conn, globally=True).type
         workouts = cast_workouts_to_trios(pres.workouts, TrioType)
 
-        # write query
-        query = """ INSERT INTO public.day_cycle(
-            user_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, 
-            complete_score, past_day, complete_mileage, week_id, workouts)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s::trio[]); """
+        
         # fill query with appropriate user ID
 
         # 1 is a placeholder (too lazy to change shit)
@@ -236,11 +231,6 @@ def send_day_cycle(new_user, username, password):
         TrioType = register_composite('trio', conn, globally=True).type
         workouts = cast_workouts_to_trios(fut.workouts, TrioType)
 
-        # write query
-        query = """ INSERT INTO public.day_cycle(
-            user_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, 
-            complete_score, past_day, complete_mileage, week_id, workouts)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s::trio[]); """
         # 1 is a placeholder (too lazy to change shit)
         record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli,
                             fut.lift, fut.expected_rpe, fut.real_rpe,
@@ -307,7 +297,7 @@ def send_user_creds(user_id, username, password, login_info):
     except Exception as e:
         logging.exception(
             "Failed to insert credentials for user_id=%s", user_id)
-        #print("Database error:", e)
+        # print("Database error:", e)
 
     finally:
         curr.close()
@@ -316,7 +306,7 @@ def send_user_creds(user_id, username, password, login_info):
 
 def send_user_all(user_id, username, password):
 
-    try: 
+    try:
         send_user_info(user_id, username, password)
 
         # send_user_creds(user_id, username, password, login_info)
