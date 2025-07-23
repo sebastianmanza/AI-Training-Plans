@@ -159,7 +159,7 @@ class workout_database:
         # Find the closest workout within the particular database
         return self.get_individual_workout_helper(stim, rpe, dist, workout_type)
 
-    def get_workout_type_coordinates(stim: float, rpe: float, dist: float) -> tuple:
+    def get_workout_type_coordinates(self, stim: float, rpe: float, dist: float) -> tuple:
         """Given stim, rpe, and dist return the coordinates associated with the workout type"""
         if dist == 0:  # If the distance is 0 then return the off workout
             return workout_database.create_trio(0, 0, 0)
