@@ -15,6 +15,10 @@ class workout_database:
         stim, rpe, dist = float(stim), float(rpe), float(dist)
         return (stim, rpe, dist)
 
+    @staticmethod
+    def workout_trio_equal(workout_1: single_workout, workout_2: single_workout) -> bool:
+        return single_workout.trio_equal(workout_1.get_trio(), workout_2.get_trio())
+
     # x range is 1 - 7 stimulus, y range is 1 -10 RPE, z range is 1 - 10 Distance
     # Dictionary that maps trios of (x, y, z) coordinates to workout types.
     workout_dictionary = {
@@ -121,7 +125,7 @@ class workout_database:
             raise ValueError(
                 "No matching workout type found for the given coordinates.")
         return workout_database.workout_dictionary[final_trio]
-    
+
     def equalTrio(trio, other_trio):
         """Check if two trios are equal"""
         return trio[TRIO_STIM] == other_trio[TRIO_STIM] and trio[TRIO_RPE] == other_trio[TRIO_RPE] and trio[TRIO_DIST] == other_trio[TRIO_DIST]
