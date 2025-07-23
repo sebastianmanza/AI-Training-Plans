@@ -89,10 +89,11 @@ class workout_database:
     def mass_add_workouts(self, workouts) -> None:
         """"Add a list of workouts to the database"""
         for workout in workouts:
-            try:
-                self.add_workout(workout)
-            except TypeError:  # If the workout isn't a single_workout instance, raise an error
-                print(TypeError)
+            self.add_workout(workout)
+            # try:
+            #     self.add_workout(workout)
+            # except TypeError:  # If the workout isn't a single_workout instance, raise an error
+            #     print(TypeError)
 
     def print_all_type(self, type_list: list, workout_type: str) -> None:
         """Print out all workouts of a specific type"""
