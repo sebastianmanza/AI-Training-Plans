@@ -125,6 +125,7 @@ class workout_database:
                 "No matching workout type found for the given coordinates.")
         return workout_database.workout_dictionary[final_trio]
 
+    @staticmethod
     def equalTrio(trio, other_trio):
         """Check if two trios are equal"""
         return trio[TRIO_STIM] == other_trio[TRIO_STIM] and trio[TRIO_RPE] == other_trio[TRIO_RPE] and trio[TRIO_DIST] == other_trio[TRIO_DIST]
@@ -133,7 +134,6 @@ class workout_database:
     def get_workout_type_trio(trio: tuple) -> str:
         """Returns the workout type based on the trio"""
         # Similar to a get_workout_type but with different input
-        print(trio)
         stim = float(trio[TRIO_STIM])
         rpe = float(trio[TRIO_RPE])
         dist = float(trio[TRIO_DIST])
