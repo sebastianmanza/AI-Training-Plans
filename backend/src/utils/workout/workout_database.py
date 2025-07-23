@@ -34,7 +34,7 @@ class workout_database:
         create_trio.__func__(7, 6, .5): "Flat Sprints",
         create_trio.__func__(6, 10, 3): "Time Trial",
         create_trio.__func__(1, 2, 3): "Warmup and Cooldown",
-        create_trio.__func__(0, 0, 0,): "Off"
+        create_trio.__func__(0, 0, 0): "Off"
     }
 
     def __init__(self, easyrun: list = [], recovery: list = [], kenyan: list = [],
