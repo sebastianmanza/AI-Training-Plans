@@ -242,7 +242,8 @@ class user:
                 self.goal_date == other.goal_date and
                 self.pace_estimates == other.pace_estimates and
                 self.available_days == other.available_days and
-                self.number_of_days == other.number_of_days) # Should add workoutRPE check and possibly storage
+                self.number_of_days == other.number_of_days) # and
+                #self.workout_RPE == other.workout_RPE) # Should add workoutRPE check and possibly storage
         
         
     def __repr__(self) -> str:
@@ -259,6 +260,7 @@ class user:
             f"     day_history={list(self.day_history)!r},\n"
             f"     month_future={list(self.month_future.queue)!r},\n"
             f"     week_future={list(self.week_future.queue)!r},\n"
-            f"     day_future={list(self.day_future.queue)!r}"
+            f"     day_future={list(self.day_future.queue)!r}\n"
+            f"     workout_RPE={self.workout_RPE!r}"
             f")"
         )
