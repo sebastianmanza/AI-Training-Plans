@@ -246,7 +246,7 @@ def send_day_cycle(new_user: user, username: str, password: str) -> None:
     conn.close()
 
 
-def send_user_creds(user_id: int, username: str, password: str, login_info: dict):
+def send_user_creds(user_id: int, username: str, password: str, login_info: dict) -> None:
     """
     Sends user credentials to the database. If the user already exists, 
     updates their credentials; otherwise, inserts a new record.
@@ -302,7 +302,7 @@ def send_user_creds(user_id: int, username: str, password: str, login_info: dict
         conn.close()
 
 
-def send_user_all(user_id: int, username: str, password: str):
+def send_user_all(user_id: int, username: str, password: str) -> None:
 
     try:
         send_user_info(user_id, username, password)
@@ -326,7 +326,7 @@ def cast_workouts_to_trios(workouts: list, TrioType):
     return [TrioType(*triplet) for triplet in workouts]
 
 
-def testing_cycle(username: str, password: str):
+def testing_cycle(username: str, password: str) -> None:
     conn = init_db(username, password)
     cursor = conn.cursor()
     TrioType = register_composite(
