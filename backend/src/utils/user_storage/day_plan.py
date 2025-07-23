@@ -90,3 +90,13 @@ class day_plan:
             return False
         
         return True
+    
+    def __repr__(self) -> str:
+        return (
+            f"day_id: {self.day_id}, week_id: {self.week_id}, "
+            f"total_mileage: {self.total_mileage}, completed_mileage: {self.completed_mileage}, "
+            f"expected_rpe: {self.expected_rpe}, real_rpe: {self.real_rpe}, "
+            f"percent_completion: {self.percent_completion:.2%}, "
+            f"goal_stimuli: {self.goal_stimuli}, lift: {self.lift}"
+            f"workouts: {self.workouts!r}"
+        )

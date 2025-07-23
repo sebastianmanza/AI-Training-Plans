@@ -11,7 +11,7 @@ class week_plan:
     __slots__ = ("total_mileage", "completed_mileage", "percent_completion",
                  "goal_stimuli", "cycle", "days", "expected_rpe", "real_rpe", "month_id", "week_id")
 
-    def __init__(self, total_mileage: int = -1, goal_stimuli=workout_database.create_trio(-1, -1, -1), cycle: str = "", expected_rpe=-1, month_id: int = -1, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, days: list = [], week_id=-1):
+    def __init__(self, total_mileage: int = -1, goal_stimuli=workout_database.create_trio(-1, -1, -1), cycle: str = "", expected_rpe=-1, month_id: int = -1, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, days: list | None = None, week_id: int = -1):
         """Creates a week plan object autofilled with placeholders
 
         Args:
@@ -34,7 +34,7 @@ class week_plan:
         self.goal_stimuli = goal_stimuli
         self.cycle = cycle
 
-        self.days = days
+        self.days = days if days is not None else []
         self.expected_rpe = expected_rpe
         self.real_rpe = real_rpe
 
@@ -81,4 +81,25 @@ class week_plan:
                 self.real_rpe == other.real_rpe and
                 self.completed_mileage == other.completed_mileage and
                 self.percent_completion == other.percent_completion and
-                self.week_id == other.week_id)
+                self.week_id == other.week_id and
+                self.goal_stimuli == other.goal_stimuli and
+                len(self.days) == len(other.days) and
+                all(day1 == day2 for day1, day2 in zip(self.days, other.days))
+                )
+
+    def __repr__(self) -> str:
+        return (
+            f"week_plan("
+            f"week_id={self.week_id!r}, "
+            f"total_mileage={self.total_mileage!r}, "
+            f"goal_stimuli={self.goal_stimuli!r}, "
+            f"cycle={self.cycle!r}, "
+            f"days={self.days!r}, "
+            f"percent_completion={self.percent_completion!r}, "
+            f"completed_mileage={self.completed_mileage!r}, "
+            f"expected_rpe={self.expected_rpe!r}, "
+            f"real_rpe={self.real_rpe!r}"
+            f"month_id={self.month_id!r}, "
+            f"dayslength = {len(self.days)}"
+            f")"
+        )

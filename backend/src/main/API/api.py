@@ -175,8 +175,8 @@ async def get_home_data(user_id: int = 0):
         pace_str = ""
 
         # Create a string representation of the current day and next day workouts
-        print(current_day.workouts)
-        print(current_day.workouts[3])
+        # print(current_day.workouts)
+        # print(current_day.workouts[3])
         workout_cur = workout_database.get_workout_type_trio(current_day.workouts[0]) if (len(current_day.workouts) == 1) else workout_database.get_workout_type_trio(
             current_day.workouts[0]) + " + \n" + workout_database.get_workout_type_trio(current_day.workouts[1])
         workout_next = workout_database.get_workout_type_trio(next_day.workouts[0]) if (len(next_day.workouts) == 1) else workout_database.get_workout_type_trio(

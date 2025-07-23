@@ -1,5 +1,6 @@
 import psycopg2
 import logging
+from psycopg2.extras import register_composite
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 
 # takes in the host name (localhost for database owner).
@@ -31,6 +32,7 @@ def init_db(username, pwd):
 def db_select(username, pwd, user_id, query, return_cursor=False):
 
     conn = init_db(username, pwd)
+    register_composite("trio", conn, globally=True)
 
     # Check that the connection worked
     if conn is None:
