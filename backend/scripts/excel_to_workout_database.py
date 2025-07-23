@@ -19,13 +19,11 @@ for idx, row in sheet1.iterrows():  # For each row
     for col in sheet1.columns:  # For each column
         if col == "Trio":  # If it's a trio
             # Split the item and append each part
-            for coordinate in str.split(row[col], ","):
-                trio.append(int(coordinate))
-        elif col == "Reps":
-            for rep in str.split(row[col], ","):
-                reps.append(int(rep.strip()))
-        elif col == "Pace":
-            for pac in str.split(row[col], " "):
+            for coordinate in str(row[col]).split(","):
+                trio.append(float(coordinate))
+            for rep in str(row[col]).split(","):
+                reps.append(float(rep.strip()))
+            for pac in str(row[col]).split(" "):
                 pace.append(pac.strip())
         else:
             distance = row[col]
@@ -35,6 +33,11 @@ for idx, row in sheet1.iterrows():  # For each row
 workouts = sorted(workouts, key=lambda x: (
     x.get_stim(), x.get_rpe(), x.get_distance()))
 
-# new_workout_database.mass_add_workouts(workouts)
-# new_workout_database.print_workouts("Warmup and Cooldown")
-# new_workout_database.print_workouts("Progression")
+def get_workout_list():
+    return workouts
+
+new_workout_database.mass_add_workouts(workouts)
+new_workout_database.print_workouts("Warmup and Cooldown")
+new_workout_database.print_workouts("Easy Run")
+new_workout_database.print_workouts("Progression")
+new_workout_database.print_workouts("Recovery Run")
