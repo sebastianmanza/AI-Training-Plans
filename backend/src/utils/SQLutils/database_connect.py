@@ -13,11 +13,11 @@ def init_db(username, pwd):
         else:
             locate = 'localhost'
         # Establish connection
-        conn = psycopg2.connect(database="UserList",
+        conn = psycopg2.connect(database="userdatabase",
                                 user=username,
                                 host=locate,
                                 password=pwd,
-                                port="5432",
+                                port="5432",    
                                 connect_timeout=10)
 
         return conn
@@ -25,6 +25,8 @@ def init_db(username, pwd):
         logging.exception("Database connection error")
         #print(f"Database connection error: {e}")
         return None
+    
+init_db(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 
  
 # Takes in a user ID and retreives their information from the SQL database.
