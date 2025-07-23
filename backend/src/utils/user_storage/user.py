@@ -6,7 +6,7 @@ import datetime
 from backend.src.utils.user_storage.storage_stacks_and_queues import storage_stacks_and_queues
 import backend.src.utils.user_storage.training_database as training_database
 from backend.src.utils.SQLutils.database_connect import init_db
-from backend.src.utils.pace_calculations import get_training_pace_helper, alter_pace, to_str, mile_pace
+from backend.src.utils.pace_calculations import get_training_pace_helper, to_str, mile_pace
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 
 FIVEKDIST, METERS_PER_MILE = 5000, 1600  # Distance conversions

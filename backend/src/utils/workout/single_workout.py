@@ -15,6 +15,12 @@ class single_workout:
         self.pace = pace
         self.distance = distance
 
+    @staticmethod
+    def trio_equal(trio_1: tuple, trio_2: tuple) -> bool:
+        return trio_1[TRIO_STIM] == trio_2[TRIO_STIM] and \
+            trio_1[TRIO_RPE] == trio_2[TRIO_RPE] and \
+            trio_1[TRIO_DIST] == trio_2[TRIO_DIST]
+
     def get_trio(self) -> tuple:
         return self.trio
 
@@ -29,7 +35,7 @@ class single_workout:
     def get_distance(self) -> float:
         """"Return the distance"""
         return self.trio[TRIO_DIST]
-    
+
     def get_pace(self) -> list:
         """Return the pace"""
         return self.pace
