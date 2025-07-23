@@ -9,11 +9,9 @@ from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.database_connect import init_db
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.SQLutils.database_connect import db_insert, db_update
-import psycopg2
 from queue import Empty
 import json
-import sys
-import os
+
 
 # Sends user information to the database.
 
@@ -77,7 +75,12 @@ def send_month_history(new_user: user, username: str, password: str) -> None:
     while new_user.month_history:
         pres = new_user.month_history.pop()
         # fill query with appropriate user ID
+<<<<<<< HEAD
+
+        
+=======
         # 1 is a placeholder (too lazy to change shit)
+>>>>>>> f7b8e028dc44ee7ac2569b8858f02a2dafda8b50
         record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli,
                             pres.cycle, pres.expected_rpe, pres.real_rpe,
                             pres.percent_completion, pres.month_id, True,
@@ -112,7 +115,16 @@ def send_month_future(new_user: user, username: str, password: str) -> None:
 
         fut = new_user.month_future.get()
 
+<<<<<<< HEAD
+        # write query
+        query = """ INSERT INTO public.month_cycle(
+            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
+            complete_score, month_id, past_month, complete_mileage)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """
+        
+=======
         # 1 is a placeholder (too lazy to change shit)
+>>>>>>> f7b8e028dc44ee7ac2569b8858f02a2dafda8b50
         record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli,
                             fut.cycle, fut.expected_rpe, fut.real_rpe,
                             fut.percent_completion, fut.month_id, False,
@@ -147,7 +159,7 @@ def send_week_cycle(new_user: user, username: str, password: str) -> None:
 
         # fill query with appropriate user ID
 
-        # 1 is a placeholder (too lazy to change shit)
+        
         record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli,
                             pres.cycle, pres.expected_rpe, pres.real_rpe,
                             pres.percent_completion, pres.week_id, True,
@@ -165,7 +177,17 @@ def send_week_cycle(new_user: user, username: str, password: str) -> None:
             break
 
         fut = new_user.week_future.get()
+<<<<<<< HEAD
+
+        # write query
+        query = """ INSERT INTO public.week_cycle(
+            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
+            complete_score, week_id, past_week, complete_mileage, month_id)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
+        
+=======
         # 1 is a placeholder (too lazy to change shit)
+>>>>>>> f7b8e028dc44ee7ac2569b8858f02a2dafda8b50
         record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli,
                             fut.cycle, fut.expected_rpe, fut.real_rpe,
                             fut.percent_completion, fut.week_id, False,
@@ -206,7 +228,7 @@ def send_day_cycle(new_user: user, username: str, password: str) -> None:
 
         # fill query with appropriate user ID
 
-        # 1 is a placeholder (too lazy to change shit)
+        
         record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli,
                             pres.lift, pres.expected_rpe, pres.real_rpe,
                             pres.percent_completion, True,
@@ -341,6 +363,8 @@ def testing_cycle(username: str, password: str) -> None:
         (999, casted_workouts)
     )
     conn.commit()
+    
+    
 
 
 # # testing
@@ -382,17 +406,31 @@ send_week_cycle(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASS
 # testing day population
 
 
-# list_of_workouts = [(1, 3, 4), (4, 5, 6)]
+# new_user = user(dob="2004-06-27",
+#                      sex="male",
+#                      running_ex="advanced",
+#                      injury=0,
+#                      most_recent_injury=-1,
+#                      longest_run=11,
+#                      goal_date="2026-01-01",
+#                      available_days=[1, 1, 0, 1, 1, 2, 1],
+#                      number_of_days=7
+#                      )
 
-# day_one = day_plan(list_of_workouts, 1, False, 10, 3, 99, 99, 10)
-# day_two = day_plan(list_of_workouts, 1, False, 10, 3, 99, 99, 10)
-# day_three = day_plan(list_of_workouts, 1, False, 11, 4, 99, 99, 10)
+# database = workout_database()
 
-# new_user.append_day(day_one)
-# new_user.append_day(day_two)
 
-# new_user.append_fut_day(day_two)
-# new_user.append_fut_day(day_three)
+#list_of_workouts = [(1, 3, 4), (4, 5, 6)]
+
+# #day_one = day_plan(list_of_workouts, 1, False, 10, 3, 99, 99, 10)
+# #day_two = day_plan(list_of_workouts, 1, False, 10, 3, 99, 99, 10)
+# day_three = day_plan.day_plan(list_of_workouts, 10, False, 5, 100, 6, 50, 100, 15, 5)
+
+# #new_user.append_day(day_one)
+# new_user.append_day(day_three)
+
+# # new_user.append_fut_day(day_two)
+# # new_user.append_fut_day(day_three)
 
 # send_day_cycle(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 
@@ -402,3 +440,10 @@ send_week_cycle(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASS
 # print(type(new_user.month_history), len(new_user.month_history))
 # print("Queue before sending:", new_user.month_future.qsize())
 # print(new_user.month_future.get())
+
+
+    
+    
+# test_query(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+
+
