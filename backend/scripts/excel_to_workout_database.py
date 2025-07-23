@@ -35,6 +35,6 @@ for idx, row in sheet1.iterrows():  # For each row
 workouts = sorted(workouts, key=lambda x: (
     x.get_stim(), x.get_rpe(), x.get_distance()))
 
-new_workout_database.mass_add_workouts(workouts)
-new_workout_database.print_workouts("Warmup and Cooldown")
-new_workout_database.print_workouts("Progression")
+# new_workout_database.mass_add_workouts(workouts)
+# new_workout_database.print_workouts("Warmup and Cooldown")
+# new_workout_database.print_workouts("Progression")

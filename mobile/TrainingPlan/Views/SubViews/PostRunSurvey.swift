@@ -62,22 +62,11 @@ struct PostRunSurvey: View {
             .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 64))
             .foregroundColor(.black)
 
-          Slider(value: $rpeval, in: 0...10, step: 0.5)
+          RPESliderView(value: $rpeval, range: 0...10, step: 0.5)
             .accentColor(Color(red: 195 / 255, green: 195 / 255, blue: 195 / 255))
             .cornerRadius(10)
-            // .scaleEffect(x: 2, y: 2)
             .padding(.horizontal, 50)
             .introspect(.slider, on: .iOS(.v17, .v18)) { slider in
-              slider.transform = CGAffineTransform(scaleX: 1, y: 3)
-              let thumbConfig = UIImage.SymbolConfiguration(pointSize: 12, weight: .regular)
-              if let thumbImage = UIImage(
-                systemName: "circle.fill",
-                withConfiguration: thumbConfig)?
-                .withTintColor(.darkGray, renderingMode: .alwaysOriginal)
-              {
-                slider.setThumbImage(thumbImage, for: .normal)
-                slider.setThumbImage(thumbImage, for: .highlighted)
-              }
               slider.thumbTintColor = UIColor(
                 red: 57 / 255, green: 57 / 255, blue: 57 / 255, alpha: 1)
               slider.minimumTrackTintColor =
@@ -85,6 +74,7 @@ struct PostRunSurvey: View {
               slider.maximumTrackTintColor =
                 UIColor(red: 195 / 255, green: 195 / 255, blue: 195 / 255, alpha: 1)
             }
+            .frame(maxWidth: .infinity, maxHeight: 50)
 
         }
       }

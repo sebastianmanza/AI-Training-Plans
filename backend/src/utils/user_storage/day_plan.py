@@ -32,8 +32,9 @@ class day_plan:
             self.goal_stimuli = workouts[0]
             return
 
-        self.goal_stimuli = self.__make_stimuli_trio(
-            workouts)  # Use the days workouts to create a day trio
+        if goal_stimuli == workout_database.create_trio(-1, -1, -1):
+            self.goal_stimuli = self.__make_stimuli_trio(
+                workouts)  # Use the days workouts to create a day trio
 
     # May not be used if initialized workouts are final
 
@@ -76,17 +77,16 @@ class day_plan:
         self.update_daily_mileage(mileage)
         self.update__real_rpe(real_rpe)
 
-        # self.week_id.update_week()
-# testing code
-'''day = day_plan([(1, 3, 4), (4, 5, 6)], 10, False, 6, 1, 9, 10, 1)
-print("stim 1")
-print(day.workouts[0])
-print("stim 2")
-print(day.workouts[1])
-print("goal stimuli")
-print(day.goal_stimuli)
-day_two = day_plan([(1, 3, 4)], 10, False, 6, 1, 9, 10, 1)
-print("stim 1")
-print(day_two.workouts[0])
-print("goal stimuli")
-print(day_two.goal_stimuli)'''
+    def __eq__(self, other) -> bool:
+        if (self.total_mileage != other.total_mileage or
+                self.completed_mileage != other.completed_mileage or
+                self.lift != other.lift or
+                self.expected_rpe != other.expected_rpe or
+                self.real_rpe != other.real_rpe or
+                self.percent_completion != other.percent_completion or
+                self.week_id != other.week_id or
+                self.day_id != other.day_id or
+                self.goal_stimuli != other.goal_stimuli):
+            return False
+        
+        return True

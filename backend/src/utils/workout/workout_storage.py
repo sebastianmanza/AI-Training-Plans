@@ -2,13 +2,13 @@ class workout_storage:
     # all the workout types
     # These lists will store different types of workouts.
     # lists of key value points that the key is the trio and the value is the workout
-    __slots__ = ("et", "recovery", "kenyan", "long", "threshold", "fartlek", "race_pace_interval",
+    __slots__ = ("easyrun", "recovery", "kenyan", "long", "threshold", "fartlek", "race_pace_interval",
                  "strides", "hill_sprints", "flat_sprints", "time_trial", "warmup_and_cooldown")
 
     # Initialize the workout storage with empty lists for threshold and interval workouts.
 
     def __init__(self):
-        self.et = []
+        self.easyrun = []
         self.recovery = []
         self.kenyan = []
         self.long = []
@@ -23,8 +23,8 @@ class workout_storage:
 
     # Getters for the workout lists
     # get et workouts
-    def get_et_workouts(self) -> list:
-        return self.et
+    def get_easyrun_workouts(self) -> list:
+        return self.easyrun
     # get recovery workouts
 
     def get_recovery_workouts(self) -> list:

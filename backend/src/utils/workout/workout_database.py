@@ -15,10 +15,14 @@ class workout_database:
         stim, rpe, dist = float(stim), float(rpe), float(dist)
         return (stim, rpe, dist)
 
+    @staticmethod
+    def workout_trio_equal(workout_1: single_workout, workout_2: single_workout) -> bool:
+        return single_workout.trio_equal(workout_1.get_trio(), workout_2.get_trio())
+
     # x range is 1 - 7 stimulus, y range is 1 -10 RPE, z range is 1 - 10 Distance
     # Dictionary that maps trios of (x, y, z) coordinates to workout types.
     workout_dictionary = {
-        create_trio.__func__(2.5, 4, 5.5): "Easy Tempo",
+        create_trio.__func__(2.5, 4, 5.5): "Easy Run",
         create_trio.__func__(2, 3, 4.5): "Recovery Run",
         create_trio.__func__(4, 6, 6): "Progression",
         create_trio.__func__(2.5, 5, 10): "Long Run",
@@ -33,13 +37,13 @@ class workout_database:
         create_trio.__func__(0, 0, 0,): "Off"
     }
 
-    def __init__(self, et: list = [], recovery: list = [], kenyan: list = [],
+    def __init__(self, easyrun: list = [], recovery: list = [], kenyan: list = [],
                  long: list = [], threshold: list = [], fartlek: list = [],
                  race_pace_interval: list = [], strides: list = [], hill_sprints: list = [],
                  flat_sprints: list = [], time_trial: list = [], warmup_and_cooldown: list = []):
 
         # Set up the collection of workouts of each type
-        self.et = workout_database.storage.et
+        self.easyrun = workout_database.storage.easyrun
         self.recovery = workout_database.storage.recovery
         self.kenyan = workout_database.storage.kenyan
         self.long = workout_database.storage.long
@@ -56,8 +60,8 @@ class workout_database:
     def match_execute(self, workout_type: str, func, *args):
         """Match the workout type to the corresponding list and execute the function with args"""
         match workout_type:
-            case "Easy Tempo":
-                return func(self.et, *args)
+            case "Easy Run":
+                return func(self.easyrun, *args)
             case "Recovery Run":
                 return func(self.recovery, *args)
             case "Progression":
@@ -83,7 +87,7 @@ class workout_database:
 
     def add_workout(self, workout: single_workout) -> None:
         """Add a workout to the matching workout database"""
-        self.match_execute(workout_database.get_workout_type(workout.get_stim, workout.get_rpe, workout.get_distance),
+        self.match_execute(workout_database.get_workout_type(workout.get_stim(), workout.get_rpe(), workout.get_distance()),
                            list.append, workout)
 
     def mass_add_workouts(self, workouts) -> None:
@@ -121,11 +125,19 @@ class workout_database:
                 "No matching workout type found for the given coordinates.")
         return workout_database.workout_dictionary[final_trio]
 
+    def equalTrio(trio, other_trio):
+        """Check if two trios are equal"""
+        return trio[TRIO_STIM] == other_trio[TRIO_STIM] and trio[TRIO_RPE] == other_trio[TRIO_RPE] and trio[TRIO_DIST] == other_trio[TRIO_DIST]
+
     @staticmethod
     def get_workout_type_trio(trio: tuple) -> str:
         """Returns the workout type based on the trio"""
         # Similar to a get_workout_type but with different input
-        return workout_database.get_workout_type(trio[TRIO_STIM], trio[TRIO_RPE], trio[TRIO_DIST])
+        print(trio)
+        stim = float(trio[TRIO_STIM])
+        rpe = float(trio[TRIO_RPE])
+        dist = float(trio[TRIO_DIST])
+        return workout_database.get_workout_type(stim, rpe, dist)
 
     def get_workout_storage_type(self, workout_type: str) -> list:
         """Returns the list of workouts of a specific type"""
