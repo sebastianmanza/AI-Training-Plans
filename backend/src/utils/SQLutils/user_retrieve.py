@@ -25,7 +25,7 @@ class QueryExecutionError(Exception):
     pass
 
 
-def retrieve_user_info(user_id: int, username, pwd, col_names=False):
+def retrieve_user_info(user_id: int, username, pwd, col_names=False) -> dict:
     """
     Retrieves user information from the database and populates it in a user object.
 
