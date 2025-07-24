@@ -7,7 +7,7 @@ class month_plan:
     __slots__ = ("month_id", "total_mileage", "goal_stimuli", "cycle", "weeks",
                  "percent_completion", "completed_mileage", "expected_rpe", "real_rpe")
 
-    def __init__(self, month_id: int = -1, total_mileage: int = 0, goal_stimuli=workout_database.create_trio(0, 0, 0), cycle: str = "", expected_rpe: int = 0, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, weeks: list = []):
+    def __init__(self, month_id: int = -1, total_mileage: int = 0, goal_stimuli=workout_database.create_trio(0, 0, 0), cycle: str = "", expected_rpe: int = 0, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, weeks: list | None = None):
         """_summary_
 
         Args:
@@ -24,7 +24,7 @@ class month_plan:
         Raises:
             TypeError: _description_
         """
-        self.weeks = weeks
+        self.weeks = weeks if weeks is not None else []
         for week in self.weeks:  # Ensure that each week is of type week_plan
             if not isinstance(week, week_plan.week_plan):
                 raise TypeError(
@@ -83,7 +83,10 @@ class month_plan:
                 self.month_id == other.month_id and
                 self.real_rpe == other.real_rpe and
                 self.completed_mileage == other.completed_mileage and
-                self.percent_completion == other.percent_completion)
+                self.percent_completion == other.percent_completion and
+                self.goal_stimuli == other.goal_stimuli and
+                len(self.weeks) == len(other.weeks) and
+                all(week1 == week2 for week1, week2 in zip(self.weeks, other.weeks)))
         
     def __repr__(self) -> str:
         return (

@@ -1,3 +1,4 @@
+import json
 from backend.src.utils.user_storage.day_plan import day_plan
 from backend.src.utils.user_storage.week_plan import week_plan
 from backend.src.utils.user_storage.month_plan import month_plan
@@ -24,6 +25,27 @@ class QueryExecutionError(Exception):
     """Exception raised for errors during query execution."""
     pass
 
+def convert_trio_types_to_tuples(list_of_trios: list):
+
+    """
+    Converts a list of trio types into a tuple objects.
+
+    Args:
+        list_of_trios (list): List of trio objects to convert.
+
+    Returns:
+        list: A list of casted tuple objects.
+    """
+   
+    return [tuple(trio) for trio in list_of_trios]
+
+def convert_trio_type_to_tuples(trio: tuple):
+    """Convert a TrioType to a tuple of type (double, double, double)
+
+    Args:
+        trio (tuple): a TrioType
+    """
+    return tuple(trio) if trio else (0.0, 0.0, 0.0)
 
 def retrieve_user_info(user_id: int, username, pwd, col_names=False) -> dict:
     """
@@ -59,7 +81,7 @@ def retrieve_user_info(user_id: int, username, pwd, col_names=False) -> dict:
         week_query = """
             SELECT total_mileage AS week_total_mileage, goal_stimuli AS week_goal_stimuli, cycle AS week_cycle, expected_rpe AS week_expected_rpe, 
                    complete_mileage AS week_completed_mileage, complete_score AS week_percent_completion, 
-                   real_rpe AS week_real_rpe, week_id, past_week
+                   real_rpe AS week_real_rpe, week_id, past_week, month_id
             FROM week_cycle
             WHERE user_id = %s;
         """
@@ -67,7 +89,7 @@ def retrieve_user_info(user_id: int, username, pwd, col_names=False) -> dict:
         day_query = """
             SELECT total_mileage AS day_total_mileage, workouts AS day_workouts, goal_stimuli AS day_goal_stimuli, lift AS day_cycle, expected_rpe AS day_expected_rpe,
                     complete_mileage AS day_completed_mileage, complete_score AS day_percent_completion, 
-                    real_rpe AS day_real_rpe, past_day
+                    real_rpe AS day_real_rpe, past_day, week_id, day_id
             FROM day_cycle
             WHERE user_id = %s;
         """
@@ -196,6 +218,7 @@ def populate_user_info(user_id):
         available_days=user_data_dict[0].get('available_days'),
         number_of_days=user_data_dict[0].get('number_of_days'),
         user_id=user_data_dict[0].get('user_id'),
+        #workout_RPE=json.loads(json.dump("hello world"))
         workout_RPE=user_data_dict[0].get('workout_rpe')
     )
 
@@ -204,7 +227,7 @@ def populate_user_info(user_id):
         if (month_data_dict.get('past_month')):
             new_user.month_history.append(month_plan(
                 total_mileage=month_data_dict.get('month_total_mileage'),
-                goal_stimuli=month_data_dict.get('month_goal_stimuli'),
+                goal_stimuli=convert_trio_type_to_tuples(month_data_dict.get('month_goal_stimuli')),
                 cycle=month_data_dict.get('month_cycle'),
                 expected_rpe=month_data_dict.get('month_expected_rpe'),
                 real_rpe=month_data_dict.get('month_real_rpe'),
@@ -213,11 +236,11 @@ def populate_user_info(user_id):
                 month_id=month_data_dict.get('month_id')
 
             ))
-            print(month_data_dict.get('month_id'))
+            # print(month_data_dict.get('month_id'))
         else:
             new_user.month_future.put(month_plan(
                 total_mileage=month_data_dict.get('month_total_mileage'),
-                goal_stimuli=month_data_dict.get('month_goal_stimuli'),
+                goal_stimuli=convert_trio_type_to_tuples(month_data_dict.get('month_goal_stimuli')),
                 cycle=month_data_dict.get('month_cycle'),
                 expected_rpe=month_data_dict.get('month_expected_rpe'),
                 month_id=month_data_dict.get('month_id')))
@@ -227,42 +250,65 @@ def populate_user_info(user_id):
         if (week_data_dict.get('past_week')):
             new_user.week_history.append(week_plan(
                 total_mileage=week_data_dict.get('week_total_mileage'),
-                goal_stimuli=week_data_dict.get('week_goal_stimuli'),
+                goal_stimuli=convert_trio_type_to_tuples(week_data_dict.get('week_goal_stimuli')),
                 cycle=week_data_dict.get('week_cycle'),
                 expected_rpe=week_data_dict.get('week_expected_rpe'),
                 real_rpe=week_data_dict.get('week_real_rpe'),
                 percent_completion=week_data_dict.get(
                     'week_percent_completion'),
-                week_id=week_data_dict.get('week_id')
+                week_id=week_data_dict.get('week_id'),
+                month_id=week_data_dict.get('month_id') 
             ))
         else:
             new_user.week_future.put(week_plan(
                 total_mileage=week_data_dict.get('week_total_mileage'),
-                goal_stimuli=week_data_dict.get('week_goal_stimuli'),
+                goal_stimuli=convert_trio_type_to_tuples(week_data_dict.get('week_goal_stimuli')),
                 cycle=week_data_dict.get('week_cycle'),
                 expected_rpe=week_data_dict.get('week_expected_rpe'),
-                week_id=week_data_dict.get('week_id')))
+                week_id=week_data_dict.get('week_id'),
+                month_id=week_data_dict.get('month_id')))
 
     # Populate the days objects
     for day_data_dict in day_data_dicts:
         if (day_data_dict.get('past_day')):
             new_user.day_history.append(day_plan(
                 total_mileage=day_data_dict.get('day_total_mileage'),
-                workouts=day_data_dict.get('day_workouts'),
-                goal_stimuli=day_data_dict.get('day_goal_stimuli'),
+                workouts=convert_trio_types_to_tuples(day_data_dict.get('day_workouts')),
+                goal_stimuli=convert_trio_type_to_tuples(day_data_dict.get('day_goal_stimuli')),
                 lift=day_data_dict.get('day_cycle'),
                 expected_rpe=day_data_dict.get('day_expected_rpe'),
                 real_rpe=day_data_dict.get('day_real_rpe'),
                 percent_completion=day_data_dict.get('day_percent_completion'),
                 day_id=day_data_dict.get('day_id'),
+                week_id=day_data_dict.get('week_id')
             ))
         else:
             new_user.day_future.put(day_plan(
                 total_mileage=day_data_dict.get('day_total_mileage'),
-                workouts=day_data_dict.get('day_workouts'),
-                goal_stimuli=day_data_dict.get('day_goal_stimuli'),
+                workouts=convert_trio_types_to_tuples(day_data_dict.get('day_workouts')),
+                goal_stimuli=convert_trio_type_to_tuples(day_data_dict.get('day_goal_stimuli')),
                 lift=day_data_dict.get('day_cycle'),
                 expected_rpe=day_data_dict.get('day_expected_rpe'),
-                day_id=day_data_dict.get('day_id')))
+                day_id=day_data_dict.get('day_id'),
+                week_id= day_data_dict.get('week_id')))
 
+    # Populate the trees
+    for month in new_user.month_history:
+        for week in new_user.week_history:
+            if week.month_id == month.month_id:
+                month.weeks.append(week)
+    for month in new_user.month_future.queue:
+        for week in new_user.week_future.queue:
+            if week.month_id == month.month_id:
+                month.weeks.append(week)
+                
+    for week in new_user.week_history:
+        for day in new_user.day_history:
+            if day.week_id == week.week_id:
+                week.days.append(day)
+    for week in new_user.week_future.queue:
+        for day in new_user.day_future.queue:
+            if day.week_id == week.week_id:
+                week.days.append(day)
+    
     return new_user
