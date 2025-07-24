@@ -164,17 +164,7 @@ def send_week_cycle(new_user, username, password):
             break
 
         fut = new_user.week_future.get()
-<<<<<<< HEAD
-
-        # write query
-        query = """ INSERT INTO public.week_cycle(
-            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
-            complete_score, week_id, past_week, complete_mileage, month_id)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
-        
-=======
         # 1 is a placeholder (too lazy to change shit)
->>>>>>> f7b8e028dc44ee7ac2569b8858f02a2dafda8b50
         record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli,
                             fut.cycle, fut.expected_rpe, fut.real_rpe,
                             fut.percent_completion, fut.week_id, False,
