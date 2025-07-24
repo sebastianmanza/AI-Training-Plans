@@ -50,31 +50,31 @@ def test_user_cycle():
     """
     Test the user cycle functionality.
     """
-    test_user = user(
-        dob="2004-06-27",
-        sex="Male",
-        running_ex="Advanced",  
-        injury=0,
-        most_recent_injury=0,
-        longest_run=12,
-        goal_date="2026-01-01",
-        available_days=[1, 1, 0, 1, 1, 2, 1],
-        number_of_days=7,
-    )
-    database = txt_to_database("backend/data/raw/training_plan_test.txt")
-    test_user.day_future = database.day
-    test_user.week_future = database.week
-    test_user.month_future = database.month
+    # test_user = user(
+    #     dob="2004-06-27",
+    #     sex="Male",
+    #     running_ex="Advanced",  
+    #     injury=0,
+    #     most_recent_injury=0,
+    #     longest_run=12,
+    #     goal_date="2026-01-01",
+    #     available_days=[1, 1, 0, 1, 1, 2, 1],
+    #     number_of_days=7,
+    # )
+    # database = txt_to_database("backend/data/raw/training_plan_test.txt")
+    # test_user.day_future = database.day
+    # test_user.week_future = database.week
+    # test_user.month_future = database.month
     
     
     
     
-    send_user_all(test_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+    #send_user_all(test_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 
-    print(test_user.user_id)
-    return_user = populate_user_info(test_user.user_id)
-    print(test_user.day_future.get().workouts)
-    print(return_user.day_future.get().workouts)
+    # print(test_user.user_id)
+    return_user = populate_user_info(57121620)
+    # print(test_user.day_future.get().workouts)
+    # print(return_user.day_future.get().workouts)
 
 
-test_user_cycle()
+# test_user_cycle()
