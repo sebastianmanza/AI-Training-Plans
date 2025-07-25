@@ -70,8 +70,7 @@ class main:
             "Was your average pace within the prescribed pace range:",
             "If not what was your average pace?:",
             "Was your rest in the prescribed range?:",
-            "If not what was your rest?:",
-            "Did you complete a lift today?:"
+            "If not what was your rest?:"
         ]
 
         answers = []
