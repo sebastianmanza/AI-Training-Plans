@@ -211,7 +211,14 @@ class user:
             return 0
 
     def txt_to_workout_type(txt: str) -> int:
-        """Converts a string to the corresponding workout type index."""
+        """Returns the corresponding integer (i.e THREEK or EASY) for a given workout type string.
+
+        Args:
+            txt (str): The input string in standard format ("Recovery Run")
+
+        Returns:
+            int: The corresponding integer for the workout type, or -1 if not found.
+        """
         workout_types = {
             "Three K": THREEK,
             "Five K": FIVEK,

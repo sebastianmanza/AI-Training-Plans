@@ -1,11 +1,11 @@
 import SwiftUI
 
 class RPESlider: UISlider {
-    
+
   /* Overriding the height of the track */
   override func trackRect(forBounds bounds: CGRect) -> CGRect {
     var rect = super.trackRect(forBounds: bounds)
-    rect.size.height = 20
+    rect.size.height = 15
     return rect
   }
 }

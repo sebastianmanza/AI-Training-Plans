@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit
 
 extension Float {
   var formattedMileage: String {
@@ -10,125 +9,123 @@ extension Float {
 }
 
 struct HomeView: View {
-    @EnvironmentObject private var session: Session
-    @StateObject private var vm = HomeViewModel()
+  @EnvironmentObject private var session: Session
+  @StateObject private var vm = HomeViewModel()
 
   /* The current options for clickable objects */
-  // var onCompleted: () -> Void
   var onDidNotComplete: () -> Void
-  // var onQuestionMark: () -> Void
   var onCalendarTapped: () -> Void
   var onProfileTapped: () -> Void
   var onDebugger: () -> Void
 
-  @State private var showInfoOnQuestionMarkTapped = false
+  @State private var showInfoOnInfoTapped = false
   @State private var showPostRunSurvey = false
   @State private var currentRPE: Double = 5.0
 
   var body: some View {
-    GeometryReader { geo in
+    NavigationStack {
+      GeometryReader { geo in
 
-      /* Vertically stack all the different layers (background and foreground)
-       * The background is a ZStack with a gradient and a logo
-       * The foreground is a Zstack with the card and buttons
-       */
-      ZStack {
-
-        /* Background */
         ZStack {
-          Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255)
+          /* Base background color */
+          Color(red: 23 / 255, green: 23 / 255, blue: 23 / 255)
             .ignoresSafeArea()
 
-          /* Gradient: needs to be changed so the colors aren't hard coded */
-          LinearGradient(
-            gradient: Gradient(stops: [
-              .init(color: Color(red: 0 / 255, green: 64 / 255, blue: 255 / 255), location: 0.0),
-              .init(
-                color: Color(red: 153 / 255, green: 153 / 255, blue: 153 / 255).opacity(0.2),
-                location: 0.40),
-              .init(
-                color: Color(red: 153 / 255, green: 153 / 255, blue: 153 / 255).opacity(0),
-                location: 0.6),
-            ]),
-            startPoint: .top,
-            endPoint: .bottom
-          )
+          /*Navigation bar with buttons */
+
+          /* Foreground, several different cards */
+          VStack(spacing: 20) {
+            Spacer()
+
+            // todays card
+            FlippableCardView(
+              accentColorStart: Color(red: 242 / 255, green: 255 / 255, blue: 0 / 255),
+              accentColorStop: Color(red: 95 / 255, green: 255 / 255, blue: 204 / 255),
+              backgroundColor: Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255),
+              mainTextColor: .white,
+              accentTextColor: Color(red: 159 / 255, green: 159 / 255, blue: 159 / 255),
+              showInfo: $showInfoOnInfoTapped,
+              vm: vm,
+              onDidNotComplete: onDidNotComplete,
+              onCompleted: { showPostRunSurvey = true },
+              cardWidth: geo.size.width * 0.9,
+              cardHeight: geo.size.height * 0.45
+            )
+            .opacity(showPostRunSurvey ? 0 : 1)
+
+            // upcoming card
+            UpcomingCard(
+              accentColorStart: Color(red: 255 / 255, green: 186 / 255, blue: 95 / 255),
+              accentColorStop: Color(red: 255 / 255, green: 0 / 255, blue: 0 / 255),
+              backgroundColor: Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255),
+              viewWidth: geo.size.width * 0.9,
+              viewHeight: geo.size.height * 0.12,
+              mainTextColor: .white,
+              accentTextColor: Color(red: 159 / 255, green: 159 / 255, blue: 159 / 255),
+              vm: vm
+            )
+            Spacer()
+          }
+          .onAppear { Task { await vm.load(session: session) } }
+          .padding(.bottom, 50)
           .ignoresSafeArea()
         }
-        .overlay(
-          /* Background logo */
+        .sheet(isPresented: $showPostRunSurvey) {
+          PostRunSurvey(rpeval: $currentRPE)
+            .presentationDetents([.fraction(0.6)])
+            .presentationDragIndicator(.visible)
+            .presentationCornerRadius(40)
+        }
+      }
+    }
+    .toolbarBackground(Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255), for: .navigationBar)
+    .toolbarBackground(.visible, for: .navigationBar)
+    .toolbarBackground(Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255), for: .bottomBar)
+    .toolbarBackground(.visible, for: .bottomBar)
+    .toolbar {
+      ToolbarItem(placement: .navigationBarLeading) {
+        HStack(spacing: 12) {
           Image("Logo")
             .resizable()
             .scaledToFit()
-            .opacity(0.1)
-            .ignoresSafeArea(.all),
-
-          alignment: .top
-        )  // background
-
-        /* Foreground, several different cards */
-        VStack(spacing: 20) {
-          Spacer()
-
-          // todays card
-          FlippableCardView(
-            showInfo: $showInfoOnQuestionMarkTapped,
-            vm: vm,
-            onDidNotComplete: onDidNotComplete,
-            onCompleted: {showPostRunSurvey = true},
-            cardWidth: geo.size.width * 0.8,
-            cardHeight: geo.size.height * 0.55
-          )
-
-          BlurEffect(style: .regular)
-            .frame(width: geo.size.width * 0.8, height: geo.size.height * 0.15)
-            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-            .shadow(color: .black.opacity(0.6), radius: 60, x: 0, y: 0)
-
-            .overlay(
-              VStack(spacing: 15) {
-                if let data = vm.homeData {
-                  Text("UPCOMING")
-                    .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 20))
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-
-                  Rectangle()
-                    .fill(.white)
-                    .frame(width: geo.size.width * 0.65, height: 1.5)
-
-                  Text(data.upcoming.uppercased())
-                    .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 16))
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                } else {
-                  ProgressView()
-                    .foregroundColor(.white)
-                }
-              })
+            .frame(width: 30, height: 30)
+          Text("ENDORPHIN")
+            .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 15))
         }
-        .onAppear { Task { await vm.load(session: session) } }
-        .padding(.bottom, 50)
-        .overlay(
-          CalendarButton(action: onCalendarTapped)
-            .padding(.top, geo.safeAreaInsets.top + 10),
-
-          alignment: .topLeading
-        )
-        .overlay(
-          ProfileButton(action: onProfileTapped)
-            .padding(.top, geo.safeAreaInsets.top + 10),
-
-          alignment: .topTrailing
-        )
       }
-      .ignoresSafeArea()
+      ToolbarItem(placement: .navigationBarTrailing) {
+        Button(action: onDebugger) {
+          Image(systemName: "gearshape")
+            .font(.system(size: 20))
+        }
+      }
+
+      ToolbarItem(placement: .bottomBar) {
+        HStack {
+          Button(action: onDebugger) {
+            Image(systemName: "ladybug")
+          }
+          Spacer()
+          Button(action: onDebugger) {
+            Image(systemName: "house")
+              .foregroundColor(.white)
+              .font(.system(size: 20))
+          }
+          Spacer()
+          Button(action: onCalendarTapped) {
+            Image(systemName: "calendar")
+              .foregroundColor(.white)
+              .font(.system(size: 20))
+          }
+          Spacer()
+          Button(action: onProfileTapped) {
+            Image(systemName: "person.crop.circle")
+              .foregroundColor(.white)
+              .font(.system(size: 20))
+          }
+        }
+        .frame(maxWidth: .infinity)
+      }
     }
-    .sheet(isPresented: $showPostRunSurvey) {
-        PostRunSurvey(rpeval: $currentRPE)
-        .presentationDetents([.fraction(0.6)])
-        .presentationDragIndicator(.visible)
-        .presentationCornerRadius(40)
-  }
   }
 }

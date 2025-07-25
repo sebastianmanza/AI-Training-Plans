@@ -17,7 +17,7 @@ from backend.src.utils.user_storage.user import user
 from backend.src.utils.pace_calculations import to_str
 
 handler = RotatingFileHandler(
-    filename="app_errors.log",
+    filename="logs/app_errors.log",
     maxBytes=5 * 1024 * 1024,
     backupCount=3,
     encoding="utf-8"
@@ -80,9 +80,11 @@ class HomeData(BaseModel):
     pace: str              # e.g. "7:00-7:30"
     # trio here (for now), this will eventually be workout type. If workout is multiple, it will look like "workout1 + workout2"
     stimuli: str
-    goal_rpe: str          # e.g. "5/10"
+    goal_rpe: str # e.g. "5/10"
+    time: str
     upcoming: str          # e.g. "3 MILE KENYAN" // next days workout type
-
+    upcomingmiles: float
+    upcomingtime: str  # e.g. "0:57-0:59" // next days workout time, if applicable
 
 class SignupIn(BaseModel):
     """SignupIn is a Pydantic model that represents the input for user signup.
@@ -120,9 +122,8 @@ async def survey_prelim(payload: SurveyIn):
         str: A string containing the status of the survey submission, typically an acknowledgment of successful processing.
     """
     try:
-        # dispatch to your pure‐function—no input(), no print()
         result = SurveyMain.prelim_survey(payload.model_dump())
-        print(result)
+
         return result
     except Exception as e:
         # surface errors as HTTP 500 and log to the log file
@@ -145,8 +146,7 @@ async def post_run_survey(payload: Post_Run_SurveyIn):
     """
     try:
         result = SurveyMain.post_run_survey(payload.model_dump())
-        # dispatch to your pure‐function—no input(), no print()
-        print(result)
+
         return result
     except Exception as e:
          # surface errors as HTTP 500
@@ -174,9 +174,6 @@ async def get_home_data(user_id: int = 0):
 
         pace_str = ""
 
-        # Create a string representation of the current day and next day workouts
-        # print(current_day.workouts)
-        # print(current_day.workouts[3])
         workout_cur = workout_database.get_workout_type_trio(current_day.workouts[0]) if (len(current_day.workouts) == 1) else workout_database.get_workout_type_trio(
             current_day.workouts[0]) + " + \n" + workout_database.get_workout_type_trio(current_day.workouts[1])
         workout_next = workout_database.get_workout_type_trio(next_day.workouts[0]) if (len(next_day.workouts) == 1) else workout_database.get_workout_type_trio(
@@ -184,9 +181,11 @@ async def get_home_data(user_id: int = 0):
 
         workout_check = workout_database.get_workout_type_trio(
             current_day.workouts[0])
-        pace = retrieved_user.pace_estimates[user.txt_to_workout_type(
-            workout_check)] if workout_check in retrieved_user.pace_estimates else 0
+        workout_type_number = user.txt_to_workout_type(workout_check)
+        
+        pace = retrieved_user.pace_estimates[workout_type_number] if workout_type_number != -1 else 0
 
+        print(pace)
         pace_str = to_str(pace) + "-" + to_str(pace + 30) if pace != 0 else ""
 
         return HomeData(
@@ -195,7 +194,11 @@ async def get_home_data(user_id: int = 0):
             pace=pace_str,  # Placeholder pace, should be replaced with actual logic based on the user
             stimuli=workout_cur,
             goal_rpe=str(current_day.expected_rpe) + "/10",
-            upcoming=workout_next
+            time = "0:57-0:59" ,  # Placeholder time, should be replaced with actual logic based on the user
+            upcoming=workout_next,
+            upcomingmiles=next_day.total_mileage,
+            upcomingtime="0:57-0:59"  # Placeholder time, should be replaced with actual logic based on the user
+            
         )
     except Exception as e:
         # surface errors as HTTP 500

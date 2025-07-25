@@ -92,12 +92,13 @@ struct LogInButton: View {
 struct SurveyNextButton: View {
   let action: () -> Void
   let color: Color
+  var foreground: Color = .white
 
   var body: some View {
     Button(action: action) {
       Image(systemName: "arrow.right")
         .font(.system(size: 35, weight: .bold))
-        .foregroundColor(.white)
+        .foregroundColor(foreground)
         .frame(width: 60, height: 60)
         .background(color)
         .clipShape(Circle())

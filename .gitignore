@@ -4,6 +4,7 @@ backend/src/utils/SQLutils/config.py
 # Ignore Python cache files
 __pycache__/
 *.pyc
+.pytest_cache/
 
 # Ignore vscode files
 .vscode/
