@@ -45,6 +45,8 @@ struct FlippableCardView: View {
         .padding(.trailing, 50),
         alignment: .bottomTrailing
       )
+      .allowsHitTesting(!showInfo)
+      .opacity(showInfo ? 0 : 1)
 
       // Back side
       VStack {

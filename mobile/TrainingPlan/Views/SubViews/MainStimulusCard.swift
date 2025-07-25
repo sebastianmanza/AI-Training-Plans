@@ -48,7 +48,7 @@ struct MainStimulus: View {
 
                     Spacer()
 
-                    Text("Placeholder Time")
+                    Text(data.time)
                         .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 16))  
                         .foregroundColor(accentTextColor)
                         .padding(.bottom, 20)

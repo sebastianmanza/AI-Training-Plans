@@ -34,10 +34,23 @@ struct HomeView: View {
           /*Navigation bar with buttons */
 
           /* Foreground, several different cards */
-          VStack(spacing: 20) {
-            Spacer()
+          VStack(spacing: 10) {
+            /* Week progress card */
+            WeekProgressCard(
+              textMainColor: .white,
+              textAccentColor: Color(red: 159 / 255, green: 159 / 255, blue: 159 / 255),
+              accentColor: Color(red: 183 / 255, green: 95 / 255, blue: 255 / 255),
+              vm: vm
+            )
+            .frame(width: geo.size.width * 0.9, height: geo.size.height * 0.2)
+            .padding(.bottom, 10)
+            .padding(.top, 125)
 
             // todays card
+            Text("Friday, July 25")
+              .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 20))
+              .foregroundColor(.white)
+
             FlippableCardView(
               accentColorStart: Color(red: 242 / 255, green: 255 / 255, blue: 0 / 255),
               accentColorStop: Color(red: 95 / 255, green: 255 / 255, blue: 204 / 255),
@@ -52,22 +65,24 @@ struct HomeView: View {
               cardHeight: geo.size.height * 0.45
             )
             .opacity(showPostRunSurvey ? 0 : 1)
+            .padding(.bottom, 10)
 
+            Text("Upcoming")
+              .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 20))
+              .foregroundColor(.white)
             // upcoming card
             UpcomingCard(
               accentColorStart: Color(red: 255 / 255, green: 186 / 255, blue: 95 / 255),
               accentColorStop: Color(red: 255 / 255, green: 0 / 255, blue: 0 / 255),
               backgroundColor: Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255),
-              viewWidth: geo.size.width * 0.9,
-              viewHeight: geo.size.height * 0.12,
               mainTextColor: .white,
               accentTextColor: Color(red: 159 / 255, green: 159 / 255, blue: 159 / 255),
               vm: vm
             )
-            Spacer()
+            .frame(width: geo.size.width * 0.9, height: geo.size.height * 0.12)
           }
           .onAppear { Task { await vm.load(session: session) } }
-          .padding(.bottom, 50)
+          .padding(.bottom, 75)
           .ignoresSafeArea()
         }
         .sheet(isPresented: $showPostRunSurvey) {

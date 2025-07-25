@@ -13,8 +13,7 @@ struct HomeData: Codable {
 
   enum CodingKeys: String, CodingKey {
     case day, mileage, pace, stimuli, time, upcomingmileage,
-         upcomingtime
+         upcomingtime, upcoming
     case goalRPE   = "goal_rpe"
-    case upcoming
   }
 }

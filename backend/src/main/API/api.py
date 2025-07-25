@@ -83,7 +83,7 @@ class HomeData(BaseModel):
     goal_rpe: str # e.g. "5/10"
     time: str
     upcoming: str          # e.g. "3 MILE KENYAN" // next days workout type
-    upcomingmiles: float
+    upcomingmileage: float
     upcomingtime: str  # e.g. "0:57-0:59" // next days workout time, if applicable
 
 class SignupIn(BaseModel):
@@ -196,7 +196,7 @@ async def get_home_data(user_id: int = 0):
             goal_rpe=str(current_day.expected_rpe) + "/10",
             time = "0:57-0:59" ,  # Placeholder time, should be replaced with actual logic based on the user
             upcoming=workout_next,
-            upcomingmiles=next_day.total_mileage,
+            upcomingmileage=next_day.total_mileage,
             upcomingtime="0:57-0:59"  # Placeholder time, should be replaced with actual logic based on the user
             
         )

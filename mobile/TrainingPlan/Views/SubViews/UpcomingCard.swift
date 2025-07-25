@@ -4,8 +4,8 @@ struct UpcomingCard: View {
     let accentColorStart : Color
     let accentColorStop : Color
     let backgroundColor: Color
-    let viewWidth: CGFloat
-    let viewHeight: CGFloat
+    // let viewWidth: CGFloat
+    // let viewHeight: CGFloat
     let mainTextColor: Color
     let accentTextColor: Color
     @ObservedObject var vm: HomeViewModel
@@ -20,11 +20,11 @@ struct UpcomingCard: View {
                         endPoint: .bottom
                     )
                 )
-                .frame(width: viewWidth, height: viewHeight)
 
             Rectangle()
                 .fill(backgroundColor)
-                .frame(width: viewWidth - 50, height: viewHeight)
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 25)
 
             /* Foreground */
             VStack(alignment: .leading, spacing: 10) {
@@ -34,17 +34,17 @@ struct UpcomingCard: View {
                         .foregroundColor(mainTextColor)
                     
                     HStack {
-                        Text("Placeholder miles")
+                        Text("\(data.upcomingmileage.formattedMileage) miles")
                             .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 16))
                             .foregroundColor(accentTextColor)
                         
                         Spacer()
                         
-                        Text("Placeholder secondary")
+                        Text("\(data.upcomingtime)")
                             .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 16))
                             .foregroundColor(accentTextColor)
                     }
-                    // .padding(.trailing, 30)
+                    .padding(.trailing, 60)
                 } else {
                     ProgressView()
                         .foregroundColor(.white)
