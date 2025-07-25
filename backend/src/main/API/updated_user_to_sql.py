@@ -2,6 +2,7 @@ import json
 from backend.src.utils.SQLutils import user_send, user_retrieve
 from backend.src.utils.workout.workout_database import workout_database
 from backend.src.utils.RPEutils import completion_score
+from backend.src.utils.user_storage.user import update_mean_RPE
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 
 class UpdatedUserToSQL:
@@ -28,16 +29,7 @@ class UpdatedUserToSQL:
         # Update user fields from payload
         # Example: update RPE, mileage, etc.
         if "workout_RPE" in payload:
-            # If workout_RPE is a dict, convert to JSON string for DB
-            current_user.workout_RPE = payload["workout_RPE"]
-            #TODO: Update this functionality
-            #This needs to be updated to average not just take the most recent
-            current_user.workout_RPE[workout_type[0]] = payload["workout_RPE"]
-            current_user.workout_RPE[workout_type[1]] = current_user.workout_RPE[1] + 1
-            #This needs to be updated to create the SD of RPE
-            current_user.workout_RPE[workout_type[2]] = -1
-            #update real_rpe
-            current_day.real_rpe = payload["workout_RPE"]
+            current_user.update_mean_RPE(payload["workout_RPE"], current_user.workout_RPE[0])
         if "mileage" in payload:
             current_day.completed_mileage = payload["mileage"]
         # Add more fields as needed...
