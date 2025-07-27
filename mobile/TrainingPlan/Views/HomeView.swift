@@ -28,7 +28,7 @@ struct HomeView: View {
 
         ZStack {
           /* Base background color */
-          Color(red: 23 / 255, green: 23 / 255, blue: 23 / 255)
+          Color(.background)
             .ignoresSafeArea()
 
           /*Navigation bar with buttons */
@@ -38,8 +38,8 @@ struct HomeView: View {
             /* Week progress card */
             WeekProgressCard(
               textMainColor: .white,
-              textAccentColor: Color(red: 159 / 255, green: 159 / 255, blue: 159 / 255),
-              accentColor: Color(red: 183 / 255, green: 95 / 255, blue: 255 / 255),
+              textAccentColor: Color.cardbackground,
+              accentColor: Color.accent,
               vm: vm
             )
             .frame(width: geo.size.width * 0.9, height: geo.size.height * 0.2)
@@ -49,14 +49,14 @@ struct HomeView: View {
             // todays card
             Text("Friday, July 25")
               .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 20))
-              .foregroundColor(.white)
+              .foregroundColor(.headertext)
 
             FlippableCardView(
               accentColorStart: Color(red: 242 / 255, green: 255 / 255, blue: 0 / 255),
               accentColorStop: Color(red: 95 / 255, green: 255 / 255, blue: 204 / 255),
-              backgroundColor: Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255),
-              mainTextColor: .white,
-              accentTextColor: Color(red: 159 / 255, green: 159 / 255, blue: 159 / 255),
+              backgroundColor: Color.cardbackground,
+              mainTextColor: .headertext,
+              accentTextColor: Color.bodytext,
               showInfo: $showInfoOnInfoTapped,
               vm: vm,
               onDidNotComplete: onDidNotComplete,
@@ -69,14 +69,14 @@ struct HomeView: View {
 
             Text("Upcoming")
               .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 20))
-              .foregroundColor(.white)
+              .foregroundColor(.headertext)
             // upcoming card
             UpcomingCard(
               accentColorStart: Color(red: 255 / 255, green: 186 / 255, blue: 95 / 255),
               accentColorStop: Color(red: 255 / 255, green: 0 / 255, blue: 0 / 255),
-              backgroundColor: Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255),
-              mainTextColor: .white,
-              accentTextColor: Color(red: 159 / 255, green: 159 / 255, blue: 159 / 255),
+              backgroundColor: Color.cardbackground,
+              mainTextColor: .headertext,
+              accentTextColor: Color.bodytext,
               vm: vm
             )
             .frame(width: geo.size.width * 0.9, height: geo.size.height * 0.12)
@@ -93,9 +93,9 @@ struct HomeView: View {
         }
       }
     }
-    .toolbarBackground(Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255), for: .navigationBar)
+    .toolbarBackground(Color.cardbackground, for: .navigationBar)
     .toolbarBackground(.visible, for: .navigationBar)
-    .toolbarBackground(Color(red: 40 / 255, green: 40 / 255, blue: 40 / 255), for: .bottomBar)
+    .toolbarBackground(Color.cardbackground, for: .bottomBar)
     .toolbarBackground(.visible, for: .bottomBar)
     .toolbar {
       ToolbarItem(placement: .navigationBarLeading) {

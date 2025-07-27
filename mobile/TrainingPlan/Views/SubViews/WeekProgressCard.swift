@@ -26,7 +26,8 @@ struct WeekProgressCard: View {
               .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 20))
               .foregroundColor(textMainColor)
           }
-          .padding(.bottom, 20)
+          .padding(.vertical, 20)
+
           HStack {
             Text("Progress")
               .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 16))
@@ -37,13 +38,15 @@ struct WeekProgressCard: View {
               .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 16))
               .foregroundColor(textAccentColor)
           }
-          CompletionBar(
-            background: .white,
-            fill: accentColor,
-            width: 275,
-            height: 13,
-            percentComplete: 0.25
-          )
+          GeometryReader { geo in
+            CompletionBar(
+              background: .white,
+              fill: accentColor,
+              width: geo.size.width,
+              height: 13,
+              percentComplete: 0.2
+            )
+          }
         } else {
           ProgressView()
             .foregroundColor(.white)
