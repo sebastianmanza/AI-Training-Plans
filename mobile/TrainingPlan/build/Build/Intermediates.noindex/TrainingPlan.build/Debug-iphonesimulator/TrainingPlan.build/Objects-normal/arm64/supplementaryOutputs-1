@@ -1,0 +1,18 @@
+"/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/Models/HomeModels.swift":
+  object: "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/TrainingPlan.build/Debug-iphonesimulator/TrainingPlan.build/Objects-normal/arm64/HomeModels.o"
+  swift-dependencies: "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/TrainingPlan.build/Debug-iphonesimulator/TrainingPlan.build/Objects-normal/arm64/HomeModels.swiftdeps"
+  const-values: "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/TrainingPlan.build/Debug-iphonesimulator/TrainingPlan.build/Objects-normal/arm64/HomeModels.swiftconstvalues"
+  diagnostics: "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/TrainingPlan.build/Debug-iphonesimulator/TrainingPlan.build/Objects-normal/arm64/HomeModels.dia"
+  dependencies: "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/TrainingPlan.build/Debug-iphonesimulator/TrainingPlan.build/Objects-normal/arm64/HomeModels.d"
+"/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/ColorPallete.swift":
+  object: "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/TrainingPlan.build/Debug-iphonesimulator/TrainingPlan.build/Objects-normal/arm64/ColorPallete.o"
+  diagnostics: "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/TrainingPlan.build/Debug-iphonesimulator/TrainingPlan.build/Objects-normal/arm64/ColorPallete.dia"
+  swift-dependencies: "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/TrainingPlan.build/Debug-iphonesimulator/TrainingPlan.build/Objects-normal/arm64/ColorPallete.swiftdeps"
+  const-values: "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/TrainingPlan.build/Debug-iphonesimulator/TrainingPlan.build/Objects-normal/arm64/ColorPallete.swiftconstvalues"
+  dependencies: "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/TrainingPlan.build/Debug-iphonesimulator/TrainingPlan.build/Objects-normal/arm64/ColorPallete.d"
+"/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/App/TrainingPlanApp.swift":
+  const-values: "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/TrainingPlan.build/Debug-iphonesimulator/TrainingPlan.build/Objects-normal/arm64/TrainingPlanApp.swiftconstvalues"
+  dependencies: "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/TrainingPlan.build/Debug-iphonesimulator/TrainingPlan.build/Objects-normal/arm64/TrainingPlanApp.d"
+  object: "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/TrainingPlan.build/Debug-iphonesimulator/TrainingPlan.build/Objects-normal/arm64/TrainingPlanApp.o"
+  swift-dependencies: "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/TrainingPlan.build/Debug-iphonesimulator/TrainingPlan.build/Objects-normal/arm64/TrainingPlanApp.swiftdeps"
+  diagnostics: "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/TrainingPlan.build/Debug-iphonesimulator/TrainingPlan.build/Objects-normal/arm64/TrainingPlanApp.dia"

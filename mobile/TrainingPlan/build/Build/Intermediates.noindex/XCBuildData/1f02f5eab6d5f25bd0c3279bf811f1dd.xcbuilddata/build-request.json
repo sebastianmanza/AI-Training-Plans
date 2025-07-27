@@ -1,0 +1,65 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "e157701ccad1c14fe440d2357c95cd3d65b5414902f9e45753d3e5601356d206"
+    }
+  ],
+  "containerPath" : "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/TrainingPlan.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "undefined_arch",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : true,
+      "platform" : "iphonesimulator",
+      "sdk" : "iphonesimulator18.5",
+      "sdkVariant" : "iphonesimulator",
+      "supportedArchitectures" : [
+        "i386",
+        "x86_64"
+      ],
+      "targetArchitecture" : "undefined_arch"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Products",
+      "derivedDataPath" : "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build",
+      "indexDataStoreFolderPath" : "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+          "SDKROOT" : "iphonesimulator18.5"
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ACTION" : "build",
+          "CLANG_COVERAGE_MAPPING" : "YES",
+          "CLANG_PROFILE_DATA_DIRECTORY" : "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/build/Build/ProfileData",
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "YES",
+          "ONLY_ACTIVE_ARCH" : "YES"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

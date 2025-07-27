@@ -1,0 +1,24 @@
+{
+  "source": "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/utils/Buttons.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 15,
+          "startingLine": 30
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 55
+        }
+      }
+    ]
+  },
+  "version": 1
+}

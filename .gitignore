@@ -10,8 +10,6 @@ __pycache__/
 .vscode/
 .idea/
 
-mobile/TrainingPlan/build/
-mobile/TrainingPlan/TrainingPlan.xcodeproj/
-mobile/TrainingPlan/Assets.xcassets/
+.build/
 
 *.log

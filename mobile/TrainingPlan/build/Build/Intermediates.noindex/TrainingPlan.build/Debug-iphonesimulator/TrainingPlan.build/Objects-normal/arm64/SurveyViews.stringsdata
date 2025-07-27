@@ -1,0 +1,160 @@
+{
+  "source": "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/Views/SurveyViews.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Help us get a sense of \nwhere you're at. Take \nthe survey to start your\npersonalized training\nplan.",
+        "location": {
+          "startingColumn": 11,
+          "startingLine": 167
+        }
+      },
+      {
+        "comment": "",
+        "key": "READY TO",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 148
+        }
+      },
+      {
+        "comment": "",
+        "key": "START",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 150
+        }
+      },
+      {
+        "comment": "",
+        "key": "YOUR",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 152
+        }
+      },
+      {
+        "comment": "",
+        "key": "RUNNING",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 154
+        }
+      },
+      {
+        "comment": "",
+        "key": "JOURNEY?",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 156
+        }
+      },
+      {
+        "comment": "",
+        "key": "When were \nyou born?",
+        "location": {
+          "startingColumn": 14,
+          "startingLine": 208
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 221
+        }
+      },
+      {
+        "comment": "",
+        "key": "How do you identify?",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 274
+        }
+      },
+      {
+        "comment": "",
+        "key": "Please specify:",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 290
+        }
+      },
+      {
+        "comment": "",
+        "key": "What is your \ncurrent level \nof running \nexperience?",
+        "location": {
+          "startingColumn": 14,
+          "startingLine": 393
+        }
+      },
+      {
+        "comment": "",
+        "key": "How many \ndays per week \nwould you like \n to run?",
+        "location": {
+          "startingColumn": 14,
+          "startingLine": 448
+        }
+      },
+      {
+        "comment": "",
+        "key": "What days of the \nweek can you \ncommit at least \nan hour for a run?",
+        "location": {
+          "startingColumn": 14,
+          "startingLine": 503
+        }
+      },
+      {
+        "comment": "",
+        "key": "What day do\nyou have the\nmost time for\na run?",
+        "location": {
+          "startingColumn": 14,
+          "startingLine": 562
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 12,
+          "startingLine": 616
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 12,
+          "startingLine": 633
+        }
+      },
+      {
+        "comment": "",
+        "key": "What is your \ncurrent \nestimated 5k \nfitness?",
+        "location": {
+          "startingColumn": 14,
+          "startingLine": 658
+        }
+      },
+      {
+        "comment": "",
+        "key": ":",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 674
+        }
+      },
+      {
+        "comment": "",
+        "key": "How many major \ninjuries have you \nhad in the past 2 \nyears?",
+        "location": {
+          "startingColumn": 14,
+          "startingLine": 731
+        }
+      }
+    ]
+  },
+  "version": 1
+}

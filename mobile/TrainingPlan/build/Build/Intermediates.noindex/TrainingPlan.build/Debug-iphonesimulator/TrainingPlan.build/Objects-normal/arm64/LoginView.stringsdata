@@ -1,0 +1,40 @@
+{
+  "source": "/Users/sebastianmanza/AI-Training-Plans/mobile/TrainingPlan/Views/LoginView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "ENDORPHIN",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 35
+        }
+      },
+      {
+        "comment": "",
+        "key": "Login",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 70
+        }
+      },
+      {
+        "comment": "",
+        "key": "Don't have an account?",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 82
+        }
+      },
+      {
+        "comment": "",
+        "key": "Sign up",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 88
+        }
+      }
+    ]
+  },
+  "version": 1
+}
