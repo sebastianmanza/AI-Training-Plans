@@ -38,7 +38,7 @@ struct HomeView: View {
             /* Week progress card */
             WeekProgressCard(
               textMainColor: .white,
-              textAccentColor: Color.cardbackground,
+              textAccentColor: Color.bodytext,
               accentColor: Color.accent,
               vm: vm
             )
@@ -47,7 +47,7 @@ struct HomeView: View {
             .padding(.top, 125)
 
             // todays card
-            Text("Friday, July 25")
+            Text(vm.homeData?.day ?? "")
               .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 20))
               .foregroundColor(.headertext)
 
@@ -112,6 +112,7 @@ struct HomeView: View {
         Button(action: onDebugger) {
           Image(systemName: "gearshape")
             .font(.system(size: 20))
+            .foregroundColor(.white)
         }
       }
 
@@ -119,6 +120,7 @@ struct HomeView: View {
         HStack {
           Button(action: onDebugger) {
             Image(systemName: "ladybug")
+            .font(.system(size: 20))
           }
           Spacer()
           Button(action: onDebugger) {

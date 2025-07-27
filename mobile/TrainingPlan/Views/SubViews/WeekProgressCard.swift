@@ -16,13 +16,13 @@ struct WeekProgressCard: View {
       VStack(spacing: 5) {
         if let data = vm.homeData {
           HStack {
-            Text("Week 1")
+            Text("Week \(data.weeknum)")
               .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 20))
               .foregroundColor(textMainColor)
             
             Spacer()
 
-            Text("40 miles")
+            Text("\(data.weekmileage.formattedMileage) miles")
               .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 20))
               .foregroundColor(textMainColor)
           }
@@ -34,7 +34,7 @@ struct WeekProgressCard: View {
               .foregroundColor(textAccentColor)
 
             Spacer()
-            Text("Week stimuli: build")
+            Text("Week stimuli: \(data.weekstimuli)")
               .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 16))
               .foregroundColor(textAccentColor)
           }
@@ -44,7 +44,7 @@ struct WeekProgressCard: View {
               fill: accentColor,
               width: geo.size.width,
               height: 13,
-              percentComplete: 0.2
+              percentComplete: CGFloat(data.weekpctcomplete)
             )
           }
         } else {
