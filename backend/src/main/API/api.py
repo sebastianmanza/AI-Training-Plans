@@ -6,12 +6,10 @@ from typing import Optional
 import logging
 from logging.handlers import RotatingFileHandler
 
-from backend.scripts.txt_to_database import txt_to_database
 from backend.src.utils import user_creation
 from backend.src.utils.workout.workout_database import workout_database
 from backend.src.main.API.initial_user_to_sql import main as SurveyMain
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
-from backend.src.utils.SQLutils.user_send import send_user_info
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.pace_calculations import to_str
@@ -203,12 +201,17 @@ async def get_home_data(user_id: int = 0):
         total_time_current = to_str(round(pace * current_day.total_mileage)) + \
             "-" + to_str(round((pace + 30) * current_day.total_mileage))
 
-        upcoming_workout_type_num = user.txt_to_workout_type(
-            workout_database.get_workout_type_trio(next_day.workouts[0]))
+        upcoming_workout_check = workout_database.get_workout_type_trio(
+            next_day.workouts[0])
+        print(upcoming_workout_check)
+        upcoming_workout_type_num = user.txt_to_workout_type(upcoming_workout_check)
+        print(upcoming_workout_type_num)
         upcoming_pace = retrieved_user.pace_estimates[
             upcoming_workout_type_num] if upcoming_workout_type_num != -1 else 0
+        print(upcoming_pace)
         upcoming_time = to_str(round(upcoming_pace * next_day.total_mileage)) + \
             "-" + to_str(round((upcoming_pace + 30) * next_day.total_mileage))
+        print(upcoming_time)
         pace_str = to_str(pace) + "-" + \
             to_str(pace + 30) if pace != 0 else ""
 

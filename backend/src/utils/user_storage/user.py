@@ -193,7 +193,7 @@ class user:
         if self.pace_estimates[FIVEK] == -1:
             raise ValueError("5k prediction time is not assigned.")
 
-        if workout_type == FIVEK:
+        if workout_type == EASY:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.65)
         elif workout_type == PROGRESSION:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
@@ -207,6 +207,12 @@ class user:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.95)
         elif workout_type == TEMPO:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
+        elif workout_type == THREEK:
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 1.05)
+        elif workout_type == FIVEK:
+            return self.pace_estimates[FIVEK]
+        elif workout_type == TENK:
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.97)
         else:
             return 0
 
