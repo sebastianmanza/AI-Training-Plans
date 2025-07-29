@@ -9,26 +9,26 @@ struct LoadingView: View {
         .resizable()
         .scaledToFill()
         .edgesIgnoringSafeArea(.all)
-      VStack {
+      VStack (spacing: -5) {
         Spacer()
         Image("Logo")
           .resizable()
           .scaledToFit()
-          .frame(width: 120, height: 120)
+          .frame(width: 80, height: 80)
           .padding(.bottom, 20)
           .shimmer(
-            duration: 0.8,
+            duration: 1.5,
             highlight: .white.opacity(1.0),
-            background: .gray.opacity(0.5))
+            background: .gray.opacity(0.6))
 
         Text("MAKE THE DAYS COUNT.")
-          .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 24))
+          .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 18))
           .foregroundColor(.white)
           .padding(.bottom, 20)
           .shimmer(
-            duration: 0.8,
+            duration: 1.5,
             highlight: .white.opacity(1.0),
-            background: .gray.opacity(0.5))
+            background: .gray.opacity(0.6))
 
         Spacer()
       }

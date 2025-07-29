@@ -203,15 +203,15 @@ async def get_home_data(user_id: int = 0):
 
         upcoming_workout_check = workout_database.get_workout_type_trio(
             next_day.workouts[0])
-        print(upcoming_workout_check)
+        # print(upcoming_workout_check)
         upcoming_workout_type_num = user.txt_to_workout_type(upcoming_workout_check)
-        print(upcoming_workout_type_num)
+        # print(upcoming_workout_type_num)
         upcoming_pace = retrieved_user.pace_estimates[
             upcoming_workout_type_num] if upcoming_workout_type_num != -1 else 0
-        print(upcoming_pace)
+        # print(upcoming_pace)
         upcoming_time = to_str(round(upcoming_pace * next_day.total_mileage)) + \
             "-" + to_str(round((upcoming_pace + 30) * next_day.total_mileage))
-        print(upcoming_time)
+        # print(upcoming_time)
         pace_str = to_str(pace) + "-" + \
             to_str(pace + 30) if pace != 0 else ""
 
@@ -258,13 +258,13 @@ async def signup(payload: SignupIn):
         dict = payload.model_dump()
         bool, userid_or_error_code = user_creation.user_exists(dict)
         # Hash the password before sending it to the database
-        dict['password'] = hash(dict['password'])
+        # dict['password'] = hash(dict['password'])
 
         if not bool:
             user_creation.send_user_creds(
                 userid_or_error_code, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], dict)
             # return the userid to the session
-            print(userid_or_error_code)
+            # print(userid_or_error_code)
             return AuthOut(user_id=userid_or_error_code)
 
         else:
