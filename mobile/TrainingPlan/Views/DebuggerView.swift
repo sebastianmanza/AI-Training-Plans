@@ -9,14 +9,13 @@ struct DebuggerView: View {
   var onLogInView: () -> Void
   var onSurveyView: () -> Void
   var onHomeView: () -> Void
+  var onLoadingView: () -> Void
 
   var body: some View {
     GeometryReader { geo in
       ZStack {
         //background
-        Image("signupBackground")
-          .resizable()
-          .scaledToFill()
+        Color(Color.mainbackground)
           .edgesIgnoringSafeArea(.all)
 
         //overlay stack
@@ -39,7 +38,7 @@ struct DebuggerView: View {
               ZStack {
                   Rectangle()
                       .fill(Color.white)
-                      .frame(width: geo.size.width * 0.8, height: geo.size.height * 0.6)
+                      .frame(width: geo.size.width * 0.8, height: geo.size.height * 0.5)
                       .cornerRadius(20)
                       .shadow(radius: 10)
                   
@@ -60,10 +59,14 @@ struct DebuggerView: View {
                       Button("Home View") {
                           onHomeView()
                       }
+                      Button("Loading View") {
+                          onLoadingView()
+                      }
                   }
                   .font(.custom("MADEOkineSansPERSONALUSE-Regular", size: 20))
                   .foregroundColor(.black)
               }
+              .padding(.bottom, 40)
           }
       }
     }

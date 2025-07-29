@@ -8,6 +8,7 @@ enum currentView {
     case login
     case home
     case debugger
+    case loading
 }
 
 class AppScreens: ObservableObject {
