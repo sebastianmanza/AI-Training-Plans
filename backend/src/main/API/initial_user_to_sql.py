@@ -134,13 +134,39 @@ class main:
     #     workout_rpe = data_dict
     #     wd = workout_database()
 
-    #     current_day = current_user.day_future[0]
-    #     for workout in current_day.workouts:
-    #         workout_type = wd.get_workout_type(workout)
-    #         current_user.workout_RPE.workout_type.append(workout_rpe)
-    #     if(completion == False):
-    #         current_user.current_day.completed_mileage = mileage
-    #         current_user.percent_completion = completion_score(expected_reps=wd.get_individual_workout(current_day.workouts[0]),
-    #                                                            observed_reps=reps, expected_pace=wd.get_individual_workout(current_day.workouts[0]).get_pace()[0],
-    #                                                            observed_pace= pace)
-    #     user_send.send_user_all(user_id, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+#         current_day = current_user.day_future[0]
+#         for workout in current_day.workouts:
+#             workout_type = wd.get_workout_type(workout)
+#             current_user.workout_RPE.workout_type.append(workout_rpe)
+#         if(completion == False):
+#             current_user.current_day.completed_mileage = mileage
+#             current_user.percent_completion = completion_score(expected_reps=wd.get_individual_workout(current_day.workouts[0]), 
+#                                                                observed_reps=reps, expected_pace=wd.get_individual_workout(current_day.workouts[0]).get_pace()[0],
+#                                                                observed_pace= pace)
+#         user_send.send_user_all(user_id, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+      
+# user_test = user(dob="2004-06-27",
+#                      sex="male",
+#                      running_ex="advanced",
+#                      injury=0,
+#                      most_recent_injury=-1,
+#                      longest_run=11,
+#                      goal_date="2026-01-01",
+#                      available_days=[1, 1, 0, 1, 1, 2, 1],
+#                      number_of_days=7
+#                      )
+
+
+# user_send.send_user_all(user_test, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+
+# new_user = user_retrieve.populate_user_info(user_test.user_id)
+
+# print("test user successfully retrieved")
+# print(new_user.user_id)
+# print(new_user.dob)
+
+# if not new_user.day_future.empty():
+#     test_day = new_user.day_future.get()
+#     print("Next scheduled day:", test_day)
+# else:
+#     print("No more days available")

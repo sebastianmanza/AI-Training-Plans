@@ -1,8 +1,8 @@
 import secrets
 from backend.scripts.txt_to_database import txt_to_database
-from backend.src.utils.SQLutils.database_connect import init_db
+from backend.src.utils.SQLutils.database_connect import init_db, db_select
 from backend.src.utils.SQLutils.user_retrieve import convert_trio_types_to_tuples, populate_user_info
-from backend.src.utils.SQLutils.user_send import cast_workouts_to_trios, send_user_all
+from backend.src.utils.SQLutils.user_send import cast_workouts_to_trios, send_user_all, send_user_creds
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from psycopg2.extras import register_composite
@@ -64,5 +64,40 @@ def test_SQL_trio_to_tuple():
     
     assert raw_workouts == convert_trio_types_to_tuples(return_workouts)
     
-# def test_user_credentials():
+
+def test_user_credentials():
+    """
+    Test the user credentials functionality.
+    """
+    test_user_id = secrets.randbelow(10000000)
+    
+    login_info = {
+        "username": "test_user",
+        "password": "test_password",
+        "email": "test_user@example.com"
+    }
+    
+    # Send user credentials to the database
+    send_user_creds(test_user_id, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], login_info)
+    
+    # Retrieve user credentials from the database
+    query = """SELECT username, password, email FROM public.user_credentials WHERE user_id = %s;"""
+    
+    conn = init_db(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+    cursor = conn.cursor()
+    cursor.execute(query, (test_user_id,))
+    
+    result = cursor.fetchall()
+    
+    conn.commit()
+    cursor.close()
+    conn.close()
+    
+    assert result == [login_info["username"], login_info["password"], login_info["email"]], "User credentials do not match the expected values"
+    
+    
+    
+    
+    
+
      
