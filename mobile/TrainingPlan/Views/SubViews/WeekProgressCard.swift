@@ -1,5 +1,24 @@
 import SwiftUI
 
+struct WeekProgressPager: View {
+  @ObservedObject var vm: HomeViewModel
+
+  var body: some View {
+    TabView {
+      ForEach(vm.homeData?.allWeeks ?? [], id: \.weeknum) { week in
+        WeekProgressCard(
+          textMainColor: .white,
+          textAccentColor: .gray,
+          accentColor: .blue,
+          vm: vm.forWeek(week.weeknum)
+        )
+        .padding(.horizontal, 20)
+      }
+    }
+    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+  }
+}
+
 struct WeekProgressCard: View {
   let textMainColor: Color
   let textAccentColor: Color
