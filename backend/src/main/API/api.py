@@ -6,18 +6,16 @@ from typing import Optional
 import logging
 from logging.handlers import RotatingFileHandler
 
-from backend.scripts.txt_to_database import txt_to_database
 from backend.src.utils import user_creation
 from backend.src.utils.workout.workout_database import workout_database
 from backend.src.main.API.initial_user_to_sql import main as SurveyMain
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
-from backend.src.utils.SQLutils.user_send import send_user_info
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.pace_calculations import to_str
 
 handler = RotatingFileHandler(
-    filename="app_errors.log",
+    filename="logs/app_errors.log",
     maxBytes=5 * 1024 * 1024,
     backupCount=3,
     encoding="utf-8"
@@ -62,6 +60,7 @@ class SurveyIn(BaseModel):
 
 # Endpoint for preliminary survey
 
+
 class Post_Run_SurveyIn(BaseModel):
     """Post_Run_SurveyIn is a Pydantic model that represents the input for the post run survey.
     """
@@ -75,13 +74,19 @@ class Post_Run_SurveyIn(BaseModel):
 class HomeData(BaseModel):
     """HomeData is a Pydantic model that represents the data returned for the home page.
     """
-    day: str               # e.g. "MONDAY"
-    mileage: float           # e.g. 7
-    pace: str              # e.g. "7:00-7:30"
-    # trio here (for now), this will eventually be workout type. If workout is multiple, it will look like "workout1 + workout2"
-    stimuli: str
-    goal_rpe: str          # e.g. "5/10"
-    upcoming: str          # e.g. "3 MILE KENYAN" // next days workout type
+    day: str  # A day of form "Friday, July 25"
+    mileage: float  # e.g. 3.5
+    pace: str  # e.g. "7:00-7:30"
+    stimuli: str  # looks liek "Progression Run + Strides", or something of that form
+    goal_rpe: str  # e.g. "5/10"
+    time: str  # e.g. "0:57-0:59" // today's workout time, if applicable
+    upcoming: str  # e.g. "Easy Run" // next days workout type
+    upcomingmileage: float  # e.g. 3.5 // next days workout mileage, if applicable
+    upcomingtime: str  # e.g. "0:57-0:59" // next days workout time, if applicable
+    weeknum: int  # e.g. 1 // the week number of the current week
+    weekmileage: float  # e.g. 30.5 // the total mileage of the current week
+    weekpctcomplete: float  # e.g. 0.5 // the percentage of the current week that is complete
+    weekstimuli: str  # Such as "Build" or "Maintain"
 
 
 class SignupIn(BaseModel):
@@ -120,13 +125,13 @@ async def survey_prelim(payload: SurveyIn):
         str: A string containing the status of the survey submission, typically an acknowledgment of successful processing.
     """
     try:
-        # dispatch to your pure‐function—no input(), no print()
         result = SurveyMain.prelim_survey(payload.model_dump())
-        print(result)
+
         return result
     except Exception as e:
         # surface errors as HTTP 500 and log to the log file
-        logging.exception("Unexpected error in /survey/prelim with payload=%r", payload)
+        logging.exception(
+            "Unexpected error in /survey/prelim with payload=%r", payload)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -136,7 +141,7 @@ async def post_run_survey(payload: Post_Run_SurveyIn):
 
     Args:
         payload (Post_Run_SurveyIn): A Pydantic model that contains the user's responses to the preliminary survey.
-    
+
     Raises:
         HTTPException: If an error occurs during the processing of the survey, an HTTPException is raised with a status code of 500 and the error message.
 
@@ -145,16 +150,15 @@ async def post_run_survey(payload: Post_Run_SurveyIn):
     """
     try:
         result = SurveyMain.post_run_survey(payload.model_dump())
-        # dispatch to your pure‐function—no input(), no print()
-        print(result)
+
         return result
     except Exception as e:
-         # surface errors as HTTP 500
+        # surface errors as HTTP 500
         raise HTTPException(status_cdoe=500, detail=str(e))
+
 
 @app.get("/home/data", response_model=HomeData)
 async def get_home_data(user_id: int = 0):
-
     """get_home_data is an endpoint that retrieves the home page data for a user.
 
     Args:
@@ -164,19 +168,25 @@ async def get_home_data(user_id: int = 0):
         HomeData: A Pydantic model containing the home page data, including the current day, mileage, pace, stimuli, goal RPE, and upcoming workout.
     """
     try:
-        day_of_week = datetime.now().strftime("%A")
+        # Get the day of the week. Not sure how to store this, since its updated only when
+        # postrun survey is called.
 
+        day_of_week = datetime.now().strftime("%A, %B %-d")
+
+        # Get a user from the database
         retrieved_user = populate_user_info(user_id)
 
+        # Retrieve the current and next day from the user's day_future queue
         current_day = retrieved_user.day_future.get() if retrieved_user.day_future else None
         next_day = retrieved_user.day_future.queue[0] if retrieved_user.day_future and retrieved_user.day_future.qsize(
         ) > 1 else None
 
+        # Get the current week
+        current_week = retrieved_user.week_future.get(
+        ) if retrieved_user.week_future else None
+
         pace_str = ""
 
-        # Create a string representation of the current day and next day workouts
-        # print(current_day.workouts)
-        # print(current_day.workouts[3])
         workout_cur = workout_database.get_workout_type_trio(current_day.workouts[0]) if (len(current_day.workouts) == 1) else workout_database.get_workout_type_trio(
             current_day.workouts[0]) + " + \n" + workout_database.get_workout_type_trio(current_day.workouts[1])
         workout_next = workout_database.get_workout_type_trio(next_day.workouts[0]) if (len(next_day.workouts) == 1) else workout_database.get_workout_type_trio(
@@ -184,18 +194,45 @@ async def get_home_data(user_id: int = 0):
 
         workout_check = workout_database.get_workout_type_trio(
             current_day.workouts[0])
-        pace = retrieved_user.pace_estimates[user.txt_to_workout_type(
-            workout_check)] if workout_check in retrieved_user.pace_estimates else 0
+        workout_type_number = user.txt_to_workout_type(workout_check)
 
-        pace_str = to_str(pace) + "-" + to_str(pace + 30) if pace != 0 else ""
+        pace = retrieved_user.pace_estimates[workout_type_number] if workout_type_number != -1 else 0
+
+        total_time_current = to_str(round(pace * current_day.total_mileage)) + \
+            "-" + to_str(round((pace + 30) * current_day.total_mileage))
+
+        upcoming_workout_check = workout_database.get_workout_type_trio(
+            next_day.workouts[0])
+        print(upcoming_workout_check)
+        upcoming_workout_type_num = user.txt_to_workout_type(upcoming_workout_check)
+        print(upcoming_workout_type_num)
+        upcoming_pace = retrieved_user.pace_estimates[
+            upcoming_workout_type_num] if upcoming_workout_type_num != -1 else 0
+        print(upcoming_pace)
+        upcoming_time = to_str(round(upcoming_pace * next_day.total_mileage)) + \
+            "-" + to_str(round((upcoming_pace + 30) * next_day.total_mileage))
+        print(upcoming_time)
+        pace_str = to_str(pace) + "-" + \
+            to_str(pace + 30) if pace != 0 else ""
 
         return HomeData(
             day=day_of_week,
             mileage=current_day.total_mileage,
-            pace=pace_str,  # Placeholder pace, should be replaced with actual logic based on the user
+            pace=pace_str,
             stimuli=workout_cur,
             goal_rpe=str(current_day.expected_rpe) + "/10",
-            upcoming=workout_next
+            # Placeholder time, should be replaced with actual logic based on the user
+            time=total_time_current,
+            upcoming=workout_next,
+            upcomingmileage=next_day.total_mileage,
+            # Placeholder time, should be replaced with actual logic based on the user
+            upcomingtime=upcoming_time,
+            # Could have some issues but for beginning this is fine
+            weeknum=current_week.week_id + 1,
+            weekmileage=current_week.total_mileage,
+            weekpctcomplete=current_week.completed_mileage /
+            current_week.total_mileage if current_week.total_mileage > 0 else 0,
+            weekstimuli=current_week.cycle  # e.g. "Build" or "Maintain"
         )
     except Exception as e:
         # surface errors as HTTP 500
@@ -228,7 +265,7 @@ async def signup(payload: SignupIn):
                 userid_or_error_code, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], dict)
             # return the userid to the session
             print(userid_or_error_code)
-            return AuthOut(user_id = userid_or_error_code)
+            return AuthOut(user_id=userid_or_error_code)
 
         else:
             return AuthOut(error_code=userid_or_error_code)

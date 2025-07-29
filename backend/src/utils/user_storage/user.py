@@ -193,7 +193,7 @@ class user:
         if self.pace_estimates[FIVEK] == -1:
             raise ValueError("5k prediction time is not assigned.")
 
-        if workout_type == FIVEK:
+        if workout_type == EASY:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.65)
         elif workout_type == PROGRESSION:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
@@ -207,11 +207,24 @@ class user:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.95)
         elif workout_type == TEMPO:
             return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.82)
+        elif workout_type == THREEK:
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 1.05)
+        elif workout_type == FIVEK:
+            return self.pace_estimates[FIVEK]
+        elif workout_type == TENK:
+            return get_training_pace_helper(5000, self.pace_estimates[FIVEK] * 3.1, 0.97)
         else:
             return 0
 
     def txt_to_workout_type(txt: str) -> int:
-        """Converts a string to the corresponding workout type index."""
+        """Returns the corresponding integer (i.e THREEK or EASY) for a given workout type string.
+
+        Args:
+            txt (str): The input string in standard format ("Recovery Run")
+
+        Returns:
+            int: The corresponding integer for the workout type, or -1 if not found.
+        """
         workout_types = {
             "Three K": THREEK,
             "Five K": FIVEK,

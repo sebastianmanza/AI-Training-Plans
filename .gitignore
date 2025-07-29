@@ -4,13 +4,12 @@ backend/src/utils/SQLutils/config.py
 # Ignore Python cache files
 __pycache__/
 *.pyc
+.pytest_cache/
 
 # Ignore vscode files
 .vscode/
 .idea/
 
-mobile/TrainingPlan/build/
-mobile/TrainingPlan/TrainingPlan.xcodeproj/
-mobile/TrainingPlan/Assets.xcassets/
+*.build/
 
 *.log
