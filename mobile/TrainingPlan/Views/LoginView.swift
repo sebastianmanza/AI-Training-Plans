@@ -56,15 +56,15 @@ struct LoginView: View {
 
             VStack(spacing: 15) {
               // Username and password fields
-              CapsuleTextField(prompt: "Username", text: $username)
-                .focused($focusedField, equals: .username)
-                .opacity(focusedField == .username || focusedField == nil ? 1 : 0)
-                .offset(y: focusedField == .username ? 25 : 0)
-
-              CapsulePasswordField(prompt: "Password", text: $password)
-                .focused($focusedField, equals: .password)
-                .opacity(focusedField == .password || focusedField == nil ? 1 : 0)
-                .offset(y: focusedField == .password ? -40 : 0)
+//              CapsuleTextField(prompt: "Username", text: $username)
+//                .focused($focusedField, equals: .username)
+//                .opacity(focusedField == .username || focusedField == nil ? 1 : 0)
+//                .offset(y: focusedField == .username ? 25 : 0)
+//
+//              CapsulePasswordField(prompt: "Password", text: $password)
+//                .focused($focusedField, equals: .password)
+//                .opacity(focusedField == .password || focusedField == nil ? 1 : 0)
+//                .offset(y: focusedField == .password ? -40 : 0)
 
               // Sign up button below them, slight padding on top and bottom
               Button(action: onLoginDone) {

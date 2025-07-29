@@ -10,7 +10,6 @@
 		0825AD7B2E15C0700000924F /* BlurredBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0825AD7A2E15C0700000924F /* BlurredBackground.swift */; };
 		0837D5992E205CCA00BD5594 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0837D5982E205CCA00BD5594 /* AuthModels.swift */; };
 		0837D59B2E21900600BD5594 /* DebuggerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0837D59A2E21900600BD5594 /* DebuggerView.swift */; };
-		0857C3862E341FC500F79E02 /* FlippableCardDeprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0857C3852E341FC500F79E02 /* FlippableCardDeprecated.swift */; };
 		0857C38A2E341FDD00F79E02 /* MainStimulusCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0857C3882E341FDD00F79E02 /* MainStimulusCard.swift */; };
 		0857C38B2E341FDD00F79E02 /* FlippableCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0857C3872E341FDD00F79E02 /* FlippableCardView.swift */; };
 		0857C38C2E341FDD00F79E02 /* UpcomingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0857C3892E341FDD00F79E02 /* UpcomingCard.swift */; };
@@ -18,6 +17,7 @@
 		0857C3922E343D8C00F79E02 /* WeekProgressCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0857C3912E343D8C00F79E02 /* WeekProgressCard.swift */; };
 		085DDE4F2E0F22DE00A11EFA /* SurveyViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085DDE4E2E0F22DE00A11EFA /* SurveyViews.swift */; };
 		085DDE512E0F554200A11EFA /* CompletionBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085DDE502E0F554200A11EFA /* CompletionBar.swift */; };
+		0864A4102E36F9F2007AFC2C /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0864A40F2E36F9F1007AFC2C /* TermsView.swift */; };
 		08B63FD82E0CAAB60065FC98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08B63FD72E0CAAB60065FC98 /* Assets.xcassets */; };
 		08B640102E0CC4190065FC98 /* TrainingPlanApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B6400E2E0CC4190065FC98 /* TrainingPlanApp.swift */; };
 		08B640162E0CC4320065FC98 /* SurveyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B640112E0CC4320065FC98 /* SurveyModels.swift */; };
@@ -73,7 +73,6 @@
 		0825AD7A2E15C0700000924F /* BlurredBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurredBackground.swift; sourceTree = "<group>"; };
 		0837D5982E205CCA00BD5594 /* AuthModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModels.swift; sourceTree = "<group>"; };
 		0837D59A2E21900600BD5594 /* DebuggerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggerView.swift; sourceTree = "<group>"; };
-		0857C3852E341FC500F79E02 /* FlippableCardDeprecated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlippableCardDeprecated.swift; sourceTree = "<group>"; };
 		0857C3872E341FDD00F79E02 /* FlippableCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlippableCardView.swift; sourceTree = "<group>"; };
 		0857C3882E341FDD00F79E02 /* MainStimulusCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainStimulusCard.swift; sourceTree = "<group>"; };
 		0857C3892E341FDD00F79E02 /* UpcomingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingCard.swift; sourceTree = "<group>"; };
@@ -81,6 +80,7 @@
 		0857C3912E343D8C00F79E02 /* WeekProgressCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekProgressCard.swift; sourceTree = "<group>"; };
 		085DDE4E2E0F22DE00A11EFA /* SurveyViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyViews.swift; sourceTree = "<group>"; };
 		085DDE502E0F554200A11EFA /* CompletionBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionBar.swift; sourceTree = "<group>"; };
+		0864A40F2E36F9F1007AFC2C /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		08B63FD02E0CAAB40065FC98 /* TrainingPlan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrainingPlan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08B63FD72E0CAAB60065FC98 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		08B63FDD2E0CAAB60065FC98 /* TrainingPlanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrainingPlanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,11 +147,11 @@
 		0837D5962E1EFB7900BD5594 /* SubViews */ = {
 			isa = PBXGroup;
 			children = (
+				0864A40F2E36F9F1007AFC2C /* TermsView.swift */,
 				0857C3912E343D8C00F79E02 /* WeekProgressCard.swift */,
 				0857C3872E341FDD00F79E02 /* FlippableCardView.swift */,
 				0857C3882E341FDD00F79E02 /* MainStimulusCard.swift */,
 				0857C3892E341FDD00F79E02 /* UpcomingCard.swift */,
-				0857C3852E341FC500F79E02 /* FlippableCardDeprecated.swift */,
 				08F536342E2ADF96008FC063 /* PostRunSurvey.swift */,
 			);
 			path = SubViews;
@@ -447,12 +447,12 @@
 				085DDE4F2E0F22DE00A11EFA /* SurveyViews.swift in Sources */,
 				08B6406C2E0E0B1C0065FC98 /* LoginView.swift in Sources */,
 				08B640162E0CC4320065FC98 /* SurveyModels.swift in Sources */,
-				0857C3862E341FC500F79E02 /* FlippableCardDeprecated.swift in Sources */,
 				08D534132E1B2D2F00DF3823 /* HomeViewModel.swift in Sources */,
 				08F536352E2ADF96008FC063 /* PostRunSurvey.swift in Sources */,
 				0837D5992E205CCA00BD5594 /* AuthModels.swift in Sources */,
 				0857C38A2E341FDD00F79E02 /* MainStimulusCard.swift in Sources */,
 				0857C38B2E341FDD00F79E02 /* FlippableCardView.swift in Sources */,
+				0864A4102E36F9F2007AFC2C /* TermsView.swift in Sources */,
 				0857C38C2E341FDD00F79E02 /* UpcomingCard.swift in Sources */,
 				08F5363E2E2EC3DB008FC063 /* Sliders.swift in Sources */,
 				08B640612E0DF30C0065FC98 /* AppScreens.swift in Sources */,
