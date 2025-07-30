@@ -4,17 +4,19 @@ struct WeekProgressPager: View {
   @ObservedObject var vm: HomeViewModel
 
   var body: some View {
-    TabView {
-      ForEach(vm.homeData?.allWeeks ?? [], id: \.weeknum) { week in
-        WeekProgressCard(
-          textMainColor: .white,
-          textAccentColor: .gray,
-          accentColor: .blue,
-          vm: vm.forWeek(week.weeknum)
-        )
-        .padding(.horizontal, 20)
+      TabView {
+          if let data = vm.homeData {
+              ForEach(0..<data.weeknum.count, id: \.self) { idx in
+                  WeekProgressCard(
+                    textMainColor: Color.headertext,
+                    textAccentColor: Color.bodytext,
+                    accentColor: Color.accent,
+                    index: idx,
+                    vm: vm
+                  )
+              }
+          }
       }
-    }
     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
   }
 }
@@ -23,6 +25,7 @@ struct WeekProgressCard: View {
   let textMainColor: Color
   let textAccentColor: Color
   let accentColor: Color
+  var index: Int
   @ObservedObject var vm: HomeViewModel
 
   var body: some View {
@@ -35,13 +38,13 @@ struct WeekProgressCard: View {
       VStack(spacing: 5) {
         if let data = vm.homeData {
           HStack {
-            Text("Week \(data.weeknum)")
+            Text("Week \(data.weeknum[index])")
               .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 20))
               .foregroundColor(textMainColor)
-            
+
             Spacer()
 
-            Text("\(data.weekmileage.formattedMileage) miles")
+            Text("\(data.weekmileage[index].formattedMileage) miles")
               .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 20))
               .foregroundColor(textMainColor)
           }
@@ -53,7 +56,7 @@ struct WeekProgressCard: View {
               .foregroundColor(textAccentColor)
 
             Spacer()
-            Text("Week stimuli: \(data.weekstimuli)")
+            Text("Week stimuli: \(data.weekstimuli[index])")
               .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 16))
               .foregroundColor(textAccentColor)
           }
@@ -63,7 +66,7 @@ struct WeekProgressCard: View {
               fill: accentColor,
               width: geo.size.width,
               height: 13,
-              percentComplete: CGFloat(data.weekpctcomplete)
+              percentComplete: CGFloat(data.weekpctcomplete[index])
             )
           }
         } else {

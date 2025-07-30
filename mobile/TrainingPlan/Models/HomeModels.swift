@@ -10,10 +10,10 @@ struct HomeData: Codable {
   let upcoming: String
   let upcomingmileage: Float
   let upcomingtime: String
-  let weeknum: Int
-  let weekmileage: Float
-  let weekpctcomplete: Float
-  let weekstimuli: String
+  let weeknum: [Int]
+  let weekmileage: [Float]
+  let weekpctcomplete: [Float]
+  let weekstimuli: [String]
 
   enum CodingKeys: String, CodingKey {
     case day, mileage, pace, stimuli, time, upcomingmileage,
