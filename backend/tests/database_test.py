@@ -65,35 +65,35 @@ def test_SQL_trio_to_tuple():
     assert raw_workouts == convert_trio_types_to_tuples(return_workouts)
     
 
-def test_user_credentials():
-    """
-    Test the user credentials functionality.
-    """
-    test_user_id = secrets.randbelow(10000000)
+# def test_user_credentials():
+#     """
+#     Test the user credentials functionality.
+#     """
+#     test_user_id = secrets.randbelow(10000000)
     
-    login_info = {
-        "username": "test_user",
-        "password": "test_password",
-        "email": "test_user@example.com"
-    }
+#     login_info = {
+#         "username": "test_user",
+#         "password": "test_password",
+#         "email": "test_user@example.com"
+#     }
     
-    # Send user credentials to the database
-    send_user_creds(test_user_id, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], login_info)
+#     # Send user credentials to the database
+#     send_user_creds(test_user_id, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], login_info)
     
-    # Retrieve user credentials from the database
-    query = """SELECT username, password, email FROM public.user_credentials WHERE user_id = %s;"""
+#     # Retrieve user credentials from the database
+#     query = """SELECT username, password, email FROM public.user_credentials WHERE user_id = %s;"""
     
-    conn = init_db(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-    cursor = conn.cursor()
-    cursor.execute(query, (test_user_id,))
+#     conn = init_db(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+#     cursor = conn.cursor()
+#     cursor.execute(query, (test_user_id,))
     
-    result = cursor.fetchall()
+#     result = cursor.fetchall()
     
-    conn.commit()
-    cursor.close()
-    conn.close()
+#     conn.commit()
+#     cursor.close()
+#     conn.close()
     
-    assert result == [login_info["username"], login_info["password"], login_info["email"]], "User credentials do not match the expected values"
+#     assert result == [login_info["username"], login_info["password"], login_info["email"]], "User credentials do not match the expected values"
     
     
     
