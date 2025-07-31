@@ -24,11 +24,10 @@ def init_db(username, pwd):
         return conn
     except psycopg2.Error as e:
         logging.exception("Database connection error")
-        # print(f"Database connection error: {e}")
         return None
 
 
-init_db(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+# init_db(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 
 
 # Takes in a user ID and retreives their information from the SQL database.
@@ -76,14 +75,9 @@ def db_select(username, pwd, user_id, query, return_cursor=False):
 
 
 # Takes in prelim survey datapoints and inserts them into the SQL database
-def db_insert(username, pwd, user_id, dob, sex, runningex, injury,
+def db_insert(curr, user_id, dob, sex, runningex, injury,
               most_recent_injury, longest_run, goal_date, pace_estimate,
               available_days, number_of_days, workout_rpe):
-
-    conn = init_db(username, pwd)
-    # open cursor to perform sql queries
-    curr = conn.cursor()
-
     # write query
     query = """ INSERT INTO public.userlistai(
         user_id, dob, sex, runningex, injury, most_recent_injury, longest_run, 
@@ -96,22 +90,13 @@ def db_insert(username, pwd, user_id, dob, sex, runningex, injury,
 
     # execute query with filled parameters
     curr.execute(query, record_to_insert)
-    # make changes in database persistent
-    conn.commit()
-    # close cursor
-    curr.close()
 
 # Takes in prelim survey datapoints and inserts them into the SQL database
 
 
-def db_update(username, pwd, user_id, dob, sex, runningex, injury,
+def db_update(curr, user_id, dob, sex, runningex, injury,
               most_recent_injury, longest_run, goal_date, pace_estimate,
               available_days, number_of_days, workout_rpe):
-
-    conn = init_db(username, pwd)
-    # open cursor to perform sql queries
-    curr = conn.cursor()
-
     # write query
     query = """ UPDATE public.userlistai
         SET dob= %s, sex= %s, runningex= %s, injury= %s, most_recent_injury= %s, 
@@ -125,8 +110,3 @@ def db_update(username, pwd, user_id, dob, sex, runningex, injury,
 
     # execute query with filled parameters
     curr.execute(query, record_to_insert)
-    # make changes in database persistent
-    conn.commit()
-    # close cursor
-    curr.close()
-    # close connection

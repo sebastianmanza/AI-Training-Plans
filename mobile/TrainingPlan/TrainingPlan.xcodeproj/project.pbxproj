@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08085AA02E3BF94800749ED2 /* PageIndicatorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08085A9F2E3BF94800749ED2 /* PageIndicatorStyle.swift */; };
 		0825AD7B2E15C0700000924F /* BlurredBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0825AD7A2E15C0700000924F /* BlurredBackground.swift */; };
 		0837D5992E205CCA00BD5594 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0837D5982E205CCA00BD5594 /* AuthModels.swift */; };
 		0837D59B2E21900600BD5594 /* DebuggerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0837D59A2E21900600BD5594 /* DebuggerView.swift */; };
@@ -72,6 +73,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		08085A9F2E3BF94800749ED2 /* PageIndicatorStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorStyle.swift; sourceTree = "<group>"; };
 		0825AD7A2E15C0700000924F /* BlurredBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurredBackground.swift; sourceTree = "<group>"; };
 		0837D5982E205CCA00BD5594 /* AuthModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModels.swift; sourceTree = "<group>"; };
 		0837D59A2E21900600BD5594 /* DebuggerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggerView.swift; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 		08B640672E0E0AE00065FC98 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				08085A9F2E3BF94800749ED2 /* PageIndicatorStyle.swift */,
 				0864A4132E389827007AFC2C /* Shimmer.swift */,
 				08F5363D2E2EC3DB008FC063 /* Sliders.swift */,
 				08D534162E1C845900DF3823 /* Session.swift */,
@@ -437,6 +440,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08B6405F2E0DE1480065FC98 /* ColorPallete.swift in Sources */,
+				08085AA02E3BF94800749ED2 /* PageIndicatorStyle.swift in Sources */,
 				08D534172E1C845A00DF3823 /* Session.swift in Sources */,
 				08D534102E1B2D0F00DF3823 /* HomeModels.swift in Sources */,
 				0857C3902E34211B00F79E02 /* HomeView.swift in Sources */,
