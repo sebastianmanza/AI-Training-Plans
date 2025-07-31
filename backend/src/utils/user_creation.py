@@ -11,6 +11,8 @@ PASS_LEN_REQ = 8
 
 
 """ this function takes in the email string and checks for correct formatting """
+
+
 def validate_address(email: str):
     try:
         validate_email(email)
@@ -19,6 +21,7 @@ def validate_address(email: str):
         return False
 
 # Add pace estimator so that it only runs once when the user is created.
+
 
 """ This function creates a new user based on user input.
 Full population of the SQL database is performed from the the referenced user object and login information is sent to a seperate table for
@@ -101,7 +104,8 @@ def credential_check(username: str, password: str) -> bool:
     """
 
     # initialize the database connection
-    conn = init_db(username=DB_CREDENTIALS["DB_USERNAME"],pwd=DB_CREDENTIALS["DB_PASSWORD"])
+    conn = init_db(
+        username=DB_CREDENTIALS["DB_USERNAME"], pwd=DB_CREDENTIALS["DB_PASSWORD"])
 
     # open cursor to perform sql queries
     curr = conn.cursor()
@@ -124,7 +128,7 @@ def credential_check(username: str, password: str) -> bool:
         if result[0] == password:
             print("matched")
             return result[1]  # Return user_id if credentials are valid
-        else :
+        else:
             return 0
     except Exception as e:
         logging.exception("Error executing query: %s", e)
@@ -142,7 +146,8 @@ def user_exists(user_credentials) -> tuple:
     If the user exists, returns True and an error code (1 for email, 0 for username).
     If the user does not exist, returns False and a user_id.
     """
-    conn = init_db(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+    conn = init_db(DB_CREDENTIALS["DB_USERNAME"],
+                   DB_CREDENTIALS["DB_PASSWORD"])
     curr = conn.cursor()
 
     # write query to check if user exists by email or username
@@ -158,7 +163,6 @@ def user_exists(user_credentials) -> tuple:
         email_match = result[0] == user_credentials['email'] if result else False
         username_match = result[1] == user_credentials['username'] if result else False
 
-
         # if the email matches, return True (the user exists, and an error code)
         if email_match:
             return True, 1
@@ -167,7 +171,8 @@ def user_exists(user_credentials) -> tuple:
             return True, 0
 
         if not (email_match or username_match):
-            user_id = user.generate_new_id()  # Generate a new user_id if the user does not exist
+            # Generate a new user_id if the user does not exist
+            user_id = user.generate_new_id()
             return False, user_id  # User does not exist, return user_id
 
     except Exception as e:
@@ -190,7 +195,7 @@ def forgot_password(username: str, new_password: str, email: str) -> bool:
         return False
 
     # We can now assume the user exists:
-    
+
     # initialize the database connection
     conn = init_db()
 
@@ -219,4 +224,3 @@ def forgot_password(username: str, new_password: str, email: str) -> bool:
         curr.close()
         # close connection
         conn.close()
-        

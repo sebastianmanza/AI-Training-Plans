@@ -36,10 +36,10 @@ struct HomeView: View {
           /* Foreground, several different cards */
           VStack(spacing: 10) {
             /* Week progress card */
-              WeekProgressPager(vm: vm)
-            .frame(width: geo.size.width * 0.9, height: geo.size.height * 0.2)
-            .padding(.bottom, 10)
-            .padding(.top, 125)
+            WeekProgressPager(vm: vm)
+              .frame(width: geo.size.width * 0.9, height: geo.size.height * 0.2)
+              .padding(.bottom, 10)
+              .padding(.top, 125)
 
             // todays card
             Text(vm.homeData?.day ?? "")
@@ -115,7 +115,7 @@ struct HomeView: View {
         HStack {
           Button(action: onDebugger) {
             Image(systemName: "ladybug")
-            .font(.system(size: 20))
+              .font(.system(size: 20))
           }
           Spacer()
           Button(action: onDebugger) {

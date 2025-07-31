@@ -124,8 +124,9 @@ class user:
 
     def user_id_exists(user_id: int) -> bool:
         """" Checks if a user_id exists in the database."""
-        
-        conn = init_db(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+
+        conn = init_db(DB_CREDENTIALS["DB_USERNAME"],
+                       DB_CREDENTIALS["DB_PASSWORD"])
         curr = conn.cursor()
 
         try:
@@ -148,7 +149,7 @@ class user:
 
         # Generate a new user ID
         new_user_id = secrets.randbelow(90000000) + 10000000
-        
+
         # Check if the user ID already exists in the database
         if (user.user_id_exists(new_user_id)):
             logging.warning("User ID already exists, generating a new one.")
@@ -238,13 +239,12 @@ class user:
             "VO2 Max Run": VO2MAX
         }
         return workout_types.get(txt, -1)
-        
-        
+
     def __eq__(self, other) -> bool:
         """Check if two user objects are equal based on their attributes."""
         if not isinstance(other, user):
             return False
-        
+
         return (self.user_id == other.user_id and
                 self.dob == other.dob and
                 self.sex == other.sex and
@@ -255,10 +255,9 @@ class user:
                 self.goal_date == other.goal_date and
                 self.pace_estimates == other.pace_estimates and
                 self.available_days == other.available_days and
-                self.number_of_days == other.number_of_days) # and
-                #self.workout_RPE == other.workout_RPE) # Should add workoutRPE check and possibly storage
-        
-        
+                self.number_of_days == other.number_of_days)  # and
+        # self.workout_RPE == other.workout_RPE) # Should add workoutRPE check and possibly storage
+
     def __repr__(self) -> str:
         return (
             f"user("

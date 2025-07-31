@@ -18,18 +18,19 @@ def init_db(username, pwd):
                                 user=username,
                                 host=locate,
                                 password=pwd,
-                                port="5432",    
+                                port="5432",
                                 connect_timeout=10)
 
         return conn
     except psycopg2.Error as e:
         logging.exception("Database connection error")
-        #print(f"Database connection error: {e}")
+        # print(f"Database connection error: {e}")
         return None
-    
+
+
 init_db(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 
- 
+
 # Takes in a user ID and retreives their information from the SQL database.
 def db_select(username, pwd, user_id, query, return_cursor=False):
 
@@ -75,8 +76,8 @@ def db_select(username, pwd, user_id, query, return_cursor=False):
 
 
 # Takes in prelim survey datapoints and inserts them into the SQL database
-def db_insert(username, pwd, user_id, dob, sex, runningex, injury, 
-              most_recent_injury, longest_run, goal_date, pace_estimate, 
+def db_insert(username, pwd, user_id, dob, sex, runningex, injury,
+              most_recent_injury, longest_run, goal_date, pace_estimate,
               available_days, number_of_days, workout_rpe):
 
     conn = init_db(username, pwd)
@@ -89,8 +90,8 @@ def db_insert(username, pwd, user_id, dob, sex, runningex, injury,
         goaldate, pace_estimate, available_days, number_of_days, workout_rpe)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """
     # fill query with appropriate user ID
-    record_to_insert = (user_id, dob, sex, runningex, injury, most_recent_injury, 
-                        longest_run, goal_date, pace_estimate, available_days, 
+    record_to_insert = (user_id, dob, sex, runningex, injury, most_recent_injury,
+                        longest_run, goal_date, pace_estimate, available_days,
                         number_of_days, workout_rpe)
 
     # execute query with filled parameters
@@ -103,8 +104,8 @@ def db_insert(username, pwd, user_id, dob, sex, runningex, injury,
 # Takes in prelim survey datapoints and inserts them into the SQL database
 
 
-def db_update(username, pwd, user_id, dob, sex, runningex, injury, 
-              most_recent_injury, longest_run, goal_date, pace_estimate, 
+def db_update(username, pwd, user_id, dob, sex, runningex, injury,
+              most_recent_injury, longest_run, goal_date, pace_estimate,
               available_days, number_of_days, workout_rpe):
 
     conn = init_db(username, pwd)
@@ -118,10 +119,9 @@ def db_update(username, pwd, user_id, dob, sex, runningex, injury,
             number_of_days= %s, workout_rpe = %s
             WHERE user_id = %s; """
     # fill query with appropriate user ID
-    record_to_insert = (dob, sex, runningex, injury, most_recent_injury, 
-                        longest_run, goal_date, pace_estimate, available_days, 
+    record_to_insert = (dob, sex, runningex, injury, most_recent_injury,
+                        longest_run, goal_date, pace_estimate, available_days,
                         number_of_days, workout_rpe, user_id)
-
 
     # execute query with filled parameters
     curr.execute(query, record_to_insert)

@@ -17,7 +17,7 @@ struct TrainingPlanApp: App {
   @State private var isAnimating = true
   private let loadingTime: TimeInterval = TimeInterval(Double.random(in: 1.0...2.0))
 
-  /* Main App */ 
+  /* Main App */
   var body: some Scene {
     WindowGroup {
       if isAnimating {
@@ -51,7 +51,7 @@ struct TrainingPlanApp: App {
                 appState.currentScreen = .home
               },
               onLoadingView: {
-                  appState.currentScreen = .loading
+                appState.currentScreen = .loading
               }
             )
           case .start:
@@ -112,7 +112,7 @@ struct TrainingPlanApp: App {
                 appState.currentScreen = .debugger
               })
           case .loading:
-              LoadingView()
+            LoadingView()
           }
         }
         .environmentObject(appState)  // Pass the app state to the environment

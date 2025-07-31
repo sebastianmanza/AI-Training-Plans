@@ -88,9 +88,9 @@ class day_plan:
                 self.day_id != other.day_id or
                 self.goal_stimuli != other.goal_stimuli):
             return False
-        
+
         return True
-    
+
     def __repr__(self) -> str:
         return (
             f"day_id: {self.day_id}, week_id: {self.week_id}, "

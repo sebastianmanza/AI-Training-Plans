@@ -44,11 +44,11 @@ class APIClient {
     }
   }
 
-    static func fetchHomeData(session: Session) async throws -> HomeData {
+  static func fetchHomeData(session: Session) async throws -> HomeData {
     guard let userID = session.userID else {
-        throw APIError.http(-1, Data("No userID in session".utf8))
-        }
-        
+      throw APIError.http(-1, Data("No userID in session".utf8))
+    }
+
     guard let url = URL(string: "\(baseURL)/home/data?user_id=\(userID)") else {
       throw APIError.badURL
     }
@@ -75,7 +75,7 @@ class APIClient {
     return try JSONDecoder().decode(AuthOut.self, from: data)
   }
 
-    static func login(_ payload: LoginIn) async throws -> AuthOut {
+  static func login(_ payload: LoginIn) async throws -> AuthOut {
     guard let url = URL(string: "\(baseURL)/auth/login") else {
       throw APIError.badURL
     }

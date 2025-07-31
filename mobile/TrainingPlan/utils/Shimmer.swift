@@ -46,7 +46,7 @@ extension View {
     duration: Double = 1.5,
     highlight: Color = .white.opacity(0.8),
     background: Color = .gray.opacity(0.25)
-  ) -> some View { 
+  ) -> some View {
     modifier(
       ShimmerModifier(
         duration: duration,

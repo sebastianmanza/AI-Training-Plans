@@ -52,6 +52,6 @@ def delta_difficulty(comp_score: float, delta_rpe: float) -> float:
     return comp_score - ALPHA * delta_rpe
 
 
-#score = completion_score(5, 5, 6)
-#print(score)
-#print(delta_RPE(7, 6))
+# score = completion_score(5, 5, 6)
+# print(score)
+# print(delta_RPE(7, 6))
