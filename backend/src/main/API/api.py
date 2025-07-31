@@ -85,8 +85,10 @@ class HomeData(BaseModel):
     upcomingmileage: float  # e.g. 3.5 // next days workout mileage, if applicable
     upcomingtime: str  # e.g. "0:57-0:59" // next days workout time, if applicable
     weeknum: List[int]  # e.g. 1 // the week number of the current week
-    weekmileage: List[float]  # e.g. 30.5 // the total mileage of the current week
-    weekpctcomplete: List[float]  # e.g. 0.5 // the percentage of the current week that is complete
+    # e.g. 30.5 // the total mileage of the current week
+    weekmileage: List[float]
+    # e.g. 0.5 // the percentage of the current week that is complete
+    weekpctcomplete: List[float]
     weekstimuli: List[str]  # Such as "Build" or "Maintain"
 
 
@@ -212,19 +214,19 @@ async def get_home_data(user_id: int = 0):
         # print(upcoming_time)
         pace_str = to_str(pace) + "-" + \
             to_str(pace + 30) if pace != 0 else ""
-            
+
         # Get the weeks
         week_id = []
         weekmileage = []
         weekpctcomplete = []
         week_stimuli = []
-        
-        
+
         for i in range(3):
             current_week = retrieved_user.week_future.queue[i]
             week_id.append(current_week.week_id + 1)
             weekmileage.append(current_week.total_mileage)
-            weekpctcomplete.append(current_week.completed_mileage / current_week.total_mileage if current_week.total_mileage > 0 else 0)
+            weekpctcomplete.append(current_week.completed_mileage /
+                                   current_week.total_mileage if current_week.total_mileage > 0 else 0)
             week_stimuli.append(current_week.cycle)
 
         return HomeData(

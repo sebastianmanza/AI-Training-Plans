@@ -30,30 +30,30 @@ struct CapsuleTextField: View {
   let background: Color
   let accentColor: Color
   let fontSize: CGFloat
-    var overlayImage : Image? = nil
+  var overlayImage: Image? = nil
 
   var body: some View {
     TextField("", text: $text)
-          .placeholder(when: text.isEmpty) {
-            ZStack {
-              HStack {
-                if let overlayImage = overlayImage {
-                  overlayImage
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20, height: 20)
-                    .padding(.leading, 15)
-                }
-                Spacer()
-              }
-
-              // Placeholder text
-
-              Text(prompt)
-                .foregroundColor(accentColor)
-                .font(.custom("MADEOkineSansPERSONALUSE-Light", size: fontSize))
+      .placeholder(when: text.isEmpty) {
+        ZStack {
+          HStack {
+            if let overlayImage = overlayImage {
+              overlayImage
+                .resizable()
+                .scaledToFit()
+                .frame(width: 20, height: 20)
+                .padding(.leading, 15)
             }
+            Spacer()
           }
+
+          // Placeholder text
+
+          Text(prompt)
+            .foregroundColor(accentColor)
+            .font(.custom("MADEOkineSansPERSONALUSE-Light", size: fontSize))
+        }
+      }
       .multilineTextAlignment(.center)
       .foregroundColor(accentColor)
       .frame(width: width, height: height)

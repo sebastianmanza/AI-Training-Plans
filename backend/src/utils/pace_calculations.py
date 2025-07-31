@@ -98,7 +98,6 @@ def total_time(pace, distance: int) -> int:
     return math.floor((pace * distance) / MILE)
 
 
-
 @staticmethod
 def mile_pace(pace, distance: int) -> int:
     if distance == 0:  # If distance is 0, return 0 to avoid division by zero

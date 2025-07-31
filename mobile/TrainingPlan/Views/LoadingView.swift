@@ -9,7 +9,7 @@ struct LoadingView: View {
         .resizable()
         .scaledToFill()
         .edgesIgnoringSafeArea(.all)
-      VStack (spacing: -5) {
+      VStack(spacing: -5) {
         Spacer()
         Image("Logo")
           .resizable()

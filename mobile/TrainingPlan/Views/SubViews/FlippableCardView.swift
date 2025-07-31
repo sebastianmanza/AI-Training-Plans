@@ -1,6 +1,5 @@
 import SwiftUI
 
-
 struct FlippableCardView: View {
   let accentColorStart: Color
   let accentColorStop: Color
@@ -8,7 +7,7 @@ struct FlippableCardView: View {
   let mainTextColor: Color
   let accentTextColor: Color
 
-  @Binding var showInfo: Bool 
+  @Binding var showInfo: Bool
   @ObservedObject var vm: HomeViewModel
 
   let onDidNotComplete: () -> Void
@@ -33,13 +32,13 @@ struct FlippableCardView: View {
       .opacity(showInfo ? 0 : 1)
       .overlay(
         HStack {
-            Spacer()
-            XButton {
-                withAnimation(.spring()) { onDidNotComplete() }
-            }
-            CheckButton {
-                withAnimation(.spring()) { onCompleted() }
-            }
+          Spacer()
+          XButton {
+            withAnimation(.spring()) { onDidNotComplete() }
+          }
+          CheckButton {
+            withAnimation(.spring()) { onCompleted() }
+          }
         }
         .padding(.bottom, 20)
         .padding(.trailing, 50),
