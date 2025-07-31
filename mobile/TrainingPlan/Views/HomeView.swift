@@ -36,12 +36,7 @@ struct HomeView: View {
           /* Foreground, several different cards */
           VStack(spacing: 10) {
             /* Week progress card */
-            WeekProgressCard(
-              textMainColor: .white,
-              textAccentColor: Color.bodytext,
-              accentColor: Color.accent,
-              vm: vm
-            )
+              WeekProgressPager(vm: vm)
             .frame(width: geo.size.width * 0.9, height: geo.size.height * 0.2)
             .padding(.bottom, 10)
             .padding(.top, 125)

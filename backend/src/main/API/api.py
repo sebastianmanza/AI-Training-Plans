@@ -5,6 +5,7 @@ from datetime import datetime
 from typing import Optional
 import logging
 from logging.handlers import RotatingFileHandler
+from typing import List
 
 from backend.src.utils import user_creation
 from backend.src.utils.workout.workout_database import workout_database
@@ -83,10 +84,10 @@ class HomeData(BaseModel):
     upcoming: str  # e.g. "Easy Run" // next days workout type
     upcomingmileage: float  # e.g. 3.5 // next days workout mileage, if applicable
     upcomingtime: str  # e.g. "0:57-0:59" // next days workout time, if applicable
-    weeknum: int  # e.g. 1 // the week number of the current week
-    weekmileage: float  # e.g. 30.5 // the total mileage of the current week
-    weekpctcomplete: float  # e.g. 0.5 // the percentage of the current week that is complete
-    weekstimuli: str  # Such as "Build" or "Maintain"
+    weeknum: List[int]  # e.g. 1 // the week number of the current week
+    weekmileage: List[float]  # e.g. 30.5 // the total mileage of the current week
+    weekpctcomplete: List[float]  # e.g. 0.5 // the percentage of the current week that is complete
+    weekstimuli: List[str]  # Such as "Build" or "Maintain"
 
 
 class SignupIn(BaseModel):
@@ -181,10 +182,6 @@ async def get_home_data(user_id: int = 0):
         next_day = retrieved_user.day_future.queue[0] if retrieved_user.day_future and retrieved_user.day_future.qsize(
         ) > 1 else None
 
-        # Get the current week
-        current_week = retrieved_user.week_future.get(
-        ) if retrieved_user.week_future else None
-
         pace_str = ""
 
         workout_cur = workout_database.get_workout_type_trio(current_day.workouts[0]) if (len(current_day.workouts) == 1) else workout_database.get_workout_type_trio(
@@ -203,17 +200,32 @@ async def get_home_data(user_id: int = 0):
 
         upcoming_workout_check = workout_database.get_workout_type_trio(
             next_day.workouts[0])
-        print(upcoming_workout_check)
-        upcoming_workout_type_num = user.txt_to_workout_type(upcoming_workout_check)
-        print(upcoming_workout_type_num)
+        # print(upcoming_workout_check)
+        upcoming_workout_type_num = user.txt_to_workout_type(
+            upcoming_workout_check)
+        # print(upcoming_workout_type_num)
         upcoming_pace = retrieved_user.pace_estimates[
             upcoming_workout_type_num] if upcoming_workout_type_num != -1 else 0
-        print(upcoming_pace)
+        # print(upcoming_pace)
         upcoming_time = to_str(round(upcoming_pace * next_day.total_mileage)) + \
             "-" + to_str(round((upcoming_pace + 30) * next_day.total_mileage))
-        print(upcoming_time)
+        # print(upcoming_time)
         pace_str = to_str(pace) + "-" + \
             to_str(pace + 30) if pace != 0 else ""
+            
+        # Get the weeks
+        week_id = []
+        weekmileage = []
+        weekpctcomplete = []
+        week_stimuli = []
+        
+        
+        for i in range(3):
+            current_week = retrieved_user.week_future.queue[i]
+            week_id.append(current_week.week_id + 1)
+            weekmileage.append(current_week.total_mileage)
+            weekpctcomplete.append(current_week.completed_mileage / current_week.total_mileage if current_week.total_mileage > 0 else 0)
+            week_stimuli.append(current_week.cycle)
 
         return HomeData(
             day=day_of_week,
@@ -228,11 +240,10 @@ async def get_home_data(user_id: int = 0):
             # Placeholder time, should be replaced with actual logic based on the user
             upcomingtime=upcoming_time,
             # Could have some issues but for beginning this is fine
-            weeknum=current_week.week_id + 1,
-            weekmileage=current_week.total_mileage,
-            weekpctcomplete=current_week.completed_mileage /
-            current_week.total_mileage if current_week.total_mileage > 0 else 0,
-            weekstimuli=current_week.cycle  # e.g. "Build" or "Maintain"
+            weeknum=week_id,
+            weekmileage=weekmileage,
+            weekpctcomplete=weekpctcomplete,
+            weekstimuli=week_stimuli
         )
     except Exception as e:
         # surface errors as HTTP 500
@@ -258,13 +269,13 @@ async def signup(payload: SignupIn):
         dict = payload.model_dump()
         bool, userid_or_error_code = user_creation.user_exists(dict)
         # Hash the password before sending it to the database
-        dict['password'] = hash(dict['password'])
+        # dict['password'] = hash(dict['password'])
 
         if not bool:
             user_creation.send_user_creds(
                 userid_or_error_code, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], dict)
             # return the userid to the session
-            print(userid_or_error_code)
+            # print(userid_or_error_code)
             return AuthOut(user_id=userid_or_error_code)
 
         else:

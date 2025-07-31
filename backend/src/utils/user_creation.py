@@ -24,75 +24,75 @@ def validate_address(email: str):
 Full population of the SQL database is performed from the the referenced user object and login information is sent to a seperate table for
 long term storage and security. In an the event an SQL query fails, the function will return an error message."""
 
-def user_create(SQL_username, SQL_password, surveyanswers: list, signup_answers: list):
+# def user_create(SQL_username, SQL_password, surveyanswers: list, signup_answers: list):
 
-    # assign the survey questions to the user object.
-    user_username = signup_answers[0]
-    user_password = signup_answers[1]
-    user_email = signup_answers[2]
+#     # assign the survey questions to the user object.
+#     user_username = signup_answers[0]
+#     user_password = signup_answers[1]
+#     user_email = signup_answers[2]
 
-    # Maybe make a is_valid_password function later.
-    if (len(user_password) < PASS_LEN_REQ):
-        raise ValueError("Password must be at least 8 characters long.")
+#     # Maybe make a is_valid_password function later.
+#     if (len(user_password) < PASS_LEN_REQ):
+#         raise ValueError("Password must be at least 8 characters long.")
 
-    # Replace with a secure hashing function
-    hashed_password = hash(user_password)
+#     # Replace with a secure hashing function
+#     hashed_password = hash(user_password)
 
-    # generate a new user object based on the survey questions.
-    # This will get modified when user is. Don't forget.
-    new_user = user(
-        dob=surveyanswers[0], sex=surveyanswers[1], running_ex=surveyanswers[2],
-        five_km_estimate=surveyanswers[3], goal_date=surveyanswers[4],
-        mean_RPE=surveyanswers[5], STD_RPE=surveyanswers[6])
+#     # generate a new user object based on the survey questions.
+#     # This will get modified when user is. Don't forget.
+#     new_user = user(
+#         dob=surveyanswers[0], sex=surveyanswers[1], running_ex=surveyanswers[2],
+#         five_km_estimate=surveyanswers[3], goal_date=surveyanswers[4],
+#         mean_RPE=surveyanswers[5], STD_RPE=surveyanswers[6])
 
-    # send all user information into SQL database in appropriate tables.
-    # This includes the user object, the username, password, and email.
-    # The user object is created with a user_id that is generated in the user class.
+#     # send all user information into SQL database in appropriate tables.
+#     # This includes the user object, the username, password, and email.
+#     # The user object is created with a user_id that is generated in the user class.
 
-    try:
-        # Send the user object to the database.
-        send_user_creds(new_user, SQL_username, SQL_password, signup_answers)
+#     try:
+#         # Send the user object to the database.
+#         send_user_creds(new_user, SQL_username, SQL_password, signup_answers)
 
-    except Exception as e:
-        raise RuntimeError(f"Failed to send user credentials: {e}")
+#     except Exception as e:
+#         raise RuntimeError(f"Failed to send user credentials: {e}")
 
-    try:
-        # Send the user object to the database.
-        send_user_all(new_user, SQL_username, SQL_password)
+#     try:
+#         # Send the user object to the database.
+#         send_user_all(new_user, SQL_username, SQL_password)
 
-    except Exception as e:
-        raise RuntimeError(f"Failed to send user data: {e}")
+#     except Exception as e:
+#         raise RuntimeError(f"Failed to send user data: {e}")
 
-    return new_user  # Return the user object for further use or confirmation.
+#     return new_user  # Return the user object for further use or confirmation.
 
-    # Note: The user object is created with a user_id that is generated in the user class.
-    # When a new user is created user.py handles creating a user id.
+#     # Note: The user object is created with a user_id that is generated in the user class.
+#     # When a new user is created user.py handles creating a user id.
 
-""" Testing function for user creation."""
-suveryanswers = [
-    12345, "male", "advanced", "17:45", 4, 5, 2  # Example survey answers
-]
+# """ Testing function for user creation."""
+# suveryanswers = [
+#     12345, "male", "advanced", "17:45", 4, 5, 2  # Example survey answers
+# ]
 
-signupanswers = [
-    "testuser@gmail.com",  # Email
-    "testuser",  # Username
-    "securepassword",  # Password
-]
-
-
-# user_create(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], suveryanswers, signupanswers)
+# signupanswers = [
+#     "testuser@gmail.com",  # Email
+#     "testuser",  # Username
+#     "securepassword",  # Password
+# ]
 
 
-def login(username: str, password: str, users: dict) -> user:
-    """ A function that takes in a dictionary of the form [username: str, password: str], and checks if the username and password combo exists in the database.
-    If it does, return the user object. If it doesn't, return None.
-    """
-    for user_info, user_obj in users.items():
-        if user_info[USERNAME_LOC] == username and user_info[PASSWORD_LOC] == hash(password):
-            v = 1+1  # Placeholder for any additional logic needed after successful login
-            # Assume this is made:
-            # return SQLutils.get_user(user_obj.user_id)
-    return None
+# # user_create(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], suveryanswers, signupanswers)
+
+
+# def login(username: str, password: str, users: dict) -> user:
+#     """ A function that takes in a dictionary of the form [username: str, password: str], and checks if the username and password combo exists in the database.
+#     If it does, return the user object. If it doesn't, return None.
+#     """
+#     for user_info, user_obj in users.items():
+#         if user_info[USERNAME_LOC] == username and user_info[PASSWORD_LOC] == hash(password):
+#             v = 1+1  # Placeholder for any additional logic needed after successful login
+#             # Assume this is made:
+#             # return SQLutils.get_user(user_obj.user_id)
+#     return None
 
 
 def credential_check(username: str, password: str) -> bool:
@@ -101,7 +101,7 @@ def credential_check(username: str, password: str) -> bool:
     """
 
     # initialize the database connection
-    conn = init_db()
+    conn = init_db(username=DB_CREDENTIALS["DB_USERNAME"],pwd=DB_CREDENTIALS["DB_PASSWORD"])
 
     # open cursor to perform sql queries
     curr = conn.cursor()
@@ -110,7 +110,7 @@ def credential_check(username: str, password: str) -> bool:
     query = """ SELECT password, user_id
 	                FROM public.user_credentials WHERE username = %s; """
     # fill query with appropriate user ID
-    record_to_insert = (username)
+    record_to_insert = (username,)
 
     try:
         # execute query with filled parameters
@@ -120,14 +120,15 @@ def credential_check(username: str, password: str) -> bool:
 
         if result is None:
             return 0  # No user found with that username
-
         # Check if the provided password matches the stored password
-        if result[0] == hash(password):
+        if result[0] == password:
+            print("matched")
             return result[1]  # Return user_id if credentials are valid
+        else :
+            return 0
     except Exception as e:
-
-        print(f"Error executing query: {e}")
-        return 0
+        logging.exception("Error executing query: %s", e)
+        # return 0
 
     finally:
         # close cursor
@@ -170,8 +171,8 @@ def user_exists(user_credentials) -> tuple:
             return False, user_id  # User does not exist, return user_id
 
     except Exception as e:
-        logging.exception("Error executing query")
-        print("Error during query execution:", e)
+        logging.exception("Error executing query, %s", e)
+        # print("Error during query execution:", e)
 
     finally:
         curr.close()
@@ -209,7 +210,8 @@ def forgot_password(username: str, new_password: str, email: str) -> bool:
 
         return True  # Password reset successful
     except Exception as e:
-        print(f"Error executing query: {e}")
+        logging.exception("Error executing query: %s", e)
+        # print(f"Error executing query: {e}")
         return False
 
     finally:
