@@ -124,8 +124,8 @@ struct SignUpView: View {
                             // map your backend error codes to messages:
                             signupError =
                               code == 0
-                              ? "Username already exists"
-                              : "Email already exists"
+                              ? "Username already exists."
+                              : "Email already exists."
                           } else {
                             signupError = "Unknown server response"
                           }
@@ -152,7 +152,7 @@ struct SignUpView: View {
                     .disabled(isLoading)
                     .opacity(focusedField == nil ? 1 : 0)
                     if let error = signupError {
-                      Text("! \(error)")
+                      Text(error)
                         .foregroundColor(.red)
                         .font(.custom("MADEOkineSansPERSONALUSE-Regular", size: 12))
                         .multilineTextAlignment(.center)
@@ -186,7 +186,6 @@ struct SignUpView: View {
                     .sheet(isPresented: $showingTerms) {
                       TermsView()
                     }
-                    .blur(radius: focusedField != nil ? 12 : 0)
                     .blur(radius: focusedField != nil ? 12 : 0)
                   }
                 }

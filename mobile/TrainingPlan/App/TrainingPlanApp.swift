@@ -103,10 +103,10 @@ struct TrainingPlanApp: App {
                 appState.currentScreen = .home
               },
               onCalendarTapped: {
-                appState.currentScreen = .start  // Placeholder for calendar action
+                appState.currentScreen = .start
               },
               onProfileTapped: {
-                appState.currentScreen = .start  // Placeholder for profile action
+                appState.currentScreen = .start
               },
               onDebugger: {
                 appState.currentScreen = .debugger
