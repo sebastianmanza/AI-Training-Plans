@@ -2,9 +2,10 @@ import SwiftUI
 
 struct WeekProgressPager: View {
   @ObservedObject var vm: HomeViewModel
+  @State private var selectedIndex: Int = 0
 
   var body: some View {
-      TabView {
+      TabView(selection: $selectedIndex) {
           if let data = vm.homeData {
               ForEach(0..<data.weeknum.count, id: \.self) { idx in
                   WeekProgressCard(
@@ -14,10 +15,17 @@ struct WeekProgressPager: View {
                     index: idx,
                     vm: vm
                   )
+                  .tag(idx)
               }
           }
+          else {
+              ProgressView()
+                  .foregroundColor(.white)
+                  .tag(0) // Default tag for the loading state
+          }
       }
-    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+    
   }
 }
 
@@ -48,7 +56,8 @@ struct WeekProgressCard: View {
               .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 20))
               .foregroundColor(textMainColor)
           }
-          .padding(.vertical, 20)
+          .padding(.top, 20)
+          .padding(.bottom, 10)
 
           HStack {
             Text("Progress")
