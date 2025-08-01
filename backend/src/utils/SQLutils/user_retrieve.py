@@ -9,23 +9,19 @@ import psycopg2
 from psycopg2.extras import register_composite, NamedTupleCursor
 import logging
 
-
 class UserNotFoundError(Exception):
     """Exception raised when a user is not found in the database. """
 
     def __init__(self, user_id):
         super().__init__(f"No user found with ID {user_id}.")
 
-
 class DatabaseConnectionError(Exception):
     """Exception raised for errors in the database connection."""
     pass
 
-
 class QueryExecutionError(Exception):
     """Exception raised for errors during query execution."""
     pass
-
 
 def convert_trio_types_to_tuples(list_of_trios: list):
     """
@@ -37,7 +33,6 @@ def convert_trio_types_to_tuples(list_of_trios: list):
     Returns:
         list: A list of casted tuple objects.
     """
-
     return [tuple(trio) for trio in list_of_trios]
 
 
@@ -268,24 +263,4 @@ def populate_user_info(user_id):
     all_days = list(new_user.day_history) + list(new_user.day_future.queue)
     for d in all_days:
         week_by_id[d.week_id].days.append(d)
-
-    # Populate the trees
-    # for month in new_user.month_history:
-    #     for week in new_user.week_history:
-    #         if week.month_id == month.month_id:
-    #             month.weeks.append(week)
-    # for month in new_user.month_future.queue:
-    #     for week in new_user.week_future.queue:
-    #         if week.month_id == month.month_id:
-    #             month.weeks.append(week)
-
-    # for week in new_user.week_history:
-    #     for day in new_user.day_history:
-    #         if day.week_id == week.week_id:
-    #             week.days.append(day)
-    # for week in new_user.week_future.queue:
-    #     for day in new_user.day_future.queue:
-    #         if day.week_id == week.week_id:
-    #             week.days.append(day)
-
     return new_user
