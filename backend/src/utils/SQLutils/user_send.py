@@ -64,12 +64,8 @@ def send_month_cycle(new_user, curr):
             True, month.completed_mileage
         ))
         
-    while True:
-        try:
-            month = new_user.month_future.get_nowait()
-        except Empty:
-            # If the queue is empty, break the loop
-            break
+    while not new_user.month_future.empty():
+        month = new_user.month_future.get()
         
         to_send.append((
             new_user.user_id, month.total_mileage, month.goal_stimuli,
@@ -106,12 +102,8 @@ def send_week_cycle(new_user, curr):
             True, week.completed_mileage, week.month_id
         ))
         
-    while True:
-        try:
-            week = new_user.week_future.get_nowait()
-        except Empty:
-            # If the queue is empty, break the loop
-            break
+    while not new_user.week_future.empty():
+        week = new_user.week_future.get()
         to_send.append((
             new_user.user_id, week.total_mileage, week.goal_stimuli,
             week.cycle, week.expected_rpe, week.real_rpe,
@@ -140,27 +132,23 @@ def send_day_cycle(new_user, curr, TrioType):
     while new_user.day_history:
         day = new_user.day_history.pop()
         workouts = cast_workouts_to_trios(day.workouts, TrioType)
-        to_send.append(
+        to_send.append((
             new_user.user_id, day.day_id, day.total_mileage, day.goal_stimuli,
             day.lift, day.expected_rpe, day.real_rpe,
             day.percent_completion, True,
             day.completed_mileage, day.week_id, workouts
-        )
+        ))
 
-    while True:
-        try:
-            fut = new_user.day_future.get_nowait()
-        except Empty:
-            # If the queue is empty, break the loop
-            break
+    while not new_user.day_future.empty():
+        day = new_user.day_future.get()
 
-        workouts = cast_workouts_to_trios(fut.workouts, TrioType)
+        workouts = cast_workouts_to_trios(day.workouts, TrioType)
 
         to_send.append((
-            new_user.user_id, fut.day_id, fut.total_mileage, fut.goal_stimuli,
-            fut.lift, fut.expected_rpe, fut.real_rpe,
-            fut.percent_completion, False, fut.completed_mileage,
-            fut.week_id, workouts
+            new_user.user_id, day.day_id, day.total_mileage, day.goal_stimuli,
+            day.lift, day.expected_rpe, day.real_rpe,
+            day.percent_completion, False, day.completed_mileage,
+            day.week_id, workouts
         ))
 
     if to_send:

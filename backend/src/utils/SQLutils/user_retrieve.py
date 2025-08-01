@@ -4,8 +4,9 @@ from backend.src.utils.user_storage.week_plan import week_plan
 from backend.src.utils.user_storage.month_plan import month_plan
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.user_storage.user import user
-from backend.src.utils.SQLutils.database_connect import db_select
+from backend.src.utils.SQLutils.database_connect import db_select, init_db
 import psycopg2
+from psycopg2.extras import register_composite, RealDictCursor
 import logging
 
 
@@ -57,63 +58,82 @@ def retrieve_user_info(user_id: int, username, pwd, col_names=False):
         user_id (int): The ID of the user to retrieve.
         username (str): The username for database connection.
         pwd (str): The password for database connection.
+        col_names (bool): If True, returns column names along with data.
 
     Returns:
-        user: An instance of the user class containing user details.
+
 
     Raises:
         UserNotFoundError: If no user is found with the given user_id.
     """
-    try:
-        # Prepare the queries
-        user_query = """
+    # Prepare the queries
+    user_query = """
             SELECT user_id, dob, sex, runningex, injury, goaldate, most_recent_injury, longest_run, pace_estimate, workout_rpe, available_days, number_of_days
             FROM userlistai
             WHERE user_id = %s;
             """
 
-        month_query = """
-            SELECT total_mileage AS month_total_mileage, goal_stimuli AS month_goal_stimuli, cycle AS month_cycle, expected_rpe AS month_expected_rpe, 
-                   complete_mileage AS month_completed_mileage, complete_score AS month_percent_completion, 
+    month_query = """
+            SELECT total_mileage AS month_total_mileage, goal_stimuli AS month_goal_stimuli, cycle AS month_cycle, expected_rpe AS month_expected_rpe,
+                   complete_mileage AS month_completed_mileage, complete_score AS month_percent_completion,
                    real_rpe AS month_real_rpe, month_id, past_month
             FROM month_cycle
             WHERE user_id = %s;
         """
 
-        week_query = """
-            SELECT total_mileage AS week_total_mileage, goal_stimuli AS week_goal_stimuli, cycle AS week_cycle, expected_rpe AS week_expected_rpe, 
-                   complete_mileage AS week_completed_mileage, complete_score AS week_percent_completion, 
+    week_query = """
+            SELECT total_mileage AS week_total_mileage, goal_stimuli AS week_goal_stimuli, cycle AS week_cycle, expected_rpe AS week_expected_rpe,
+                   complete_mileage AS week_completed_mileage, complete_score AS week_percent_completion,
                    real_rpe AS week_real_rpe, week_id, past_week, month_id
             FROM week_cycle
             WHERE user_id = %s;
         """
 
-        day_query = """
+    day_query = """
             SELECT total_mileage AS day_total_mileage, workouts AS day_workouts, goal_stimuli AS day_goal_stimuli, lift AS day_cycle, expected_rpe AS day_expected_rpe,
-                    complete_mileage AS day_completed_mileage, complete_score AS day_percent_completion, 
+                    complete_mileage AS day_completed_mileage, complete_score AS day_percent_completion,
                     real_rpe AS day_real_rpe, past_day, week_id, day_id
             FROM day_cycle
             WHERE user_id = %s;
         """
+    conn = init_db(username, pwd)
+    try:
+        register_composite("trio", conn, globally=True)
 
-        # Execute queries
-        if col_names:
-            user_info, user_cursor = db_select(
-                username, pwd, user_id, user_query, return_cursor=True)
-            month_info, month_cursor = db_select(
-                username, pwd, user_id, month_query, return_cursor=True)
-            week_info, week_cursor = db_select(
-                username, pwd, user_id, week_query, return_cursor=True)
-            day_info, day_cursor = db_select(
-                username, pwd, user_id, day_query, return_cursor=True)
+        with conn.cursor(cursor_factory=RealDictCursor) as curr:
+            curr.execute(user_query, (user_id,))
+            user_info = curr.fetchall()
 
-            # print(month_info)
-            # Retrieve column names
-            user_columns = [desc[0] for desc in user_cursor.description]
-            month_columns = [desc[0] for desc in month_cursor.description]
-            week_columns = [desc[0] for desc in week_cursor.description]
-            day_columns = [desc[0] for desc in day_cursor.description]
+            if not user_info:
+                raise UserNotFoundError(user_id)
+            if col_names:
+                user_columns = [d[0] for d in curr.description]
 
+            curr.execute(month_query, (user_id,))
+            month_info = curr.fetchall()
+
+            if col_names:
+                month_columns = [d[0] for d in curr.description]
+
+            curr.execute(week_query, (user_id,))
+            week_info = curr.fetchall()
+
+            if col_names:
+                week_columns = [d[0] for d in curr.description]
+
+            curr.execute(day_query, (user_id,))
+            day_info = curr.fetchall()
+
+            if col_names:
+                day_columns = [d[0] for d in curr.description]
+
+            if not col_names:
+                return {
+                    "user_info": user_info,
+                    "months": month_info,
+                    "weeks": week_info,
+                    "days": day_info
+                }
             return {
                 "user_info": (user_columns, user_info),
                 "months": (month_columns, month_info),
@@ -121,31 +141,20 @@ def retrieve_user_info(user_id: int, username, pwd, col_names=False):
                 "days": (day_columns, day_info)
             }
 
-        user_info = db_select(username, pwd, user_id, user_query)
-        month_info = db_select(username, pwd, user_id, month_query)
-        week_info = db_select(username, pwd, user_id, week_query)
-        day_info = db_select(username, pwd, user_id, day_query)
-
-        if not user_info:
-            raise UserNotFoundError(user_id)
-
-        return {
-            "user_info": user_info,
-            "months": month_info,
-            "weeks": week_info,
-            "days": day_info
-        }
-
     except psycopg2.Error as e:
         logging.error(f"Database error: {e}")
         raise DatabaseConnectionError("Failed to connect to the database.")
-    except UserNotFoundError:
-        logging.error(f"User with ID {user_id} not found.")
-        raise
+    except UserNotFoundError as e:
+        conn.rollback()
+        logging.error(f"User with ID {user_id} not found: {e}")
+        raise UserNotFoundError(user_id)
     except Exception as e:
-        logging.error(f"An error occurred: {e}")
+        conn.rollback()
+        logging.exception(f"An exception occurred: {e}")
         raise QueryExecutionError(
             "An error occurred while executing the query.")
+    finally:
+        conn.close()
 
 
 def create_data_dicts(data, columns):
