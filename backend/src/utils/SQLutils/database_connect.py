@@ -26,51 +26,26 @@ def init_db(username, pwd):
         logging.exception("Database connection error")
         return None
 
-
-# init_db(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-
-
-# Takes in a user ID and retreives their information from the SQL database.
-def db_select(username, pwd, user_id, query, return_cursor=False):
-
-    conn = init_db(username, pwd)
-    register_composite("trio", conn, globally=True)
-
-    # Check that the connection worked
-    if conn is None:
-        print("Failed to connect to the database.")
-        return None
-
+def db_select(curr, query, user_id):
+    """
+    Executes a SQL query to select data for a specific user ID.
+    
+    Parameters:
+    - curr: The database cursor.
+    - query: The SQL query to execute.
+    - user_id: The user ID to filter the query.
+    
+    Returns:
+    - The fetched results from the executed query.
+    """
     try:
-        # open cursor to perform sql queries
-        curr = conn.cursor()
-
-        # fill query with appropriate user ID
-        user_to_retrieve = (user_id)
-
-        # execute query with filled parameters
-        curr.execute(query, (user_to_retrieve,))
-
-        # fetch all results from the query
+        # Fill the query with the user ID
+        curr.execute(query, (user_id,))
+        # Fetch all results from the query
         result = curr.fetchall()
-
-        # close cursor
-        curr.close()
-
-        # close connection
-        conn.close()
-
-        if return_cursor:
-            # Return the cursor along with the result
-            return result, curr
-
-        # return the result
         return result
-
     except psycopg2.Error as e:
         logging.exception("Error executing query")
-        if conn:
-            conn.close()
         return None
 
 

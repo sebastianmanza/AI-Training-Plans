@@ -95,11 +95,12 @@ def test_user_credentials():
     cursor = conn.cursor()
     cursor.execute(query, (test_user_id,))
 
-    result = cursor.fetchall()
+    result = cursor.fetchone()
 
     conn.commit()
     cursor.close()
     conn.close()
 
-    assert result == [login_info["username"], login_info["password"],
-                      login_info["email"]], "User credentials do not match the expected values"
+    assert result[0] == login_info["username"], "Username does not match the expected value"
+    assert result[1] == login_info["password"], "Password does not match the expected value"
+    assert result[2] == login_info["email"], "Email does not match the expected value"
