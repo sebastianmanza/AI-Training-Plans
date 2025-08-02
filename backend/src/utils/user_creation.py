@@ -16,7 +16,7 @@ except Exception:  # pragma: no cover
 
         pass
 
-    def validate_email(addr: str) -> None:
+    def validate_email(addr: str, **kwargs) -> None:
         """Validate an email address using a minimal heuristic.
 
         The fallback simply ensures there is an ``@`` symbol and a period in
@@ -66,7 +66,13 @@ def validate_address(email: str):
         bool: ``True`` if the address is valid, ``False`` otherwise.
     """
     try:
-        validate_email(email)
+        # ``email_validator`` checks DNS records by default which can make
+        # simple unit tests fail when using placeholder domains such as
+        # ``example.com``.  Disable deliverability checks so that we only
+        # validate the syntactic structure of the address.  The fallback
+        # implementation above accepts arbitrary keyword arguments so this
+        # call works whether or not the third-party library is installed.
+        validate_email(email, check_deliverability=False)
         return True
     except EmailNotValidError:
         return False
