@@ -148,7 +148,15 @@ class user:
 
         conn = init_db(DB_CREDENTIALS["DB_USERNAME"],
                        DB_CREDENTIALS["DB_PASSWORD"])
-        curr = conn.cursor()
+        if conn is None:
+            # ``init_db`` returns ``None`` when the connection attempt fails.
+            raise RuntimeError("Database utilities are not configured")
+
+        try:
+            curr = conn.cursor()
+        except Exception as e:  # pragma: no cover - defensive safety net
+            conn.close()
+            raise RuntimeError("Database utilities are not configured") from e
 
         try:
             # Check if the user_id exists in the user_credentials table
