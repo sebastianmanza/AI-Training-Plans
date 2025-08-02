@@ -8,7 +8,7 @@ class HomeViewModel: ObservableObject {
   func load(session: Session) async {
     // print("[HomeViewModel] load() called")
     do {
-      homeData = try await APIClient.fetchHomeData(session: session)
+      homeData = try await APIClient.shared.fetchHomeData(session: session)
     } catch {
       errorMessage = error.localizedDescription
     }
