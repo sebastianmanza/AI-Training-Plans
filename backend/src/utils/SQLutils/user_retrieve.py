@@ -9,6 +9,8 @@ import psycopg2
 from psycopg2.extras import register_composite, NamedTupleCursor
 import logging
 
+logger = logging.getLogger(__name__)
+
 class UserNotFoundError(Exception):
     """Exception raised when a user is not found in the database."""
 
@@ -161,7 +163,7 @@ def retrieve_user_info(user_id: int, username: str, pwd: str):
             }
 
     except psycopg2.Error as e:
-        logging.error(f"Database error: {e}")
+        logger.error(f"Database error: {e}")
         raise DatabaseConnectionError("Failed to connect to the database.")
     finally:
         conn.close()
@@ -184,7 +186,7 @@ def populate_user_info(user_id):
         user_id, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
 
     if not user_data:
-        logging.exception(f"No user found with ID {user_id}.")
+        logger.exception(f"No user found with ID {user_id}.")
         raise UserNotFoundError(user_id)
 
     # Create a new user object
