@@ -43,7 +43,7 @@ class SurveyViewModel: ObservableObject {
     )
 
     do {
-      let result = try await APIClient.submitPrelim(survey)
+      let result = try await APIClient.shared.submitPrelim(survey)
       response = result
     } catch APIError.badURL {
       errorMessage = "Invalid server URL."
