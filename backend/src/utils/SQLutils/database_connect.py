@@ -1,3 +1,5 @@
+"""Helpers for connecting to and querying the PostgreSQL database."""
+
 import psycopg2
 import logging
 from psycopg2.extras import register_composite
@@ -8,6 +10,18 @@ from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 
 
 def init_db(username, pwd):
+    """Create a connection to the PostgreSQL database.
+
+    Args:
+        username (str): Database username.
+        pwd (str): Password for the given username.
+
+    Returns:
+        connection | None: A connection instance on success, otherwise ``None``.
+
+    Raises:
+        psycopg2.Error: If the connection attempt fails.
+    """
     try:
         if (username != "postgres"):
             locate = DB_CREDENTIALS["host"]
@@ -27,16 +41,18 @@ def init_db(username, pwd):
         return None
 
 def db_select(curr, query, user_id):
-    """
-    Executes a SQL query to select data for a specific user ID.
-    
-    Parameters:
-    - curr: The database cursor.
-    - query: The SQL query to execute.
-    - user_id: The user ID to filter the query.
-    
+    """Execute ``query`` using ``user_id`` as a parameter.
+
+    Args:
+        curr (cursor): Active database cursor.
+        query (str): Parameterized SQL query.
+        user_id (int): Target user identifier.
+
     Returns:
-    - The fetched results from the executed query.
+        list | None: Query results or ``None`` if execution fails.
+
+    Raises:
+        psycopg2.Error: If execution of the query fails.
     """
     try:
         # Fill the query with the user ID
@@ -49,10 +65,32 @@ def db_select(curr, query, user_id):
         return None
 
 
-# Takes in prelim survey datapoints and inserts them into the SQL database
 def db_insert(curr, user_id, dob, sex, runningex, injury,
               most_recent_injury, longest_run, goal_date, pace_estimate,
               available_days, number_of_days, workout_rpe):
+    """Insert a user into ``userlistai``.
+
+    Args:
+        curr (cursor): Active database cursor.
+        user_id (int): User identifier.
+        dob (str): Date of birth.
+        sex (str): Sex of the user.
+        runningex (str): Running experience level.
+        injury (int): Number of significant injuries.
+        most_recent_injury (int): Months since most recent injury.
+        longest_run (int): Longest run distance.
+        goal_date (str): Primary goal race date.
+        pace_estimate (list): Serialized list of pace estimates.
+        available_days (list): Days available for training.
+        number_of_days (int): Desired running days per week.
+        workout_rpe (str): JSON string of workout RPE values.
+
+    Returns:
+        None
+
+    Raises:
+        psycopg2.Error: If the INSERT fails.
+    """
     # write query
     query = """ INSERT INTO public.userlistai(
         user_id, dob, sex, runningex, injury, most_recent_injury, longest_run, 
@@ -72,6 +110,21 @@ def db_insert(curr, user_id, dob, sex, runningex, injury,
 def db_update(curr, user_id, dob, sex, runningex, injury,
               most_recent_injury, longest_run, goal_date, pace_estimate,
               available_days, number_of_days, workout_rpe):
+    """Update an existing row in ``userlistai``.
+
+    Args:
+        curr (cursor): Active database cursor.
+        user_id (int): Identifier of the user record to update.
+        dob, sex, runningex, injury, most_recent_injury, longest_run,
+        goal_date, pace_estimate, available_days, number_of_days,
+        workout_rpe: See :func:`db_insert` for parameter descriptions.
+
+    Returns:
+        None
+
+    Raises:
+        psycopg2.Error: If the UPDATE fails.
+    """
     # write query
     query = """ UPDATE public.userlistai
         SET dob= %s, sex= %s, runningex= %s, injury= %s, most_recent_injury= %s, 

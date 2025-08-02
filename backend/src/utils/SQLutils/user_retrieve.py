@@ -10,9 +10,14 @@ from psycopg2.extras import register_composite, NamedTupleCursor
 import logging
 
 class UserNotFoundError(Exception):
-    """Exception raised when a user is not found in the database. """
+    """Exception raised when a user is not found in the database."""
 
     def __init__(self, user_id):
+        """Record the missing ``user_id``.
+
+        Args:
+            user_id (int): Identifier that was not found.
+        """
         super().__init__(f"No user found with ID {user_id}.")
 
 class DatabaseConnectionError(Exception):
@@ -24,46 +29,44 @@ class QueryExecutionError(Exception):
     pass
 
 def convert_trio_types_to_tuples(list_of_trios: list):
-    """
-    Converts a list of trio types into a tuple objects.
+    """Cast composite trio objects to plain tuples.
 
     Args:
-        list_of_trios (list): List of trio objects to convert.
+        list_of_trios (list): Sequence of ``Trio`` composite objects.
 
     Returns:
-        list: A list of casted tuple objects.
+        list: List of ``tuple`` objects representing the trios.
     """
     return [tuple(trio) for trio in list_of_trios]
 
 
 def convert_trio_type_to_tuples(trio: tuple):
-    """Convert a TrioType to a tuple of type (double, double, double)
+    """Cast a ``Trio`` composite to a tuple.
 
     Args:
-        trio (tuple): a TrioType
+        trio (tuple): Composite trio object.
+
+    Returns:
+        tuple: ``(stim, rpe, dist)`` representation or zeros if ``trio`` is ``None``.
     """
     return tuple(trio) if trio else (0.0, 0.0, 0.0)
 
 
 def retrieve_user_info(user_id: int, username: str, pwd: str):
-    """
-    Retrieves user information from the database and populates it into a dict.
+    """Fetch a user's information and related training plans.
 
     Args:
-        user_id (int): The ID of the user to retrieve.
-        username (str): The username for database connection.
-        pwd (str): The password for database connection.
+        user_id (int): Identifier of the user to retrieve.
+        username (str): Database username.
+        pwd (str): Database password.
 
     Returns:
-        dict: A dictionary containing user information and their training plans structured as follows:
-        {
-            'user_info': [UserRow, ...],
-            'months':    [MonthRow, ...],
-            'weeks':     [WeekRow,  ...],
-            'days':      [DayRow,   ...]
-        }
+        dict: Dictionary with keys ``user_info``, ``months``, ``weeks`` and ``days``
+        mapping to lists of records.
+
     Raises:
-        UserNotFoundError, DatabaseConnectionError.
+        UserNotFoundError: If the user does not exist.
+        DatabaseConnectionError: If there is a connection or execution error.
     """
     # Prepare the queries
     user_query = """
@@ -165,14 +168,16 @@ def retrieve_user_info(user_id: int, username: str, pwd: str):
 
 
 def populate_user_info(user_id):
-    """
-    Populates user information from the database into a user object.
+    """Return a fully populated :class:`user` instance.
 
     Args:
-        user_id (int): The ID of the user to retrieve.
+        user_id (int): Identifier of the user to build.
 
     Returns:
-        user: An instance of the user class populated with user details.
+        user: ``user`` object with history and future training plans loaded.
+
+    Raises:
+        UserNotFoundError: If no user with ``user_id`` exists.
     """
     # Retrieve user information
     user_data = retrieve_user_info(
