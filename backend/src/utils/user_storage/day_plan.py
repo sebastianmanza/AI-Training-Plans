@@ -9,8 +9,26 @@ class day_plan:
     __slots__ = ("total_mileage", "completed_mileage", "goal_stimuli",
                  "lift", "expected_rpe", "real_rpe", "percent_completion", "workouts", "week_id", "day_id")
 
-    def __init__(self, workouts: list = [], total_mileage: int = -1, lift: bool = False, expected_rpe=-1, week_id: int = -1,
-                 real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, day_id=-1, goal_stimuli=workout_database.create_trio(-1, -1, -1)):
+    def __init__(self, workouts: list = None, total_mileage: int = -1,
+                 lift: bool = False, expected_rpe: int = -1,
+                 week_id: int = -1, real_rpe: int = 0,
+                 completed_mileage: int = 0, percent_completion: int = 0,
+                 day_id: int = -1,
+                 goal_stimuli=workout_database.create_trio(-1, -1, -1)):
+        """Initialize a day within a training plan.
+
+        Args:
+            workouts (list, optional): List of workout trios for the day.
+            total_mileage (int, optional): Planned mileage for the day.
+            lift (bool, optional): Whether the day includes lifting.
+            expected_rpe (int, optional): Anticipated RPE value.
+            week_id (int, optional): Identifier of the parent week.
+            real_rpe (int, optional): Actual recorded RPE.
+            completed_mileage (int, optional): Mileage completed so far.
+            percent_completion (int, optional): Completion percentage of the day.
+            day_id (int, optional): Unique identifier for the day.
+            goal_stimuli (tuple, optional): Trio describing the goal stimulus for the day.
+        """
 
         self.day_id = day_id  # Unique identifier for the day
         self.lift = lift  # Boolean indicating if the day is a lifting day
@@ -40,7 +58,19 @@ class day_plan:
 
     @staticmethod
     def __make_stimuli_trio(workouts: list) -> tuple:
-        """ Create a trio used to define the week using the trios from workouts"""
+        """Aggregate individual workout trios into a day-level trio.
+
+        Args
+        ----
+        workouts : list
+            List of workout trios.
+
+        Returns
+        -------
+        tuple
+            Trio representing the maximum stimulus, maximum RPE and total
+            distance for the day.
+        """
         tot_stim, tot_rpe, tot_dist = 0, 0, 0
         for trios in workouts:
             # Only consider the stimuli if the distance > 1 (Ignore warmup/cooldown)
@@ -53,31 +83,61 @@ class day_plan:
         return workout_database.create_trio(tot_stim, tot_rpe, tot_dist)
 
     def add_workouts(self, *workouts) -> None:
-        """ Add multiple workouts to the day plan"""
+        """Add multiple workouts to the day plan.
+
+        Args
+        ----
+        *workouts : tuple
+            Workout trios to append.
+        """
         for workout in workouts:
             self.workouts.append(workout)
 
     def update__real_rpe(self, real_rpe: int) -> None:
-        """ Update the real RPE for the day"""
+        """Update the recorded RPE for the day.
+
+        Args
+        ----
+        real_rpe : int
+            Actual perceived effort.
+        """
         self.real_rpe = real_rpe
 
     def update_daily_mileage(self, mileage: int) -> None:
-        """ Update the completed mileage for the day"""
+        """Set the completed mileage for the day and recalc percentage.
+
+        Args
+        ----
+        mileage : int
+            Total miles run.
+        """
         self.completed_mileage = mileage
         self.update_daily_percentage()  # Update the completion percentage
 
     def update_daily_percentage(self) -> None:
-        """ Update the completion percentage based on the total and completed mileage"""
+        """Recalculate ``percent_completion`` based on mileage."""
         self.percent_completion = self.completed_mileage / \
             self.total_mileage if self.total_mileage > 0 else 1
 
     # Note that updating mileage also updates the percentage
     def update_day(self, mileage: int, real_rpe: int) -> None:
-        """ Update the daily mileage and RPE"""
+        """Convenience method to update mileage and RPE."""
         self.update_daily_mileage(mileage)
         self.update__real_rpe(real_rpe)
 
     def __eq__(self, other) -> bool:
+        """Return ``True`` if two day plans have identical attributes.
+
+        Args
+        ----
+        other : day_plan
+            Day plan to compare against.
+
+        Returns
+        -------
+        bool
+            ``True`` if equal, ``False`` otherwise.
+        """
         if (self.total_mileage != other.total_mileage or
                 self.completed_mileage != other.completed_mileage or
                 self.lift != other.lift or
@@ -92,6 +152,7 @@ class day_plan:
         return True
 
     def __repr__(self) -> str:
+        """Return debug representation of the day plan."""
         return (
             f"day_id: {self.day_id}, week_id: {self.week_id}, "
             f"total_mileage: {self.total_mileage}, completed_mileage: {self.completed_mileage}, "

@@ -12,11 +12,24 @@ class workout_database:
     # Creates a trio that can be used as a key in the workout dictionary.
     @staticmethod
     def create_trio(stim, rpe, dist) -> tuple:
+        """Return a normalized trio of stimulus, RPE and distance.
+
+        Args
+        ----
+        stim, rpe, dist : float
+            Components of the trio.
+
+        Returns
+        -------
+        tuple
+            ``(stim, rpe, dist)`` as floats.
+        """
         stim, rpe, dist = float(stim), float(rpe), float(dist)
         return (stim, rpe, dist)
 
     @staticmethod
     def workout_trio_equal(workout_1: single_workout, workout_2: single_workout) -> bool:
+        """Return ``True`` if the workouts have identical trio values."""
         return single_workout.trio_equal(workout_1.get_trio(), workout_2.get_trio())
 
     # x range is 1 - 7 stimulus, y range is 1 -10 RPE, z range is 1 - 10 Distance
@@ -41,6 +54,15 @@ class workout_database:
                  long: list = [], threshold: list = [], fartlek: list = [],
                  race_pace_interval: list = [], strides: list = [], hill_sprints: list = [],
                  flat_sprints: list = [], time_trial: list = [], warmup_and_cooldown: list = []):
+        """Create a workout database backed by the shared :class:`workout_storage`.
+
+        Args
+        ----
+        easyrun, recovery, kenyan, long, threshold, fartlek,
+        race_pace_interval, strides, hill_sprints, flat_sprints,
+        time_trial, warmup_and_cooldown : list, optional
+            Initial workouts for each category.
+        """
 
         # Set up the collection of workouts of each type
         self.easyrun = workout_database.storage.easyrun
@@ -91,7 +113,13 @@ class workout_database:
                            list.append, workout)
 
     def mass_add_workouts(self, workouts) -> None:
-        """"Add a list of workouts to the database"""
+        """Add multiple workouts to the database.
+
+        Args
+        ----
+        workouts : iterable
+            Sequence of :class:`single_workout` objects.
+        """
         for workout in workouts:
             self.add_workout(workout)
             # try:
@@ -158,6 +186,18 @@ class workout_database:
         return final_workout
 
     def get_individual_workout(self, stim: float, rpe: float, dist: float) -> single_workout:
+        """Return the closest matching workout for the provided trio.
+
+        Args
+        ----
+        stim, rpe, dist : float
+            Coordinates describing the desired workout.
+
+        Returns
+        -------
+        single_workout
+            Closest workout stored in the database.
+        """
         workout_type = self.get_workout_type(
             stim, rpe, dist)  # Get the workout type based on the trio
         # Find the closest workout within the particular database
@@ -191,4 +231,5 @@ class workout_database:
             (dist - workout_trio[TRIO_DIST]))
 
     def get_distance(trio: tuple, stim: float, rpe: float, dist: float) -> float:
+        """Return squared distance between ``trio`` and input coordinates."""
         return (trio[TRIO_STIM] - stim) ** 2 + (trio[TRIO_RPE] - rpe) ** 2 + (trio[TRIO_DIST] - dist) ** 2

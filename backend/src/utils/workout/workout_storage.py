@@ -8,6 +8,7 @@ class workout_storage:
     # Initialize the workout storage with empty lists for threshold and interval workouts.
 
     def __init__(self):
+        """Initialize empty lists for each workout type."""
         self.easyrun = []
         self.recovery = []
         self.kenyan = []
@@ -24,48 +25,60 @@ class workout_storage:
     # Getters for the workout lists
     # get et workouts
     def get_easyrun_workouts(self) -> list:
+        """Return the list of easy run workouts."""
         return self.easyrun
     # get recovery workouts
 
     def get_recovery_workouts(self) -> list:
+        """Return the list of recovery workouts."""
         return self.recovery
     # get kenyan workouts
 
     def get_kenyan_workouts(self) -> list:
+        """Return the list of progression workouts."""
         return self.kenyan
     # get long workouts
 
     def get_long_workouts(self) -> list:
+        """Return the list of long run workouts."""
         return self.long
     # get threshold workouts
 
     def get_threshold_workouts(self) -> list:
+        """Return the list of threshold workouts."""
         return self.threshold
     # get fartlek workouts
 
     def get_fartlek_workouts(self) -> list:
+        """Return the list of fartlek workouts."""
         return self.fartlek
     # get race pace interval workouts
 
     def get_race_pace_interval_workouts(self) -> list:
+        """Return race pace interval workouts."""
         return self.race_pace_interval
     # get strides workouts
 
     def get_strides_workouts(self) -> list:
+        """Return the list of stride workouts."""
         return self.strides
     # get hill sprints workouts
 
     def get_hill_sprints_workouts(self) -> list:
+        """Return hill sprint workouts."""
         return self.hill_sprints
     # get flat sprints workouts
 
     def get_flat_sprints_workouts(self) -> list:
+        """Return flat sprint workouts."""
         return self.flat_sprints
     # get time trial workouts
 
     def get_time_trial_workouts(self) -> list:
+        """Return time trial workouts."""
         return self.time_trial
     # get warmup and cooldown workouts
 
     def get_warmup_and_cooldown(self) -> list:
+        """Return warmup and cooldown workouts."""
         return self.warmup_and_cooldown
