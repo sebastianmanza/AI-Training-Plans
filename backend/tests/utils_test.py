@@ -111,6 +111,6 @@ def test_user_methods():
     # assert u.get_type_deviation_RPE("Easy Run") == 1
     u.set_5k_pace("6:00")
     assert u.get_pace(1) != -1  # FIVEK index is 1 per constants
-    assert u.modify_pace(10, 1) == u.pace_estimates[1]
+    assert u.modify_pace(10, 1) == u.pace_estimates[1] + 10
     assert user.txt_to_workout_type("Easy Run") == 4  # EASY constant
 
