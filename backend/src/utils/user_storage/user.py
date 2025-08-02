@@ -1,5 +1,7 @@
 # import training
 import logging
+
+logger = logging.getLogger(__name__)
 import math
 import secrets
 import datetime
@@ -172,7 +174,7 @@ class user:
         # Check if the user ID already exists in the database
         if init_db is not None and DB_CREDENTIALS:
             if user.user_id_exists(new_user_id):
-                logging.warning("User ID already exists, generating a new one.")
+                logger.warning("User ID already exists, generating a new one.")
                 user.generate_new_id()
 
         return new_user_id

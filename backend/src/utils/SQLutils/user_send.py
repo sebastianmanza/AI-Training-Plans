@@ -10,6 +10,9 @@ from backend.src.utils.SQLutils.database_connect import db_insert, db_update
 from queue import Empty
 import json
 
+logger = logging.getLogger(__name__)
+
+
 def send_user_info(new_user, curr):
     """Insert or update the primary user record.
 
@@ -18,9 +21,9 @@ def send_user_info(new_user, curr):
         curr (cursor): Active database cursor.
 
     Returns:
-        None
+        bool: ``True`` if the record was written successfully, ``False`` otherwise.
     """
-        
+
     # Check if user already exists
     check_query = """SELECT 1 FROM public.userlistai WHERE user_id = %s;"""
     curr.execute(check_query, (new_user.user_id,))
@@ -31,20 +34,19 @@ def send_user_info(new_user, curr):
 
     if exists:
         # Update existing user
-        db_update(
+        return db_update(
             curr,
             new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury,
             new_user.most_recent_injury, new_user.longest_run, new_user.goal_date,
             new_user.pace_estimates, new_user.available_days, new_user.number_of_days, workout_RPE_JSON
         )
-    else:
-        # Insert new user
-        db_insert(
-            curr,
-            new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury,
-            new_user.most_recent_injury, new_user.longest_run, new_user.goal_date,
-            new_user.pace_estimates, new_user.available_days, new_user.number_of_days, workout_RPE_JSON
-        )
+    # Insert new user
+    return db_insert(
+        curr,
+        new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury,
+        new_user.most_recent_injury, new_user.longest_run, new_user.goal_date,
+        new_user.pace_estimates, new_user.available_days, new_user.number_of_days, workout_RPE_JSON
+    )
 
 def send_month_cycle(new_user, curr):
     """Insert month plans for ``new_user``.
@@ -226,9 +228,9 @@ def send_user_creds(user_id, username, password, login_info):
 
         conn.commit()
 
-    except Exception as e:
+    except Exception:
         conn.rollback()
-        logging.exception(
+        logger.exception(
             "Failed to insert credentials for user_id=%s", user_id)
 
     finally:
@@ -245,7 +247,7 @@ def send_user_all(user, username, password):
         password (str): Database password.
 
     Returns:
-        None
+        bool: ``True`` on success, ``False`` if any step fails.
     """
     try:
         conn = init_db(username, password)
@@ -253,7 +255,11 @@ def send_user_all(user, username, password):
 
         caster = register_composite('trio', conn, globally=True)
         TrioType = caster.type
-        send_user_info(user, curr)
+
+        if not send_user_info(user, curr):
+            conn.rollback()
+            logger.error("Failed to persist user record for user_id=%s", user.user_id)
+            return False
 
         # send_user_creds(user_id, username, password, login_info)
 
@@ -264,9 +270,11 @@ def send_user_all(user, username, password):
         send_day_cycle(user, curr, TrioType)
 
         conn.commit()
-    except Exception as e:
+        return True
+    except Exception:
         conn.rollback()
-        logging.error("Failed to send all user data for user_id=%s", user)
+        logger.exception("Failed to send all user data for user_id=%s", user.user_id)
+        return False
     finally:
         if curr:
             curr.close()
@@ -284,5 +292,5 @@ def cast_workouts_to_trios(workouts, TrioType):
     Returns:
         list: List of ``TrioType`` objects.
     """
-
     return [TrioType(*triplet) for triplet in workouts]
+

@@ -47,6 +47,8 @@ except Exception:  # pragma: no cover
     DB_CREDENTIALS = {}  # type: ignore
     init_db = None  # type: ignore
 
+logger = logging.getLogger(__name__)
+
 USERNAME_LOC, PASSWORD_LOC = 0, 1
 PASS_LEN_REQ = 8
 
@@ -189,7 +191,7 @@ def credential_check(username: str, password: str) -> bool:
         else:
             return 0
     except Exception as e:
-        logging.exception("Error executing query: %s", e)
+        logger.exception("Error executing query: %s", e)
         # return 0
 
     finally:
@@ -242,7 +244,7 @@ def user_exists(user_credentials) -> tuple:
             return False, user_id  # User does not exist, return user_id
 
     except Exception as e:
-        logging.exception("Error executing query, %s", e)
+        logger.exception("Error executing query, %s", e)
         # print("Error during query execution:", e)
 
     finally:
@@ -291,7 +293,7 @@ def forgot_password(username: str, new_password: str, email: str) -> bool:
 
         return True  # Password reset successful
     except Exception as e:
-        logging.exception("Error executing query: %s", e)
+        logger.exception("Error executing query: %s", e)
         # print(f"Error executing query: {e}")
         return False
 

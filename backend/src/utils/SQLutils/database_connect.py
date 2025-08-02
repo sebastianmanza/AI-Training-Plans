@@ -5,6 +5,8 @@ import logging
 from psycopg2.extras import register_composite
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 
+logger = logging.getLogger(__name__)
+
 # takes in the host name (localhost for database owner).
 # Establish connection with the SQL database and return an error message if connection fails.
 
@@ -37,7 +39,7 @@ def init_db(username, pwd):
 
         return conn
     except psycopg2.Error as e:
-        logging.exception("Database connection error")
+        logger.exception("Database connection error")
         return None
 
 def db_select(curr, query, user_id):
@@ -61,7 +63,7 @@ def db_select(curr, query, user_id):
         result = curr.fetchall()
         return result
     except psycopg2.Error as e:
-        logging.exception("Error executing query")
+        logger.exception("Error executing query")
         return None
 
 
@@ -86,10 +88,7 @@ def db_insert(curr, user_id, dob, sex, runningex, injury,
         workout_rpe (str): JSON string of workout RPE values.
 
     Returns:
-        None
-
-    Raises:
-        psycopg2.Error: If the INSERT fails.
+        bool: ``True`` on success, ``False`` on failure.
     """
     # write query
     query = """ INSERT INTO public.userlistai(
@@ -101,8 +100,14 @@ def db_insert(curr, user_id, dob, sex, runningex, injury,
                         longest_run, goal_date, pace_estimate, available_days,
                         number_of_days, workout_rpe)
 
-    # execute query with filled parameters
-    curr.execute(query, record_to_insert)
+    try:
+        # execute query with filled parameters
+        curr.execute(query, record_to_insert)
+        return True
+    except psycopg2.Error:
+        logger.exception("Failed to insert user_id=%s", user_id)
+        curr.connection.rollback()
+        return False
 
 # Takes in prelim survey datapoints and inserts them into the SQL database
 
@@ -120,10 +125,7 @@ def db_update(curr, user_id, dob, sex, runningex, injury,
         workout_rpe: See :func:`db_insert` for parameter descriptions.
 
     Returns:
-        None
-
-    Raises:
-        psycopg2.Error: If the UPDATE fails.
+        bool: ``True`` on success, ``False`` on failure.
     """
     # write query
     query = """ UPDATE public.userlistai
@@ -136,5 +138,11 @@ def db_update(curr, user_id, dob, sex, runningex, injury,
                         longest_run, goal_date, pace_estimate, available_days,
                         number_of_days, workout_rpe, user_id)
 
-    # execute query with filled parameters
-    curr.execute(query, record_to_insert)
+    try:
+        # execute query with filled parameters
+        curr.execute(query, record_to_insert)
+        return True
+    except psycopg2.Error:
+        logger.exception("Failed to update user_id=%s", user_id)
+        curr.connection.rollback()
+        return False
