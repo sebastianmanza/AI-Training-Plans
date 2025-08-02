@@ -18,7 +18,7 @@ test_user.month_future = database.month
 
 
 def test_user_cycle():
-    send_user_all(
+    assert send_user_all(
         test_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
     retrieved_user = populate_user_info(test_user.user_id)
     print(test_user.user_id)
