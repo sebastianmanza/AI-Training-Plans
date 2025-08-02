@@ -30,6 +30,7 @@ struct HomeView: View {
           /* Base background color */
           Color(.background)
             .ignoresSafeArea()
+            .blur(radius: showPostRunSurvey ? 12 : 0)
 
           /*Navigation bar with buttons */
 
@@ -79,6 +80,8 @@ struct HomeView: View {
           .onAppear { Task { await vm.load(session: session) } }
           .padding(.bottom, 75)
           .ignoresSafeArea()
+          .opacity(showPostRunSurvey ? 0 : 1)
+          .allowsHitTesting(!showPostRunSurvey)
         }
         .sheet(isPresented: $showPostRunSurvey) {
           PostRunSurvey(rpeval: $currentRPE)

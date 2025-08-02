@@ -45,7 +45,7 @@ struct PostRunSurvey: View {
         // Background gradient
         LinearGradient(
           gradient: Gradient(colors: [
-            Color(red: 126 / 255, green: 247 / 255, blue: 209 / 255),
+            Color.accent,
             Color(red: 217 / 255, green: 217 / 255, blue: 217 / 255),
             Color(red: 217 / 255, green: 217 / 255, blue: 217 / 255),
           ]),
@@ -63,6 +63,7 @@ struct PostRunSurvey: View {
             .multilineTextAlignment(.leading)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, 50)
+            .padding(.top, 50)
 
           Text("\(rpeval, specifier: "%.1f")")
             .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 84))
@@ -83,7 +84,7 @@ struct PostRunSurvey: View {
           Spacer()
           // Next button
           SurveyNextButton(
-            action: onNext, color: Color(red: 130 / 255, green: 245 / 255, blue: 209 / 255),
+            action: onNext, color: Color.accent,
             foreground: .black
           )
           .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 0)

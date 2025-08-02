@@ -36,7 +36,9 @@ struct DebuggerView: View {
           // Debugger content
           ZStack {
             Rectangle()
-              .fill(Color.white)
+              .fill(LinearGradient(
+                colors: [Color.accent, Color(red: 213 / 255, green: 213 / 255, blue: 213 / 255), Color (red: 213 / 255, green: 213 / 255, blue: 213 / 255)],
+              ))
               .frame(width: geo.size.width * 0.8, height: geo.size.height * 0.5)
               .cornerRadius(20)
               .shadow(radius: 10)
