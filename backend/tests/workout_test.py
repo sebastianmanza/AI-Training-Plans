@@ -1,7 +1,5 @@
 from backend.src.utils.workout.workout_database import workout_database
 from backend.scripts.excel_to_workout_database import get_workout_list
-from backend.src.utils.workout import single_workout
-
 
 wd = workout_database()
 

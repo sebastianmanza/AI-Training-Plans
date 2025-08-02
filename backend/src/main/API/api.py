@@ -157,7 +157,8 @@ async def post_run_survey(payload: Post_Run_SurveyIn):
         return result
     except Exception as e:
         # surface errors as HTTP 500
-        raise HTTPException(status_cdoe=500, detail=str(e))
+        
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/home/data", response_model=HomeData)
