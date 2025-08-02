@@ -2,11 +2,10 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 import logging
-from logging.handlers import RotatingFileHandler
-from typing import List
 
+from backend.src.utils.logging_config import configure_logging
 from backend.src.utils import user_creation
 from backend.src.utils.workout.workout_database import workout_database
 from backend.src.main.API.initial_user_to_sql import main as SurveyMain
@@ -15,22 +14,8 @@ from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.pace_calculations import to_str
 
-handler = RotatingFileHandler(
-    filename="logs/app_errors.log",
-    maxBytes=5 * 1024 * 1024,
-    backupCount=3,
-    encoding="utf-8"
-)
-
-formatter = logging.Formatter(
-    "%(asctime)s %(levelname)s [%(name)s] %(message)s"
-)
-handler.setFormatter(formatter)
-
-root_logger = logging.getLogger()
-root_logger.setLevel(logging.DEBUG)
-root_logger.addHandler(handler)
-
+configure_logging()
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
@@ -133,7 +118,7 @@ async def survey_prelim(payload: SurveyIn):
         return result
     except Exception as e:
         # surface errors as HTTP 500 and log to the log file
-        logging.exception(
+        logger.exception(
             "Unexpected error in /survey/prelim with payload=%r", payload)
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -250,7 +235,7 @@ async def get_home_data(user_id: int = 0):
         )
     except Exception as e:
         # surface errors as HTTP 500
-        logging.exception(
+        logger.exception(
             "Unexpected error in /home/data with user_id=%r", user_id)
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -288,7 +273,7 @@ async def signup(payload: SignupIn):
 
     except Exception as e:
         # surface errors as HTTP 500, but log the goddamn errors somewhere
-        logging.exception(
+        logger.exception(
             "Unexpected error in /auth/signup with payload=%r", payload)
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -317,7 +302,7 @@ async def login(payload: LoginIn):
         return AuthOut(user_id=userid)
     except Exception as e:
         # surface errors as HTTP 500
-        logging.exception(
+        logger.exception(
             "Unexpected error in /auth/login with payload=%r", payload)
         raise HTTPException(status_code=500, detail=str(e))
 

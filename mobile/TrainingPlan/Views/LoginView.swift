@@ -98,7 +98,7 @@ struct LoginView: View {
                           username: username,
                           password: password)
                         do {
-                          let result = try await APIClient.login(payload)
+                          let result = try await APIClient.shared.login(payload)
                           isLoading = false
 
                           if let userId = result.user_id {

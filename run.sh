@@ -9,6 +9,7 @@ lsof -tiTCP:8000 -sTCP:LISTEN | xargs kill -9 || true
 
 sleep 0.2
 echo "Starting FastAPI backend..."
+mkdir -p "$(dirname "$LOGFILE")"
 nohup python3 -u -m uvicorn backend.src.main.API.api:app \
     --reload --host 0.0.0.0 --port 8000 \
     > "$LOGFILE" 2>&1 &
