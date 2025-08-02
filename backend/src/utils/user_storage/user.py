@@ -114,12 +114,14 @@ class user:
     # Returns the mile pace for each distance.
 
     def get_times(self) -> str:
+        """Return all predicted pace times as newline separated string."""
         toReturn = ""
         for pace in self.pace_estimates:
             toReturn += f"{to_str(pace)}\n"
         return toReturn
 
     def get_user_id(self) -> int:
+        """Return the unique identifier for this user."""
         return self.user_id
 
     def user_id_exists(user_id: int) -> bool:
@@ -167,26 +169,41 @@ class user:
         return age
 
     def append_month(self, month):
+        """Append a completed month to history."""
         self.month_history.append(month)
 
     def append_fut_month(self, month):
+        """Queue a future month plan."""
         self.month_future.put(month)
 
     def append_week(self, week):
+        """Append a completed week to history."""
         self.week_history.append(week)
 
     def append_fut_week(self, week):
+        """Queue a future week plan."""
         self.week_future.put(week)
 
     def append_day(self, day):
+        """Append a completed day to history."""
         self.day_history.append(day)
 
     def append_fut_day(self, day):
+        """Queue a future day plan."""
         self.day_future.put(day)
 
         # Takes in a string and a user i.e. (5000+10, 17:30 5k runner) and returns the pace associated with it.
 
     def modify_pace(self, change: int, distance: int) -> int:
+        """Adjust a stored pace value.
+
+        Args:
+            change (int): Number of seconds to add or subtract.
+            distance (int): Index of the pace to modify.
+
+        Returns:
+            int: Updated pace in seconds.
+        """
         return self.pace_estimates[distance] + change
 
     def get_training_pace(self, workout_type: int) -> int:
@@ -259,6 +276,7 @@ class user:
         # self.workout_RPE == other.workout_RPE) # Should add workoutRPE check and possibly storage
 
     def __repr__(self) -> str:
+        """Return a developer friendly representation of the user."""
         return (
             f"user("
             f"user_id={self.user_id!r}, dob={self.dob!r}, sex={self.sex!r}, running_ex={self.running_ex!r},\n"

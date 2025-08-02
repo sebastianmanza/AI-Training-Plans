@@ -11,10 +11,15 @@ from queue import Empty
 import json
 
 def send_user_info(new_user, curr):
-    """Sends user information to the database. If the user already exists, updates their information; otherwise, inserts a new record.
-    Args: 
-        new_user (User): An instance of the User class containing user information.
-        curr (cursor): The database cursor to execute SQL commands."""
+    """Insert or update the primary user record.
+
+    Args:
+        new_user (user): User object containing information to store.
+        curr (cursor): Active database cursor.
+
+    Returns:
+        None
+    """
         
     # Check if user already exists
     check_query = """SELECT 1 FROM public.userlistai WHERE user_id = %s;"""
@@ -42,10 +47,15 @@ def send_user_info(new_user, curr):
         )
 
 def send_month_cycle(new_user, curr):
-    """Send month cycle data to the database.
+    """Insert month plans for ``new_user``.
+
     Args:
-        new_user (User): An instance of the User class containing user information.
-        curr (cursor): The database cursor to execute SQL commands.
+        new_user (user): User instance whose ``month_history`` and ``month_future`` contain
+            month plans to send.
+        curr (cursor): Active database cursor.
+
+    Returns:
+        None
     """
     
     query = """ INSERT INTO public.month_cycle(
@@ -79,10 +89,14 @@ def send_month_cycle(new_user, curr):
         
 
 def send_week_cycle(new_user, curr):
-    """Send week cycle data to the database.
+    """Insert week plans for ``new_user``.
+
     Args:
-        new_user (User): An instance of the User class containing user information.
-        curr (cursor): The database cursor to execute SQL commands.
+        new_user (user): User instance containing week plan history and future queues.
+        curr (cursor): Active database cursor.
+
+    Returns:
+        None
     """
 
     query = """ INSERT INTO public.week_cycle(
@@ -117,6 +131,16 @@ def send_week_cycle(new_user, curr):
 
 # populate day cycle user infomation within SQL database
 def send_day_cycle(new_user, curr, TrioType):
+    """Persist day plans for ``new_user``.
+
+    Args:
+        new_user (user): User instance containing ``day_history`` and ``day_future`` stacks.
+        curr (cursor): Active database cursor.
+        TrioType (type): Registered composite representing a trio.
+
+    Returns:
+        None
+    """
 
     query = """ INSERT INTO public.day_cycle(
         user_id, day_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, 
@@ -156,18 +180,19 @@ def send_day_cycle(new_user, curr, TrioType):
 
 
 def send_user_creds(user_id, username, password, login_info):
-    """
-    Sends user credentials to the database. If the user already exists, 
-    updates their credentials; otherwise, inserts a new record.
+    """Insert or update the user's login credentials.
 
     Args:
-        user_id (int): The unique identifier for the user.
-        username (str): The username of the user.
-        password (str): The password of the user.
-        login_info (dict): A dictionary containing 'email', 'username', and 'password' keys.
+        user_id (int): Identifier for the user.
+        username (str): Database username used for the connection.
+        password (str): Password for ``username``.
+        login_info (dict): Mapping containing ``email``, ``username`` and ``password`` keys.
+
+    Returns:
+        None
 
     Raises:
-        Exception: If there is an error during the database operation.
+        Exception: If any database operation fails.
     """
 
     conn = init_db(username, password)
@@ -212,7 +237,16 @@ def send_user_creds(user_id, username, password, login_info):
 
 
 def send_user_all(user, username, password):
+    """Persist all structures associated with ``user``.
 
+    Args:
+        user (user): User instance whose data is being stored.
+        username (str): Database username.
+        password (str): Database password.
+
+    Returns:
+        None
+    """
     try:
         conn = init_db(username, password)
         curr = conn.cursor()
@@ -241,5 +275,14 @@ def send_user_all(user, username, password):
 
 
 def cast_workouts_to_trios(workouts, TrioType):
+    """Convert raw workout tuples to ``Trio`` composites.
+
+    Args:
+        workouts (list): List of ``(stim, rpe, dist)`` tuples.
+        TrioType (type): Registered composite representing a trio.
+
+    Returns:
+        list: List of ``TrioType`` objects.
+    """
 
     return [TrioType(*triplet) for triplet in workouts]

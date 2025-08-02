@@ -7,22 +7,26 @@ class month_plan:
     __slots__ = ("month_id", "total_mileage", "goal_stimuli", "cycle", "weeks",
                  "percent_completion", "completed_mileage", "expected_rpe", "real_rpe")
 
-    def __init__(self, month_id: int = -1, total_mileage: int = 0, goal_stimuli=workout_database.create_trio(0, 0, 0), cycle: str = "", expected_rpe: int = 0, real_rpe: int = 0, completed_mileage: int = 0, percent_completion: int = 0, weeks: list | None = None):
-        """_summary_
+    def __init__(self, month_id: int = -1, total_mileage: int = 0,
+                 goal_stimuli=workout_database.create_trio(0, 0, 0),
+                 cycle: str = "", expected_rpe: int = 0, real_rpe: int = 0,
+                 completed_mileage: int = 0, percent_completion: int = 0,
+                 weeks: list | None = None):
+        """Initialize a month within a training cycle.
 
         Args:
-            month_id (int, optional): _description_. Defaults to -1.
-            total_mileage (int, optional): _description_. Defaults to 0.
-            goal_stimuli (_type_, optional): _description_. Defaults to workout_database.create_trio(0, 0, 0).
-            cycle (str, optional): _description_. Defaults to "".
-            expected_rpe (int, optional): _description_. Defaults to 0.
-            real_rpe (int, optional): _description_. Defaults to 0.
-            completed_mileage (int, optional): _description_. Defaults to 0.
-            percent_completion (int, optional): _description_. Defaults to 0.
-            weeks (list, optional): _description_. Defaults to [].
+            month_id (int, optional): Identifier for the month.
+            total_mileage (int, optional): Planned mileage for the month.
+            goal_stimuli (tuple, optional): Trio describing the month's goal stimulus.
+            cycle (str, optional): Name of the training cycle (build, taper, etc.).
+            expected_rpe (int, optional): Expected RPE for the month.
+            real_rpe (int, optional): Actual average RPE.
+            completed_mileage (int, optional): Completed mileage so far.
+            percent_completion (int, optional): Completion percentage.
+            weeks (list, optional): List of :class:`week_plan` objects.
 
         Raises:
-            TypeError: _description_
+            TypeError: If ``weeks`` contains objects that are not ``week_plan`` instances.
         """
         self.weeks = weeks if weeks is not None else []
         for week in self.weeks:  # Ensure that each week is of type week_plan
@@ -90,6 +94,7 @@ class month_plan:
                 all(week1 == week2 for week1, week2 in zip(self.weeks, other.weeks)))
 
     def __repr__(self) -> str:
+        """Return debug representation of the month plan."""
         return (
             f"month_plan("
             f"month_id={self.month_id!r}, "
