@@ -10,9 +10,19 @@ from backend.src.utils.user_storage.user import user
 class decision_tree:
 
     def __init__(self, user):
+        """Store the :class:`user` under evaluation.
+
+        Args:
+            user (user): Instance containing attributes used for plan selection.
+        """
         self.user = user
 
     def get_decision_tree(self):
+        """Return the training plan index chosen for ``self.user``.
+
+        Returns:
+            int: Index of the plan within :func:`training_plan_array`.
+        """
         plans = training_plan_array()
         # NAMING CONVENTION:
         # age_sex_level_injury_injuryHistory_injuryRecent_longestLongRun

@@ -88,6 +88,7 @@ class week_plan:
                 )
 
     def __repr__(self) -> str:
+        """Return debug representation of the week plan."""
         return (
             f"week_plan("
             f"week_id={self.week_id!r}, "

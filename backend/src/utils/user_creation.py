@@ -10,10 +10,18 @@ USERNAME_LOC, PASSWORD_LOC = 0, 1
 PASS_LEN_REQ = 8
 
 
-""" this function takes in the email string and checks for correct formatting """
+"""Utility validation helpers."""
 
 
 def validate_address(email: str):
+    """Check whether ``email`` is syntactically valid.
+
+    Args:
+        email (str): Email address to validate.
+
+    Returns:
+        bool: ``True`` if the address is valid, ``False`` otherwise.
+    """
     try:
         validate_email(email)
         return True
@@ -99,8 +107,14 @@ long term storage and security. In an the event an SQL query fails, the function
 
 
 def credential_check(username: str, password: str) -> bool:
-    """ A function that checks if the username and password combination exists in the database.
-    Returns the user_id if the credentials are valid, 0 if no user is found with that username
+    """Verify a username/password pair.
+
+    Args:
+        username (str): Account username.
+        password (str): Plain text password.
+
+    Returns:
+        int | bool: ``user_id`` if credentials are valid, ``0`` otherwise.
     """
 
     # initialize the database connection
@@ -142,9 +156,14 @@ def credential_check(username: str, password: str) -> bool:
 
 
 def user_exists(user_credentials) -> tuple:
-    """Checks if the user exists in the database.
-    If the user exists, returns True and an error code (1 for email, 0 for username).
-    If the user does not exist, returns False and a user_id.
+    """Check whether a user already exists.
+
+    Args:
+        user_credentials (dict): Dictionary with ``email`` and ``username`` keys.
+
+    Returns:
+        tuple: ``(True, code)`` if user exists (``code`` 1 for email conflict,
+        0 for username). ``(False, user_id)`` otherwise.
     """
     conn = init_db(DB_CREDENTIALS["DB_USERNAME"],
                    DB_CREDENTIALS["DB_PASSWORD"])
@@ -185,8 +204,15 @@ def user_exists(user_credentials) -> tuple:
 
 
 def forgot_password(username: str, new_password: str, email: str) -> bool:
-    """ A function that resets the password for a user.
-    Returns True if successful, False otherwise.
+    """Reset a user's password.
+
+    Args:
+        username (str): Username to update.
+        new_password (str): New password in plain text.
+        email (str): Email used for verification.
+
+    Returns:
+        bool: ``True`` if the reset succeeded, ``False`` otherwise.
     """
 
     # checks if the user exists in the database
