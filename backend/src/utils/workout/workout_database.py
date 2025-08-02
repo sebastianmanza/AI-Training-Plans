@@ -223,13 +223,17 @@ class workout_database:
             "No matching workout type found for the given coordinates.")
 
     def get_workout_difference(stim: float, rpe: float, dist: float) -> tuple:
-        """Return the difference between the inputted stim, rpe, and dist and the workout type it is associated with"""
-        workout_trio = workout_database.get_workout_type_coordinates(
-            stim, rpe, dist)
+        """Return the difference between the input trio and its matched workout type."""
+        # ``get_workout_type_coordinates`` is an instance method, so create a
+        # temporary database instance to perform the lookup without requiring
+        # callers to manage one.
+        wd = workout_database()
+        workout_trio = wd.get_workout_type_coordinates(stim, rpe, dist)
         return workout_database.create_trio(
-            (stim - workout_trio[TRIO_STIM]),
-            (rpe - workout_trio[TRIO_RPE]),
-            (dist - workout_trio[TRIO_DIST]))
+            stim - workout_trio[TRIO_STIM],
+            rpe - workout_trio[TRIO_RPE],
+            dist - workout_trio[TRIO_DIST],
+        )
 
     def get_distance(trio: tuple, stim: float, rpe: float, dist: float) -> float:
         """Return squared distance between ``trio`` and input coordinates."""

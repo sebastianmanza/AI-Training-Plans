@@ -7,9 +7,21 @@ import secrets
 import datetime
 from backend.src.utils.user_storage.storage_stacks_and_queues import storage_stacks_and_queues
 import backend.src.utils.user_storage.training_database as training_database
-from backend.src.utils.SQLutils.database_connect import init_db
 from backend.src.utils.pace_calculations import get_training_pace_helper, to_str, mile_pace
-from backend.src.utils.SQLutils.config import DB_CREDENTIALS
+
+# Database utilities are optional during testing.  Import them lazily so that
+# the module can be used without a full database stack available.  Tests that
+# exercise database functionality can skip appropriately if these imports are
+# missing.
+try:  # pragma: no cover - simply providing a fallback
+    from backend.src.utils.SQLutils.database_connect import init_db  # type: ignore
+except Exception:  # ImportError, ModuleNotFoundError etc.
+    init_db = None  # type: ignore
+
+try:  # pragma: no cover - configuration may not exist in tests
+    from backend.src.utils.SQLutils.config import DB_CREDENTIALS  # type: ignore
+except Exception:  # pragma: no cover
+    DB_CREDENTIALS = {}  # type: ignore
 
 FIVEKDIST, METERS_PER_MILE = 5000, 1600  # Distance conversions
 CALCNUM = 1.06  # Exponent for pace prediction
@@ -84,9 +96,11 @@ class user:
         # Calculate the new average deviation
         new_deviation = ((info[DEVIATION]*info[DAYS]) +
                          abs(given_RPE-expected_RPE)) / (info[DAYS]+1)
-        self.workout_RPE.update(
-            # Update the information
-            type, (new_mean, (info[DAYS]+1), new_deviation))
+        # ``dict.update`` expects a mapping, so pass a single-key dictionary
+        # rather than separate key/value arguments.
+        self.workout_RPE.update({
+            type: (new_mean, (info[DAYS]+1), new_deviation)
+        })
 
     def get_type_mean_RPE(self, type: str) -> float:
         """Returns the mean RPE for a given workout type"""
@@ -127,7 +141,10 @@ class user:
         return self.user_id
 
     def user_id_exists(user_id: int) -> bool:
-        """" Checks if a user_id exists in the database."""
+        """Checks if a ``user_id`` exists in the database."""
+
+        if init_db is None or not DB_CREDENTIALS:
+            raise RuntimeError("Database utilities are not configured")
 
         conn = init_db(DB_CREDENTIALS["DB_USERNAME"],
                        DB_CREDENTIALS["DB_PASSWORD"])
@@ -155,9 +172,10 @@ class user:
         new_user_id = secrets.randbelow(90000000) + 10000000
 
         # Check if the user ID already exists in the database
-        if (user.user_id_exists(new_user_id)):
-            logger.warning("User ID already exists, generating a new one.")
-            user.generate_new_id()
+        if init_db is not None and DB_CREDENTIALS:
+            if user.user_id_exists(new_user_id):
+                logger.warning("User ID already exists, generating a new one.")
+                user.generate_new_id()
 
         return new_user_id
 
