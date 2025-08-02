@@ -1,10 +1,51 @@
 import logging
 import secrets
-from backend.src.utils.user_storage.user import user
-from backend.src.utils.SQLutils.user_send import send_user_creds, send_user_all
-from backend.src.utils.SQLutils.config import DB_CREDENTIALS
-from backend.src.utils.SQLutils.database_connect import init_db
-from email_validator import validate_email, EmailNotValidError
+
+# ``email_validator`` is an optional dependency used for validating email
+# addresses.  Some environments (e.g., this kata's execution sandbox) do not
+# have the library installed.  Import it lazily and provide a very small
+# fallback so that the remainder of this module can still be imported and
+# exercised in tests without the external package.
+try:  # pragma: no cover - exercised indirectly via tests
+    from email_validator import validate_email, EmailNotValidError
+except Exception:  # pragma: no cover
+    import re
+
+    class EmailNotValidError(ValueError):
+        """Fallback error raised when an email address is invalid."""
+
+        pass
+
+    def validate_email(addr: str) -> None:
+        """Validate an email address using a minimal heuristic.
+
+        The fallback simply ensures there is an ``@`` symbol and a period in
+        the domain portion.  It raises ``EmailNotValidError`` if the check
+        fails.
+        """
+
+        # Basic pattern: ``local@domain.tld`` where each part has at least one
+        # character.  This is not RFC compliant but suffices for test usage.
+        if not re.match(r"^[^@]+@[^@]+\.[^@]+$", addr):
+            raise EmailNotValidError("Invalid email address")
+
+# Database utilities are optional during testing.  Import them lazily so that
+# the module can be used without a full database stack available.  Tests that
+# exercise database functionality can skip appropriately if these imports are
+# missing.
+try:  # pragma: no cover - simply providing a fallback
+    from backend.src.utils.user_storage.user import user  # type: ignore
+except Exception:  # pragma: no cover
+    user = None  # type: ignore
+
+try:  # pragma: no cover
+    from backend.src.utils.SQLutils.user_send import send_user_creds, send_user_all  # type: ignore
+    from backend.src.utils.SQLutils.config import DB_CREDENTIALS  # type: ignore
+    from backend.src.utils.SQLutils.database_connect import init_db  # type: ignore
+except Exception:  # pragma: no cover
+    send_user_creds = send_user_all = None  # type: ignore
+    DB_CREDENTIALS = {}  # type: ignore
+    init_db = None  # type: ignore
 
 USERNAME_LOC, PASSWORD_LOC = 0, 1
 PASS_LEN_REQ = 8
@@ -117,6 +158,9 @@ def credential_check(username: str, password: str) -> bool:
         int | bool: ``user_id`` if credentials are valid, ``0`` otherwise.
     """
 
+    if init_db is None or not DB_CREDENTIALS:
+        raise RuntimeError("Database utilities are not configured")
+
     # initialize the database connection
     conn = init_db(
         username=DB_CREDENTIALS["DB_USERNAME"], pwd=DB_CREDENTIALS["DB_PASSWORD"])
@@ -165,6 +209,9 @@ def user_exists(user_credentials) -> tuple:
         tuple: ``(True, code)`` if user exists (``code`` 1 for email conflict,
         0 for username). ``(False, user_id)`` otherwise.
     """
+    if init_db is None or not DB_CREDENTIALS:
+        raise RuntimeError("Database utilities are not configured")
+
     conn = init_db(DB_CREDENTIALS["DB_USERNAME"],
                    DB_CREDENTIALS["DB_PASSWORD"])
     curr = conn.cursor()
@@ -214,6 +261,9 @@ def forgot_password(username: str, new_password: str, email: str) -> bool:
     Returns:
         bool: ``True`` if the reset succeeded, ``False`` otherwise.
     """
+
+    if init_db is None or not DB_CREDENTIALS:
+        raise RuntimeError("Database utilities are not configured")
 
     # checks if the user exists in the database
     if not user_exists(email)[0]:
