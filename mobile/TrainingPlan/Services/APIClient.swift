@@ -12,7 +12,7 @@ enum APIError: Error {
 /// The client exposes async functions for each API call and uses a single
 /// `URLSession` instance under the hood. The base URL is resolved from an
 /// `APIConfig.plist` file in the application bundle, falling back to the
-/// `API_BASE_URL` environment variable and finally `http://localhost:8000`.
+/// `API_BASE_URL` environment variable and finally a build-specific default.
 final class APIClient {
   static let shared = APIClient()
 
@@ -33,13 +33,21 @@ final class APIClient {
       return urlObj
     }
 
+    #if DEBUG
     return URL(string: "http://localhost:8000")!
+    #else
+    return URL(string: "https://localhost:8000")!
+    #endif
   }()
 
   private let session: URLSession
 
   private init(session: URLSession = .shared) {
     self.session = session
+#if !DEBUG
+    precondition(baseURL.scheme?.lowercased() == "https",
+                 "APIClient requires an HTTPS base URL in release builds.")
+#endif
   }
 
   /// Generic request helper used by the public API methods below.
