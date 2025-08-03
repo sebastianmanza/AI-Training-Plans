@@ -55,7 +55,7 @@ struct PostRunSurvey: View {
         .ignoresSafeArea()
 
         // Foreground content
-        VStack(spacing: 15) {
+        VStack(spacing: 0) {
 
           Text("What was your\nRPE today?")
             .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 40))
@@ -88,7 +88,7 @@ struct PostRunSurvey: View {
             foreground: .black
           )
           .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 0)
-          .padding(.bottom, 50)
+          .padding(.bottom, 30)
         }
       }
     }

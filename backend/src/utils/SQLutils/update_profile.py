@@ -1,8 +1,6 @@
 from backend.src.utils.SQLutils.database_connect import init_db
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.user_creation import validate_address
-import psycopg2
-
 
 def update_user_email(db_username, db_password, user_id, updated_email: str):
     """ this function takes in the updated email inputted by the user and updates it in the SQL database"""
