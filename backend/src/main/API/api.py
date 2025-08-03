@@ -1,9 +1,10 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional, List
 import logging
+from time import time
 
 from backend.src.utils.logging_config import configure_logging
 from backend.src.utils import user_creation
@@ -26,6 +27,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Simple in-memory login attempt tracker to mitigate brute-force attacks.
+LOGIN_ATTEMPTS = {}
+MAX_ATTEMPTS = 5
+BLOCK_TIME = 300  # seconds
 
 
 class SurveyIn(BaseModel):
@@ -256,8 +262,7 @@ async def signup(payload: SignupIn):
     try:
         dict = payload.model_dump()
         bool, userid_or_error_code = user_creation.user_exists(dict)
-        # Hash the password before sending it to the database
-        # dict['password'] = hash(dict['password'])
+        dict['password'] = user_creation.hash_password(dict['password'])
 
         if not bool:
             user_creation.send_user_creds(
@@ -279,7 +284,7 @@ async def signup(payload: SignupIn):
 
 
 @app.post("/auth/login", response_model=AuthOut)
-async def login(payload: LoginIn):
+async def login(payload: LoginIn, request: Request):
     """ login is an endpoint that handles user login.
 
     Args:
@@ -291,17 +296,27 @@ async def login(payload: LoginIn):
     Returns:
         AuthOut: A Pydantic model containing the user ID of the logged-in user.
     """
+    ip = request.client.host if request.client else "unknown"
+    record = LOGIN_ATTEMPTS.get(ip, {"count": 0, "time": time()})
+    if time() - record["time"] > BLOCK_TIME:
+        record = {"count": 0, "time": time()}
+    if record["count"] >= MAX_ATTEMPTS:
+        raise HTTPException(
+            status_code=429,
+            detail="Too many login attempts, try again later.")
+
     try:
         dict = payload.model_dump()
         userid = user_creation.credential_check(
             dict["username"], dict["password"])
         if userid == 0:
-            # Error code 1 indicates invalid credentials
+            record["count"] += 1
+            LOGIN_ATTEMPTS[ip] = record
             return AuthOut(error_code=1)
 
+        LOGIN_ATTEMPTS.pop(ip, None)
         return AuthOut(user_id=userid)
     except Exception as e:
-        # surface errors as HTTP 500
         logger.exception(
             "Unexpected error in /auth/login with payload=%r", payload)
         raise HTTPException(status_code=500, detail=str(e))

@@ -7,3 +7,4 @@ fastapi
 uvicorn
 email-validator
 pytest
+bcrypt

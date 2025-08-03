@@ -188,7 +188,8 @@ def send_user_creds(user_id, username, password, login_info):
         user_id (int): Identifier for the user.
         username (str): Database username used for the connection.
         password (str): Password for ``username``.
-        login_info (dict): Mapping containing ``email``, ``username`` and ``password`` keys.
+        login_info (dict): Mapping containing ``email``, ``username`` and
+            ``password`` keys. The ``password`` value must already be hashed.
 
     Returns:
         None
@@ -207,6 +208,10 @@ def send_user_creds(user_id, username, password, login_info):
         curr.execute(check_query, (user_id,))
         exists = curr.fetchone()
 
+        hashed_password = login_info['password']
+        if isinstance(hashed_password, bytes):
+            hashed_password = hashed_password.decode('utf-8')
+
         if exists:
             update_query = """
                 UPDATE public.user_credentials
@@ -215,7 +220,7 @@ def send_user_creds(user_id, username, password, login_info):
             """
 
             record = (login_info['email'], login_info['username'],
-                      login_info['password'], user_id)
+                      hashed_password, user_id)
             curr.execute(update_query, record)
         else:
             insert_query = """
@@ -223,7 +228,7 @@ def send_user_creds(user_id, username, password, login_info):
                 VALUES (%s, %s, %s, %s);
             """
             record = (
-                user_id, login_info['email'], login_info['username'], login_info['password'])
+                user_id, login_info['email'], login_info['username'], hashed_password)
             curr.execute(insert_query, record)
 
         conn.commit()

@@ -183,9 +183,10 @@ class user:
         if init_db is not None and DB_CREDENTIALS:
             if user.user_id_exists(new_user_id):
                 logger.warning("User ID already exists, generating a new one.")
-                user.generate_new_id()
-            else:
-                return new_user_id
+                return user.generate_new_id()
+            return new_user_id
+
+        return new_user_id
 
     def get_age(self) -> int:
         """Returns the number of years the user has been alive as an int"""
