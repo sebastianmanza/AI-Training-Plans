@@ -117,9 +117,9 @@ async def survey_prelim(payload: SurveyIn):
 
         return result
     except Exception as e:
-        # surface errors as HTTP 500 and log to the log file
+        # surface errors as HTTP 500 and log to the log file without exposing sensitive data
         logger.exception(
-            "Unexpected error in /survey/prelim with payload=%r", payload)
+            "Unexpected error in /survey/prelim for user_id=%s", payload.user_id)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -272,9 +272,9 @@ async def signup(payload: SignupIn):
         # Error code 1 indicates the email exists
 
     except Exception as e:
-        # surface errors as HTTP 500, but log the goddamn errors somewhere
+        # surface errors as HTTP 500, but avoid logging sensitive signup details
         logger.exception(
-            "Unexpected error in /auth/signup with payload=%r", payload)
+            "Unexpected error in /auth/signup for username=%s", payload.username)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -301,9 +301,9 @@ async def login(payload: LoginIn):
 
         return AuthOut(user_id=userid)
     except Exception as e:
-        # surface errors as HTTP 500
+        # surface errors as HTTP 500 while redacting login credentials
         logger.exception(
-            "Unexpected error in /auth/login with payload=%r", payload)
+            "Unexpected error in /auth/login for username=%s", payload.username)
         raise HTTPException(status_code=500, detail=str(e))
 
 

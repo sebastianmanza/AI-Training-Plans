@@ -30,7 +30,7 @@ def init_db(username, pwd):
         else:
             locate = "localhost"
         # Establish connection
-        print(username, pwd, locate)
+        logger.debug("Connecting to database at %s as user %s", locate, username)
         conn = psycopg2.connect(database="userdatabase",
                                 user=username,
                                 host=locate,
