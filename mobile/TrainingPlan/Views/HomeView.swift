@@ -77,7 +77,7 @@ struct HomeView: View {
             )
             .frame(width: geo.size.width * 0.9, height: geo.size.height * 0.12)
           }
-          .onAppear { Task { await vm.load(session: session) } }
+          .onAppear { Task { await vm.load() } }
           .padding(.bottom, 75)
           .ignoresSafeArea()
           .opacity(showPostRunSurvey ? 0 : 1)
