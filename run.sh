@@ -1,4 +1,9 @@
 set -e
+# Set a local SSL: during production we will need to upgrade and get a certificate
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout key.pem -out cert.pem
+export SSL_CERTFILE=/absolute/path/cert.pem
+export SSL_KEYFILE=/absolute/path/key.pem
 
 LOGFILE="$(pwd)/logs/uvicorn.log"
 PORT=${PORT:-8000}
