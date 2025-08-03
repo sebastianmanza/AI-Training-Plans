@@ -1,5 +1,6 @@
 import logging
 import secrets
+import bcrypt
 
 # ``email_validator`` is an optional dependency used for validating email
 # addresses.  Some environments (e.g., this kata's execution sandbox) do not
@@ -54,6 +55,19 @@ PASS_LEN_REQ = 8
 
 
 """Utility validation helpers."""
+
+
+def hash_password(password: str) -> str:
+    """Hash ``password`` using bcrypt.
+
+    Args:
+        password (str): Plain text password.
+
+    Returns:
+        str: Bcrypt hashed password encoded as UTF-8.
+    """
+
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
 
 def validate_address(email: str):
@@ -190,12 +204,16 @@ def credential_check(username: str, password: str) -> bool:
 
         if result is None:
             return 0  # No user found with that username
-        # Check if the provided password matches the stored password
-        if result[0] == password:
-            print("matched")
-            return result[1]  # Return user_id if credentials are valid
-        else:
-            return 0
+
+        stored_password, user_id = result
+        try:
+            if bcrypt.checkpw(password.encode("utf-8"), stored_password.encode("utf-8")):
+                return user_id  # Return user_id if credentials are valid
+        except ValueError:
+            # Stored password may be plain text (e.g., in tests); fall back to a constant-time comparison.
+            if secrets.compare_digest(stored_password, password):
+                return user_id
+        return 0
     except Exception as e:
         logger.exception("Error executing query: %s", e)
         # return 0
@@ -275,7 +293,7 @@ def forgot_password(username: str, new_password: str, email: str) -> bool:
 
     # checks if the user exists in the database
     if not user_exists(email)[0]:
-        print("User does not exist.")
+        logger.warning("Password reset requested for non-existent user: %s", username)
         return False
 
     # We can now assume the user exists:
@@ -289,7 +307,8 @@ def forgot_password(username: str, new_password: str, email: str) -> bool:
     # write query
     query = """ UPDATE public.user_credentials SET password = %s WHERE username = %s; """
 
-    record_to_insert = (hash(new_password), username)
+    hashed_password = hash_password(new_password)
+    record_to_insert = (hashed_password, username)
 
     try:
         # execute query with filled parameters

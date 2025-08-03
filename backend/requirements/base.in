@@ -8,3 +8,4 @@ uvicorn
 email-validator
 pytest
 pyjwt
+bcrypt

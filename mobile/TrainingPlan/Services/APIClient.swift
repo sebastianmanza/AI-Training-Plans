@@ -33,21 +33,15 @@ final class APIClient {
       return urlObj
     }
 
-    #if DEBUG
-    return URL(string: "http://localhost:8000")!
-    #else
     return URL(string: "https://localhost:8000")!
-    #endif
   }()
 
   private let session: URLSession
 
   private init(session: URLSession = .shared) {
     self.session = session
-#if !DEBUG
     precondition(baseURL.scheme?.lowercased() == "https",
-                 "APIClient requires an HTTPS base URL in release builds.")
-#endif
+                 "APIClient requires an HTTPS base URL.")
   }
 
   /// Generic request helper used by the public API methods below.
