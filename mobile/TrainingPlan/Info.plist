@@ -14,13 +14,13 @@
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
-	<key>NSAppTransportSecurity</key>
-	<dict>
+        <key>NSAppTransportSecurity</key>
+        <dict>
         <key>NSAllowsArbitraryLoads</key>
         <true/>
         <key>NSAllowsLocalNetworking</key>
         <true/>
-	</dict>
+        </dict>
 	<key>UIAppFonts</key>
 	<array>
 		<string>MADEOkineSansPERSONALUSE-Black.otf</string>
