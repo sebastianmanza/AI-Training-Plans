@@ -63,6 +63,8 @@ pydantic-core==2.33.2
     # via pydantic
 pygments==2.19.2
     # via pytest
+pyjwt==2.10.1
+    # via -r backend/requirements/base.in
 pyparsing==3.2.3
     # via matplotlib
 pytest==8.4.1

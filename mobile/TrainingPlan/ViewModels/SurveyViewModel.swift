@@ -3,7 +3,6 @@ import Foundation
 @MainActor
 class SurveyViewModel: ObservableObject {
   // MARK: – Form fields
-  @Published var userID: Int = 0
   @Published var dateOfBirth: String = ""  // "YYYY-MM-DD"
   @Published var sex: String = ""  // "Male" / "Female" / …
   @Published var experience: String = ""  // "Beginner" / "Advanced" / …
@@ -28,7 +27,6 @@ class SurveyViewModel: ObservableObject {
 
     // Build the payload matching FastAPI SurveyIn model:
     let survey = SurveyIn(
-      user_id: userID,
       date_of_birth: dateOfBirth,
       sex: sex,
       running_experience: experience,
