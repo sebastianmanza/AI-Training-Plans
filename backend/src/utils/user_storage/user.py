@@ -186,8 +186,6 @@ class user:
                 return user.generate_new_id()
             return new_user_id
 
-        return new_user_id
-
     def get_age(self) -> int:
         """Returns the number of years the user has been alive as an int"""
         today = datetime.date.today()
