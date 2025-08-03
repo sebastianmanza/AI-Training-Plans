@@ -12,14 +12,16 @@ echo "Starting FastAPI backend on port $PORT..."
 
 SSL_CERTFILE=${SSL_CERTFILE:-}
 SSL_KEYFILE=${SSL_KEYFILE:-}
-SSL_ARGS=""
-if [ -n "$SSL_CERTFILE" ] && [ -n "$SSL_KEYFILE" ]; then
-  SSL_ARGS="--ssl-certfile $SSL_CERTFILE --ssl-keyfile $SSL_KEYFILE"
+
+if [ -z "$SSL_CERTFILE" ] || [ -z "$SSL_KEYFILE" ]; then
+  echo "SSL_CERTFILE and SSL_KEYFILE must be set for HTTPS connections." >&2
+  exit 1
 fi
 
 mkdir -p "$(dirname "$LOGFILE")"
 nohup python3 -u -m uvicorn backend.src.main.API.api:app \
-    --reload --host 0.0.0.0 --port "$PORT" $SSL_ARGS \
+    --reload --host 0.0.0.0 --port "$PORT" \
+    --ssl-certfile "$SSL_CERTFILE" --ssl-keyfile "$SSL_KEYFILE" \
     > "$LOGFILE" 2>&1 &
 
 echo "API started (pid $!) and logging to $LOGFILE"
