@@ -14,23 +14,30 @@
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
-        <key>NSAppTransportSecurity</key>
-        <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-        <key>NSExceptionDomains</key>
-        <dict>
-                <key>localhost</key>
-                <dict>
-                        <key>NSExceptionAllowsInsecureHTTPLoads</key>
-                        <true/>
-                        <key>NSIncludesSubdomains</key>
-                        <true/>
-                </dict>
-        </dict>
-        <key>NSAllowsLocalNetworking</key>
-        <true/>
-        </dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+			<key>100.113.243.28</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
 	<key>UIAppFonts</key>
 	<array>
 		<string>MADEOkineSansPERSONALUSE-Black.otf</string>

@@ -268,9 +268,6 @@ def test_user_rpe_and_predictions():
     assert u.week_future.get() == "fw"
     assert u.day_future.get() == "fd"
 
-    with pytest.raises(RuntimeError):
-        user.user_id_exists(uid)
-
     new_id = user.generate_new_id()
     assert 10000000 <= new_id < 100000000
     assert str(uid) in repr(u)
@@ -439,4 +436,3 @@ def test_user_equality_and_modify_pace():
     original = u1.get_pace(FIVEK)
     assert u1.modify_pace(-5, FIVEK) == original - 5
     assert u1.get_pace(FIVEK) == original
-

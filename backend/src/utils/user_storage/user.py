@@ -1,13 +1,13 @@
 # import training
+from backend.src.utils.pace_calculations import get_training_pace_helper, to_str, mile_pace
+import backend.src.utils.user_storage.training_database as training_database
+from backend.src.utils.user_storage.storage_stacks_and_queues import storage_stacks_and_queues
+import datetime
+import secrets
+import math
 import logging
 
 logger = logging.getLogger(__name__)
-import math
-import secrets
-import datetime
-from backend.src.utils.user_storage.storage_stacks_and_queues import storage_stacks_and_queues
-import backend.src.utils.user_storage.training_database as training_database
-from backend.src.utils.pace_calculations import get_training_pace_helper, to_str, mile_pace
 
 # Database utilities are optional during testing.  Import them lazily so that
 # the module can be used without a full database stack available.  Tests that
@@ -184,8 +184,8 @@ class user:
             if user.user_id_exists(new_user_id):
                 logger.warning("User ID already exists, generating a new one.")
                 user.generate_new_id()
-
-        return new_user_id
+            else:
+                return new_user_id
 
     def get_age(self) -> int:
         """Returns the number of years the user has been alive as an int"""

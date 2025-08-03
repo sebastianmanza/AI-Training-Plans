@@ -2,8 +2,8 @@
 
 import psycopg2
 import logging
-from psycopg2.extras import register_composite
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
+import backend.src.utils.SQLutils.config as cfg
 
 logger = logging.getLogger(__name__)
 
@@ -26,10 +26,11 @@ def init_db(username, pwd):
     """
     try:
         if (username != "postgres"):
-            locate = DB_CREDENTIALS["host"]
+            locate = cfg.DB_CREDENTIALS["host"]
         else:
-            locate = 'localhost'
+            locate = "localhost"
         # Establish connection
+        print(username, pwd, locate)
         conn = psycopg2.connect(database="userdatabase",
                                 user=username,
                                 host=locate,
@@ -39,7 +40,7 @@ def init_db(username, pwd):
 
         return conn
     except psycopg2.Error as e:
-        logger.exception("Database connection error")
+        logger.exception("Database connection error,", exc_info=e) # Log the error
         return None
 
 def db_select(curr, query, user_id):
