@@ -125,7 +125,7 @@ async def survey_prelim(payload: SurveyIn):
     except Exception as e:
         # surface errors as HTTP 500 and log to the log file
         logger.exception(
-            "Unexpected error in /survey/prelim with payload=%r", payload)
+            "Unexpected error in /survey/prelim for user_id=%s", payload.user_id)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -318,7 +318,7 @@ async def login(payload: LoginIn, request: Request):
         return AuthOut(user_id=userid)
     except Exception as e:
         logger.exception(
-            "Unexpected error in /auth/login with payload=%r", payload)
+            "Unexpected error in /auth/login for username=%s", payload.username)
         raise HTTPException(status_code=500, detail=str(e))
 
 
