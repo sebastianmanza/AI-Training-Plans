@@ -13,6 +13,7 @@ __pycache__/
 *.build/
 
 *.log
+*.pem
 
 # Ignore local API configuration
 mobile/TrainingPlan/Resources/APIConfig.plist
