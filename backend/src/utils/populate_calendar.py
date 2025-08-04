@@ -94,21 +94,24 @@ def month_name_to_index(month_name):
 
 def month_day_list(month_names, list_of_tuple_days):
     """
-    Attaches days to month list for ease of front end translation.
+    Attaches days to their repective month for ease of front end translation.
+    
+    Returns a list of tuples where each tuple contains the year, month name, and a list of days in that month.
     """
     
     # list of tuples to hold month name and its corresponding days
     month_day_list = []
+    # day counter
+    j = 0
     for i in range(len(month_names)):
         curr_month = month_names[i][0]
         year = month_names[i][1]
         
-        # day counter
-        j = 0
+        # Initialize a temporary list to hold days for the current month
+        temp_lst = []
         # Find the index of the first day that belongs to the current month
-        while month_name_to_index(curr_month) == list_of_tuple_days[i][1].month and j < len(list_of_tuple_days):
-             # Initialize a temporary list to hold days for the current month
-            temp_lst = []
+        while j < len(list_of_tuple_days) and month_name_to_index(curr_month) == list_of_tuple_days[j][1].month:
+            # Initialize a temporary list to hold days for the current month
             temp_lst.append(list_of_tuple_days[j][0])
             j += 1
         
@@ -129,8 +132,8 @@ test_user.month_future = database.month
 month_names = month_list(test_user)
 list_of_tuple_days = fill_day_data(test_user)
 
-
-print(month_names)
+#print(list_of_tuple_days)
+#print(month_names)
 
 print(month_day_list(month_names, list_of_tuple_days))
 
