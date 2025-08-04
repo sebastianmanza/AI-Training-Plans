@@ -1,12 +1,12 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 import logging
-from logging.handlers import RotatingFileHandler
-from typing import List
+from time import time
 
+from backend.src.utils.logging_config import configure_logging
 from backend.src.utils import user_creation
 from backend.src.utils.workout.workout_database import workout_database
 from backend.src.main.API.initial_user_to_sql import main as SurveyMain
@@ -15,22 +15,8 @@ from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.pace_calculations import to_str
 
-handler = RotatingFileHandler(
-    filename="logs/app_errors.log",
-    maxBytes=5 * 1024 * 1024,
-    backupCount=3,
-    encoding="utf-8"
-)
-
-formatter = logging.Formatter(
-    "%(asctime)s %(levelname)s [%(name)s] %(message)s"
-)
-handler.setFormatter(formatter)
-
-root_logger = logging.getLogger()
-root_logger.setLevel(logging.DEBUG)
-root_logger.addHandler(handler)
-
+configure_logging()
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
@@ -41,6 +27,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Simple in-memory login attempt tracker to mitigate brute-force attacks.
+LOGIN_ATTEMPTS = {}
+MAX_ATTEMPTS = 5
+BLOCK_TIME = 300  # seconds
 
 
 class SurveyIn(BaseModel):
@@ -85,8 +76,10 @@ class HomeData(BaseModel):
     upcomingmileage: float  # e.g. 3.5 // next days workout mileage, if applicable
     upcomingtime: str  # e.g. "0:57-0:59" // next days workout time, if applicable
     weeknum: List[int]  # e.g. 1 // the week number of the current week
-    weekmileage: List[float]  # e.g. 30.5 // the total mileage of the current week
-    weekpctcomplete: List[float]  # e.g. 0.5 // the percentage of the current week that is complete
+    # e.g. 30.5 // the total mileage of the current week
+    weekmileage: List[float]
+    # e.g. 0.5 // the percentage of the current week that is complete
+    weekpctcomplete: List[float]
     weekstimuli: List[str]  # Such as "Build" or "Maintain"
 
 
@@ -131,8 +124,8 @@ async def survey_prelim(payload: SurveyIn):
         return result
     except Exception as e:
         # surface errors as HTTP 500 and log to the log file
-        logging.exception(
-            "Unexpected error in /survey/prelim with payload=%r", payload)
+        logger.exception(
+            "Unexpected error in /survey/prelim for user_id=%s", payload.user_id)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -155,7 +148,8 @@ async def post_run_survey(payload: Post_Run_SurveyIn):
         return result
     except Exception as e:
         # surface errors as HTTP 500
-        raise HTTPException(status_cdoe=500, detail=str(e))
+        
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/home/data", response_model=HomeData)
@@ -212,19 +206,19 @@ async def get_home_data(user_id: int = 0):
         # print(upcoming_time)
         pace_str = to_str(pace) + "-" + \
             to_str(pace + 30) if pace != 0 else ""
-            
+
         # Get the weeks
         week_id = []
         weekmileage = []
         weekpctcomplete = []
         week_stimuli = []
-        
-        
+
         for i in range(3):
             current_week = retrieved_user.week_future.queue[i]
             week_id.append(current_week.week_id + 1)
             weekmileage.append(current_week.total_mileage)
-            weekpctcomplete.append(current_week.completed_mileage / current_week.total_mileage if current_week.total_mileage > 0 else 0)
+            weekpctcomplete.append(current_week.completed_mileage /
+                                   current_week.total_mileage if current_week.total_mileage > 0 else 0)
             week_stimuli.append(current_week.cycle)
 
         return HomeData(
@@ -247,7 +241,7 @@ async def get_home_data(user_id: int = 0):
         )
     except Exception as e:
         # surface errors as HTTP 500
-        logging.exception(
+        logger.exception(
             "Unexpected error in /home/data with user_id=%r", user_id)
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -268,8 +262,7 @@ async def signup(payload: SignupIn):
     try:
         dict = payload.model_dump()
         bool, userid_or_error_code = user_creation.user_exists(dict)
-        # Hash the password before sending it to the database
-        # dict['password'] = hash(dict['password'])
+        dict['password'] = user_creation.hash_password(dict['password'])
 
         if not bool:
             user_creation.send_user_creds(
@@ -285,13 +278,13 @@ async def signup(payload: SignupIn):
 
     except Exception as e:
         # surface errors as HTTP 500, but log the goddamn errors somewhere
-        logging.exception(
+        logger.exception(
             "Unexpected error in /auth/signup with payload=%r", payload)
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/auth/login", response_model=AuthOut)
-async def login(payload: LoginIn):
+async def login(payload: LoginIn, request: Request):
     """ login is an endpoint that handles user login.
 
     Args:
@@ -303,19 +296,29 @@ async def login(payload: LoginIn):
     Returns:
         AuthOut: A Pydantic model containing the user ID of the logged-in user.
     """
+    ip = request.client.host if request.client else "unknown"
+    record = LOGIN_ATTEMPTS.get(ip, {"count": 0, "time": time()})
+    if time() - record["time"] > BLOCK_TIME:
+        record = {"count": 0, "time": time()}
+    if record["count"] >= MAX_ATTEMPTS:
+        raise HTTPException(
+            status_code=429,
+            detail="Too many login attempts, try again later.")
+
     try:
         dict = payload.model_dump()
         userid = user_creation.credential_check(
             dict["username"], dict["password"])
         if userid == 0:
-            # Error code 1 indicates invalid credentials
+            record["count"] += 1
+            LOGIN_ATTEMPTS[ip] = record
             return AuthOut(error_code=1)
 
+        LOGIN_ATTEMPTS.pop(ip, None)
         return AuthOut(user_id=userid)
     except Exception as e:
-        # surface errors as HTTP 500
-        logging.exception(
-            "Unexpected error in /auth/login with payload=%r", payload)
+        logger.exception(
+            "Unexpected error in /auth/login for username=%s", payload.username)
         raise HTTPException(status_code=500, detail=str(e))
 
 

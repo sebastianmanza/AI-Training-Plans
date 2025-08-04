@@ -8,6 +8,11 @@ class training_database:
     _instance_ = None
 
     def __new__(cls):
+        """Create or return the singleton instance.
+
+        Returns:
+            training_database: The shared training database instance.
+        """
         if cls._instance_ is None:
             cls._instance_ = super(training_database, cls).__new__(cls)
             # Initialize the instance

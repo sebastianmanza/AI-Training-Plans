@@ -11,6 +11,12 @@ import datetime
 class main:
     
     def sign_up():
+        """Prompt the user for account credentials.
+
+        Returns:
+            list: A list containing the email, username and password
+                entered by the user.
+        """
         
         questions = [
             "Email:",
@@ -27,8 +33,12 @@ class main:
         return answers  
                 
 
-    """This is the main class that will run the preliminary survey for the user and store it in the database."""
     def prelim_survey():
+        """Collect initial demographic and training information.
+
+        Returns:
+            list: Responses to all preliminary survey questions in order.
+        """
         
         
 
@@ -62,7 +72,11 @@ class main:
     # user_send.send_user_info(prelim_survey(), "postgres", "Control1500#")
 
     def daily_post_run_survey():
-        """This is the post run survey that will be used to gather data from the user after each run."""
+        """Gather feedback from the user after a training day.
+
+        Returns:
+            day_plan: A ``day_plan`` instance populated with the survey answers.
+        """
         questions = [
             "How would you rate this running using the RPE metric? (scale of 1-10):",
             "Was your daily mileage within the prescribed range:",
@@ -95,7 +109,11 @@ class main:
         print("Post-run survey completed. Thank you for your feedback!")
 
     def post_week_survey():
-        """This is the post week survey that will be used to gather data from the user after each week."""
+        """Gather feedback from the user after a training week.
+
+        Returns:
+            week_plan: A ``week_plan`` instance populated with the survey answer.
+        """
         questions = [
             "How would you rate this weeks worth of effort using the RPE metric? (scale of 1-10):"
         ]
@@ -113,7 +131,11 @@ class main:
         print("Post-week survey completed. Thank you for your feedback!")
 
     def post_month_survey():
-        """This is the post month survey that will be used to gather data from the user after each month."""
+        """Gather feedback from the user after a training month.
+
+        Returns:
+            month_plan: A ``month_plan`` instance populated with the survey answer.
+        """
         questions = [
             "How would you rate this months worth of effort using the RPE metric? (scale of 1-10):"
         ]

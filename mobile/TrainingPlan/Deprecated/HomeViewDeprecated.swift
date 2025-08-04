@@ -10,8 +10,8 @@ extension Float {
 }
 
 struct HomeView: View {
-    @EnvironmentObject private var session: Session
-    @StateObject private var vm = HomeViewModel()
+  @EnvironmentObject private var session: Session
+  @StateObject private var vm = HomeViewModel()
 
   /* The current options for clickable objects */
   // var onCompleted: () -> Void
@@ -77,7 +77,7 @@ struct HomeView: View {
             showInfo: $showInfoOnQuestionMarkTapped,
             vm: vm,
             onDidNotComplete: onDidNotComplete,
-            onCompleted: {showPostRunSurvey = true},
+            onCompleted: { showPostRunSurvey = true },
             cardWidth: geo.size.width * 0.8,
             cardHeight: geo.size.height * 0.55
           )
@@ -119,7 +119,7 @@ struct HomeView: View {
           alignment: .topLeading
         )
         .opacity(showPostRunSurvey ? 0 : 1)
-        
+
         .overlay(
           ProfileButton(action: onProfileTapped)
             .padding(.top, geo.safeAreaInsets.top + 10),
@@ -131,10 +131,10 @@ struct HomeView: View {
       .ignoresSafeArea()
     }
     .sheet(isPresented: $showPostRunSurvey) {
-        PostRunSurvey(rpeval: $currentRPE)
+      PostRunSurvey(rpeval: $currentRPE)
         .presentationDetents([.fraction(0.6)])
         .presentationDragIndicator(.visible)
         .presentationCornerRadius(40)
-  }
+    }
   }
 }

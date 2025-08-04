@@ -113,7 +113,7 @@ struct SignUpView: View {
                           username: username,
                           password: password)
                         do {
-                          let result = try await APIClient.signup(payload)
+                          let result = try await APIClient.shared.signup(payload)
                           isLoading = false
 
                           if let userId = result.user_id {

@@ -16,6 +16,8 @@ from backend.src.utils.pace_calculations import get_training_pace_helper
 # from backend.src.utils.workout.single_workout import single_workout
 # from backend.src.utils.user_storage import day_plan
 
+logger = logging.getLogger(__name__)
+
 
 class main:
 
@@ -60,13 +62,13 @@ class main:
                 user_id=payload["user_id"]
             )
         except Exception as e:
-            logging.exception("Error unpacking payload: {e}")
+            logger.exception("Error unpacking payload")
             return {
                 "status": "error",
                 "message": str(e)
             }
         # Assuming 5k is the only distance for now
-        try: 
+        try:
             new_user.pace_estimates[FIVEK] = round(predicted_5k / 3.1)
 
             new_user.pace_estimates[THREEK] = new_user.get_training_pace(
@@ -80,11 +82,13 @@ class main:
                 PROGRESSION)
             new_user.pace_estimates[THRESHOLD] = new_user.get_training_pace(
                 THRESHOLD)
-            new_user.pace_estimates[LONGRUN] = new_user.get_training_pace(LONGRUN)
-            new_user.pace_estimates[VO2MAX] = new_user.get_training_pace(VO2MAX)
+            new_user.pace_estimates[LONGRUN] = new_user.get_training_pace(
+                LONGRUN)
+            new_user.pace_estimates[VO2MAX] = new_user.get_training_pace(
+                VO2MAX)
 
         except Exception as e:
-            logging.exception("Error setting pace estimates: {e}")
+            logger.exception("Error setting pace estimates")
             return {
                 "status": "error",
                 "message": str(e)
@@ -96,16 +100,23 @@ class main:
 
         try:
             # database = decision_tree.get_decision_tree(new_user)
-            database = txt_to_database("backend/data/raw/training_plan_test.txt")
+            database = txt_to_database(
+                "backend/data/raw/training_plan_test.txt")
             new_user.day_future = database.day
             new_user.week_future = database.week
             new_user.month_future = database.month
 
-            user_send.send_user_all(
+            success = user_send.send_user_all(
                 new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
+            if not success:
+                logger.error("Failed to persist user data for user_id=%s", new_user.user_id)
+                return {
+                    "status": "error",
+                    "message": "Failed to store user data"
+                }
 
         except Exception as e:
-            logging.exception("Error generating decision tree: {e}")
+            logger.exception("Error generating decision tree")
             return {
                 "status": "error",
                 "message": str(e)
@@ -140,11 +151,11 @@ class main:
 #             current_user.workout_RPE.workout_type.append(workout_rpe)
 #         if(completion == False):
 #             current_user.current_day.completed_mileage = mileage
-#             current_user.percent_completion = completion_score(expected_reps=wd.get_individual_workout(current_day.workouts[0]), 
+#             current_user.percent_completion = completion_score(expected_reps=wd.get_individual_workout(current_day.workouts[0]),
 #                                                                observed_reps=reps, expected_pace=wd.get_individual_workout(current_day.workouts[0]).get_pace()[0],
 #                                                                observed_pace= pace)
 #         user_send.send_user_all(user_id, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-      
+
 # user_test = user(dob="2004-06-27",
 #                      sex="male",
 #                      running_ex="advanced",

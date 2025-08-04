@@ -9,7 +9,7 @@ class storage_stacks_and_queues:
                  "month_future", "week_future", "day_future")
 
     def __init__(self):
-        # Initialize the storage class
+        """Create empty stacks and queues for plan history and future."""
         # stacks
         self.month_history = deque()
         self.week_history = deque()

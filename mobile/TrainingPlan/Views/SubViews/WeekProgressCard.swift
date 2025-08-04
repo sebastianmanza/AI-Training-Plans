@@ -5,27 +5,43 @@ struct WeekProgressPager: View {
   @State private var selectedIndex: Int = 0
 
   var body: some View {
+    if let data = vm.homeData {
       TabView(selection: $selectedIndex) {
-          if let data = vm.homeData {
-              ForEach(0..<data.weeknum.count, id: \.self) { idx in
-                  WeekProgressCard(
-                    textMainColor: Color.headertext,
-                    textAccentColor: Color.bodytext,
-                    accentColor: Color.accent,
-                    index: idx,
-                    vm: vm
-                  )
-                  .tag(idx)
-              }
-          }
-          else {
-              ProgressView()
-                  .foregroundColor(.white)
-                  .tag(0) // Default tag for the loading state
-          }
+        ForEach(0..<data.weeknum.count, id: \.self) { idx in
+          WeekProgressCard(
+            textMainColor: Color.headertext,
+            textAccentColor: Color.bodytext,
+            accentColor: Color.accent,
+            index: idx,
+            vm: vm
+          )
+          .tag(idx)
+        }
       }
-    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
-    
+      .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+      .overlay(
+        PageIndicatorStyle(
+          selectedIndex: $selectedIndex,
+          selectedColor: .accent,
+          unselectedColor: .headertext,
+          dotSize: 10,
+          numDots: 3,
+          dotSpacing: 10
+        )
+        .padding(.bottom, 5),
+        alignment: .bottom
+      )
+    } else {
+      WeekProgressCard(
+        textMainColor: Color.headertext,
+        textAccentColor: Color.bodytext,
+        accentColor: Color.accent,
+        index: 0,
+        vm: vm
+      )
+      .tag(0)
+    }
+
   }
 }
 

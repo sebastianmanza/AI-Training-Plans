@@ -1,266 +1,201 @@
-from collections import namedtuple
 import logging
-from psycopg2.extras import register_composite
+from psycopg2.extras import register_composite, execute_batch
 from backend.src.utils.user_storage.storage_stacks_and_queues import *
 from backend.src.utils.user_storage.day_plan import *
 from backend.src.utils.user_storage.week_plan import *
 from backend.src.utils.user_storage.month_plan import *
 from backend.src.utils.SQLutils.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.database_connect import init_db
-from backend.src.utils.user_storage.user import user
 from backend.src.utils.SQLutils.database_connect import db_insert, db_update
 from queue import Empty
 import json
 
-
-# Sends user information to the database.
-def send_user_info(new_user, username, password):
-
-    try:
-        conn = init_db(username, password)
-        curr = conn.cursor()
-
-        # Check if user already exists
-        check_query = """SELECT 1 FROM public.userlistai WHERE user_id = %s;"""
-        curr.execute(check_query, (new_user.user_id,))
-        exists = curr.fetchone()
-
-        # convert workout_RPE dictionary to JSON to allow SQL to handle data properly
-        workout_RPE_JSON = json.dumps(new_user.workout_RPE)
-
-        if exists:
-            # Update existing user
-            db_update(
-                username, password,
-                new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury,
-                new_user.most_recent_injury, new_user.longest_run, new_user.goal_date,
-                new_user.pace_estimates, new_user.available_days, new_user.number_of_days, workout_RPE_JSON
-            )
-        else:
-            # Insert new user
-            db_insert(
-                username, password,
-                new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury,
-                new_user.most_recent_injury, new_user.longest_run, new_user.goal_date,
-                new_user.pace_estimates, new_user.available_days, new_user.number_of_days, workout_RPE_JSON
-            )
-
-        conn.commit()
-
-    except Exception as e:
-        logging.exception("Failed to insert user_info for user_id=%s", new_user.user_id)
-        # logging.error("Database operation failed:", e)
-
-    finally:
-        curr.close()
-        conn.close()
+logger = logging.getLogger(__name__)
 
 
-# populate past month cycle user infomation within SQL database
-def send_month_history(new_user, username, password):
+def send_user_info(new_user, curr):
+    """Insert or update the primary user record.
 
-    conn = init_db(username, password)
-    # open cursor to perform sql queries
-    curr = conn.cursor()
+    Args:
+        new_user (user): User object containing information to store.
+        curr (cursor): Active database cursor.
 
-    while new_user.month_history:
+    Returns:
+        bool: ``True`` if the record was written successfully, ``False`` otherwise.
+    """
 
-        pres = new_user.month_history.pop()
+    # Check if user already exists
+    check_query = """SELECT 1 FROM public.userlistai WHERE user_id = %s;"""
+    curr.execute(check_query, (new_user.user_id,))
+    exists = curr.fetchone()
 
-        # write query
-        query = """ INSERT INTO public.month_cycle(
-            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
-            complete_score, month_id, past_month, complete_mileage)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """
-        # fill query with appropriate user ID
+    # convert workout_RPE dictionary to JSON to allow SQL to handle data properly
+    workout_RPE_JSON = json.dumps(new_user.workout_RPE)
 
-        record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli,
-                            pres.cycle, pres.expected_rpe, pres.real_rpe,
-                            pres.percent_completion, pres.month_id, True,
-                            pres.completed_mileage)
+    if exists:
+        # Update existing user
+        return db_update(
+            curr,
+            new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury,
+            new_user.most_recent_injury, new_user.longest_run, new_user.goal_date,
+            new_user.pace_estimates, new_user.available_days, new_user.number_of_days, workout_RPE_JSON
+        )
+    # Insert new user
+    return db_insert(
+        curr,
+        new_user.user_id, new_user.dob, new_user.sex, new_user.running_ex, new_user.injury,
+        new_user.most_recent_injury, new_user.longest_run, new_user.goal_date,
+        new_user.pace_estimates, new_user.available_days, new_user.number_of_days, workout_RPE_JSON
+    )
 
-        # execute query with filled parameters
-        curr.execute(query, record_to_insert)
-        conn.commit()
+def send_month_cycle(new_user, curr):
+    """Insert month plans for ``new_user``.
 
-    # close cursor
-    curr.close()
-    # close connection
-    conn.close()
+    Args:
+        new_user (user): User instance whose ``month_history`` and ``month_future`` contain
+            month plans to send.
+        curr (cursor): Active database cursor.
 
-
-# populate future month cycle user infomation within SQL database
-def send_month_future(new_user, username, password):
-
-    conn = init_db(username, password)
-    # open cursor to perform sql queries
-    curr = conn.cursor()
-
-            # write query
-    query = """ INSERT INTO public.month_cycle(
-            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
-            complete_score, month_id, past_month, complete_mileage)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """
-    while new_user.month_future:
-
-        if (new_user.month_future.qsize() == 0):
-            #print("Queue is now empty")
-            break
-
-        fut = new_user.month_future.get()
-
-        record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli,
-                            fut.cycle, fut.expected_rpe, fut.real_rpe,
-                            fut.percent_completion, fut.month_id, False,
-                            fut.completed_mileage)
-
-        # execute query with filled parameters
-        curr.execute(query, record_to_insert)
-        # make changes in database persistent
-        conn.commit()
-
-    # close cursor
-    curr.close()
-    # close connection
-    conn.close()
-    #print("Connection closed. Script complete.")
-
-
-# populate past week cycle user infomation within SQL database
-def send_week_cycle(new_user, username, password):
-
-    conn = init_db(username, password)
-    # open cursor to perform sql queries
-    curr = conn.cursor()
+    Returns:
+        None
+    """
     
+    query = """ INSERT INTO public.month_cycle(
+            user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe,
+            complete_score, month_id, past_month, complete_mileage)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """
+    to_send = []
+
+    # Load the month history and future from the user's data structure
+    while new_user.month_history:
+        month = new_user.month_history.pop()
+        to_send.append((
+            new_user.user_id, month.total_mileage, month.goal_stimuli,
+            month.cycle, month.expected_rpe, month.real_rpe,
+            month.percent_completion, month.month_id,
+            True, month.completed_mileage
+        ))
+        
+    while not new_user.month_future.empty():
+        month = new_user.month_future.get()
+        
+        to_send.append((
+            new_user.user_id, month.total_mileage, month.goal_stimuli,
+            month.cycle, month.expected_rpe, month.real_rpe,
+            month.percent_completion, month.month_id,
+            False, month.completed_mileage
+        ))
+
+    if to_send:
+        execute_batch(curr, query, to_send, page_size=100)
+        
+
+def send_week_cycle(new_user, curr):
+    """Insert week plans for ``new_user``.
+
+    Args:
+        new_user (user): User instance containing week plan history and future queues.
+        curr (cursor): Active database cursor.
+
+    Returns:
+        None
+    """
+
     query = """ INSERT INTO public.week_cycle(
             user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe, 
             complete_score, week_id, past_week, complete_mileage, month_id)
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
-
+    
+    to_send = []
+    
+    # Load the week history and future from the user's data structure        
     while new_user.week_history:
-
-        pres = new_user.week_history.pop()
-
-        # 
-        # fill query with appropriate user ID
-
+        week = new_user.week_history.pop()
+        to_send.append((
+            new_user.user_id, week.total_mileage, week.goal_stimuli,
+            week.cycle, week.expected_rpe, week.real_rpe,
+            week.percent_completion, week.week_id,
+            True, week.completed_mileage, week.month_id
+        ))
         
-        record_to_insert = (new_user.user_id, pres.total_mileage, pres.goal_stimuli,
-                            pres.cycle, pres.expected_rpe, pres.real_rpe,
-                            pres.percent_completion, pres.week_id, True,
-                            pres.completed_mileage, pres.month_id)
+    while not new_user.week_future.empty():
+        week = new_user.week_future.get()
+        to_send.append((
+            new_user.user_id, week.total_mileage, week.goal_stimuli,
+            week.cycle, week.expected_rpe, week.real_rpe,
+            week.percent_completion, week.week_id,
+            False, week.completed_mileage, week.month_id
+        ))
 
-        # execute query with filled parameters
-        curr.execute(query, record_to_insert)
-        # make changes in database persistent
-        conn.commit()
-
-    while new_user.week_future:
-
-        if (new_user.week_future.qsize() == 0):
-            #print("Queue is now empty")
-            break
-
-        fut = new_user.week_future.get()
-
-        record_to_insert = (new_user.user_id, fut.total_mileage, fut.goal_stimuli,
-                            fut.cycle, fut.expected_rpe, fut.real_rpe,
-                            fut.percent_completion, fut.week_id, False,
-                            fut.completed_mileage, fut.month_id)
-
-        # execute query with filled parameters
-        curr.execute(query, record_to_insert)
-        # make changes in database persistent
-        conn.commit()
-
-    # close cursor
-    curr.close()
-    # close connection
-    conn.close()
+    if to_send:
+        execute_batch(curr, query, to_send, page_size=100)    
 
 
 # populate day cycle user infomation within SQL database
-def send_day_cycle(new_user, username, password):
+def send_day_cycle(new_user, curr, TrioType):
+    """Persist day plans for ``new_user``.
 
-    conn = init_db(username, password)
-    caster = register_composite('trio', conn, globally=True)
+    Args:
+        new_user (user): User instance containing ``day_history`` and ``day_future`` stacks.
+        curr (cursor): Active database cursor.
+        TrioType (type): Registered composite representing a trio.
 
-    # register_composite('trio', conn)  # No errors = good
+    Returns:
+        None
+    """
 
-    # open cursor to perform sql queries
-    curr = conn.cursor()
-    
     query = """ INSERT INTO public.day_cycle(
         user_id, day_id, total_mileage, goal_stimuli, lift, expected_rpe, real_rpe, 
         complete_score, past_day, complete_mileage, week_id, workouts)
         VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s::trio[]); """
-
+        
+        
+    to_send = []
+    
+    # Load the day history and future from the user's data structure
+    # Note: The day_history and day_future are expected to be stacks/queues
+    # that contain day_plan objects with the necessary attributes.
     while new_user.day_history:
+        day = new_user.day_history.pop()
+        workouts = cast_workouts_to_trios(day.workouts, TrioType)
+        to_send.append((
+            new_user.user_id, day.day_id, day.total_mileage, day.goal_stimuli,
+            day.lift, day.expected_rpe, day.real_rpe,
+            day.percent_completion, True,
+            day.completed_mileage, day.week_id, workouts
+        ))
 
-        pres = new_user.day_history.pop()
+    while not new_user.day_future.empty():
+        day = new_user.day_future.get()
 
-        # cast workouts to trio type
-        #TrioType = register_composite('trio', conn, globally=True).type
-        TrioType = caster.type
-        workouts = cast_workouts_to_trios(pres.workouts, TrioType)
+        workouts = cast_workouts_to_trios(day.workouts, TrioType)
 
-        # fill query with appropriate user ID
+        to_send.append((
+            new_user.user_id, day.day_id, day.total_mileage, day.goal_stimuli,
+            day.lift, day.expected_rpe, day.real_rpe,
+            day.percent_completion, False, day.completed_mileage,
+            day.week_id, workouts
+        ))
 
-        # 1 is a placeholder (too lazy to change shit)
-        record_to_insert = (new_user.user_id, pres.day_id, pres.total_mileage, pres.goal_stimuli,
-
-                            pres.lift, pres.expected_rpe, pres.real_rpe,
-                            pres.percent_completion, True,
-                            pres.completed_mileage, pres.week_id, workouts)
-
-        # execute query with filled parameters
-        curr.execute(query, record_to_insert)
-        # make changes in database persistent
-        conn.commit()
-
-    while new_user.day_future:
-
-        if (new_user.day_future.qsize() == 0):
-            # print("Queue is now empty")
-            break
-
-        fut = new_user.day_future.get()
-
-        # cast workouts to trio type
-        #TrioType = register_composite('trio', conn, globally=True).type
-        TrioType = caster.type
-        workouts = cast_workouts_to_trios(fut.workouts, TrioType)
-
-        record_to_insert = (new_user.user_id, fut.day_id, fut.total_mileage, fut.goal_stimuli,
-                            fut.lift, fut.expected_rpe, fut.real_rpe,
-                            fut.percent_completion, False, fut.completed_mileage,
-                            fut.week_id, workouts)
-
-        # execute query with filled parameters
-        curr.execute(query, record_to_insert)
-        # make changes in database persistent
-        conn.commit()
-
-    # close cursor
-    curr.close()
-    # close connection
-    conn.close()
+    if to_send:
+        execute_batch(curr, query, to_send, page_size=100)
 
 
 def send_user_creds(user_id, username, password, login_info):
-    """
-    Sends user credentials to the database. If the user already exists, 
-    updates their credentials; otherwise, inserts a new record.
+    """Insert or update the user's login credentials.
 
     Args:
-        user_id (int): The unique identifier for the user.
-        username (str): The username of the user.
-        password (str): The password of the user.
-        login_info (dict): A dictionary containing 'email', 'username', and 'password' keys.
+        user_id (int): Identifier for the user.
+        username (str): Database username used for the connection.
+        password (str): Password for ``username``.
+        login_info (dict): Mapping containing ``email``, ``username`` and
+            ``password`` keys. The ``password`` value must already be hashed.
+
+    Returns:
+        None
 
     Raises:
-        Exception: If there is an error during the database operation.
+        Exception: If any database operation fails.
     """
 
     conn = init_db(username, password)
@@ -273,6 +208,10 @@ def send_user_creds(user_id, username, password, login_info):
         curr.execute(check_query, (user_id,))
         exists = curr.fetchone()
 
+        hashed_password = login_info['password']
+        if isinstance(hashed_password, bytes):
+            hashed_password = hashed_password.decode('utf-8')
+
         if exists:
             update_query = """
                 UPDATE public.user_credentials
@@ -281,7 +220,7 @@ def send_user_creds(user_id, username, password, login_info):
             """
 
             record = (login_info['email'], login_info['username'],
-                      login_info['password'], user_id)
+                      hashed_password, user_id)
             curr.execute(update_query, record)
         else:
             insert_query = """
@@ -289,143 +228,74 @@ def send_user_creds(user_id, username, password, login_info):
                 VALUES (%s, %s, %s, %s);
             """
             record = (
-                user_id, login_info['email'], login_info['username'], login_info['password'])
+                user_id, login_info['email'], login_info['username'], hashed_password)
             curr.execute(insert_query, record)
 
         conn.commit()
 
-    except Exception as e:
-        logging.exception(
+    except Exception:
+        conn.rollback()
+        logger.exception(
             "Failed to insert credentials for user_id=%s", user_id)
-        #print("Database error:", e)
 
     finally:
         curr.close()
         conn.close()
 
 
-def send_user_all(user_id, username, password):
+def send_user_all(user, username, password):
+    """Persist all structures associated with ``user``.
 
-    try: 
-        send_user_info(user_id, username, password)
+    Args:
+        user (user): User instance whose data is being stored.
+        username (str): Database username.
+        password (str): Database password.
+
+    Returns:
+        bool: ``True`` on success, ``False`` if any step fails.
+    """
+    try:
+        conn = init_db(username, password)
+        curr = conn.cursor()
+
+        caster = register_composite('trio', conn, globally=True)
+        TrioType = caster.type
+
+        if not send_user_info(user, curr):
+            conn.rollback()
+            logger.error("Failed to persist user record for user_id=%s", user.user_id)
+            return False
 
         # send_user_creds(user_id, username, password, login_info)
 
-        send_month_history(user_id, username, password)
+        send_month_cycle(user, curr)
 
-        send_month_future(user_id, username, password)
+        send_week_cycle(user, curr)
 
-        send_week_cycle(user_id, username, password)
+        send_day_cycle(user, curr, TrioType)
 
-        send_day_cycle(user_id, username, password)
-    except Exception as e:
-        logging.error("Failed to send all user data for user_id=%s", user_id)
+        conn.commit()
+        return True
+    except Exception:
+        conn.rollback()
+        logger.exception("Failed to send all user data for user_id=%s", user.user_id)
+        return False
+    finally:
+        if curr:
+            curr.close()
+        if conn:
+            conn.close()
 
-
-# Trio = namedtuple('Trio', ['x', 'y', 'z'])
 
 def cast_workouts_to_trios(workouts, TrioType):
+    """Convert raw workout tuples to ``Trio`` composites.
 
+    Args:
+        workouts (list): List of ``(stim, rpe, dist)`` tuples.
+        TrioType (type): Registered composite representing a trio.
+
+    Returns:
+        list: List of ``TrioType`` objects.
+    """
     return [TrioType(*triplet) for triplet in workouts]
-
-
-def testing_cycle(username, password):
-
-    conn = init_db(username, password)
-    cursor = conn.cursor()
-    TrioType = register_composite(
-        'trio', conn, globally=True).type  # No errors = good
-
-    raw_workouts = [(1.0, 2.0, 3.0), (4.0, 5.0, 6.0), (7.0, 8.0, 9.0)]
-    # Minimal, valid trio array
-    casted_workouts = cast_workouts_to_trios(raw_workouts, TrioType)
-
-    cursor.execute(
-        "INSERT INTO day_cycle (user_id, workouts) VALUES (%s, %s::trio[])",
-        (999, casted_workouts)
-    )
-    conn.commit()
-    
-    
-
-
-# # testing
-# storage = storage_stacks_and_queues()
-
-# new_user = user(19, "male", "advanced", "17:45", 3, 5, 7)
-
-
-# send_user_info(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-
-# #  user_id, total_mileage, goal_stimuli, cycle, expected_rpe, real_rpe,
-# complete_score, month_id, past_month, complete_mileage
-
-# #testing month population
-# month_one = month_plan.month_plan(100, 1, 2, 10, 3, 99, 99, 10)
-# month_two =  month_plan.month_plan(100, 1, 2, 10, 3, 99, 99, 10)
-# month_three =  month_plan.month_plan(100, 1, 2, 11, 4, 99, 99, 10)
-# month_four =  month_plan.month_plan(100, 1, 2, 11, 4, 99, 99, 10)
-# new_user.append_month(month_one)
-# new_user.append_month(month_two)
-# new_user.append_fut_month(month_two)
-# new_user.append_fut_month(month_three)
-# send_month_history(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-# send_month_future(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-# testing week population
-'''
-week_one = week_plan.week_plan(100, 1, 2, 10, 3, 99, 99, 10)
-week_two = week_plan.week_plan(100, 1, 2, 10, 3, 99, 99, 10)
-week_three = week_plan.week_plan(100, 1, 2, 11, 4, 99, 99, 10)
-
-new_user.append_week(week_one)
-new_user.append_week(week_two)  
-
-new_user.append_fut_week(week_two)
-new_user.append_fut_week(week_three)
-
-send_week_cycle(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-'''
-# testing day population
-
-
-# new_user = user(dob="2004-06-27",
-#                      sex="male",
-#                      running_ex="advanced",
-#                      injury=0,
-#                      most_recent_injury=-1,
-#                      longest_run=11,
-#                      goal_date="2026-01-01",
-#                      available_days=[1, 1, 0, 1, 1, 2, 1],
-#                      number_of_days=7
-#                      )
-
-# database = workout_database()
-
-
-#list_of_workouts = [(1, 3, 4), (4, 5, 6)]
-
-# #day_one = day_plan(list_of_workouts, 1, False, 10, 3, 99, 99, 10)
-# #day_two = day_plan(list_of_workouts, 1, False, 10, 3, 99, 99, 10)
-# day_three = day_plan.day_plan(list_of_workouts, 10, False, 5, 100, 6, 50, 100, 15, 5)
-
-# #new_user.append_day(day_one)
-# new_user.append_day(day_three)
-
-# # new_user.append_fut_day(day_two)
-# # new_user.append_fut_day(day_three)
-
-# send_day_cycle(new_user, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-
-# testing_cycle(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-
-
-# print(type(new_user.month_history), len(new_user.month_history))
-# print("Queue before sending:", new_user.month_future.qsize())
-# print(new_user.month_future.get())
-
-
-    
-    
-# test_query(DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"])
-
 

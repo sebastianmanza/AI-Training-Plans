@@ -9,7 +9,7 @@ struct LoadingView: View {
         .resizable()
         .scaledToFill()
         .edgesIgnoringSafeArea(.all)
-      VStack (spacing: -5) {
+      VStack(spacing: -5) {
         Spacer()
         Image("Logo")
           .resizable()
@@ -17,7 +17,7 @@ struct LoadingView: View {
           .frame(width: 80, height: 80)
           .padding(.bottom, 20)
           .shimmer(
-            duration: 1.5,
+            duration: 1,
             highlight: .white.opacity(1.0),
             background: .gray.opacity(0.6))
 
@@ -26,7 +26,7 @@ struct LoadingView: View {
           .foregroundColor(.white)
           .padding(.bottom, 20)
           .shimmer(
-            duration: 1.5,
+            duration: 1,
             highlight: .white.opacity(1.0),
             background: .gray.opacity(0.6))
 
