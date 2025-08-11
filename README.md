@@ -7,7 +7,10 @@ The iOS client expects a `mobile/TrainingPlan/Resources/APIConfig.plist` file
 containing an `API_BASE_URL` key pointing at your backend server. Copy the
 provided `APIConfig.plist.example` to `APIConfig.plist` and edit the URL to
 match your environment. The value can also be overridden with the
-`API_BASE_URL` environment variable at runtime.
+`API_BASE_URL` environment variable at runtime. When testing from a physical
+device, use your machine's LAN IP (for example,
+`http://192.168.1.10:8000`) rather than `http://localhost:8000` so both devices
+can reach the server.
 
 ## Backend Database Configuration
 

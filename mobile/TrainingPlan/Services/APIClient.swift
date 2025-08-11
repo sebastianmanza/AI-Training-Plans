@@ -10,14 +10,19 @@ enum APIError: Error {
 /// `APIClient` centralizes all network communication with the backend.
 ///
 /// The client exposes async functions for each API call and uses a single
-/// `URLSession` instance under the hood. The base URL is resolved from an
-/// `APIConfig.plist` file in the application bundle, falling back to the
-/// `API_BASE_URL` environment variable and finally a build-specific default.
+/// `URLSession` instance under the hood. The base URL is resolved from the
+/// `API_BASE_URL` environment variable or, if unset, an `APIConfig.plist`
+/// file in the application bundle.
 final class APIClient {
   static let shared = APIClient()
 
-  /// Resolve the base URL from a configuration file or environment variable.
+  /// Resolve the base URL from an environment variable or configuration file.
   private let baseURL: URL = {
+    if let env = ProcessInfo.processInfo.environment["API_BASE_URL"],
+       let urlObj = URL(string: env) {
+      return urlObj
+    }
+
     if
       let url = Bundle.main.url(forResource: "APIConfig", withExtension: "plist"),
       let data = try? Data(contentsOf: url),
@@ -28,20 +33,27 @@ final class APIClient {
       return urlObj
     }
 
-    if let env = ProcessInfo.processInfo.environment["API_BASE_URL"],
-       let urlObj = URL(string: env) {
-      return urlObj
-    }
-
-    return URL(string: "https://localhost:8000")!
+    preconditionFailure("API_BASE_URL not configured. Set API_BASE_URL env var or provide APIConfig.plist")
   }()
 
   private let session: URLSession
 
   private init(session: URLSession = .shared) {
     self.session = session
-    precondition(baseURL.scheme?.lowercased() == "https",
-                 "APIClient requires an HTTPS base URL.")
+
+    #if DEBUG
+    let isDebug = true
+    #else
+    let isDebug = false
+    #endif
+
+    let allowHTTPEnv = ProcessInfo.processInfo.environment["API_ALLOW_HTTP"]
+    let allowHTTP = allowHTTPEnv != nil &&
+      allowHTTPEnv!.lowercased() != "false" &&
+      allowHTTPEnv != "0"
+
+    precondition(baseURL.scheme?.lowercased() == "https" || isDebug || allowHTTP,
+                 "APIClient requires an HTTPS base URL. Set API_ALLOW_HTTP=1 to allow HTTP.")
   }
 
   /// Generic request helper used by the public API methods below.
