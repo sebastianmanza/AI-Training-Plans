@@ -29,7 +29,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 def create_access_token(user_id: int, expires_delta: timedelta | None = None) -> str:
     to_encode = {"user_id": user_id}
-    expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+    expire = datetime.now() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
@@ -324,7 +324,7 @@ async def signup(payload: SignupIn, response: Response):
                 key="token",
                 value=token,
                 httponly=True,
-                secure=True,
+                #secure=True, ## Uncomment this in production
                 samesite="strict",
                 max_age=int(access_token_expires.total_seconds()),
             )
@@ -380,7 +380,7 @@ async def login(payload: LoginIn, request: Request, response: Response):
             key="token",
             value=token,
             httponly=True,
-            secure=True,
+            #secure=True,
             samesite="strict",
             max_age=int(access_token_expires.total_seconds()),
         )
