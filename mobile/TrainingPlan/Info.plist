@@ -18,8 +18,18 @@
         <dict>
                 <key>NSAllowsLocalNetworking</key>
                 <true/>
+                <key>NSExceptionDomains</key>
+                <dict>
+                        <key>100.113.243.28</key>
+                        <dict>
+                                <key>NSIncludesSubdomains</key>
+                                <true/>
+                                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                                <true/>
+                        </dict>
+                </dict>
         </dict>
-	<key>UIAppFonts</key>
+        <key>UIAppFonts</key>
 	<array>
 		<string>MADEOkineSansPERSONALUSE-Black.otf</string>
 		<string>MADEOkineSansPERSONALUSE-Medium.otf</string>
