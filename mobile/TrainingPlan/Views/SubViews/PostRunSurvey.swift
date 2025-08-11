@@ -93,4 +93,74 @@ struct PostRunSurvey: View {
       }
     }
   }
+
+  struct CompletionBoolView: View {
+    var onFullCompletion: () -> Void
+    var onIncompletion: () -> Void
+
+    var body: some View {
+
+      ZStack {
+        // Background gradient
+        LinearGradient(
+          gradient: Gradient(colors: [
+            Color.accent,
+            Color(red: 217 / 255, green: 217 / 255, blue: 217 / 255),
+            Color(red: 217 / 255, green: 217 / 255, blue: 217 / 255),
+          ]),
+          startPoint: .top,
+          endPoint: .bottom
+        )
+        .ignoresSafeArea()
+
+        // Foreground content
+        VStack(spacing: 0) {
+          Text ("Did you fully\ncomplete the\nactivity?")
+            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 40))
+            .foregroundColor(.black)
+            .multilineTextAlignment(.leading)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 50)
+            .padding(.top, 50)
+          
+          HStack(spacing : 20) {
+            Button(action: {
+              // Handle "No" action
+              onNext()
+            }) {
+              Text(SystemImage(systemName: "xmark"))
+                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 24))
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.accent)
+                .cornerRadius(10)
+            }
+
+            Button(action: {
+              // Handle "Yes" action
+              onFullCompletion()
+            }) {
+              Text(SystemImage(systemName: "checkmark"))
+                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 24))
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.accent)
+                .cornerRadius(10)
+            }
+          
+          }
+          Spacer()
+          HStack(spacing: 40) {
+            //back button
+            SurveyNextButton(
+              action: onIncompletion, color: Color.accent,
+              foreground: .black
+            )
+
+          }
+        }
+
+      }
+    }
+  }
 }
