@@ -126,27 +126,30 @@ struct PostRunSurvey: View {
           HStack(spacing : 20) {
             Button(action: {
               // Handle "No" action
-              onNext()
+              onFullCompletion()
             }) {
-              Text(SystemImage(systemName: "xmark"))
+              Image(systemName: "xmark")
                 .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 24))
                 .foregroundColor(.white)
                 .padding()
-                .background(Color.accent)
-                .cornerRadius(10)
             }
+            .background(Color.accent)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .frame(width: 50, height: 50)
+          
 
             Button(action: {
               // Handle "Yes" action
               onFullCompletion()
             }) {
-              Text(SystemImage(systemName: "checkmark"))
+              Image(systemName: "checkmark")
                 .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 24))
                 .foregroundColor(.white)
                 .padding()
-                .background(Color.accent)
-                .cornerRadius(10)
             }
+            .background(Color.accent)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .frame(width: 50, height: 50)
           
           }
           Spacer()
