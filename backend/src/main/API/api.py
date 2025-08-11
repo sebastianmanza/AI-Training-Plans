@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional, List
 import logging
+import os
 from time import time
 
 from backend.src.utils.logging_config import configure_logging
@@ -15,7 +16,9 @@ from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.pace_calculations import to_str
 
-configure_logging()
+log_level_str = os.getenv("LOG_LEVEL", "DEBUG").upper()
+log_level = getattr(logging, log_level_str, logging.DEBUG)
+configure_logging(level=log_level)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
