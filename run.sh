@@ -1,13 +1,13 @@
 set -e
 
-export SSL_CERTFILE=cert.pem
-export SSL_KEYFILE=key.pem
+export SSL_CERTFILE=certifications/endorphin.crt
+export SSL_KEYFILE=certifications/endorphin.key
 
 LOGFILE="$(pwd)/logs/uvicorn.log"
 PORT=${PORT:-8000}
 
 # Terminate any process using the target port
-lsof -tiTCP:$PORT -sTCP:LISTEN | xargs kill -9 2>/dev/null || true
+lsof -tiTCP:$PORT -sTCP:LISTEN | xargs kill -9 || true
 
 sleep 0.2
 
