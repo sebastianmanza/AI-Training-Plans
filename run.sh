@@ -3,7 +3,8 @@ set -e
 USE_SSL=1
 while [ $# -gt 0 ]; do
   case "$1" in
-    -test|--http)
+    -test | --http)
+      echo "Running in test mode..."
       USE_SSL=0
       shift
       ;;
@@ -48,6 +49,7 @@ else
   nohup python3 -u -m uvicorn backend.src.main.API.api:app \
       --reload --host 0.0.0.0 --port "$PORT" \
       > "$LOGFILE" 2>&1 &
+  echo "!!! WARNING: INSECURE !!!"
 fi
 
 echo "API started (pid $!) and logging to $LOGFILE"

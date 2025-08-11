@@ -37,11 +37,9 @@ struct WeekProgressPager: View {
         textAccentColor: Color.bodytext,
         accentColor: Color.accent,
         index: 0,
-        vm: vm
-      )
+        vm: vm)
       .tag(0)
     }
-
   }
 }
 
