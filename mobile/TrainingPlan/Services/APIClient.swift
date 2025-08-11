@@ -101,16 +101,9 @@ final class APIClient {
     }
   }
 
-  /// Retrieves the Home page data for the given session.
-  func fetchHomeData(session: Session) async throws -> HomeData {
-    guard let userID = session.userID else {
-      throw APIError.http(-1, Data("No userID in session".utf8))
-    }
-
-    let data = try await sendRequest(
-      "home/data",
-      queryItems: [URLQueryItem(name: "user_id", value: String(userID))]
-    )
+  /// Retrieves the Home page data for the authenticated user.
+  func fetchHomeData() async throws -> HomeData {
+    let data = try await sendRequest("home/data")
     return try JSONDecoder().decode(HomeData.self, from: data)
   }
 
