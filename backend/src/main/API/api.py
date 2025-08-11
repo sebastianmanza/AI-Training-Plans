@@ -34,6 +34,30 @@ MAX_ATTEMPTS = 5
 BLOCK_TIME = 300  # seconds
 
 
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    """Log basic request and response information for debugging.
+
+    The middleware logs the HTTP method, path and client information for
+    incoming requests as well as the response status code and the time taken
+    to process the request. This provides additional visibility when
+    diagnosing issues such as malformed or unexpected requests.
+    """
+    start_time = time()
+    logger.info("%s %s from %s", request.method, request.url.path, request.client.host)
+    response = await call_next(request)
+    duration = (time() - start_time) * 1000
+    logger.info("Completed %s %s with %d in %.2fms", request.method, request.url.path, response.status_code, duration)
+    return response
+
+
+@app.get("/")
+async def root(request: Request):
+    """Simple health-check endpoint for the API root."""
+    logger.info("Health check from %s", request.client.host)
+    return {"message": "AI Training Plans API is running"}
+
+
 class SurveyIn(BaseModel):
     """SurveyIn is a Pydantic model that represents the input for the preliminary survey.
     """
