@@ -58,12 +58,12 @@ class month_plan:
         """Update the real RPE for the month based on the expected and real RPE values."""
         self.real_rpe = average_property(self.weeks, 'real_rpe')
 
-        def update_monthly_mileage(self) -> None:
-            """Update the monthly completion based on the weekly completion."""
-            self.completed_mileage = average_property(
-                self.weeks, 'completed_mileage')
-            # Update the percentage after updating completed mileage
-            self.update_monthly_percent()
+    def update_monthly_mileage(self) -> None:
+        """Update the monthly completion based on the weekly completion."""
+        self.completed_mileage = average_property(
+            self.weeks, 'completed_mileage')
+        # Update the percentage after updating completed mileage
+        self.update_monthly_percent()
 
     def update_monthly_percent(self) -> None:
         """Update the monthly completion percentage based on the total and completed mileage."""
