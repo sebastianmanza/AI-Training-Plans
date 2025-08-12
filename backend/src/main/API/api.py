@@ -15,7 +15,7 @@ from backend.src.utils.logging_config import configure_logging
 from backend.src.utils import user_creation
 from backend.src.utils.workout.workout_database import workout_database
 from backend.src.main.API.initial_user_to_sql import main as SurveyMain
-from backend.src.utils.SQLutils.config import DB_CREDENTIALS
+from backend.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.pace_calculations import to_str
