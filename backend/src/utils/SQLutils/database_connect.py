@@ -2,8 +2,8 @@
 
 import psycopg2
 import logging
-from backend.src.utils.SQLutils.config import DB_CREDENTIALS
-import backend.src.utils.SQLutils.config as cfg
+from backend.config import DB_CREDENTIALS
+import backend.config as cfg
 
 logger = logging.getLogger(__name__)
 
