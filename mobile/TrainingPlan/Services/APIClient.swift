@@ -58,11 +58,19 @@ final class APIClient {
   }
 
   /// Generic request helper used by the public API methods below.
+  ///
+  /// - Parameters:
+  ///   - path: Endpoint path relative to the base URL.
+  ///   - method: HTTP method for the request.
+  ///   - body: Optional HTTP body data.
+  ///   - queryItems: Optional query items.
+  ///   - authorized: If `true`, an `Authorization` header is added using the stored access token.
   private func sendRequest(
     _ path: String,
     method: String = "GET",
     body: Data? = nil,
-    queryItems: [URLQueryItem] = []
+    queryItems: [URLQueryItem] = [],
+    authorized: Bool = true
   ) async throws -> Data {
     var components = URLComponents(url: baseURL.appendingPathComponent(path), resolvingAgainstBaseURL: false)
     components?.queryItems = queryItems.isEmpty ? nil : queryItems
@@ -75,7 +83,7 @@ final class APIClient {
       req.setValue("application/json", forHTTPHeaderField: "Content-Type")
       req.httpBody = body
     }
-    if let token = KeychainService.get("access_token") {
+    if authorized, let token = KeychainService.get("access_token") {
       req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     }
 
@@ -115,7 +123,8 @@ final class APIClient {
     let data = try await sendRequest(
       "auth/signup",
       method: "POST",
-      body: try JSONEncoder().encode(payload)
+      body: try JSONEncoder().encode(payload),
+      authorized: false
     )
     return try JSONDecoder().decode(AuthOut.self, from: data)
   }
@@ -124,7 +133,8 @@ final class APIClient {
     let data = try await sendRequest(
       "auth/login",
       method: "POST",
-      body: try JSONEncoder().encode(payload)
+      body: try JSONEncoder().encode(payload),
+      authorized: false
     )
     let auth = try JSONDecoder().decode(AuthOut.self, from: data)
     if let access = auth.access_token { KeychainService.set(access, for: "access_token") }
@@ -140,7 +150,8 @@ final class APIClient {
     let data = try await sendRequest(
       "auth/refresh",
       method: "POST",
-      body: try JSONEncoder().encode(payload)
+      body: try JSONEncoder().encode(payload),
+      authorized: false
     )
     let auth = try JSONDecoder().decode(AuthOut.self, from: data)
     if let access = auth.access_token { KeychainService.set(access, for: "access_token") }
