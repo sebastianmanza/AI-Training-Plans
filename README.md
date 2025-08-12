@@ -13,14 +13,14 @@ If you're getting started with the project for the first time, follow these step
    pip install -r backend/requirements/base.txt
    ```
 
-2. **Create required config files**
+2. **Create environment files**
 
    ```bash
+   cp .env.example .env
    cp mobile/TrainingPlan/Resources/APIConfig.plist.example mobile/TrainingPlan/Resources/APIConfig.plist
-   cp backend/src/utils/SQLutils/config.py.example backend/src/utils/SQLutils/config.py
    ```
 
-   Edit the copied files to match your environment (see sections below for details).
+   Update `.env` and `APIConfig.plist` to match your environment (see sections below for details).
 
 3. **Run the backend**
 
@@ -48,8 +48,7 @@ can reach the server.
 
 ## Backend Database Configuration
 
-The backend expects a `backend/src/utils/SQLutils/config.py` file defining a
-`DB_CREDENTIALS` dictionary with the database connection details. Copy the
-provided `config.py.example` to `config.py` and fill in your `DB_USERNAME`,
-`DB_PASSWORD`, and database `host` values so the application can connect to
-your PostgreSQL instance.
+Database credentials are loaded from environment variables defined in the
+project's `.env` file. The `backend/src/utils/SQLutils/config.py` module uses
+`pydantic` to read `DB_USERNAME`, `DB_PASSWORD`, and `DB_HOST` values and makes
+them available through the `DB_CREDENTIALS` dictionary.
