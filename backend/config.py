@@ -1,11 +1,11 @@
 """Load application settings from environment variables."""
 
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     """Application settings loaded from a `.env` file or environment variables."""
 
-    api_key: str | None = None
+    secret_key: str | None = None
     db_username: str = ""
     db_password: str = ""
     db_host: str = "localhost"
