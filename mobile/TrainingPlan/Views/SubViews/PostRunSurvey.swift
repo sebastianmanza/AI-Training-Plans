@@ -65,7 +65,7 @@ struct PostRunSurvey: View {
         VStack(spacing: 0) {
 
           Text("What was your\nRPE today?")
-            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 40))
+            .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 40))
             .foregroundColor(.black)
             .multilineTextAlignment(.leading)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -124,7 +124,7 @@ struct PostRunSurvey: View {
         // Foreground content
         VStack(spacing: 0) {
           Text("Did you fully\ncomplete the\nactivity?")
-            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 40))
+            .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 40))
             .foregroundColor(.black)
             .multilineTextAlignment(.leading)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -133,38 +133,40 @@ struct PostRunSurvey: View {
 
           Spacer()
 
-          HStack(spacing: 60) {
+          HStack(spacing: 40) {
             Button(action: {
               completed = false
             }) {
               Image(systemName: "xmark")
-                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 30))
+                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 35))
                 .foregroundColor(.white)
-                .padding()
+                .frame(width: 80, height: 80)
             }
-            .background(Color.accent)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .background(
+              RoundedRectangle(cornerRadius: 20)
+                .fill(Color.accent))
             .overlay(
-              RoundedRectangle(cornerRadius: 10)
+              RoundedRectangle(cornerRadius: 20)
                 .stroke(completed == false ? Color.white : Color.clear, lineWidth: 2)
             )
-            .frame(width: 100, height: 100)
+            .contentShape(RoundedRectangle(cornerRadius: 20))
 
             Button(action: {
               // Handle "Yes" action
               completed = true
             }) {
               Image(systemName: "checkmark")
-                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 30))
+                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 35))
                 .foregroundColor(.white)
-                .padding()
+                .frame(width: 80, height: 80)
             }
-            .background(Color.accent)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .background(
+              RoundedRectangle(cornerRadius: 20)
+                .fill(Color.accent))
             .overlay(
-              RoundedRectangle(cornerRadius: 10)
+              RoundedRectangle(cornerRadius: 20)
                 .stroke(completed == true ? Color.white : Color.clear, lineWidth: 2))
-            .frame(width: 100, height: 100)
+            .contentShape(RoundedRectangle(cornerRadius: 20))
 
           }
           Spacer()
@@ -186,6 +188,4 @@ struct PostRunSurvey: View {
       }
     }
   }
-
-  struct 
 }
