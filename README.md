@@ -25,9 +25,11 @@ If you're getting started with the project for the first time, follow these step
 3. **Run the backend**
 
    ```bash
-   ./run.sh           # uses HTTPS
-   ./run.sh --http    # run without SSL for local testing
+   ./run.sh -production   # HTTPS with minimal logging
+   ./run.sh -test         # HTTP, auto-reload, debug logging
    ```
+
+   Omitting the flag defaults to production mode.
 
 4. **Verify the setup** (optional)
 
