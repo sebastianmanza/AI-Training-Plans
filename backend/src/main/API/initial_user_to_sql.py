@@ -7,7 +7,7 @@ from backend.src.utils.SQLutils import user_send
 from backend.src.utils.user_storage.storage_stacks_and_queues import *
 from backend.src.utils.user_storage.user import user
 # from backend.scripts.txt_to_database import txt_to_database
-from backend.src.utils.SQLutils.config import DB_CREDENTIALS
+from backend.config import DB_CREDENTIALS
 from backend.src.utils.user_storage.user import THREEK, FIVEK, TENK, RECOVERY, EASY, TEMPO, PROGRESSION, THRESHOLD, LONGRUN, VO2MAX
 from backend.src.utils.pace_calculations import get_training_pace_helper
 # from backend.src.utils.decision_tree import decision_tree
