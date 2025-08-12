@@ -21,6 +21,6 @@ DB_CREDENTIALS = {
     "host": settings.db_host,
 }
 
-API_KEY = settings.api_key
+SECRET_KEY = settings.secret_key
 
-__all__ = ["DB_CREDENTIALS", "API_KEY", "settings"]
+__all__ = ["DB_CREDENTIALS", "SECRET_KEY", "settings"]
