@@ -6,6 +6,7 @@ import datetime
 import secrets
 import math
 import logging
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -172,19 +173,28 @@ class user:
             curr.close()
             conn.close()
 
-    def generate_new_id() -> int:
-        """ Generates a new user ID for the user.
-        This function generates a new user ID that is not already in use by checking the database."""
+    def generate_new_id() -> Optional[int]:
+        """Generate a new user ID or ``None`` if uniqueness can't be verified."""
 
-        # Generate a new user ID
         new_user_id = secrets.randbelow(90000000) + 10000000
 
-        # Check if the user ID already exists in the database
-        if init_db is not None and DB_CREDENTIALS:
+        if init_db is None or not DB_CREDENTIALS:
+            logger.warning(
+                "Database utilities unavailable; cannot ensure unique user ID.")
+            return None
+
+        try:
             if user.user_id_exists(new_user_id):
                 logger.warning("User ID already exists, generating a new one.")
                 return user.generate_new_id()
-            return new_user_id
+        except Exception as exc:  # RuntimeError or database errors
+            logger.warning(
+                "Could not verify user ID uniqueness; refusing to generate ID: %s",
+                exc,
+            )
+            return None
+
+        return new_user_id
 
     def get_age(self) -> int:
         """Returns the number of years the user has been alive as an int"""
