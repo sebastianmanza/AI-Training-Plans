@@ -15,7 +15,7 @@ from backend.src.utils.logging_config import configure_logging
 from backend.src.utils import user_creation
 from backend.src.utils.workout.workout_database import workout_database
 from backend.src.main.API.initial_user_to_sql import main as SurveyMain
-from backend.config import DB_CREDENTIALS
+from backend.config import DB_CREDENTIALS, SECRET_KEY
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.pace_calculations import to_str
@@ -27,7 +27,14 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 if not SECRET_KEY:
     raise RuntimeError("SECRET_KEY environment variable not set")
 ALGORITHM = "HS256"
@@ -46,7 +53,11 @@ def create_access_token(user_id: int, expires_delta: timedelta | None = None) ->
     to_encode = {"user_id": user_id}
     expire = datetime.now() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    token = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    logger.debug(
+        "Created access token for user_id=%s exp=%s", user_id, expire.isoformat()
+    )
+    return token
 
 
 def create_refresh_token(user_id: int) -> str:
@@ -58,6 +69,12 @@ def create_refresh_token(user_id: int) -> str:
         REFRESH_TOKENS.pop(old, None)
     REFRESH_TOKENS[hashed] = {"user_id": user_id, "expires": expire}
     USER_REFRESH_TOKENS[user_id] = hashed
+    logger.debug(
+        "Issued refresh token for user_id=%s exp=%s hash=%s",
+        user_id,
+        expire.isoformat(),
+        hashed[:8],
+    )
     return token
 
 
@@ -70,6 +87,9 @@ def rotate_refresh_token(token: str) -> tuple[int, str]:
     REFRESH_TOKENS.pop(hashed, None)
     USER_REFRESH_TOKENS.pop(user_id, None)
     new_token = create_refresh_token(user_id)
+    logger.debug(
+        "Rotated refresh token for user_id=%s old_hash=%s", user_id, hashed[:8]
+    )
     return user_id, new_token
 
 
@@ -79,6 +99,7 @@ def verify_token(token: str) -> int:
         user_id = payload.get("user_id")
         if user_id is None:
             raise HTTPException(status_code=401, detail="Invalid token")
+        logger.debug("Verified access token for user_id=%s", user_id)
         return int(user_id)
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
@@ -108,7 +129,26 @@ async def log_requests(request: Request, call_next):
     production logs when the log level exceeds ``DEBUG``.
     """
     start_time = time()
-    logger.debug("%s %s from %s", request.method, request.url.path, request.client.host)
+    if logger.isEnabledFor(logging.DEBUG):
+        headers = {
+            k: v for k, v in request.headers.items()
+            if k.lower() not in {"authorization", "cookie"}
+        }
+        query = {
+            k: ("***" if "token" in k.lower() or "key" in k.lower() else v)
+            for k, v in request.query_params.items()
+        }
+        logger.debug(
+            "%s %s from %s query=%s headers=%s",
+            request.method,
+            str(request.url),
+            request.client.host,
+            query,
+            headers,
+        )
+    else:
+        logger.debug("%s %s from %s", request.method, request.url.path, request.client.host)
+
     response = await call_next(request)
     duration = (time() - start_time) * 1000
     logger.debug(
@@ -369,6 +409,9 @@ async def signup(payload: SignupIn):
         AuthOut: An authorization output model containing the user ID if the signup is successful, or an error code if the username/email already exists.
     """
     try:
+        logger.debug(
+            "Signup attempt for username=%s email=%s", payload.username, payload.email
+        )
         dict = payload.model_dump()
         bool, userid_or_error_code = user_creation.user_exists(dict)
         dict['password'] = user_creation.hash_password(dict['password'])
@@ -376,17 +419,24 @@ async def signup(payload: SignupIn):
         if not bool:
             user_creation.send_user_creds(
                 userid_or_error_code, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], dict)
+            logger.debug("User created with user_id=%s", userid_or_error_code)
             return AuthOut(user_id=userid_or_error_code)
 
         else:
+            logger.debug(
+                "Signup rejected for username=%s error_code=%s",
+                payload.username,
+                userid_or_error_code,
+            )
             return AuthOut(error_code=userid_or_error_code)
         # Error code 0 indicates the username exists
         # Error code 1 indicates the email exists
 
     except Exception as e:
-        # surface errors as HTTP 500, but log the goddamn errors somewhere
+        # surface errors as HTTP 500, but log the errors somewhere
         logger.exception(
-            "Unexpected error in /auth/signup with payload=%r", payload)
+            "Unexpected error in /auth/signup with payload=%r", payload
+        )
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -404,6 +454,9 @@ async def login(payload: LoginIn, request: Request):
         AuthOut: A Pydantic model containing the user ID of the logged-in user.
     """
     ip = request.client.host if request.client else "unknown"
+    logger.debug(
+        "Login attempt for username=%s from %s", payload.username, ip
+    )
     record = LOGIN_ATTEMPTS.get(ip, {"count": 0, "time": time()})
     if time() - record["time"] > BLOCK_TIME:
         record = {"count": 0, "time": time()}
@@ -419,12 +472,16 @@ async def login(payload: LoginIn, request: Request):
         if userid == 0:
             record["count"] += 1
             LOGIN_ATTEMPTS[ip] = record
+            logger.warning(
+                "Failed login for username=%s from %s", payload.username, ip
+            )
             return AuthOut(error_code=1)
 
         LOGIN_ATTEMPTS.pop(ip, None)
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(userid, access_token_expires)
         refresh_token = create_refresh_token(userid)
+        logger.debug("User %s logged in", payload.username)
         return AuthOut(user_id=userid, access_token=access_token, refresh_token=refresh_token)
     except Exception as e:
         logger.exception(
