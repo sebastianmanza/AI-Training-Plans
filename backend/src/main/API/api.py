@@ -1,6 +1,6 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from fastapi import FastAPI, HTTPException, Request, Depends, Cookie, Header
+from fastapi import FastAPI, HTTPException, Request, Depends, Cookie, Header, Response
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 from typing import Optional, List
@@ -442,7 +442,7 @@ async def signup(payload: SignupIn):
 
 
 @app.post("/auth/login", response_model=AuthOut)
-async def login(payload: LoginIn, request: Request):
+async def login(payload: LoginIn, request: Request, response: Response):
     """ login is an endpoint that handles user login.
 
     Args:
@@ -482,8 +482,26 @@ async def login(payload: LoginIn, request: Request):
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(userid, access_token_expires)
         refresh_token = create_refresh_token(userid)
+        response.set_cookie(
+            key="token",
+            value=access_token,
+            httponly=True,
+            max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+            samesite="lax",
+        )
+        response.set_cookie(
+            key="refresh_token",
+            value=refresh_token,
+            httponly=True,
+            max_age=REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60,
+            samesite="lax",
+        )
         logger.debug("User %s logged in", payload.username)
-        return AuthOut(user_id=userid, access_token=access_token, refresh_token=refresh_token)
+        return AuthOut(
+            user_id=userid,
+            access_token=access_token,
+            refresh_token=refresh_token,
+        )
     except Exception as e:
         logger.exception(
             "Unexpected error in /auth/login for username=%s", payload.username)
@@ -491,12 +509,38 @@ async def login(payload: LoginIn, request: Request):
 
 
 @app.post("/auth/refresh", response_model=AuthOut)
-async def refresh(payload: RefreshIn):
+async def refresh(
+    payload: RefreshIn | None = None,
+    refresh_token_cookie: str | None = Cookie(None),
+    response: Response,
+):
     """Refresh the access token using a rotating refresh token."""
     try:
-        user_id, new_refresh = rotate_refresh_token(payload.refresh_token)
+        token = (
+            payload.refresh_token if payload and payload.refresh_token else refresh_token_cookie
+        )
+        if not token:
+            raise HTTPException(status_code=401, detail="Missing refresh token")
+        user_id, new_refresh = rotate_refresh_token(token)
         access_token = create_access_token(user_id)
-        return AuthOut(user_id=user_id, access_token=access_token, refresh_token=new_refresh)
+        if response is not None:
+            response.set_cookie(
+                key="token",
+                value=access_token,
+                httponly=True,
+                max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+                samesite="lax",
+            )
+            response.set_cookie(
+                key="refresh_token",
+                value=new_refresh,
+                httponly=True,
+                max_age=REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60,
+                samesite="lax",
+            )
+        return AuthOut(
+            user_id=user_id, access_token=access_token, refresh_token=new_refresh
+        )
     except HTTPException:
         raise
     except Exception as e:
