@@ -4,7 +4,7 @@ from backend.src.utils.SQLutils.database_connect import init_db, db_select  # pr
 from backend.src.utils.SQLutils.user_retrieve import convert_trio_types_to_tuples, populate_user_info  # pragma: no cover
 from backend.src.utils.SQLutils.user_send import cast_workouts_to_trios, send_user_all, send_user_creds  # pragma: no cover
 from backend.src.utils.user_storage.user import user  # pragma: no cover
-from backend.src.utils.SQLutils.config import DB_CREDENTIALS  # pragma: no cover
+from backend.config import DB_CREDENTIALS  # pragma: no cover
 from psycopg2.extras import register_composite  # pragma: no cover
 from datetime import datetime
 import queue
