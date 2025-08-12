@@ -7,6 +7,7 @@ from typing import Optional, List
 import logging
 import os
 import jwt
+import pytz
 from time import time
 from secrets import token_urlsafe
 import hashlib
@@ -30,7 +31,6 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -52,7 +52,7 @@ USER_REFRESH_TOKENS: dict[int, str] = {}
 
 def create_access_token(user_id: int, expires_delta: timedelta | None = None) -> str:
     to_encode = {"user_id": user_id}
-    expire = datetime.now() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+    expire = datetime.now(pytz.utc) + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     to_encode.update({"exp": expire})
     token = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     logger.debug(
@@ -63,7 +63,7 @@ def create_access_token(user_id: int, expires_delta: timedelta | None = None) ->
 
 def create_refresh_token(user_id: int) -> str:
     token = token_urlsafe(32)
-    expire = datetime.now() + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
+    expire = datetime.now(pytz.utc) + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
     hashed = _hash_token(token)
     old = USER_REFRESH_TOKENS.get(user_id)
     if old:
@@ -82,7 +82,7 @@ def create_refresh_token(user_id: int) -> str:
 def rotate_refresh_token(token: str) -> tuple[int, str]:
     hashed = _hash_token(token)
     data = REFRESH_TOKENS.get(hashed)
-    if not data or data["expires"] < datetime.now():
+    if not data or data["expires"] < datetime.now(pytz.utc):
         raise HTTPException(status_code=401, detail="Invalid refresh token")
     user_id = data["user_id"]
     REFRESH_TOKENS.pop(hashed, None)
@@ -102,13 +102,21 @@ def verify_token(token: str) -> int:
             raise HTTPException(status_code=401, detail="Invalid token")
         logger.debug("Verified access token for user_id=%s", user_id)
         return int(user_id)
-    except jwt.PyJWTError:
+    except jwt.PyJWTError as e:
+        logger.warning(
+            "JWT verification failed: %s: %s",
+            e.__class__.__name__,
+            str(e),
+        )
         raise HTTPException(status_code=401, detail="Invalid token")
 
 
 async def get_current_user(token: str | None = Cookie(None)) -> int:
+    
     if not token:
+        logger.debug("Authentication token missing from cookies")
         raise HTTPException(status_code=401, detail="Missing authentication token")
+    # logger.debug("Authentication token received: %s", token[:8] + "...")
     return verify_token(token)
 
 
@@ -129,19 +137,25 @@ async def log_requests(request: Request, call_next):
     if logger.isEnabledFor(logging.DEBUG):
         headers = {
             k: v for k, v in request.headers.items()
-            if k.lower() not in {"authorization", "cookie"}
+            if k.lower() != "authorization"
         }
         query = {
             k: ("***" if "token" in k.lower() or "key" in k.lower() else v)
             for k, v in request.query_params.items()
         }
+        
+        cookies = {
+            k: (v[:8] + "..." if "token" in k.lower() else v)
+            for k, v in request.cookies.items()
+        }
         logger.debug(
-            "%s %s from %s query=%s headers=%s",
+            "%s %s from %s query=%s headers=%s  cookies=%s",
             request.method,
             str(request.url),
             request.client.host,
             query,
             headers,
+            cookies,
         )
     else:
         logger.debug("%s %s from %s", request.method, request.url.path, request.client.host)

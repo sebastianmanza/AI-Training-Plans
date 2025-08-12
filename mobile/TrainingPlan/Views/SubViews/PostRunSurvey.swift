@@ -17,22 +17,23 @@ struct PostRunSurvey: View {
 
   var body: some View {
     VStack {
-        switch currentStep {
-        case .rpe:
-            RPEView(
-                onNext: {
-                    currentStep = .rpe
-                },
-                rpeval: $rpeval)
-        case .completionbool:
-            CompletionBoolView(
-                onNext: {
-                    currentStep = .completionbool},
-                onBack: {
-                    currentStep = .rpe
-                },
-                completed: $completed
-            )
+      switch currentStep {
+      case .rpe:
+        RPEView(
+          onNext: {
+            currentStep = .completionbool
+          },
+          rpeval: $rpeval)
+      case .completionbool:
+        CompletionBoolView(
+          onNext: {
+            currentStep = .completionbool
+          },
+          onBack: {
+            currentStep = .rpe
+          },
+          completed: $completed
+        )
       //      case .completionquestions:
       //     CompletionQuestionsView(onNext: {
       //       // Handle completion of the survey
@@ -122,58 +123,69 @@ struct PostRunSurvey: View {
 
         // Foreground content
         VStack(spacing: 0) {
-          Text ("Did you fully\ncomplete the\nactivity?")
+          Text("Did you fully\ncomplete the\nactivity?")
             .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 40))
             .foregroundColor(.black)
             .multilineTextAlignment(.leading)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, 50)
             .padding(.top, 50)
-          
-          HStack(spacing : 20) {
+
+          Spacer()
+
+          HStack(spacing: 60) {
             Button(action: {
               completed = false
             }) {
               Image(systemName: "xmark")
-                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 24))
+                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 30))
                 .foregroundColor(.white)
                 .padding()
             }
             .background(Color.accent)
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .frame(width: 50, height: 50)
-          
+            .overlay(
+              RoundedRectangle(cornerRadius: 10)
+                .stroke(completed == false ? Color.white : Color.clear, lineWidth: 2)
+            )
+            .frame(width: 100, height: 100)
 
             Button(action: {
               // Handle "Yes" action
               completed = true
             }) {
               Image(systemName: "checkmark")
-                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 24))
+                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 30))
                 .foregroundColor(.white)
                 .padding()
             }
             .background(Color.accent)
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .frame(width: 50, height: 50)
-          
+            .overlay(
+              RoundedRectangle(cornerRadius: 10)
+                .stroke(completed == true ? Color.white : Color.clear, lineWidth: 2))
+            .frame(width: 100, height: 100)
+
           }
           Spacer()
           HStack(spacing: 40) {
             //back button
             SurveyNextButton(
-              action: onBack, color: Color.accent,
-              foreground: .black
+              action: onBack, color: .black,
+              foreground: Color.accent
             )
+            .rotationEffect(.degrees(180))
+
             SurveyNextButton(
               action: onNext, color: Color.accent,
               foreground: .black
             )
-
           }
+          .padding(.bottom, 30)
         }
-
       }
     }
   }
+
+  struct 
 }
