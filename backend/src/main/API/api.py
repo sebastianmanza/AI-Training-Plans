@@ -1,6 +1,6 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from fastapi import FastAPI, HTTPException, Request, Depends, Cookie, Response, Header
+from fastapi import FastAPI, HTTPException, Request, Depends, Cookie, Header
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 from typing import Optional, List
@@ -8,6 +8,8 @@ import logging
 import os
 import jwt
 from time import time
+from secrets import token_urlsafe
+import hashlib
 
 from backend.src.utils.logging_config import configure_logging
 from backend.src.utils import user_creation
@@ -30,12 +32,45 @@ if not SECRET_KEY:
     raise RuntimeError("SECRET_KEY environment variable not set")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
+REFRESH_TOKEN_EXPIRE_DAYS = 30
+
+
+def _hash_token(token: str) -> str:
+    return hashlib.sha256(token.encode()).hexdigest()
+
+
+REFRESH_TOKENS: dict[str, dict] = {}
+USER_REFRESH_TOKENS: dict[int, str] = {}
 
 def create_access_token(user_id: int, expires_delta: timedelta | None = None) -> str:
     to_encode = {"user_id": user_id}
     expire = datetime.now() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
+
+def create_refresh_token(user_id: int) -> str:
+    token = token_urlsafe(32)
+    expire = datetime.now() + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
+    hashed = _hash_token(token)
+    old = USER_REFRESH_TOKENS.get(user_id)
+    if old:
+        REFRESH_TOKENS.pop(old, None)
+    REFRESH_TOKENS[hashed] = {"user_id": user_id, "expires": expire}
+    USER_REFRESH_TOKENS[user_id] = hashed
+    return token
+
+
+def rotate_refresh_token(token: str) -> tuple[int, str]:
+    hashed = _hash_token(token)
+    data = REFRESH_TOKENS.get(hashed)
+    if not data or data["expires"] < datetime.now():
+        raise HTTPException(status_code=401, detail="Invalid refresh token")
+    user_id = data["user_id"]
+    REFRESH_TOKENS.pop(hashed, None)
+    USER_REFRESH_TOKENS.pop(user_id, None)
+    new_token = create_refresh_token(user_id)
+    return user_id, new_token
 
 
 def verify_token(token: str) -> int:
@@ -163,11 +198,19 @@ class LoginIn(BaseModel):
     password: str
 
 
+class RefreshIn(BaseModel):
+    """RefreshIn represents the input for token refresh.
+    """
+    refresh_token: str
+
+
 class AuthOut(BaseModel):
     """AuthOut is a Pydantic model that represents the output for user authentication (login and signup)
     """
     user_id: Optional[int] = None
     error_code: Optional[int] = None
+    access_token: Optional[str] = None
+    refresh_token: Optional[str] = None
 
 
 @app.post("/survey/prelim")
@@ -313,7 +356,7 @@ async def get_home_data(current_user: int = Depends(get_current_user)):
 
 
 @app.post("/auth/signup", response_model=AuthOut)
-async def signup(payload: SignupIn, response: Response):
+async def signup(payload: SignupIn):
     """ signup is an endpoint that handles user signup.
 
     Args:
@@ -333,16 +376,6 @@ async def signup(payload: SignupIn, response: Response):
         if not bool:
             user_creation.send_user_creds(
                 userid_or_error_code, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], dict)
-            access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-            token = create_access_token(userid_or_error_code, access_token_expires)
-            response.set_cookie(
-                key="token",
-                value=token,
-                httponly=True,
-                #secure=True, ## Uncomment this in production
-                samesite="strict",
-                max_age=int(access_token_expires.total_seconds()),
-            )
             return AuthOut(user_id=userid_or_error_code)
 
         else:
@@ -358,7 +391,7 @@ async def signup(payload: SignupIn, response: Response):
 
 
 @app.post("/auth/login", response_model=AuthOut)
-async def login(payload: LoginIn, request: Request, response: Response):
+async def login(payload: LoginIn, request: Request):
     """ login is an endpoint that handles user login.
 
     Args:
@@ -390,19 +423,26 @@ async def login(payload: LoginIn, request: Request, response: Response):
 
         LOGIN_ATTEMPTS.pop(ip, None)
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-        token = create_access_token(userid, access_token_expires)
-        response.set_cookie(
-            key="token",
-            value=token,
-            httponly=True,
-            #secure=True,
-            samesite="strict",
-            max_age=int(access_token_expires.total_seconds()),
-        )
-        return AuthOut(user_id=userid)
+        access_token = create_access_token(userid, access_token_expires)
+        refresh_token = create_refresh_token(userid)
+        return AuthOut(user_id=userid, access_token=access_token, refresh_token=refresh_token)
     except Exception as e:
         logger.exception(
             "Unexpected error in /auth/login for username=%s", payload.username)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/auth/refresh", response_model=AuthOut)
+async def refresh(payload: RefreshIn):
+    """Refresh the access token using a rotating refresh token."""
+    try:
+        user_id, new_refresh = rotate_refresh_token(payload.refresh_token)
+        access_token = create_access_token(user_id)
+        return AuthOut(user_id=user_id, access_token=access_token, refresh_token=new_refresh)
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.exception("Unexpected error in /auth/refresh")
         raise HTTPException(status_code=500, detail=str(e))
 
 
