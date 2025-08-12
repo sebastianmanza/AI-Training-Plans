@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     db_username: str = ""
     db_password: str = ""
     db_host: str = "localhost"
+    secret_key: str = ""
 
     class Config:
         env_file = ".env"

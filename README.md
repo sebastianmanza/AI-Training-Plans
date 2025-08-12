@@ -51,6 +51,8 @@ can reach the server.
 ## Backend Database Configuration
 
 Database credentials are loaded from environment variables defined in the
-project's `.env` file. The `backend/src/utils/SQLutils/config.py` module uses
-`pydantic` to read `DB_USERNAME`, `DB_PASSWORD`, and `DB_HOST` values and makes
-them available through the `DB_CREDENTIALS` dictionary.
+project's `.env` file. The `backend/config.py` module uses `pydantic` to read
+`DB_USERNAME`, `DB_PASSWORD`, and `DB_HOST` values and makes them available
+through the `DB_CREDENTIALS` dictionary. A `SECRET_KEY` is also read from the
+environment for signing authentication tokens; ensure this value is set before
+running the API.
