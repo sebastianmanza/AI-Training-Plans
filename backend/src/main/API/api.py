@@ -1,3 +1,5 @@
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi import FastAPI, HTTPException, Request, Depends, Cookie, Header
 from pydantic import BaseModel
 from datetime import datetime, timedelta
@@ -18,7 +20,9 @@ from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.pace_calculations import to_str
 
-configure_logging()
+log_level_str = os.getenv("LOG_LEVEL", "DEBUG").upper()
+log_level = getattr(logging, log_level_str, logging.DEBUG)
+configure_logging(level=log_level)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
@@ -98,19 +102,30 @@ BLOCK_TIME = 300  # seconds
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
-    """Log basic request and response information for debugging.
+    """Log request and response details.
 
-    The middleware logs the HTTP method, path and client information for
-    incoming requests as well as the response status code and the time taken
-    to process the request. This provides additional visibility when
-    diagnosing issues such as malformed or unexpected requests.
+    Debug-level logging provides insight during test runs without cluttering
+    production logs when the log level exceeds ``DEBUG``.
     """
     start_time = time()
-    logger.info("%s %s from %s", request.method, request.url.path, request.client.host)
+    logger.debug("%s %s from %s", request.method, request.url.path, request.client.host)
     response = await call_next(request)
     duration = (time() - start_time) * 1000
-    logger.info("Completed %s %s with %d in %.2fms", request.method, request.url.path, response.status_code, duration)
+    logger.debug(
+        "Completed %s %s with %d in %.2fms",
+        request.method,
+        request.url.path,
+        response.status_code,
+        duration,
+    )
     return response
+
+
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request: Request, exc: Exception):
+    """Log unhandled exceptions with stack traces."""
+    logger.exception("Unhandled exception for %s %s", request.method, request.url.path)
+    return JSONResponse(status_code=500, content={"detail": "Internal Server Error"})
 
 
 @app.get("/")

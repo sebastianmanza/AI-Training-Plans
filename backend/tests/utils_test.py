@@ -152,13 +152,12 @@ def test_week_plan_no_days():
     assert w.completed_mileage == 0
     assert w.real_rpe == 0
 
-# month_plan has a bug where ``update_monthly_mileage`` is nested inside
-# ``update_monthly_real_rpe``. Calling ``update_week`` therefore raises
-# ``AttributeError``. Once the bug is fixed this test can be enabled as a
-# standard assertion.
 def test_month_plan_update_bug():
+    """Calling ``update_week`` should update mileage and RPE without errors."""
     m = month_plan(weeks=[week_plan()])
     m.update_week()
+    assert m.completed_mileage == 0
+    assert m.real_rpe == 0
 
 
 def test_single_workout_accessors():
