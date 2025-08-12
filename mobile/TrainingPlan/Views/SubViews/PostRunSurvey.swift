@@ -6,32 +6,38 @@ struct PostRunSurvey: View {
   // @StateObject private var vm = PostRunViewModel()
   @State private var currentStep: Step = .rpe
   @Binding var rpeval: Double
+  @Binding var completed: Bool
   // let onSurveyComplete: () -> Void
 
   enum Step {
     case rpe
-    //    case completionbool
+    case completionbool
     //    case completionquestions
   }
 
   var body: some View {
     VStack {
-      switch currentStep {
-      case .rpe:
-        RPEView(
-          onNext: {
-            currentStep = .rpe
-          },
-          rpeval: $rpeval)
-      //   case .completionbool:
-      //     CompletionBoolView(onNext: {
-      //       currentStep = .completionquestions
-      //     })
+        switch currentStep {
+        case .rpe:
+            RPEView(
+                onNext: {
+                    currentStep = .rpe
+                },
+                rpeval: $rpeval)
+        case .completionbool:
+            CompletionBoolView(
+                onNext: {
+                    currentStep = .completionbool},
+                onBack: {
+                    currentStep = .rpe
+                },
+                completed: $completed
+            )
       //      case .completionquestions:
       //     CompletionQuestionsView(onNext: {
       //       // Handle completion of the survey
       //       print("Survey completed")
-      //})
+      // })
       }
     }
   }
@@ -95,8 +101,9 @@ struct PostRunSurvey: View {
   }
 
   struct CompletionBoolView: View {
-    var onFullCompletion: () -> Void
-    var onIncompletion: () -> Void
+    var onNext: () -> Void
+    var onBack: () -> Void
+    @Binding var completed: Bool
 
     var body: some View {
 
@@ -125,8 +132,7 @@ struct PostRunSurvey: View {
           
           HStack(spacing : 20) {
             Button(action: {
-              // Handle "No" action
-              onFullCompletion()
+              completed = false
             }) {
               Image(systemName: "xmark")
                 .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 24))
@@ -140,7 +146,7 @@ struct PostRunSurvey: View {
 
             Button(action: {
               // Handle "Yes" action
-              onFullCompletion()
+              completed = true
             }) {
               Image(systemName: "checkmark")
                 .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 24))
@@ -156,7 +162,11 @@ struct PostRunSurvey: View {
           HStack(spacing: 40) {
             //back button
             SurveyNextButton(
-              action: onIncompletion, color: Color.accent,
+              action: onBack, color: Color.accent,
+              foreground: .black
+            )
+            SurveyNextButton(
+              action: onNext, color: Color.accent,
               foreground: .black
             )
 

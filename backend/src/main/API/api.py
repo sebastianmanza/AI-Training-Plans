@@ -109,8 +109,10 @@ def verify_token(token: str) -> int:
 async def get_current_user(
     token: str | None = Cookie(None), authorization: str | None = Header(None)
 ) -> int:
-    if not token and authorization and authorization.startswith("Bearer "):
-        token = authorization.split(" ")[1]
+    if not token and authorization:
+        scheme, _, credentials = authorization.partition(" ")
+        if scheme.lower() == "bearer" and credentials:
+            token = credentials
     if not token:
         raise HTTPException(status_code=401, detail="Missing authentication token")
     return verify_token(token)
@@ -510,9 +512,9 @@ async def login(payload: LoginIn, request: Request, response: Response):
 
 @app.post("/auth/refresh", response_model=AuthOut)
 async def refresh(
+    response: Response,
     payload: RefreshIn | None = None,
     refresh_token_cookie: str | None = Cookie(None),
-    response: Response,
 ):
     """Refresh the access token using a rotating refresh token."""
     try:
