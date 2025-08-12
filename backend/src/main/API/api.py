@@ -19,6 +19,7 @@ from backend.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.user_retrieve import populate_user_info
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.pace_calculations import to_str
+from backend.src.utils.SQLutils.user_send import send_user_creds
 
 log_level_str = os.getenv("LOG_LEVEL", "DEBUG").upper()
 log_level = getattr(logging, log_level_str, logging.DEBUG)
@@ -374,7 +375,7 @@ async def signup(payload: SignupIn):
         dict['password'] = user_creation.hash_password(dict['password'])
 
         if not bool:
-            user_creation.send_user_creds(
+            send_user_creds(
                 userid_or_error_code, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], dict)
             return AuthOut(user_id=userid_or_error_code)
 

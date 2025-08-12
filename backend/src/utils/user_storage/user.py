@@ -1,10 +1,7 @@
-# import training
 from backend.src.utils.pace_calculations import get_training_pace_helper, to_str, mile_pace
-import backend.src.utils.user_storage.training_database as training_database
 from backend.src.utils.user_storage.storage_stacks_and_queues import storage_stacks_and_queues
 import datetime
 import secrets
-import math
 import logging
 from typing import Optional
 
@@ -20,7 +17,7 @@ except Exception:  # ImportError, ModuleNotFoundError etc.
     init_db = None  # type: ignore
 
 try:  # pragma: no cover - configuration may not exist in tests
-    from backend.src.utils.SQLutils.config import DB_CREDENTIALS  # type: ignore
+    from backend.config import DB_CREDENTIALS  # type: ignore
 except Exception:  # pragma: no cover
     DB_CREDENTIALS = {}  # type: ignore
 
@@ -176,6 +173,7 @@ class user:
     def generate_new_id() -> Optional[int]:
         """Generate a new user ID or ``None`` if uniqueness can't be verified."""
 
+        # Generate a new user ID
         new_user_id = secrets.randbelow(90000000) + 10000000
 
         if init_db is None or not DB_CREDENTIALS:
@@ -187,10 +185,10 @@ class user:
             if user.user_id_exists(new_user_id):
                 logger.warning("User ID already exists, generating a new one.")
                 return user.generate_new_id()
-        except Exception as exc:  # RuntimeError or database errors
+        except Exception as e:  # RuntimeError or database errors
             logger.warning(
                 "Could not verify user ID uniqueness; refusing to generate ID: %s",
-                exc,
+                e,
             )
             return None
 

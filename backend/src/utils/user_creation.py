@@ -2,30 +2,16 @@ import logging
 import secrets
 import bcrypt
 
-from email_validator import validate_email, EmailNotValidError
-
-
-class EmailNotValidError(ValueError):
-    """Fallback error raised when an email address is invalid."""
-
-    pass
-
-
-# Database utilities are optional during testing.  Import them lazily so that
-# the module can be used without a full database stack available.  Tests that
-# exercise database functionality can skip appropriately if these imports are
-# missing.
+from email_validator import validate_email
 try:  # pragma: no cover - simply providing a fallback
     from backend.src.utils.user_storage.user import user  # type: ignore
 except Exception:  # pragma: no cover
     user = None  # type: ignore
 
-try:  # pragma: no cover
-    from backend.src.utils.SQLutils.user_send import send_user_creds, send_user_all  # type: ignore
-    from backend.src.utils.SQLutils.config import DB_CREDENTIALS  # type: ignore
+try:
+    from backend.config import DB_CREDENTIALS  # type: ignore
     from backend.src.utils.SQLutils.database_connect import init_db  # type: ignore
 except Exception:  # pragma: no cover
-    send_user_creds = send_user_all = None  # type: ignore
     DB_CREDENTIALS = {}  # type: ignore
     init_db = None  # type: ignore
 
