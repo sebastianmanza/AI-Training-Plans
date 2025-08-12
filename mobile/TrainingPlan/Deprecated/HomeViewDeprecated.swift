@@ -110,7 +110,7 @@ struct HomeView: View {
                 }
               })
         }
-        .onAppear { Task { await vm.load(session: session) } }
+        .onAppear { Task { await vm.load() } }
         .padding(.bottom, 50)
         .overlay(
           CalendarButton(action: onCalendarTapped)

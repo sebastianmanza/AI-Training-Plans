@@ -7,10 +7,10 @@ class HomeViewModel: ObservableObject {
   @Published var errorMessage: String?
   private let logger = Logger(subsystem: "com.ai.trainingplans", category: "HomeViewModel")
 
-  func load(session: Session) async {
+  func load() async {
     logger.debug("load() called")
     do {
-      homeData = try await APIClient.shared.fetchHomeData(session: session)
+      homeData = try await APIClient.shared.fetchHomeData()
       logger.info("Loaded home data")
     } catch {
       errorMessage = error.localizedDescription

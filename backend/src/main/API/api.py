@@ -1,11 +1,12 @@
-from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi import FastAPI, HTTPException, Request, Depends, Cookie, Response, Header
 from pydantic import BaseModel
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional, List
 import logging
 import os
+import jwt
 from time import time
 
 from backend.src.utils.logging_config import configure_logging
@@ -24,13 +25,39 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-# Allow simulator to find API
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+SECRET_KEY = os.environ.get("SECRET_KEY")
+if not SECRET_KEY:
+    raise RuntimeError("SECRET_KEY environment variable not set")
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
+
+def create_access_token(user_id: int, expires_delta: timedelta | None = None) -> str:
+    to_encode = {"user_id": user_id}
+    expire = datetime.now() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+    to_encode.update({"exp": expire})
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
+
+def verify_token(token: str) -> int:
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id = payload.get("user_id")
+        if user_id is None:
+            raise HTTPException(status_code=401, detail="Invalid token")
+        return int(user_id)
+    except jwt.PyJWTError:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
+
+async def get_current_user(
+    token: str | None = Cookie(None), authorization: str | None = Header(None)
+) -> int:
+    if not token and authorization and authorization.startswith("Bearer "):
+        token = authorization.split(" ")[1]
+    if not token:
+        raise HTTPException(status_code=401, detail="Missing authentication token")
+    return verify_token(token)
+
 
 # Simple in-memory login attempt tracker to mitigate brute-force attacks.
 LOGIN_ATTEMPTS = {}
@@ -76,7 +103,6 @@ async def root(request: Request):
 class SurveyIn(BaseModel):
     """SurveyIn is a Pydantic model that represents the input for the preliminary survey.
     """
-    user_id: int
     date_of_birth: str
     sex: str
     running_experience: str
@@ -145,7 +171,7 @@ class AuthOut(BaseModel):
 
 
 @app.post("/survey/prelim")
-async def survey_prelim(payload: SurveyIn):
+async def survey_prelim(payload: SurveyIn, current_user: int = Depends(get_current_user)):
     """survey_prelim is an endpoint that handles the preliminary survey for a user.
 
     Args:
@@ -158,18 +184,20 @@ async def survey_prelim(payload: SurveyIn):
         str: A string containing the status of the survey submission, typically an acknowledgment of successful processing.
     """
     try:
-        result = SurveyMain.prelim_survey(payload.model_dump())
+        data = payload.model_dump()
+        data["user_id"] = current_user
+        result = SurveyMain.prelim_survey(data)
 
         return result
     except Exception as e:
         # surface errors as HTTP 500 and log to the log file
         logger.exception(
-            "Unexpected error in /survey/prelim for user_id=%s", payload.user_id)
+            "Unexpected error in /survey/prelim for user_id=%s", current_user)
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/post_run_survey")
-async def post_run_survey(payload: Post_Run_SurveyIn):
+@app.post("/post_run_survey")
+async def post_run_survey(payload: Post_Run_SurveyIn, current_user: int = Depends(get_current_user)):
     """post_run_survey is an endpoint that handles the post run survey of a user
 
     Args:
@@ -182,33 +210,32 @@ async def post_run_survey(payload: Post_Run_SurveyIn):
         str: A string containing the status of the survey submission, typically an acknowledgment of successful processing.
     """
     try:
-        result = SurveyMain.post_run_survey(payload.model_dump())
+        data = payload.model_dump()
+        data["user_id"] = current_user
+        result = SurveyMain.post_run_survey(data)
 
         return result
     except Exception as e:
         # surface errors as HTTP 500
-        
+
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/home/data", response_model=HomeData)
-async def get_home_data(user_id: int = 0):
+async def get_home_data(current_user: int = Depends(get_current_user)):
     """get_home_data is an endpoint that retrieves the home page data for a user.
-
-    Args:
-        user_id (int): The ID of the user for whom the home page data is being retrieved.
 
     Returns:
         HomeData: A Pydantic model containing the home page data, including the current day, mileage, pace, stimuli, goal RPE, and upcoming workout.
     """
     try:
-        # Get the day of the week. Not sure how to store this, since its updated only when
+        # Get the day of the week. Not sure how to store this, since it's updated only when
         # postrun survey is called.
 
         day_of_week = datetime.now().strftime("%A, %B %-d")
 
         # Get a user from the database
-        retrieved_user = populate_user_info(user_id)
+        retrieved_user = populate_user_info(current_user)
 
         # Retrieve the current and next day from the user's day_future queue
         current_day = retrieved_user.day_future.get() if retrieved_user.day_future else None
@@ -281,12 +308,12 @@ async def get_home_data(user_id: int = 0):
     except Exception as e:
         # surface errors as HTTP 500
         logger.exception(
-            "Unexpected error in /home/data with user_id=%r", user_id)
+            "Unexpected error in /home/data with user_id=%r", current_user)
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/auth/signup", response_model=AuthOut)
-async def signup(payload: SignupIn):
+async def signup(payload: SignupIn, response: Response):
     """ signup is an endpoint that handles user signup.
 
     Args:
@@ -306,8 +333,16 @@ async def signup(payload: SignupIn):
         if not bool:
             user_creation.send_user_creds(
                 userid_or_error_code, DB_CREDENTIALS["DB_USERNAME"], DB_CREDENTIALS["DB_PASSWORD"], dict)
-            # return the userid to the session
-            # print(userid_or_error_code)
+            access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+            token = create_access_token(userid_or_error_code, access_token_expires)
+            response.set_cookie(
+                key="token",
+                value=token,
+                httponly=True,
+                #secure=True, ## Uncomment this in production
+                samesite="strict",
+                max_age=int(access_token_expires.total_seconds()),
+            )
             return AuthOut(user_id=userid_or_error_code)
 
         else:
@@ -323,7 +358,7 @@ async def signup(payload: SignupIn):
 
 
 @app.post("/auth/login", response_model=AuthOut)
-async def login(payload: LoginIn, request: Request):
+async def login(payload: LoginIn, request: Request, response: Response):
     """ login is an endpoint that handles user login.
 
     Args:
@@ -354,6 +389,16 @@ async def login(payload: LoginIn, request: Request):
             return AuthOut(error_code=1)
 
         LOGIN_ATTEMPTS.pop(ip, None)
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        token = create_access_token(userid, access_token_expires)
+        response.set_cookie(
+            key="token",
+            value=token,
+            httponly=True,
+            #secure=True,
+            samesite="strict",
+            max_age=int(access_token_expires.total_seconds()),
+        )
         return AuthOut(user_id=userid)
     except Exception as e:
         logger.exception(
