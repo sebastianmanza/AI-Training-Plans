@@ -5,6 +5,7 @@ enum APIError: Error {
   case network(Error)
   case http(Int, Data)
   case jsonDecoding(Error)
+  case missingToken
 }
 
 /// `APIClient` centralizes all network communication with the backend.
@@ -74,6 +75,9 @@ final class APIClient {
       req.setValue("application/json", forHTTPHeaderField: "Content-Type")
       req.httpBody = body
     }
+    if let token = KeychainService.get("access_token") {
+      req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    }
 
     do {
       let (data, resp) = try await session.data(for: req)
@@ -122,7 +126,26 @@ final class APIClient {
       method: "POST",
       body: try JSONEncoder().encode(payload)
     )
-    return try JSONDecoder().decode(AuthOut.self, from: data)
+    let auth = try JSONDecoder().decode(AuthOut.self, from: data)
+    if let access = auth.access_token { KeychainService.set(access, for: "access_token") }
+    if let refresh = auth.refresh_token { KeychainService.set(refresh, for: "refresh_token") }
+    return auth
+  }
+
+  func refresh() async throws -> AuthOut {
+    guard let refreshToken = KeychainService.get("refresh_token") else {
+      throw APIError.missingToken
+    }
+    let payload = RefreshIn(refresh_token: refreshToken)
+    let data = try await sendRequest(
+      "auth/refresh",
+      method: "POST",
+      body: try JSONEncoder().encode(payload)
+    )
+    let auth = try JSONDecoder().decode(AuthOut.self, from: data)
+    if let access = auth.access_token { KeychainService.set(access, for: "access_token") }
+    if let refresh = auth.refresh_token { KeychainService.set(refresh, for: "refresh_token") }
+    return auth
   }
 }
 
