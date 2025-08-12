@@ -1,6 +1,6 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from fastapi import FastAPI, HTTPException, Request, Depends, Cookie, Header, Response
+from fastapi import FastAPI, HTTPException, Request, Depends, Cookie, Response
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 from typing import Optional, List
@@ -106,13 +106,7 @@ def verify_token(token: str) -> int:
         raise HTTPException(status_code=401, detail="Invalid token")
 
 
-async def get_current_user(
-    token: str | None = Cookie(None), authorization: str | None = Header(None)
-) -> int:
-    if not token and authorization:
-        scheme, _, credentials = authorization.partition(" ")
-        if scheme.lower() == "bearer" and credentials:
-            token = credentials
+async def get_current_user(token: str | None = Cookie(None)) -> int:
     if not token:
         raise HTTPException(status_code=401, detail="Missing authentication token")
     return verify_token(token)
@@ -241,19 +235,11 @@ class LoginIn(BaseModel):
     password: str
 
 
-class RefreshIn(BaseModel):
-    """RefreshIn represents the input for token refresh.
-    """
-    refresh_token: str
-
-
 class AuthOut(BaseModel):
     """AuthOut is a Pydantic model that represents the output for user authentication (login and signup)
     """
     user_id: Optional[int] = None
     error_code: Optional[int] = None
-    access_token: Optional[str] = None
-    refresh_token: Optional[str] = None
 
 
 @app.post("/survey/prelim")
@@ -499,11 +485,7 @@ async def login(payload: LoginIn, request: Request, response: Response):
             samesite="lax",
         )
         logger.debug("User %s logged in", payload.username)
-        return AuthOut(
-            user_id=userid,
-            access_token=access_token,
-            refresh_token=refresh_token,
-        )
+        return AuthOut(user_id=userid)
     except Exception as e:
         logger.exception(
             "Unexpected error in /auth/login for username=%s", payload.username)
@@ -511,38 +493,28 @@ async def login(payload: LoginIn, request: Request, response: Response):
 
 
 @app.post("/auth/refresh", response_model=AuthOut)
-async def refresh(
-    response: Response,
-    payload: RefreshIn | None = None,
-    refresh_token_cookie: str | None = Cookie(None),
-):
+async def refresh(response: Response, refresh_token: str | None = Cookie(None)):
     """Refresh the access token using a rotating refresh token."""
     try:
-        token = (
-            payload.refresh_token if payload and payload.refresh_token else refresh_token_cookie
-        )
-        if not token:
+        if not refresh_token:
             raise HTTPException(status_code=401, detail="Missing refresh token")
-        user_id, new_refresh = rotate_refresh_token(token)
+        user_id, new_refresh = rotate_refresh_token(refresh_token)
         access_token = create_access_token(user_id)
-        if response is not None:
-            response.set_cookie(
-                key="token",
-                value=access_token,
-                httponly=True,
-                max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
-                samesite="lax",
-            )
-            response.set_cookie(
-                key="refresh_token",
-                value=new_refresh,
-                httponly=True,
-                max_age=REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60,
-                samesite="lax",
-            )
-        return AuthOut(
-            user_id=user_id, access_token=access_token, refresh_token=new_refresh
+        response.set_cookie(
+            key="token",
+            value=access_token,
+            httponly=True,
+            max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+            samesite="lax",
         )
+        response.set_cookie(
+            key="refresh_token",
+            value=new_refresh,
+            httponly=True,
+            max_age=REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60,
+            samesite="lax",
+        )
+        return AuthOut(user_id=user_id)
     except HTTPException:
         raise
     except Exception as e:

@@ -64,13 +64,11 @@ final class APIClient {
   ///   - method: HTTP method for the request.
   ///   - body: Optional HTTP body data.
   ///   - queryItems: Optional query items.
-  ///   - authorized: If `true`, an `Authorization` header is added using the stored access token.
   private func sendRequest(
     _ path: String,
     method: String = "GET",
     body: Data? = nil,
-    queryItems: [URLQueryItem] = [],
-    authorized: Bool = true
+    queryItems: [URLQueryItem] = []
   ) async throws -> Data {
     var components = URLComponents(url: baseURL.appendingPathComponent(path), resolvingAgainstBaseURL: false)
     components?.queryItems = queryItems.isEmpty ? nil : queryItems
@@ -82,9 +80,6 @@ final class APIClient {
     if let body = body {
       req.setValue("application/json", forHTTPHeaderField: "Content-Type")
       req.httpBody = body
-    }
-    if authorized, let token = KeychainService.get("access_token") {
-      req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     }
 
     do {
@@ -123,8 +118,7 @@ final class APIClient {
     let data = try await sendRequest(
       "auth/signup",
       method: "POST",
-      body: try JSONEncoder().encode(payload),
-      authorized: false
+      body: try JSONEncoder().encode(payload)
     )
     return try JSONDecoder().decode(AuthOut.self, from: data)
   }
@@ -133,30 +127,18 @@ final class APIClient {
     let data = try await sendRequest(
       "auth/login",
       method: "POST",
-      body: try JSONEncoder().encode(payload),
-      authorized: false
+      body: try JSONEncoder().encode(payload)
     )
-    let auth = try JSONDecoder().decode(AuthOut.self, from: data)
-    if let access = auth.access_token { KeychainService.set(access, for: "access_token") }
-    if let refresh = auth.refresh_token { KeychainService.set(refresh, for: "refresh_token") }
-    return auth
+    return try JSONDecoder().decode(AuthOut.self, from: data)
   }
 
   func refresh() async throws -> AuthOut {
-    guard let refreshToken = KeychainService.get("refresh_token") else {
-      throw APIError.missingToken
-    }
-    let payload = RefreshIn(refresh_token: refreshToken)
     let data = try await sendRequest(
       "auth/refresh",
       method: "POST",
-      body: try JSONEncoder().encode(payload),
-      authorized: false
+      body: nil
     )
-    let auth = try JSONDecoder().decode(AuthOut.self, from: data)
-    if let access = auth.access_token { KeychainService.set(access, for: "access_token") }
-    if let refresh = auth.refresh_token { KeychainService.set(refresh, for: "refresh_token") }
-    return auth
+    return try JSONDecoder().decode(AuthOut.self, from: data)
   }
 }
 
