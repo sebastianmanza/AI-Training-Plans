@@ -5,19 +5,25 @@ enum APIError: Error {
   case network(Error)
   case http(Int, Data)
   case jsonDecoding(Error)
+  case missingToken
 }
 
 /// `APIClient` centralizes all network communication with the backend.
 ///
 /// The client exposes async functions for each API call and uses a single
-/// `URLSession` instance under the hood. The base URL is resolved from an
-/// `APIConfig.plist` file in the application bundle, falling back to the
-/// `API_BASE_URL` environment variable and finally a build-specific default.
+/// `URLSession` instance under the hood. The base URL is resolved from the
+/// `API_BASE_URL` environment variable or, if unset, an `APIConfig.plist`
+/// file in the application bundle.
 final class APIClient {
   static let shared = APIClient()
 
-  /// Resolve the base URL from a configuration file or environment variable.
+  /// Resolve the base URL from an environment variable or configuration file.
   private let baseURL: URL = {
+    if let env = ProcessInfo.processInfo.environment["API_BASE_URL"],
+       let urlObj = URL(string: env) {
+      return urlObj
+    }
+
     if
       let url = Bundle.main.url(forResource: "APIConfig", withExtension: "plist"),
       let data = try? Data(contentsOf: url),
@@ -28,23 +34,36 @@ final class APIClient {
       return urlObj
     }
 
-    if let env = ProcessInfo.processInfo.environment["API_BASE_URL"],
-       let urlObj = URL(string: env) {
-      return urlObj
-    }
-
-    return URL(string: "https://localhost:8000")!
+    preconditionFailure("API_BASE_URL not configured. Set API_BASE_URL env var or provide APIConfig.plist")
   }()
 
   private let session: URLSession
 
   private init(session: URLSession = .shared) {
     self.session = session
-    precondition(baseURL.scheme?.lowercased() == "https",
-                 "APIClient requires an HTTPS base URL.")
+
+    #if DEBUG
+    let isDebug = true
+    #else
+    let isDebug = false
+    #endif
+
+    let allowHTTPEnv = ProcessInfo.processInfo.environment["API_ALLOW_HTTP"]
+    let allowHTTP = allowHTTPEnv != nil &&
+      allowHTTPEnv!.lowercased() != "false" &&
+      allowHTTPEnv != "0"
+
+    precondition(baseURL.scheme?.lowercased() == "https" || isDebug || allowHTTP,
+                 "APIClient requires an HTTPS base URL. Set API_ALLOW_HTTP=1 to allow HTTP.")
   }
 
   /// Generic request helper used by the public API methods below.
+  ///
+  /// - Parameters:
+  ///   - path: Endpoint path relative to the base URL.
+  ///   - method: HTTP method for the request.
+  ///   - body: Optional HTTP body data.
+  ///   - queryItems: Optional query items.
   private func sendRequest(
     _ path: String,
     method: String = "GET",
@@ -89,16 +108,9 @@ final class APIClient {
     }
   }
 
-  /// Retrieves the Home page data for the given session.
-  func fetchHomeData(session: Session) async throws -> HomeData {
-    guard let userID = session.userID else {
-      throw APIError.http(-1, Data("No userID in session".utf8))
-    }
-
-    let data = try await sendRequest(
-      "home/data",
-      queryItems: [URLQueryItem(name: "user_id", value: String(userID))]
-    )
+  /// Retrieves the Home page data for the authenticated user.
+  func fetchHomeData() async throws -> HomeData {
+    let data = try await sendRequest("home/data")
     return try JSONDecoder().decode(HomeData.self, from: data)
   }
 
@@ -116,6 +128,15 @@ final class APIClient {
       "auth/login",
       method: "POST",
       body: try JSONEncoder().encode(payload)
+    )
+    return try JSONDecoder().decode(AuthOut.self, from: data)
+  }
+
+  func refresh() async throws -> AuthOut {
+    let data = try await sendRequest(
+      "auth/refresh",
+      method: "POST",
+      body: nil
     )
     return try JSONDecoder().decode(AuthOut.self, from: data)
   }

@@ -54,6 +54,7 @@
 		08F536382E2B0564008FC063 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 08F536372E2B0564008FC063 /* SwiftUIIntrospect */; };
 		08F5363C2E2B0564008FC063 /* SwiftUIIntrospect-Static in Frameworks */ = {isa = PBXBuildFile; productRef = 08F5363B2E2B0564008FC063 /* SwiftUIIntrospect-Static */; };
 		08F5363E2E2EC3DB008FC063 /* Sliders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F5363D2E2EC3DB008FC063 /* Sliders.swift */; };
+		08FAFE3D2E4BE02800215632 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FAFE3C2E4BE02800215632 /* KeychainService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +124,7 @@
 		08D534162E1C845900DF3823 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		08F536342E2ADF96008FC063 /* PostRunSurvey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRunSurvey.swift; sourceTree = "<group>"; };
 		08F5363D2E2EC3DB008FC063 /* Sliders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sliders.swift; sourceTree = "<group>"; };
+		08FAFE3C2E4BE02800215632 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +216,7 @@
 		08B640142E0CC4320065FC98 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				08FAFE3C2E4BE02800215632 /* KeychainService.swift */,
 				08D534142E1B31C400DF3823 /* APIClient.swift */,
 			);
 			path = Services;
@@ -466,6 +469,7 @@
 				08D534132E1B2D2F00DF3823 /* HomeViewModel.swift in Sources */,
 				08F536352E2ADF96008FC063 /* PostRunSurvey.swift in Sources */,
 				0837D5992E205CCA00BD5594 /* AuthModels.swift in Sources */,
+				08FAFE3D2E4BE02800215632 /* KeychainService.swift in Sources */,
 				0857C38A2E341FDD00F79E02 /* MainStimulusCard.swift in Sources */,
 				0857C38B2E341FDD00F79E02 /* FlippableCardView.swift in Sources */,
 				0864A4102E36F9F2007AFC2C /* TermsView.swift in Sources */,

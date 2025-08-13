@@ -4,7 +4,7 @@ from backend.src.utils.user_storage.storage_stacks_and_queues import *
 from backend.src.utils.user_storage.day_plan import *
 from backend.src.utils.user_storage.week_plan import *
 from backend.src.utils.user_storage.month_plan import *
-from backend.src.utils.SQLutils.config import DB_CREDENTIALS
+from backend.config import DB_CREDENTIALS
 from backend.src.utils.SQLutils.database_connect import init_db
 from backend.src.utils.SQLutils.database_connect import db_insert, db_update
 from queue import Empty

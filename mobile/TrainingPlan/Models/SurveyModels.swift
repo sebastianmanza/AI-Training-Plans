@@ -1,7 +1,6 @@
 import Foundation
 
 struct SurveyIn: Codable {
-  let user_id: Int
   let date_of_birth: String
   let sex: String
   let running_experience: String

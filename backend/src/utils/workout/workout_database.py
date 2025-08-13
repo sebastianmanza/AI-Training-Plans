@@ -165,7 +165,7 @@ class workout_database:
     def get_workout_type_trio(trio: tuple) -> str:
         """Returns the workout type based on the trio"""
         # Similar to a get_workout_type but with different input
-        print(trio)
+        # sprint(trio)
         stim = float(trio[TRIO_STIM])
         rpe = float(trio[TRIO_RPE])
         dist = float(trio[TRIO_DIST])

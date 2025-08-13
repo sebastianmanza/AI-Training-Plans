@@ -2,7 +2,7 @@ import json
 from backend.src.utils.user_storage.day_plan import day_plan
 from backend.src.utils.user_storage.week_plan import week_plan
 from backend.src.utils.user_storage.month_plan import month_plan
-from backend.src.utils.SQLutils.config import DB_CREDENTIALS
+from backend.config import DB_CREDENTIALS
 from backend.src.utils.user_storage.user import user
 from backend.src.utils.SQLutils.database_connect import db_select, init_db
 import psycopg2

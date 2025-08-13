@@ -21,6 +21,7 @@ struct HomeView: View {
   @State private var showInfoOnInfoTapped = false
   @State private var showPostRunSurvey = false
   @State private var currentRPE: Double = 5.0
+    @State private var completedactivitiy: Bool = false
 
   var body: some View {
     NavigationStack {
@@ -77,14 +78,14 @@ struct HomeView: View {
             )
             .frame(width: geo.size.width * 0.9, height: geo.size.height * 0.12)
           }
-          .onAppear { Task { await vm.load(session: session) } }
+          .onAppear { Task { await vm.load() } }
           .padding(.bottom, 75)
           .ignoresSafeArea()
           .opacity(showPostRunSurvey ? 0 : 1)
           .allowsHitTesting(!showPostRunSurvey)
         }
         .sheet(isPresented: $showPostRunSurvey) {
-          PostRunSurvey(rpeval: $currentRPE)
+            PostRunSurvey(rpeval: $currentRPE, completed: $completedactivitiy)
             .presentationDetents([.fraction(0.6)])
             .presentationDragIndicator(.visible)
             .presentationCornerRadius(40)

@@ -1,11 +1,9 @@
-# import training
 from backend.src.utils.pace_calculations import get_training_pace_helper, to_str, mile_pace
-import backend.src.utils.user_storage.training_database as training_database
 from backend.src.utils.user_storage.storage_stacks_and_queues import storage_stacks_and_queues
 import datetime
 import secrets
-import math
 import logging
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +17,7 @@ except Exception:  # ImportError, ModuleNotFoundError etc.
     init_db = None  # type: ignore
 
 try:  # pragma: no cover - configuration may not exist in tests
-    from backend.src.utils.SQLutils.config import DB_CREDENTIALS  # type: ignore
+    from backend.config import DB_CREDENTIALS  # type: ignore
 except Exception:  # pragma: no cover
     DB_CREDENTIALS = {}  # type: ignore
 
@@ -172,19 +170,29 @@ class user:
             curr.close()
             conn.close()
 
-    def generate_new_id() -> int:
-        """ Generates a new user ID for the user.
-        This function generates a new user ID that is not already in use by checking the database."""
+    def generate_new_id() -> Optional[int]:
+        """Generate a new user ID or ``None`` if uniqueness can't be verified."""
 
         # Generate a new user ID
         new_user_id = secrets.randbelow(90000000) + 10000000
 
-        # Check if the user ID already exists in the database
-        if init_db is not None and DB_CREDENTIALS:
+        if init_db is None or not DB_CREDENTIALS:
+            logger.warning(
+                "Database utilities unavailable; cannot ensure unique user ID.")
+            return None
+
+        try:
             if user.user_id_exists(new_user_id):
                 logger.warning("User ID already exists, generating a new one.")
                 return user.generate_new_id()
-            return new_user_id
+        except Exception as e:  # RuntimeError or database errors
+            logger.warning(
+                "Could not verify user ID uniqueness; refusing to generate ID: %s",
+                e,
+            )
+            return None
+
+        return new_user_id
 
     def get_age(self) -> int:
         """Returns the number of years the user has been alive as an int"""
