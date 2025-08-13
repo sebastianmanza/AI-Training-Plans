@@ -14,7 +14,7 @@ from datetime import timedelta
 
 def clone_queue(origin_queue):
     """
-    Safley clones queue to avoid permanent removal of original static queue.
+    Safley clones queue to avoid permanent removal of original static queue elements.
     """
     temp_list = []
 
@@ -96,7 +96,7 @@ def month_day_list(month_names, list_of_tuple_days):
     """
     Attaches days to their repective month for ease of front end translation.
     
-    Returns a list of tuples where each tuple contains the year, month name, and a list of days in that month.
+    Returns a list of tuples where each tuple contains the year, month string, and a list of days in that month.
     """
     
     # list of tuples to hold month name and its corresponding days
@@ -120,7 +120,11 @@ def month_day_list(month_names, list_of_tuple_days):
         
     return month_day_list
 
+
     
+    
+# testing 
+
 test_user = user(dob="2005-03-17", sex="Male", running_ex="Advanced", injury=0, most_recent_injury=0,
                  longest_run=12, goal_date="2026-01-01", available_days=[1, 1, 0, 1, 1, 2, 1], number_of_days=7,
                  pace_estimates=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
