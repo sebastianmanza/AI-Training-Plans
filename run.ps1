@@ -60,15 +60,16 @@ if ($USE_SSL -and (-not $env:SSL_CERTFILE -or -not $env:SSL_KEYFILE)) {
 $logDir = Split-Path $LOGFILE
 New-Item -ItemType Directory -Force -Path $logDir | Out-Null
 
-$arguments = "-u -m uvicorn backend.src.main.API.api:app $RELOAD --host 0.0.0.0 --port $PORT --log-level $UVICORN_LOG_LEVEL $ACCESS_LOG"
+$cmd = "python -u -m uvicorn backend.src.main.API.api:app $RELOAD --host 0.0.0.0 --port $PORT --log-level $UVICORN_LOG_LEVEL $ACCESS_LOG"
 if ($USE_SSL) {
-    $arguments += " --ssl-certfile `"$env:SSL_CERTFILE`" --ssl-keyfile `"$env:SSL_KEYFILE`""
+    $cmd += " --ssl-certfile `"$env:SSL_CERTFILE`" --ssl-keyfile `"$env:SSL_KEYFILE`""
 }
 
-$process = Start-Process -FilePath "python" -ArgumentList $arguments -RedirectStandardOutput $LOGFILE -RedirectStandardError $LOGFILE -NoNewWindow -PassThru
+$process = Start-Process -FilePath "cmd.exe" -ArgumentList "/c $cmd >> `"$LOGFILE`" 2>>&1" -NoNewWindow -PassThru
 
 if (-not $USE_SSL) {
     Write-Warning "!!! WARNING: INSECURE !!!"
 }
 
-Write-Host "API started (pid $($process.Id)) and logging to $LOGFILE"
+Write-Host "API started (cmd.exe pid $($process.Id)) and logging to $LOGFILE"
+Write-Host "Use `"Get-Process -Name python | Select-Object -Last 1`" if the Python PID is required."
