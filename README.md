@@ -37,6 +37,19 @@ If you're getting started with the project for the first time, follow these step
    pytest
    ```
 
+### Windows (PowerShell) equivalents
+
+If you're developing on Windows, use PowerShell with these commands:
+
+```powershell
+python -m venv .venv
+.\venv\Scripts\Activate.ps1
+./run.ps1 -production   # HTTPS with minimal logging
+./run.ps1 -test         # HTTP, auto-reload, debug logging
+```
+
+PowerShell uses backslashes (`\`) for paths, and you can invoke scripts in the current directory with `./`. The `python` command replaces `python3` on Windows.
+
 ## Mobile API Configuration
 
 The iOS client expects a `mobile/TrainingPlan/Resources/APIConfig.plist` file
