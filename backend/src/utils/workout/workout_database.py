@@ -12,11 +12,22 @@ class workout_database:
     # Creates a trio that can be used as a key in the workout dictionary.
     @staticmethod
     def create_trio(stim, rpe, dist) -> tuple:
+        """Return a normalized trio of stimulus, RPE and distance.
+
+        Args:
+            stim (float): Stimulus component.
+            rpe (float): RPE component.
+            dist (float): Distance component.
+
+        Returns:
+            tuple: ``(stim, rpe, dist)`` as floats.
+        """
         stim, rpe, dist = float(stim), float(rpe), float(dist)
         return (stim, rpe, dist)
 
     @staticmethod
     def workout_trio_equal(workout_1: single_workout, workout_2: single_workout) -> bool:
+        """Return ``True`` if the workouts have identical trio values."""
         return single_workout.trio_equal(workout_1.get_trio(), workout_2.get_trio())
 
     # x range is 1 - 7 stimulus, y range is 1 -10 RPE, z range is 1 - 10 Distance
@@ -41,6 +52,22 @@ class workout_database:
                  long: list = [], threshold: list = [], fartlek: list = [],
                  race_pace_interval: list = [], strides: list = [], hill_sprints: list = [],
                  flat_sprints: list = [], time_trial: list = [], warmup_and_cooldown: list = []):
+        """Create a workout database backed by the shared :class:`workout_storage`.
+
+        Args:
+            easyrun (list, optional): Initial Easy Run workouts.
+            recovery (list, optional): Initial Recovery Run workouts.
+            kenyan (list, optional): Initial Progression workouts.
+            long (list, optional): Initial Long Run workouts.
+            threshold (list, optional): Initial Threshold workouts.
+            fartlek (list, optional): Initial Fartlek workouts.
+            race_pace_interval (list, optional): Initial Race Pace Interval workouts.
+            strides (list, optional): Initial Strides workouts.
+            hill_sprints (list, optional): Initial Hill Sprints workouts.
+            flat_sprints (list, optional): Initial Flat Sprints workouts.
+            time_trial (list, optional): Initial Time Trial workouts.
+            warmup_and_cooldown (list, optional): Initial warmup/cooldown workouts.
+        """
 
         # Set up the collection of workouts of each type
         self.easyrun = workout_database.storage.easyrun
@@ -91,7 +118,11 @@ class workout_database:
                            list.append, workout)
 
     def mass_add_workouts(self, workouts) -> None:
-        """"Add a list of workouts to the database"""
+        """Add multiple workouts to the database.
+
+        Args:
+            workouts (iterable): Sequence of :class:`single_workout` objects.
+        """
         for workout in workouts:
             self.add_workout(workout)
             # try:
@@ -134,7 +165,7 @@ class workout_database:
     def get_workout_type_trio(trio: tuple) -> str:
         """Returns the workout type based on the trio"""
         # Similar to a get_workout_type but with different input
-        print(trio)
+        # sprint(trio)
         stim = float(trio[TRIO_STIM])
         rpe = float(trio[TRIO_RPE])
         dist = float(trio[TRIO_DIST])
@@ -158,6 +189,16 @@ class workout_database:
         return final_workout
 
     def get_individual_workout(self, stim: float, rpe: float, dist: float) -> single_workout:
+        """Return the closest matching workout for the provided trio.
+
+        Args:
+            stim (float): Desired stimulus coordinate.
+            rpe (float): Desired RPE coordinate.
+            dist (float): Desired distance coordinate.
+
+        Returns:
+            single_workout: Closest workout stored in the database.
+        """
         workout_type = self.get_workout_type(
             stim, rpe, dist)  # Get the workout type based on the trio
         # Find the closest workout within the particular database
@@ -182,13 +223,18 @@ class workout_database:
             "No matching workout type found for the given coordinates.")
 
     def get_workout_difference(stim: float, rpe: float, dist: float) -> tuple:
-        """Return the difference between the inputted stim, rpe, and dist and the workout type it is associated with"""
-        workout_trio = workout_database.get_workout_type_coordinates(
-            stim, rpe, dist)
+        """Return the difference between the input trio and its matched workout type."""
+        # ``get_workout_type_coordinates`` is an instance method, so create a
+        # temporary database instance to perform the lookup without requiring
+        # callers to manage one.
+        wd = workout_database()
+        workout_trio = wd.get_workout_type_coordinates(stim, rpe, dist)
         return workout_database.create_trio(
-            (stim - workout_trio[TRIO_STIM]),
-            (rpe - workout_trio[TRIO_RPE]),
-            (dist - workout_trio[TRIO_DIST]))
+            stim - workout_trio[TRIO_STIM],
+            rpe - workout_trio[TRIO_RPE],
+            dist - workout_trio[TRIO_DIST],
+        )
 
     def get_distance(trio: tuple, stim: float, rpe: float, dist: float) -> float:
+        """Return squared distance between ``trio`` and input coordinates."""
         return (trio[TRIO_STIM] - stim) ** 2 + (trio[TRIO_RPE] - rpe) ** 2 + (trio[TRIO_DIST] - dist) ** 2

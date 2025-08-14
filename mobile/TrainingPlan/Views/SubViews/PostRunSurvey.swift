@@ -6,11 +6,12 @@ struct PostRunSurvey: View {
   // @StateObject private var vm = PostRunViewModel()
   @State private var currentStep: Step = .rpe
   @Binding var rpeval: Double
+  @Binding var completed: Bool
   // let onSurveyComplete: () -> Void
 
   enum Step {
     case rpe
-    //    case completionbool
+    case completionbool
     //    case completionquestions
   }
 
@@ -18,22 +19,32 @@ struct PostRunSurvey: View {
     VStack {
       switch currentStep {
       case .rpe:
-        RPEView(rpeval: $rpeval)
-      //   case .completionbool:
-      //     CompletionBoolView(onNext: {
-      //       currentStep = .completionquestions
-      //     })
+        RPEView(
+          onNext: {
+            currentStep = .completionbool
+          },
+          rpeval: $rpeval)
+      case .completionbool:
+        CompletionBoolView(
+          onNext: {
+            currentStep = .completionbool
+          },
+          onBack: {
+            currentStep = .rpe
+          },
+          completed: $completed
+        )
       //      case .completionquestions:
       //     CompletionQuestionsView(onNext: {
       //       // Handle completion of the survey
       //       print("Survey completed")
-      //})
+      // })
       }
     }
   }
 
   struct RPEView: View {
-    // var onNext: () -> Void
+    var onNext: () -> Void
     @Binding var rpeval: Double
 
     var body: some View {
@@ -41,7 +52,7 @@ struct PostRunSurvey: View {
         // Background gradient
         LinearGradient(
           gradient: Gradient(colors: [
-            Color(red: 126 / 255, green: 247 / 255, blue: 209 / 255),
+            Color.accent,
             Color(red: 217 / 255, green: 217 / 255, blue: 217 / 255),
             Color(red: 217 / 255, green: 217 / 255, blue: 217 / 255),
           ]),
@@ -51,20 +62,21 @@ struct PostRunSurvey: View {
         .ignoresSafeArea()
 
         // Foreground content
-        VStack(spacing: 20) {
+        VStack(spacing: 0) {
 
-          Text("What was your \nRPE today?")
-            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 32))
+          Text("What was your\nRPE today?")
+            .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 40))
             .foregroundColor(.black)
             .multilineTextAlignment(.leading)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 50)
+            .padding(.top, 50)
 
           Text("\(rpeval, specifier: "%.1f")")
-            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 64))
+            .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 84))
             .foregroundColor(.black)
 
           RPESliderView(value: $rpeval, range: 0...10, step: 0.5)
-            .accentColor(Color(red: 195 / 255, green: 195 / 255, blue: 195 / 255))
-            .cornerRadius(10)
             .padding(.horizontal, 50)
             .introspect(.slider, on: .iOS(.v17, .v18)) { slider in
               slider.thumbTintColor = UIColor(
@@ -74,8 +86,104 @@ struct PostRunSurvey: View {
               slider.maximumTrackTintColor =
                 UIColor(red: 195 / 255, green: 195 / 255, blue: 195 / 255, alpha: 1)
             }
-            .frame(maxWidth: .infinity, maxHeight: 50)
+            .frame(maxHeight: 30)
 
+          Spacer()
+          // Next button
+          SurveyNextButton(
+            action: onNext, color: Color.accent,
+            foreground: .black
+          )
+          .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 0)
+          .padding(.bottom, 30)
+        }
+      }
+    }
+  }
+
+  struct CompletionBoolView: View {
+    var onNext: () -> Void
+    var onBack: () -> Void
+    @Binding var completed: Bool
+
+    var body: some View {
+
+      ZStack {
+        // Background gradient
+        LinearGradient(
+          gradient: Gradient(colors: [
+            Color.accent,
+            Color(red: 217 / 255, green: 217 / 255, blue: 217 / 255),
+            Color(red: 217 / 255, green: 217 / 255, blue: 217 / 255),
+          ]),
+          startPoint: .top,
+          endPoint: .bottom
+        )
+        .ignoresSafeArea()
+
+        // Foreground content
+        VStack(spacing: 0) {
+          Text("Did you fully\ncomplete the\nactivity?")
+            .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 40))
+            .foregroundColor(.black)
+            .multilineTextAlignment(.leading)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 50)
+            .padding(.top, 50)
+
+          Spacer()
+
+          HStack(spacing: 40) {
+            Button(action: {
+              completed = false
+            }) {
+              Image(systemName: "xmark")
+                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 35))
+                .foregroundColor(.white)
+                .frame(width: 80, height: 80)
+            }
+            .background(
+              RoundedRectangle(cornerRadius: 20)
+                .fill(Color.accent))
+            .overlay(
+              RoundedRectangle(cornerRadius: 20)
+                .stroke(completed == false ? Color.white : Color.clear, lineWidth: 2)
+            )
+            .contentShape(RoundedRectangle(cornerRadius: 20))
+
+            Button(action: {
+              // Handle "Yes" action
+              completed = true
+            }) {
+              Image(systemName: "checkmark")
+                .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 35))
+                .foregroundColor(.white)
+                .frame(width: 80, height: 80)
+            }
+            .background(
+              RoundedRectangle(cornerRadius: 20)
+                .fill(Color.accent))
+            .overlay(
+              RoundedRectangle(cornerRadius: 20)
+                .stroke(completed == true ? Color.white : Color.clear, lineWidth: 2))
+            .contentShape(RoundedRectangle(cornerRadius: 20))
+
+          }
+          Spacer()
+          HStack(spacing: 40) {
+            //back button
+            SurveyNextButton(
+              action: onBack, color: .black,
+              foreground: Color.accent
+            )
+            .rotationEffect(.degrees(180))
+
+            SurveyNextButton(
+              action: onNext, color: Color.accent,
+              foreground: .black
+            )
+          }
+          .padding(.bottom, 30)
         }
       }
     }

@@ -25,20 +25,41 @@ extension View {
 struct CapsuleTextField: View {
   var prompt: String
   @Binding var text: String
+  let height: CGFloat
+  let width: CGFloat
+  let background: Color
+  let accentColor: Color
+  let fontSize: CGFloat
+  var overlayImage: Image? = nil
 
   var body: some View {
     TextField("", text: $text)
       .placeholder(when: text.isEmpty) {
-        Text(prompt)
-          .foregroundColor(.white)
-          .font(.custom("MADEOkineSansPERSONALUSE-Light", size: 16))
+        ZStack {
+          HStack {
+            if let overlayImage = overlayImage {
+              overlayImage
+                .resizable()
+                .scaledToFit()
+                .frame(width: 20, height: 20)
+                .padding(.leading, 15)
+            }
+            Spacer()
+          }
+
+          // Placeholder text
+
+          Text(prompt)
+            .foregroundColor(accentColor)
+            .font(.custom("MADEOkineSansPERSONALUSE-Light", size: fontSize))
+        }
       }
       .multilineTextAlignment(.center)
-      .foregroundColor(.white)
-      .frame(width: 275, height: 55)
-      .background(Color(red: 209 / 255, green: 209 / 255, blue: 209 / 255))
+      .foregroundColor(accentColor)
+      .frame(width: width, height: height)
+      .background(background)
       .clipShape(Capsule())
-      .font(.custom("MADEOkineSansPERSONALUSE-Light", size: 16))
+      .font(.custom("MADEOkineSansPERSONALUSE-Light", size: fontSize))
       .autocapitalization(.none)
       .disableAutocorrection(true)
   }
@@ -50,20 +71,43 @@ struct CapsuleTextField: View {
 struct CapsulePasswordField: View {
   var prompt: String
   @Binding var text: String
+  let height: CGFloat
+  let width: CGFloat
+  let background: Color
+  let accentColor: Color
+  let fontSize: CGFloat
+  var overlayImage: Image? = nil
 
   var body: some View {
+
     SecureField("", text: $text)
       .placeholder(when: text.isEmpty) {
-        Text(prompt)
-          .foregroundColor(.white)
-          .font(.custom("MADEOkineSansPERSONALUSE-Light", size: 16))
+        ZStack {
+          HStack {
+            if let overlayImage = overlayImage {
+              overlayImage
+                .resizable()
+                .scaledToFit()
+                .frame(width: 20, height: 20)
+                .padding(.leading, 15)
+            }
+            Spacer()
+          }
+
+          // Placeholder text
+
+          Text(prompt)
+            .foregroundColor(accentColor)
+            .font(.custom("MADEOkineSansPERSONALUSE-Light", size: fontSize))
+        }
       }
+      .frame(maxWidth: .infinity)
       .multilineTextAlignment(.center)
-      .foregroundColor(.white)
-      .frame(width: 275, height: 55)
-      .background(Color(red: 209 / 255, green: 209 / 255, blue: 209 / 255))
+      .foregroundColor(accentColor)
+      .frame(width: width, height: height)
+      .background(background)
       .clipShape(Capsule())
-      .font(.custom("MADEOkineSansPERSONALUSE-Light", size: 16))
+      .font(.custom("MADEOkineSansPERSONALUSE-Light", size: fontSize))
       .autocapitalization(.none)
       .disableAutocorrection(true)
   }
@@ -92,12 +136,13 @@ struct LogInButton: View {
 struct SurveyNextButton: View {
   let action: () -> Void
   let color: Color
+  var foreground: Color = .white
 
   var body: some View {
     Button(action: action) {
       Image(systemName: "arrow.right")
         .font(.system(size: 35, weight: .bold))
-        .foregroundColor(.white)
+        .foregroundColor(foreground)
         .frame(width: 60, height: 60)
         .background(color)
         .clipShape(Circle())

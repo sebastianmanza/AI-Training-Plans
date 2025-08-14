@@ -1,16 +1,20 @@
-# Ignore sensitive files
-backend/src/utils/SQLutils/config.py
-
 # Ignore Python cache files
 __pycache__/
 *.pyc
+
+# Environment variables and virtual environments
+.env
+.venv/
+.pytest_cache/
 
 # Ignore vscode files
 .vscode/
 .idea/
 
-mobile/TrainingPlan/build/
-mobile/TrainingPlan/TrainingPlan.xcodeproj/
-mobile/TrainingPlan/Assets.xcassets/
+*.build/
 
 *.log
+certifications/
+
+# Ignore local API configuration
+mobile/TrainingPlan/Resources/APIConfig.plist

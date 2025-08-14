@@ -7,3 +7,6 @@ fastapi
 uvicorn
 email-validator
 pytest
+pyjwt
+bcrypt
+pydantic-settings

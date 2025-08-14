@@ -1,8 +1,9 @@
 import SwiftUI
 
 extension Color {
-    static let backgroundColor = Color("backgroundColor")
-    static let titleColor = Color("titleColor")
-    static let secondaryColor = Color("secondaryColor")
-    static let accentColor = Color("accentColor")
+  static let mainbackground = Color("BackgroundColor")
+  static let cardbackground = Color("CardBackgroundColor")
+  static let headertext = Color("HeaderTextColor")
+  static let bodytext = Color("BodyTextColor")
+  static let accent = Color("PrimaryAccentColor")
 }

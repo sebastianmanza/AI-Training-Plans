@@ -1,0 +1,26 @@
+"""Load application settings from environment variables."""
+
+from pydantic_settings import BaseSettings
+
+class Settings(BaseSettings):
+    """Application settings loaded from a `.env` file or environment variables."""
+
+    db_username: str = ""
+    db_password: str = ""
+    db_host: str = "localhost"
+    secret_key: str = ""
+
+    class Config:
+        env_file = ".env"
+
+settings = Settings()
+
+DB_CREDENTIALS = {
+    "DB_USERNAME": settings.db_username,
+    "DB_PASSWORD": settings.db_password,
+    "host": settings.db_host,
+}
+
+SECRET_KEY = settings.secret_key
+
+__all__ = ["DB_CREDENTIALS", "SECRET_KEY", "settings"]
