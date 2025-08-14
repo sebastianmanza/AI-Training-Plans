@@ -43,7 +43,7 @@ If you're developing on Windows, use PowerShell with these commands:
 
 ```powershell
 python -m venv .venv
-.\venv\Scripts\Activate.ps1
+.\.venv\Scripts\Activate.ps1
 ./run.ps1 -production   # HTTPS with minimal logging
 ./run.ps1 -test         # HTTP, auto-reload, debug logging
 ```
