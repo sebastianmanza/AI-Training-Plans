@@ -44,8 +44,8 @@ else
 fi
 
 if [ "$USE_SSL" -eq 1 ]; then
-  export SSL_CERTFILE=certifications/endorphin.crt
-  export SSL_KEYFILE=certifications/endorphin.key
+  export SSL_CERTFILE=certifications/velox.crt
+  export SSL_KEYFILE=certifications/velox.key
 fi
 
 LOGFILE="$(pwd)/logs/uvicorn.log"

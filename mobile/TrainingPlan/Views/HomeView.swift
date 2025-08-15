@@ -103,7 +103,7 @@ struct HomeView: View {
             .resizable()
             .scaledToFit()
             .frame(width: 30, height: 30)
-          Text("ENDORPHIN")
+          Text("VELOX")
             .font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 15))
         }
       }

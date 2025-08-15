@@ -33,8 +33,8 @@ if ($MODE -eq "test") {
 }
 
 if ($USE_SSL) {
-    $env:SSL_CERTFILE = "certifications/endorphin.crt"
-    $env:SSL_KEYFILE = "certifications/endorphin.key"
+    $env:SSL_CERTFILE = "certifications/velox.crt"
+    $env:SSL_KEYFILE = "certifications/velox.key"
 }
 
 $LOGFILE = Join-Path (Get-Location) "logs/uvicorn.log"

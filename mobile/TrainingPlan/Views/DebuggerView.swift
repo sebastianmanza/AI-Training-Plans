@@ -27,7 +27,7 @@ struct DebuggerView: View {
               .resizable()
               .scaledToFit()
               .frame(width: 120, height: 120)
-            Text("ENDORPHIN")
+            Text("VELOX")
               .font(.custom("MADEOkineSansPERSONALUSE-Bold", size: 32))
               .foregroundColor(.white)
           }

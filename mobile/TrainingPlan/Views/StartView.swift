@@ -23,7 +23,7 @@ struct StartView: View {
           Text("WELCOME TO").font(.custom("MADEOkineSansPERSONALUSE-Medium", size: 40))
             .foregroundColor(.white)
 
-          Text("ENDORPHIN").font(.custom("MADEOkineSansPERSONALUSE-Black", size: 48))
+          Text("VELOX").font(.custom("MADEOkineSansPERSONALUSE-Black", size: 48))
             .foregroundColor(.white)
         }
         .foregroundColor(.white)

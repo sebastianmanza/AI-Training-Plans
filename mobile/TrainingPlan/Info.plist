@@ -2,18 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleIdentifier</key>
-	<string>MAP.Endorphin</string>
-	<key>CFBundleName</key>
-	<string>Endorphin</string>
-	<key>CFBundleVersion</key>
-	<string>1</string>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>This app needs to connect to the local development server.</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -28,6 +16,13 @@
 				<true/>
 				<key>NSIncludesSubdomains</key>
 				<true/>
+			</dict>
+			<key>100.115.98.111</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<string></string>
 			</dict>
 			<key>100.75.227.59</key>
 			<dict>
